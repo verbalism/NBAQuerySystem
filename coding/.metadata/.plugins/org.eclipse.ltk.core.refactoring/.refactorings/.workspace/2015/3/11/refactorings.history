@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename Java project &apos;NBAQuerySystem&apos; to &apos;iteration1&apos;&#x0D;&#x0A;- Original element: &apos;NBAQuerySystem&apos;&#x0D;&#x0A;- Renamed element: &apos;NBAQuerySystem&apos;&#x0D;&#x0A;- Update references to refactored element" description="Rename Java project &apos;NBAQuerySystem&apos;" flags="7" id="org.eclipse.jdt.ui.rename.java.project" input="=NBAQuerySystem" name="iteration1" references="true" stamp="1425988529238" version="1.0"/>
+</session>
