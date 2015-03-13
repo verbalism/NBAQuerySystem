@@ -4,14 +4,14 @@ import java.util.ArrayList;
 
 import vo.playerCondition;
 import vo.playerInfo;
-import vo.teamInfo;
+import vo.teamInfoVO;
 
 public interface IService {
-	public teamInfo getSingleTeamInfo(teamInfo t);
+	public teamInfoVO getSingleTeamInfo(teamInfoVO t);
 	
 	public playerInfo getSinglePlayerInfo(playerInfo p);
 	
-	public ArrayList<teamInfo> getTeamInfo();
+	public ArrayList<teamInfoVO> getTeamInfo();
 	
 	public ArrayList<playerInfo> getPlayerInfo(playerCondition pc);
 }
