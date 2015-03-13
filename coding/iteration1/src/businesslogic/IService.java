@@ -3,15 +3,15 @@ package businesslogic;
 import java.util.ArrayList;
 
 import vo.playerCondition;
-import vo.playerInfo;
+import vo.playerInfoVO;
 import vo.teamInfo;
 
 public interface IService {
 	public teamInfo getSingleTeamInfo(teamInfo t);
 	
-	public playerInfo getSinglePlayerInfo(playerInfo p);
+	public playerInfoVO getSinglePlayerInfo(playerInfoVO p);
 	
 	public ArrayList<teamInfo> getTeamInfo();
 	
-	public ArrayList<playerInfo> getPlayerInfo(playerCondition pc);
+	public ArrayList<playerInfoVO> getPlayerInfo(playerCondition pc);
 }
