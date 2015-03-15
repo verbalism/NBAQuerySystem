@@ -3,21 +3,21 @@ package vo;
 public class teamInfoVO {
 	private String teamName;//球队名称
 	private int gamesPlayed;//比赛场数
-	private double fieldGoalsMade;//投篮命中数
-	private double fieldGoalsAttempted;//投篮出手数
-	private double threePointFieldGoalsMade;//三分命中数
-	private double threePointFieldGoalsAttempted;//三分出手数
-	private double freeThrowsMade;//罚球命中数
-	private double freeThrowsAttempted;//罚球出手数
-	private double offensiveRebounds;//进攻篮板数
-	private double defensiveRebounds;//防守篮板数
-	private double rebounds;//篮板数
-	private double assists;//助攻数
-	private double steals;//抢断数
-	private double blocks;//盖帽数
-	private double turnovers;//失误数
-	private double fouls;//犯规数
-	private double points;//失误数
+	private int fieldGoalsMade;//投篮命中数
+	private int fieldGoalsAttempted;//投篮出手数
+	private int threePointFieldGoalsMade;//三分命中数
+	private int threePointFieldGoalsAttempted;//三分出手数
+	private int freeThrowsMade;//罚球命中数
+	private int freeThrowsAttempted;//罚球出手数
+	private int offensiveRebounds;//进攻篮板数
+	private int defensiveRebounds;//防守篮板数
+	private int rebounds;//篮板数
+	private int assists;//助攻数
+	private int steals;//抢断数
+	private int blocks;//盖帽数
+	private int turnovers;//失误数
+	private int fouls;//犯规数
+	private int points;//得分数
 	private double fieldGoalPercentage;//投篮命中率
 	private double threePointFieldGoalPercentage;//三分命中率
 	private double freeThrowPercentage;//罚球命中率
@@ -29,6 +29,15 @@ public class teamInfoVO {
 	private double defensiveReboundPercentage;//防守篮板效率
 	private double stealPercentage;//抢断效率
 	private double assisyPercentage;//助攻率
+	
+	private String fullName;		//球队全名
+	private String abbreviation;	//缩写
+	private String city;			//所在地
+	private String zone;			//赛区
+	private String subarea;			//分区
+	private String homeCourt;		//主场
+	private String createTime;		//创建时间
+
 	
 	
 	public teamInfoVO(){
@@ -50,96 +59,96 @@ public class teamInfoVO {
 		return gamesPlayed;
 	}
 	
-	public double getFieldGoalsMade() {
+	public int getFieldGoalsMade() {
 		return fieldGoalsMade;
 	}
-	public void setFieldGoalsMade(double fieldGoalsMade) {
+	public void setFieldGoalsMade(int fieldGoalsMade) {
 		this.fieldGoalsMade = fieldGoalsMade;
 	}
 		
-	public double getFieldGoalsAttempted() {
+	public int getFieldGoalsAttempted() {
 		return fieldGoalsAttempted;
 	}
-	public void setFieldGoalsAttempted(double fieldGoalsAttempted) {
+	public void setFieldGoalsAttempted(int fieldGoalsAttempted) {
 		this.fieldGoalsAttempted = fieldGoalsAttempted;
 	}
-	public double getThreePointFieldGoalsMade() {
+	public int getThreePointFieldGoalsMade() {
 		return threePointFieldGoalsMade;
 	}
-	public void setThreePointFieldGoalsMade(double threePointFieldGoalsMade) {
+	public void setThreePointFieldGoalsMade(int threePointFieldGoalsMade) {
 		this.threePointFieldGoalsMade = threePointFieldGoalsMade;
 	}
-	public double getThreePointFieldGoalsAttempted() {
+	public int getThreePointFieldGoalsAttempted() {
 		return threePointFieldGoalsAttempted;
 	}
 	public void setThreePointFieldGoalsAttempted(
-			double threePointFieldGoalsAttempted) {
+			int threePointFieldGoalsAttempted) {
 		this.threePointFieldGoalsAttempted = threePointFieldGoalsAttempted;
 	}
-	public double getFreeThrowsMade() {
+	public int getFreeThrowsMade() {
 		return freeThrowsMade;
 	}
-	public void setFreeThrowsMade(double freeThrowsMade) {
+	public void setFreeThrowsMade(int freeThrowsMade) {
 		this.freeThrowsMade = freeThrowsMade;
 	}
-	public double getFreeThrowsAttempted() {
+	public int getFreeThrowsAttempted() {
 		return freeThrowsAttempted;
 	}
-	public void setFreeThrowsAttempted(double freeThrowsAttempted) {
+	public void setFreeThrowsAttempted(int freeThrowsAttempted) {
 		this.freeThrowsAttempted = freeThrowsAttempted;
 	}
-	public double getOffensiveRebounds() {
+	public int getOffensiveRebounds() {
 		return offensiveRebounds;
 	}
-	public void setOffensiveRebounds(double offensiveRebounds) {
+	public void setOffensiveRebounds(int offensiveRebounds) {
 		this.offensiveRebounds = offensiveRebounds;
 	}
-	public double getDefensiveRebounds() {
+	public int getDefensiveRebounds() {
 		return defensiveRebounds;
 	}
-	public void setDefensiveRebounds(double defensiveRebounds) {
+	public void setDefensiveRebounds(int defensiveRebounds) {
 		this.defensiveRebounds = defensiveRebounds;
 	}
-	public double getRebounds() {
+	public int getRebounds() {
 		return rebounds;
 	}
-	public void setRebounds(double rebounds) {
+	public void setRebounds(int rebounds) {
 		this.rebounds = rebounds;
 	}
-	public double getAssists() {
+	public int getAssists() {
 		return assists;
 	}
-	public void setAssists(double assists) {
+	public void setAssists(int assists) {
 		this.assists = assists;
 	}
-	public double getSteals() {
+	public int getSteals() {
 		return steals;
 	}
-	public void setSteals(double steals) {
+	public void setSteals(int steals) {
 		this.steals = steals;
 	}
-	public double getBlocks() {
+	public int getBlocks() {
 		return blocks;
 	}
-	public void setBlocks(double blocks) {
+	public void setBlocks(int blocks) {
 		this.blocks = blocks;
 	}
-	public double getTurnovers() {
+	public int getTurnovers() {
 		return turnovers;
 	}
-	public void setTurnovers(double turnovers) {
+	public void setTurnovers(int turnovers) {
 		this.turnovers = turnovers;
 	}
-	public double getFouls() {
+	public int getFouls() {
 		return fouls;
 	}
-	public void setFouls(double fouls) {
+	public void setFouls(int fouls) {
 		this.fouls = fouls;
 	}
-	public double getPoints() {
+	public int getPoints() {
 		return points;
 	}
-	public void setPoints(double points) {
+	public void setPoints(int points) {
 		this.points = points;
 	}
 	public double getFieldGoalPercentage() {
@@ -208,6 +217,76 @@ public class teamInfoVO {
 	}
 	public void setAssisyPercentage(double assisyPercentage) {
 		this.assisyPercentage = assisyPercentage;
+	}
+
+
+	public String getFullName() {
+		return fullName;
+	}
+
+
+	public void setFullName(String fullName) {
+		this.fullName = fullName;
+	}
+
+
+	public String getAbbreviation() {
+		return abbreviation;
+	}
+
+
+	public void setAbbreviation(String abbreviation) {
+		this.abbreviation = abbreviation;
+	}
+
+
+	public String getCity() {
+		return city;
+	}
+
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+
+	public String getZone() {
+		return zone;
+	}
+
+
+	public void setZone(String zone) {
+		this.zone = zone;
+	}
+
+
+	public String getSubarea() {
+		return subarea;
+	}
+
+
+	public void setSubarea(String subarea) {
+		this.subarea = subarea;
+	}
+
+
+	public String getHomeCourt() {
+		return homeCourt;
+	}
+
+
+	public void setHomeCourt(String homeCourt) {
+		this.homeCourt = homeCourt;
+	}
+
+
+	public String getCreateTime() {
+		return createTime;
+	}
+
+
+	public void setCreateTime(String createTime) {
+		this.createTime = createTime;
 	}
 	
 	
