@@ -12,15 +12,11 @@ import po.TeamInfoPO;
 import dataservice.TeamDataService;
 
 public class TeamData implements TeamDataService{
-	public static void main(String args[]){
-		TeamData pd = new TeamData();
-		TeamInfoPO a = pd.getSingleTeamOriginal("Rcke");
-		System.out.print(a.getSubarea());
-	}
+	
 	public ArrayList<TeamInfoPO> getTeamOriginal() {
 		
 		File readfile = new File("Data\\teams\\teams");
-		ArrayList<TeamInfoPO> allTeams = new <TeamInfoPO>ArrayList();
+		ArrayList<TeamInfoPO> allTeams = new ArrayList<TeamInfoPO>();
 		try {
 			ArrayList<String> wtf = new ArrayList<String>();
 			InputStreamReader read = new InputStreamReader(new FileInputStream(readfile),"UTF-8");

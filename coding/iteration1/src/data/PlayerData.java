@@ -11,10 +11,7 @@ import po.PlayerInfoPO;
 import dataservice.PlayerDataService;
 
 public class PlayerData implements PlayerDataService{
-	public static void main(String args[]){
-		PlayerData pd = new PlayerData();
-		System.out.print(pd.getSinglePlayerOriginal("Al Horford").getBirth());
-	}
+	
 	public ArrayList<PlayerInfoPO> getPlayerOriginal()  {
 		ArrayList<PlayerInfoPO> allPlayers = new ArrayList<PlayerInfoPO>();
 		String Dpath="Data\\players\\info";
