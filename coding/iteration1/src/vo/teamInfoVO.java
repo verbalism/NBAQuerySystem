@@ -28,10 +28,9 @@ public class teamInfoVO {
 	private double offensiveReboundPercentage;//进攻篮板效率
 	private double defensiveReboundPercentage;//防守篮板效率
 	private double stealPercentage;//抢断效率
-	private double assisyPercentage;//助攻率
+	private double assistPercentage;//助攻率
 	
 	private String fullName;		//球队全名
-	private String abbreviation;	//缩写
 	private String city;			//所在地
 	private String zone;			//赛区
 	private String subarea;			//分区
@@ -212,11 +211,11 @@ public class teamInfoVO {
 	public void setStealPercentage(double stealPercentage) {
 		this.stealPercentage = stealPercentage;
 	}
-	public double getAssisyPercentage() {
-		return assisyPercentage;
+	public double getAssistPercentage() {
+		return assistPercentage;
 	}
-	public void setAssisyPercentage(double assisyPercentage) {
-		this.assisyPercentage = assisyPercentage;
+	public void setAssistPercentage(double assisyPercentage) {
+		this.assistPercentage = assisyPercentage;
 	}
 
 
@@ -228,17 +227,6 @@ public class teamInfoVO {
 	public void setFullName(String fullName) {
 		this.fullName = fullName;
 	}
-
-
-	public String getAbbreviation() {
-		return abbreviation;
-	}
-
-
-	public void setAbbreviation(String abbreviation) {
-		this.abbreviation = abbreviation;
-	}
-
 
 	public String getCity() {
 		return city;

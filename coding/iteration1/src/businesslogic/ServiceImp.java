@@ -16,9 +16,9 @@ public class ServiceImp implements IService{
 		
 		TeamData td=new TeamData();
 		TeamInfoPO tp=td.getSingleTeamOriginal(t.getTeamName());
-
+		
+		result.setTeamName(t.getTeamName());
 		result.setFullName(tp.getFullName());
-		result.setAbbreviation(tp.getAbbreviation());
 		result.setCity(tp.getCity());
 		result.setZone(tp.getZone());
 		result.setSubarea(tp.getSubarea());
@@ -59,14 +59,25 @@ public class ServiceImp implements IService{
 		result.setThreePointFieldGoalPercentage(result.getThreePointFieldGoalsMade()/result.getThreePointFieldGoalsAttempted());
 		result.setFreeThrowPercentage(result.getFreeThrowsMade()/result.getFreeThrowsAttempted());
 		result.setWinPercentage(tic.calculateWins(t.getTeamName(), mpselected)/result.getgamesPlayed());
+		result.setOffensiveReboundPercentage(result.getOffensiveRebounds()/(result.getOffensiveRebounds()+tic.calculateOppositeDefensiveRebounds(t.getTeamName(), mpselected)));
+		result.setDefensiveReboundPercentage(result.getDefensiveRebounds()/(result.getDefensiveRebounds()+tic.calculateOppositeOffensiveRebounds(t.getTeamName(), mpselected)));
 		result.setPossessions(result.getFieldGoalsAttempted()+0.4*result.getFreeThrowsAttempted()
 				-1.07*result.getOffensiveReboundPercentage()*(result.getFieldGoalsAttempted()-result.getFieldGoalsMade())+1.07*result.getTurnovers());
+		result.setOffensiveRating(result.getPoints()/result.getPossessions()*100);
+		double oppositeOffensiveReboundPer=tic.calculateOppositeOffensiveRebounds(t.getTeamName(), mpselected)/(tic.calculateOppositeOffensiveRebounds(t.getTeamName(), mpselected)+result.getDefensiveRebounds());
+		double oppositePossessions=tic.calculateOppositeFieldGoalsAttempted(t.getTeamName(), mpselected)+0.4*tic.calculateOppositeFreeThrowsAttempted(t.getTeamName(), mpselected)
+				-1.07*oppositeOffensiveReboundPer*(tic.calculateOppositeFieldGoalsAttempted(t.getTeamName(), mpselected)-tic.calculateOppositeFieldGoalsMade(t.getTeamName(), mpselected))+1.07*tic.calculateOppositeTurnovers(t.getTeamName(), mpselected);
+		//计算对手进攻回合数
+		result.setDefensiveRating(tic.calculateOppositePoints(t.getTeamName(), mpselected)/oppositePossessions*100);
+		result.setStealPercentage(result.getSteals()/oppositePossessions*100);
+		result.setAssistPercentage(result.getAssists()/result.getPossessions()*100);
 		
 		return result;
 	}
 	
 	
 	public ArrayList<teamInfoVO> getTeamInfo(){
+		ServiceImp si=new ServiceImp();
 		ArrayList<teamInfoVO> result=new ArrayList<teamInfoVO>();
 		
 		TeamData td=new TeamData();
@@ -74,13 +85,9 @@ public class ServiceImp implements IService{
 		
 		for(int i=0;i<tp.size()&&i<30;i++){
 			if(tp.get(i).getFullName()!=null){
-				result.get(i).setFullName(tp.get(i).getFullName());
-				result.get(i).setAbbreviation(tp.get(i).getAbbreviation());
-				result.get(i).setCity(tp.get(i).getCity());
-				result.get(i).setZone(tp.get(i).getZone());
-				result.get(i).setSubarea(tp.get(i).getSubarea());
-				result.get(i).setHomeCourt(tp.get(i).getHomeCourt());
-				result.get(i).setCreateTime(tp.get(i).getCreateTime());
+				teamInfoVO temp=new teamInfoVO();
+				temp.setTeamName(tp.get(i).getAbbreviation());
+				result.add(si.getSingleTeamInfo(temp));				
 			}
 		}
 		
