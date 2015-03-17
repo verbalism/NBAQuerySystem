@@ -1,18 +1,19 @@
 package vo;
 
 public enum sortOpinions {
+	Null,
 	Points,
 	Rebounds,
 	Assists,
 	PointsReboundsAssists,
 	Blocks,
-	Teals,
+	Steals,
 	Fouls,
 	Turnovers,
 	Minutes,
 	Efficiency,
-	Shooting,
-	ThreePoint,
-	FreeThrow,
+	FieldGoalsMade,
+	ThreePointFieldGoalsMade,
+	FreeThrowsMade,
 	DoubleDouble
 }

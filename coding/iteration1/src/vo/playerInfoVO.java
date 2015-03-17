@@ -11,9 +11,9 @@ public class playerInfoVO {
 	private double fieldGoalsMade;//投篮命中数
 	private double threePointFieldGoalsMade;//三分命中数
 	private double freeThrowsMade;//罚球命中数
-	private double offenses;//进攻数
-	private double defenses;//防守数
-	private double teals;//抢断数
+	private double offensiveRebounds;//进攻篮板数
+	private double defensiveRebounds;//防守篮板数
+	private double steals;//抢断数
 	private double blocks;//盖帽数
 	private double turnovers;//失误数
 	private double fouls;//犯规数
@@ -30,6 +30,16 @@ public class playerInfoVO {
 	private double blockRating;//盖帽率
 	private double turnoverRating;//失误率
 	private double utilizationRating;//使用率
+	private String number;		//球衣号码
+	private String position;	//球队位置
+	private String height;		//身高
+	private String weight;		//体重
+	private String birth;		//生日
+	private String age;			//年龄
+	private String exp;			//球龄
+	private String school;		//毕业学校
+	private double doubleDouble; //两双
+	
 	
 	public playerInfoVO(){
 	}
@@ -114,28 +124,28 @@ public class playerInfoVO {
 		this.freeThrowsMade = freeThrowsMade;
 	}
 
-	public double getOffenses() {
-		return offenses;
+	public double getOffensiveRebounds() {
+		return offensiveRebounds;
 	}
 
-	public void setOffenses(double offenses) {
-		this.offenses = offenses;
+	public void setOffensiveRebounds(double offenses) {
+		this.offensiveRebounds = offenses;
 	}
 
-	public double getDefenses() {
-		return defenses;
+	public double getDefensiveRebounds() {
+		return defensiveRebounds;
 	}
 
-	public void setDefenses(double defenses) {
-		this.defenses = defenses;
+	public void setDefensiveRebounds(double defenses) {
+		this.defensiveRebounds = defenses;
 	}
 
-	public double getTeals() {
-		return teals;
+	public double getSteals() {
+		return steals;
 	}
 
-	public void setTeals(double teals) {
-		this.teals = teals;
+	public void setSteals(double steals) {
+		this.steals = steals;
 	}
 
 	public double getBlocks() {
@@ -264,6 +274,78 @@ public class playerInfoVO {
 
 	public void setUtilizationRating(double utilizationRating) {
 		this.utilizationRating = utilizationRating;
+	}
+
+	public String getNumber() {
+		return number;
+	}
+
+	public void setNumber(String number) {
+		this.number = number;
+	}
+
+	public String getPosition() {
+		return position;
+	}
+
+	public void setPosition(String position) {
+		this.position = position;
+	}
+
+	public String getHeight() {
+		return height;
+	}
+
+	public void setHeight(String height) {
+		this.height = height;
+	}
+
+	public String getWeight() {
+		return weight;
+	}
+
+	public void setWeight(String weight) {
+		this.weight = weight;
+	}
+
+	public String getBirth() {
+		return birth;
+	}
+
+	public void setBirth(String birth) {
+		this.birth = birth;
+	}
+
+	public String getAge() {
+		return age;
+	}
+
+	public void setAge(String age) {
+		this.age = age;
+	}
+
+	public String getExp() {
+		return exp;
+	}
+
+	public void setExp(String exp) {
+		this.exp = exp;
+	}
+
+	public String getSchool() {
+		return school;
+	}
+
+	public void setSchool(String school) {
+		this.school = school;
+	}
+
+	public double getDoubleDouble() {
+		return doubleDouble;
+	}
+
+	public void setDoubleDouble(double doubleDouble) {
+		this.doubleDouble = doubleDouble;
 	}
 	
 }

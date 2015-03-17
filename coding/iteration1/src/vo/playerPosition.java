@@ -1,7 +1,8 @@
 package vo;
 
 public enum playerPosition {
+	All,
 	Forward,
-	Enter,
+	Center,
 	Guard
 }

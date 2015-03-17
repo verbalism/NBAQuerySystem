@@ -6,8 +6,8 @@ public enum playerPartition {
 	West,
 	Atlantic,
 	Central,
-	SouthEast,
-	SouthWest,
-	NorthWest,
+	Southeast,
+	Southwest,
+	Northwest,
 	Pacific
 }
