@@ -14,6 +14,11 @@ import po.MatchTeam;
 import dataservice.MatchDataService;
 
 public class MatchData implements MatchDataService{
+	public static void main(String args[]){
+		MatchData md = new MatchData();
+		ArrayList<MatchInfoPO> m = md.getMatchOriginal();
+	}
+	
 	public ArrayList<MatchInfoPO> getMatchOriginal() {
 		ArrayList<MatchInfoPO> allMatches = new ArrayList<MatchInfoPO>();
 		
@@ -40,7 +45,9 @@ public class MatchData implements MatchDataService{
 				while(wtf.get(index).split(";").length>1)
 					index++;
 				MatchTeam team1 = getTeamInfo(wtf,2,index-1);
+				checkTeam(team1,Integer.parseInt(oneMatch.getScore().split("-")[0]));
 				MatchTeam team2 = getTeamInfo(wtf,index,wtf.size()-1);
+				checkTeam(team2,Integer.parseInt(oneMatch.getScore().split("-")[1]));
 				oneMatch.setTeam1(team1);
 				oneMatch.setTeam2(team2);
 				
@@ -52,6 +59,22 @@ public class MatchData implements MatchDataService{
 			}
 		}
 		return allMatches;
+	}
+	
+	public static void checkTeam(MatchTeam team,int score ){
+		int i=0;
+		for(;i<team.getPlayers().size();i++){
+			if(team.getPlayers().get(i).getScore()<0){
+				for(int j=0;j<i;j++)
+					score = score-team.getPlayers().get(j).getScore();
+				for(int j=i+1;j<team.getPlayers().size();j++)
+					score = score-team.getPlayers().get(j).getScore();
+				team.getPlayers().get(i).setScore(score);
+				break;
+			}
+				
+		}
+		
 	}
 	
 	public static MatchTeam getTeamInfo(ArrayList<String> list, int start, int end){
@@ -77,7 +100,10 @@ public class MatchData implements MatchDataService{
 			player.setBlockShot(Integer.parseInt(wtf[14]));
 			player.setError(Integer.parseInt(wtf[15]));
 			player.setFoul(Integer.parseInt(wtf[16]));
-			player.setScore(Integer.parseInt(wtf[17]));
+			if(!(wtf[17].equals("null"))){
+				player.setScore(Integer.parseInt(wtf[17]));}
+			else
+				player.setScore(-1);
 			team.addPlayer(player);
 		}
 		return team;
