@@ -1,12 +1,21 @@
 package po;
 
+import java.util.ArrayList;
+
 public class MatchInfoPO {
 	private String matchTime;			//比赛时间
 	private String teams;				//对阵队伍
 	private String score;				//总比分
 	private String score_1,score_2, score_3, score_4;	//各小节比分
+	private ArrayList<String> extraScores;
 	private MatchTeam team1, team2;
 	
+	public void setExtraScores(ArrayList<String> s){
+		this.extraScores = s;
+	}
+	public ArrayList<String> getExtreaScores(){
+		return extraScores;
+	}
 	public void setMatchTime(String t){
 		this.matchTime = t;
 	}

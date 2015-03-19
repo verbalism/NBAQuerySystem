@@ -14,10 +14,6 @@ import po.MatchTeam;
 import dataservice.MatchDataService;
 
 public class MatchData implements MatchDataService{
-	public static void main(String args[]){
-		MatchData md = new MatchData();
-		ArrayList<MatchInfoPO> m = md.getMatchOriginal();
-	}
 	
 	public ArrayList<MatchInfoPO> getMatchOriginal() {
 		ArrayList<MatchInfoPO> allMatches = new ArrayList<MatchInfoPO>();
@@ -41,15 +37,28 @@ public class MatchData implements MatchDataService{
 				oneMatch.setTeams(wtf.get(0).split(";")[1]);
 				oneMatch.setScore(wtf.get(0).split(";")[2]);
 				oneMatch.setScore1(wtf.get(1).split(";")[0]);oneMatch.setScore2(wtf.get(1).split(";")[1]);oneMatch.setScore3(wtf.get(1).split(";")[2]);oneMatch.setScore4(wtf.get(1).split(";")[3]);
+				ArrayList<String> temp = new ArrayList();
+				for(int j=4;j<wtf.get(1).split(";").length;j++){
+					temp.add(wtf.get(1).split(";")[j]);
+				}
+				oneMatch.setExtraScores(temp);
 				int index=3;
 				while(wtf.get(index).split(";").length>1)
 					index++;
+				int extra = 0;
+				if(!(temp==null))
+					extra = temp.size();
+				
 				MatchTeam team1 = getTeamInfo(wtf,2,index-1);
-				checkTeam(team1,Integer.parseInt(oneMatch.getScore().split("-")[0]));
+				checkScore(team1,Integer.parseInt(oneMatch.getScore().split("-")[0]));
+				checkTime(team1,extra);
 				MatchTeam team2 = getTeamInfo(wtf,index,wtf.size()-1);
-				checkTeam(team2,Integer.parseInt(oneMatch.getScore().split("-")[1]));
+				checkScore(team2,Integer.parseInt(oneMatch.getScore().split("-")[1]));
+				checkTime(team2,extra);
+				
 				oneMatch.setTeam1(team1);
 				oneMatch.setTeam2(team2);
+				
 				
 				allMatches.add(oneMatch);
 			} catch (FileNotFoundException e) {
@@ -61,7 +70,42 @@ public class MatchData implements MatchDataService{
 		return allMatches;
 	}
 	
-	public static void checkTeam(MatchTeam team,int score ){
+	public static void checkTime(MatchTeam team,int extraTimes){
+		int n=0;
+		for(;n<team.getPlayers().size();n++){
+			if(team.getPlayers().get(n).getMatchTime().equals("null")||team.getPlayers().get(n).getMatchTime().equals("None")){
+				setTime(team,extraTimes,n);
+				break;
+			}
+		}
+		
+	}
+	
+	public static void setTime(MatchTeam team, int extraTimes, int n){
+		int minToSet = 0; int secToSet = 0;
+		for(int i=0;i<n;i++){
+			minToSet = minToSet+Integer.parseInt(team.getPlayers().get(i).getMatchTime().split(":")[0]) ;
+			secToSet = secToSet+Integer.parseInt(team.getPlayers().get(i).getMatchTime().split(":")[1]) ;
+		}
+		for(int i=n+1;i<team.getPlayers().size();i++){
+			minToSet = minToSet+Integer.parseInt(team.getPlayers().get(i).getMatchTime().split(":")[0]) ;
+			secToSet = secToSet+Integer.parseInt(team.getPlayers().get(i).getMatchTime().split(":")[1]) ;
+		}
+		int sec = 240*60;
+		for(int t=0;t<extraTimes;t++)
+			sec= sec+25*60;
+		sec = sec-minToSet*60 - secToSet;
+		int min=0;
+		while(sec/60>0){
+			min = min+1;
+			sec = sec-60;
+		}
+		String time = Integer.toString(min)+":"+Integer.toString(sec);
+		team.getPlayers().get(n).setMatchTime(time);
+	}
+	
+	
+	public static void checkScore(MatchTeam team,int score ){
 		int i=0;
 		for(;i<team.getPlayers().size();i++){
 			if(team.getPlayers().get(i).getScore()<0){
