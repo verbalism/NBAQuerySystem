@@ -107,13 +107,16 @@ public class ServiceImp implements IService{
 		
 		PlayerData pd=new PlayerData();
 		ArrayList<PlayerInfoPO> pip=pd.getPlayerOriginal();
-
 		for(int i=0;i<pip.size();i++){
 			playerInfoVO temp=new playerInfoVO();
 			temp.setPlayerName(pip.get(i).getName());
 			ServiceImp si=new ServiceImp();
 			playerInfoVO piv=si.getSinglePlayerInfo(temp);
 			result.add(piv);
+		}
+		for(int i=result.size()-1;i>=0;i--){
+			if(result.get(i).getTeamName().equals("Unknow"))
+				result.remove(i);
 		}
 		
 		if(pc.getPlayerPosition().equals(playerPosition.All)){
@@ -225,6 +228,7 @@ public class ServiceImp implements IService{
 		PlayerData pd=new PlayerData();
 		PlayerInfoPO pp=pd.getSinglePlayerOriginal(p.getPlayerName());
 		
+		result.setPlayerName(p.getPlayerName());
 		result.setNumber(pp.getNumber());
 		result.setPosition(pp.getPosition());
 		result.setHeight(pp.getHeight());
@@ -267,36 +271,69 @@ public class ServiceImp implements IService{
 		
 		playerInfoCalculate pic=new playerInfoCalculate();
 		
-		result.setTeamName(pic.CalculateTeam(p.getPlayerName(),mpSelected.get(mpSelected.size())));
-		result.setGamesPlayed(mpSelected.size());
-		result.setGamesStarting(pic.CalculateGamesStarting(p.getPlayerName(), mpSelected));
-		result.setRebounds(pic.CalculateRebounds(MP));
-		result.setAssists(pic.CalculateAssists(MP));
-		result.setMinutes(pic.CalculateMinutes(MP));
-		result.setFieldGoalsMade(pic.CalculateFieldGoalsMade(MP));
-		result.setThreePointFieldGoalsMade(pic.CalculateThreePointFieldGoalsMade(MP));
-		result.setFreeThrowsMade(pic.CalculateFreeThrowsMade(MP));
-		result.setOffensiveRebounds(pic.CalculateOffensiveRebounds(MP));
-		result.setDefensiveRebounds(pic.CalculateDefensiveRebounds(MP));
-		result.setSteals(pic.CalculateSteals(MP));
-		result.setBlocks(pic.CalculateBlocks(MP));
-		result.setTurnovers(pic.CalculateTurnovers(MP));
-		result.setFouls(pic.CalculateFouls(MP));
-		result.setPoints(pic.CalculatePoints(MP));
-		result.setEfficiency(pic.CalculateEfficiency(MP));
-		result.setGmSc(pic.CalculateGmSc(MP));
-		result.setTrueShootingPercentage(pic.CalculateTrueShootingPercentage(MP));
-		result.setShootingEfficiency(pic.CalculateShootingEfficiency(MP));
-		result.setReboundRating(pic.CalculateReboundRating(MT,MT2,MP));
-		result.setOffensiveReboundRating(pic.CalculateOffensiveReboundRating(MT,MT2,MP));
-		result.setDefensiveReboundRating(pic.CalculateDefensiveReboundRating(MT,MT2,MP));
-		result.setAssisyRating(pic.CalculateAssisyRating(MT,MP));
-		result.setStealRating(pic.CalculateStealRating(MT,MT2,MP));
-		result.setBlockRating(pic.CalculateBlockRating(MT,MT2,MP));
-		result.setTurnoverRating(pic.CalculateTurnoverRating(MP));
-		result.setUtilizationRating(pic.CalculateUtilizationRating(MT,MP));
-		result.setDoubleDouble(pic.CalculateDoubleDouble(MP));
+		if(mpSelected.size()==0){
+			result.setTeamName("Unknow");
+		}else{
+			result.setTeamName(pic.CalculateTeam(p.getPlayerName(),mpSelected.get(mpSelected.size()-1)));
+			result.setGamesPlayed(mpSelected.size());
+			result.setGamesStarting(pic.CalculateGamesStarting(p.getPlayerName(), mpSelected));
+			result.setRebounds(pic.CalculateRebounds(MP));
+			result.setAssists(pic.CalculateAssists(MP));
+			result.setMinutes(pic.CalculateMinutes(MP));
+			result.setFieldGoalsMade(pic.CalculateFieldGoalsMade(MP));
+			result.setThreePointFieldGoalsMade(pic.CalculateThreePointFieldGoalsMade(MP));
+			result.setFreeThrowsMade(pic.CalculateFreeThrowsMade(MP));
+			result.setOffensiveRebounds(pic.CalculateOffensiveRebounds(MP));
+			result.setDefensiveRebounds(pic.CalculateDefensiveRebounds(MP));
+			result.setSteals(pic.CalculateSteals(MP));
+			result.setBlocks(pic.CalculateBlocks(MP));
+			result.setTurnovers(pic.CalculateTurnovers(MP));
+			result.setFouls(pic.CalculateFouls(MP));
+			result.setPoints(pic.CalculatePoints(MP));
+			result.setEfficiency(pic.CalculateEfficiency(MP));
+			result.setGmSc(pic.CalculateGmSc(MP));
+			result.setTrueShootingPercentage(pic.CalculateTrueShootingPercentage(MP));
+			result.setShootingEfficiency(pic.CalculateShootingEfficiency(MP));
+			result.setReboundRating(pic.CalculateReboundRating(MT,MT2,MP));
+			result.setOffensiveReboundRating(pic.CalculateOffensiveReboundRating(MT,MT2,MP));
+			result.setDefensiveReboundRating(pic.CalculateDefensiveReboundRating(MT,MT2,MP));
+			result.setAssisyRating(pic.CalculateAssisyRating(MT,MP));
+			result.setStealRating(pic.CalculateStealRating(MT,MT2,MP));
+			result.setBlockRating(pic.CalculateBlockRating(MT,MT2,MP));
+			result.setTurnoverRating(pic.CalculateTurnoverRating(MP));
+			result.setUtilizationRating(pic.CalculateUtilizationRating(MT,MP));
+			result.setDoubleDouble(pic.CalculateDoubleDouble(MP));
+		}
 		
 		return result;
+	}
+	public static void main(String[] args){
+		ArrayList<playerInfoVO> a=new ArrayList<playerInfoVO>();
+		playerInfoVO b=new playerInfoVO();
+		playerInfoVO c=new playerInfoVO();
+
+		ServiceImp si=new ServiceImp();
+		playerCondition pc=new playerCondition();
+		pc.setPlayerPartition(playerPartition.All);
+		pc.setPlayerPosition(playerPosition.All);
+		pc.setSortOpinions(sortOpinions.Null);
+		
+		b.setPlayerName("Kobe Bryant");
+		c=si.getSinglePlayerInfo(b);
+		System.out.println(c.getAge());
+		
+		b.setPlayerName("LeBron James");
+		c=si.getSinglePlayerInfo(b);
+		System.out.println(c.getAge());
+		
+		/*a=si.getPlayerInfo(pc);
+		System.out.println(a.size());
+		for(int i=0;i<a.size();i++){
+			System.out.println(i+a.get(i).getPlayerName()+"\t"+a.get(i).getAge()+"\t"+a.get(i).getAssists()+"\t"+a.get(i).getAssisyRating()+"\t"+a.get(i).getBirth()+"\t"+a.get(i).getBlockRating()+"\t"+a.get(i).getBlocks()+"\t"+a.get(i).getDefensiveReboundRating()+"\t"+a.get(i).getDefensiveRebounds()+"\t"+a.get(i).getDoubleDouble()+"\t"+a.get(i).getEfficiency()+"\t"+a.get(i).getExp()+"\t"+a.get(i).getFieldGoalsMade()+"\t"+a.get(i).getFouls()+"\t"+a.get(i).getFreeThrowsMade()+"\t"+a.get(i).getGamesPlayed()+"\t"+a.get(i).getGamesStarting()+"\t"+a.get(i).getGmSc()+"\t"+a.get(i).getHeight()+"\t"+a.get(i).getMinutes()+"\t"+a.get(i).getNumber()+"\t"+a.get(i).getOffensiveReboundRating()
+					+"\t"+a.get(i).getOffensiveRebounds()+"\t"+a.get(i).getPlayerName()+"\t"+a.get(i).getPoints()+"\t"+a.get(i).getPosition()+"\t"+a.get(i).getReboundRating()+"\t"+a.get(i).getRebounds()+"\t"+a.get(i).getSchool()+"\t"+a.get(i).getShootingEfficiency()+"\t"+a.get(i).getStealRating()+"\t"+a.get(i).getSteals()+"\t"+a.get(i).getTeamName()+"\t"+a.get(i).getThreePointFieldGoalsMade()+"\t"+a.get(i).getTrueShootingPercentage()+"\t"+a.get(i).getTurnoverRating()+"\t"+a.get(i).getTurnovers()+"\t"+a.get(i).getUtilizationRating()+"\t"+a.get(i).getWeight());
+		}*/
+		
+		
+		
 	}
 }

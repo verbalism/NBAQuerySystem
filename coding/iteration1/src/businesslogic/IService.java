@@ -10,11 +10,11 @@ import vo.teamInfoVO;
 
 
 public interface IService {
-	public teamInfoVO getSingleTeamInfo(teamInfoVO t);
+	public teamInfoVO getSingleTeamInfo(teamInfoVO t);//查询单个球队
 	
-	public playerInfoVO getSinglePlayerInfo(playerInfoVO p);
+	public playerInfoVO getSinglePlayerInfo(playerInfoVO p);//查询单个球员
 	
-	public ArrayList<teamInfoVO> getTeamInfo();
+	public ArrayList<teamInfoVO> getTeamInfo();//查询所有球队
 	
-	public ArrayList<playerInfoVO> getPlayerInfo(playerCondition pc);
+	public ArrayList<playerInfoVO> getPlayerInfo(playerCondition pc);//查询所有球员
 }
