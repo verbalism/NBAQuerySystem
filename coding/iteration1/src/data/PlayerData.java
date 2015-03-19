@@ -11,13 +11,7 @@ import po.PlayerInfoPO;
 import dataservice.PlayerDataService;
 
 public class PlayerData implements PlayerDataService{
-	public static void main(String args[]){
-		PlayerData pd = new PlayerData();
-		ArrayList<PlayerInfoPO> a = pd.getPlayerOriginal();
-		for(int i=0;i<a.size();i++){
-			System.out.println(a.get(i).getName()+"  "+a.get(i).getNumber()+a.get(i).getPosition());
-		}
-	}
+	
 	
 	public ArrayList<PlayerInfoPO> getPlayerOriginal()  {
 		ArrayList<PlayerInfoPO> allPlayers = new ArrayList<PlayerInfoPO>();

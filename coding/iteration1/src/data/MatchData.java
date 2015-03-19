@@ -14,7 +14,6 @@ import po.MatchTeam;
 import dataservice.MatchDataService;
 
 public class MatchData implements MatchDataService{
-	
 	public ArrayList<MatchInfoPO> getMatchOriginal() {
 		ArrayList<MatchInfoPO> allMatches = new ArrayList<MatchInfoPO>();
 		
@@ -100,6 +99,10 @@ public class MatchData implements MatchDataService{
 			min = min+1;
 			sec = sec-60;
 		}
+		if(min<0)
+			min=0;
+		if(sec<0)
+			sec=0;
 		String time = Integer.toString(min)+":"+Integer.toString(sec);
 		team.getPlayers().get(n).setMatchTime(time);
 	}
