@@ -42,6 +42,34 @@ public class playerInfoVO {
 	
 	
 	public playerInfoVO(){
+		gamesPlayed=0;//参赛场数
+		gamesStarting=0;//先发场数
+		rebounds=0;//篮板数
+		assists=0;//助攻数
+		minutes=0;//在场时间
+		fieldGoalsMade=0;//投篮命中数
+		threePointFieldGoalsMade=0;//三分命中数
+		freeThrowsMade=0;//罚球命中数
+		offensiveRebounds=0;//进攻篮板数
+		defensiveRebounds=0;//防守篮板数
+		steals=0;//抢断数
+		blocks=0;//盖帽数
+		turnovers=0;//失误数
+		fouls=0;//犯规数
+		points=0;//得分
+		efficiency=0;//效率
+		GmSc=0;//GmSc效率值
+		trueShootingPercentage=0;//真实命中率
+		shootingEfficiency=0;//投篮效率
+		reboundRating=0;//篮板率
+		offensiveReboundRating=0;//进攻篮板率
+		defensiveReboundRating=0;//防守篮板率
+		assisyRating=0;//助攻率
+		stealRating=0;//抢断率
+		blockRating=0;//盖帽率
+		turnoverRating=0;//失误率
+		utilizationRating=0;//使用率
+		doubleDouble=0;//两双
 	}
 
 	public String getPlayerName() {

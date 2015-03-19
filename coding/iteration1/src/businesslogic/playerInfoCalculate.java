@@ -56,6 +56,9 @@ public class playerInfoCalculate {
 	public double CalculateMinutes(ArrayList<MatchPlayer> MP){
 		double result=0;
 		for(int i=0;i<MP.size();i++){
+			if(MP.get(i).getMatchTime().equals("null") || MP.get(i).getMatchTime().equals("None")){
+				MP.get(i).setMatchTime("0:0");
+			}
 			String[] t=MP.get(i).getMatchTime().split(":");
 			double min=Double.valueOf(t[0]);
 			double second=Double.valueOf(t[1]);
@@ -1003,6 +1006,6 @@ public class playerInfoCalculate {
 		}
 		
 		return result;
-	}
+	}//按条件筛选前50
 	
 }
