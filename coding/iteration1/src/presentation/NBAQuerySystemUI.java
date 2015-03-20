@@ -13,7 +13,6 @@ import org.eclipse.swt.events.ShellEvent;
 import org.eclipse.wb.swt.SWTResourceManager;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import presentation.ImageButton;
 import vo.playerCondition;
 import vo.playerInfoVO;
 import vo.playerPartition;
@@ -39,9 +38,6 @@ import vo.playerPosition;
 import vo.sortOpinions;
 import vo.teamPartion;
 
-import org.eclipse.swt.custom.ViewForm;
-import org.eclipse.swt.custom.CTabFolder;
-import org.eclipse.swt.custom.CTabItem;
 
 public class NBAQuerySystemUI {
 
