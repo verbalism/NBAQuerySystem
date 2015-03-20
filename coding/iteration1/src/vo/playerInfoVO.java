@@ -8,9 +8,9 @@ public class playerInfoVO {
 	private double rebounds;//篮板数
 	private double assists;//助攻数
 	private double minutes;//在场时间
-	private double fieldGoalsMade;//投篮命中数
-	private double threePointFieldGoalsMade;//三分命中数
-	private double freeThrowsMade;//罚球命中数
+	private double fieldGoalsPercentage;//投篮命中率
+	private double threePointFieldGoalsPercentage;//三分命中率
+	private double freeThrowsPercentage;//罚球命中率
 	private double offensiveRebounds;//进攻篮板数
 	private double defensiveRebounds;//防守篮板数
 	private double steals;//抢断数
@@ -47,9 +47,9 @@ public class playerInfoVO {
 		rebounds=0;//篮板数
 		assists=0;//助攻数
 		minutes=0;//在场时间
-		fieldGoalsMade=0;//投篮命中数
-		threePointFieldGoalsMade=0;//三分命中数
-		freeThrowsMade=0;//罚球命中数
+		fieldGoalsPercentage=0;//投篮命中数
+		threePointFieldGoalsPercentage=0;//三分命中数
+		freeThrowsPercentage=0;//罚球命中数
 		offensiveRebounds=0;//进攻篮板数
 		defensiveRebounds=0;//防守篮板数
 		steals=0;//抢断数
@@ -128,28 +128,28 @@ public class playerInfoVO {
 		this.minutes = minutes;
 	}
 
-	public double getFieldGoalsMade() {
-		return fieldGoalsMade;
+	public double getFieldGoalsPercentage() {
+		return fieldGoalsPercentage;
 	}
 
-	public void setFieldGoalsMade(double fieldGoalsMade) {
-		this.fieldGoalsMade = fieldGoalsMade;
+	public void setFieldGoalsPercentage(double fieldGoalsPercentage) {
+		this.fieldGoalsPercentage = fieldGoalsPercentage;
 	}
 
-	public double getThreePointFieldGoalsMade() {
-		return threePointFieldGoalsMade;
+	public double getThreePointFieldGoalsPercentage() {
+		return threePointFieldGoalsPercentage;
 	}
 
-	public void setThreePointFieldGoalsMade(double threePointFieldGoalsMade) {
-		this.threePointFieldGoalsMade = threePointFieldGoalsMade;
+	public void setThreePointFieldGoalsPercentage(double threePointFieldGoalsPercentage) {
+		this.threePointFieldGoalsPercentage = threePointFieldGoalsPercentage;
 	}
 
-	public double getFreeThrowsMade() {
-		return freeThrowsMade;
+	public double getFreeThrowsPercentage() {
+		return freeThrowsPercentage;
 	}
 
-	public void setFreeThrowsMade(double freeThrowsMade) {
-		this.freeThrowsMade = freeThrowsMade;
+	public void setFreeThrowsPercentage(double freeThrowsPercentage) {
+		this.freeThrowsPercentage = freeThrowsPercentage;
 	}
 
 	public double getOffensiveRebounds() {

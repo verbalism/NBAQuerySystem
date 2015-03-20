@@ -30,12 +30,12 @@ public class playerInfoCalculate {
 			MatchTeam team1=mpSelected.get(i).getTeam1();
 			MatchTeam team2=mpSelected.get(i).getTeam2();
 			for(int j=0;j<5;j++){
-				if(team1.getPlayers().get(j).equals(playerName)){
+				if(team1.getPlayers().get(j).getPlayerName().equals(playerName)){
 					result++;
 				}
 			}
 			for(int j=0;j<5;j++){
-				if(team2.getPlayers().get(j).equals(playerName)){
+				if(team2.getPlayers().get(j).getPlayerName().equals(playerName)){
 					result++;
 				}
 			}
@@ -86,7 +86,7 @@ public class playerInfoCalculate {
 		}
 		return result;
 	}//计算三分命中数
-	
+
 	public double CalculateFreeThrowsMade(ArrayList<MatchPlayer> MP){
 		double result=0;
 		for(int i=0;i<MP.size();i++){
@@ -94,6 +94,36 @@ public class playerInfoCalculate {
 		}
 		return result;
 	}//计算罚球命中数
+	
+	public double CalculateFieldGoalsPercentage(ArrayList<MatchPlayer> MP){
+		double result1=0;
+		double result2=0;
+		for(int i=0;i<MP.size();i++){
+			result1=result1+MP.get(i).getFieldGoal();
+			result2=result2+MP.get(i).getFieldGoalAttempts();
+		}
+		return result1/result2;
+	}//计算投篮命中率
+	
+	public double CalculateThreePointFieldGoalsPercentage(ArrayList<MatchPlayer> MP){
+		double result1=0;
+		double result2=0;
+		for(int i=0;i<MP.size();i++){
+			result1=result1+MP.get(i).getThreePointShot();
+			result2=result2+MP.get(i).getThreePointAttempts();
+		}
+		return result1/result2;
+	}//计算三分命中率
+	
+	public double CalculateFreeThrowsPercentage(ArrayList<MatchPlayer> MP){
+		double result1=0;
+		double result2=0;
+		for(int i=0;i<MP.size();i++){
+			result1=result1+MP.get(i).getFreeThrowGoal();
+			result2=result2+MP.get(i).getFreeThrowAttempts();
+		}
+		return result1/result2;
+	}//计算罚球命中率
 	
 	public double CalculateOffensiveRebounds(ArrayList<MatchPlayer> MP){
 		double result=0;
@@ -407,7 +437,7 @@ public class playerInfoCalculate {
 			while(piv.size()>0){
 				int i=0;
 				for(int j=i+1;j<piv.size();j++){
-					if(piv.get(i).getFieldGoalsMade()>piv.get(j).getFieldGoalsMade())
+					if(piv.get(i).getFieldGoalsPercentage()>piv.get(j).getFieldGoalsPercentage())
 						i=j;
 				}
 				result.add(piv.get(i));
@@ -417,7 +447,7 @@ public class playerInfoCalculate {
 			while(piv.size()>0){
 				int i=0;
 				for(int j=i+1;j<piv.size();j++){
-					if(piv.get(i).getThreePointFieldGoalsMade()>piv.get(j).getThreePointFieldGoalsMade())
+					if(piv.get(i).getThreePointFieldGoalsPercentage()>piv.get(j).getThreePointFieldGoalsPercentage())
 						i=j;
 				}
 				result.add(piv.get(i));
@@ -427,7 +457,7 @@ public class playerInfoCalculate {
 			while(piv.size()>0){
 				int i=0;
 				for(int j=i+1;j<piv.size();j++){
-					if(piv.get(i).getFreeThrowsMade()>piv.get(j).getFreeThrowsMade())
+					if(piv.get(i).getFreeThrowsPercentage()>piv.get(j).getFreeThrowsPercentage())
 						i=j;
 				}
 				result.add(piv.get(i));
@@ -663,7 +693,7 @@ public class playerInfoCalculate {
 			while(piv.size()>0){
 				int i=0;
 				for(int j=i+1;j<piv.size();j++){
-					if(piv.get(i).getFieldGoalsMade()<piv.get(j).getFieldGoalsMade())
+					if(piv.get(i).getFieldGoalsPercentage()<piv.get(j).getFieldGoalsPercentage())
 						i=j;
 				}
 				result.add(piv.get(i));
@@ -673,7 +703,7 @@ public class playerInfoCalculate {
 			while(piv.size()>0){
 				int i=0;
 				for(int j=i+1;j<piv.size();j++){
-					if(piv.get(i).getThreePointFieldGoalsMade()<piv.get(j).getThreePointFieldGoalsMade())
+					if(piv.get(i).getThreePointFieldGoalsPercentage()<piv.get(j).getThreePointFieldGoalsPercentage())
 						i=j;
 				}
 				result.add(piv.get(i));
@@ -683,7 +713,7 @@ public class playerInfoCalculate {
 			while(piv.size()>0){
 				int i=0;
 				for(int j=i+1;j<piv.size();j++){
-					if(piv.get(i).getFreeThrowsMade()<piv.get(j).getFreeThrowsMade())
+					if(piv.get(i).getFreeThrowsPercentage()<piv.get(j).getFreeThrowsPercentage())
 						i=j;
 				}
 				result.add(piv.get(i));
@@ -1053,7 +1083,7 @@ public class playerInfoCalculate {
 			bw = new BufferedWriter(fw);
 
 			for(int i=0;i<result.size();i++){
-				bw.write(result.get(i).getPlayerName()+";"+result.get(i).getTeamName()+";"+result.get(i).getGamesPlayed()+";"+result.get(i).getGamesStarting()+";"+result.get(i).getRebounds()+";"+result.get(i).getAssists()+";"+result.get(i).getMinutes()+";"+result.get(i).getFieldGoalsMade()+";"+result.get(i).getThreePointFieldGoalsMade()+";"+result.get(i).getFieldGoalsMade()+";"+result.get(i).getOffensiveRebounds()+";"+result.get(i).getDefensiveRebounds()+";"+result.get(i).getSteals()+";"+result.get(i).getBlocks()+";"+result.get(i).getTurnovers()+";"+result.get(i).getFouls()+";"+result.get(i).getPoints()+";"+result.get(i).getEfficiency()+";"+result.get(i).getGmSc()+";"+result.get(i).getTrueShootingPercentage()+";"+result.get(i).getShootingEfficiency()+";"+result.get(i).getReboundRating()+";"+result.get(i).getOffensiveReboundRating()+";"+result.get(i).getDefensiveReboundRating()+";"+result.get(i).getAssisyRating()+";"+result.get(i).getStealRating()+";"+result.get(i).getBlockRating()+";"+result.get(i).getTurnoverRating()+";"+result.get(i).getUtilizationRating()+";"+result.get(i).getNumber()+";"+result.get(i).getPosition()+";"+result.get(i).getHeight()+";"+result.get(i).getWeight()+";"+result.get(i).getBirth()+";"+result.get(i).getAge()+";"+result.get(i).getExp()+";"+result.get(i).getSchool()+";"+result.get(i).getDoubleDouble());
+				bw.write(result.get(i).getPlayerName()+";"+result.get(i).getTeamName()+";"+result.get(i).getGamesPlayed()+";"+result.get(i).getGamesStarting()+";"+result.get(i).getRebounds()+";"+result.get(i).getAssists()+";"+result.get(i).getMinutes()+";"+result.get(i).getFieldGoalsPercentage()+";"+result.get(i).getThreePointFieldGoalsPercentage()+";"+result.get(i).getFieldGoalsPercentage()+";"+result.get(i).getOffensiveRebounds()+";"+result.get(i).getDefensiveRebounds()+";"+result.get(i).getSteals()+";"+result.get(i).getBlocks()+";"+result.get(i).getTurnovers()+";"+result.get(i).getFouls()+";"+result.get(i).getPoints()+";"+result.get(i).getEfficiency()+";"+result.get(i).getGmSc()+";"+result.get(i).getTrueShootingPercentage()+";"+result.get(i).getShootingEfficiency()+";"+result.get(i).getReboundRating()+";"+result.get(i).getOffensiveReboundRating()+";"+result.get(i).getDefensiveReboundRating()+";"+result.get(i).getAssisyRating()+";"+result.get(i).getStealRating()+";"+result.get(i).getBlockRating()+";"+result.get(i).getTurnoverRating()+";"+result.get(i).getUtilizationRating()+";"+result.get(i).getNumber()+";"+result.get(i).getPosition()+";"+result.get(i).getHeight()+";"+result.get(i).getWeight()+";"+result.get(i).getBirth()+";"+result.get(i).getAge()+";"+result.get(i).getExp()+";"+result.get(i).getSchool()+";"+result.get(i).getDoubleDouble());
 				bw.write("\r\n");
 			}
 

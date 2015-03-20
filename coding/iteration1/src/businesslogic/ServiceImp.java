@@ -285,9 +285,9 @@ public class ServiceImp implements IService{
 				piv.setRebounds(Double.valueOf(temp[4]));
 				piv.setAssists(Double.valueOf(temp[5]));
 				piv.setMinutes(Double.valueOf(temp[6]));
-				piv.setFieldGoalsMade(Double.valueOf(temp[7]));
-				piv.setThreePointFieldGoalsMade(Double.valueOf(temp[8]));
-				piv.setFreeThrowsMade(Double.valueOf(temp[9]));
+				piv.setFieldGoalsPercentage(Double.valueOf(temp[7]));
+				piv.setThreePointFieldGoalsPercentage(Double.valueOf(temp[8]));
+				piv.setFreeThrowsPercentage(Double.valueOf(temp[9]));
 				piv.setOffensiveRebounds(Double.valueOf(temp[10]));
 				piv.setDefensiveRebounds(Double.valueOf(temp[11]));
 				piv.setSteals(Double.valueOf(temp[12]));
@@ -485,9 +485,9 @@ public class ServiceImp implements IService{
 			result.setRebounds(pic.CalculateRebounds(MP));
 			result.setAssists(pic.CalculateAssists(MP));
 			result.setMinutes(pic.CalculateMinutes(MP));
-			result.setFieldGoalsMade(pic.CalculateFieldGoalsMade(MP));
-			result.setThreePointFieldGoalsMade(pic.CalculateThreePointFieldGoalsMade(MP));
-			result.setFreeThrowsMade(pic.CalculateFreeThrowsMade(MP));
+			result.setFieldGoalsPercentage(pic.CalculateFieldGoalsPercentage(MP));
+			result.setThreePointFieldGoalsPercentage(pic.CalculateThreePointFieldGoalsPercentage(MP));
+			result.setFreeThrowsPercentage(pic.CalculateFreeThrowsPercentage(MP));
 			result.setOffensiveRebounds(pic.CalculateOffensiveRebounds(MP));
 			result.setDefensiveRebounds(pic.CalculateDefensiveRebounds(MP));
 			result.setSteals(pic.CalculateSteals(MP));
@@ -534,8 +534,8 @@ public class ServiceImp implements IService{
 		a=si.getPlayerInfo(pc);
 		System.out.println(a.size());
 		for(int i=0;i<a.size();i++){
-			System.out.println(a.get(i).getPosition()+"\t"+i+a.get(i).getPlayerName()+"\t"+a.get(i).getAge()+"\t"+a.get(i).getAssists()+"\t"+a.get(i).getAssisyRating()+"\t"+a.get(i).getBirth()+"\t"+a.get(i).getBlockRating()+"\t"+a.get(i).getBlocks()+"\t"+a.get(i).getDefensiveReboundRating()+"\t"+a.get(i).getDefensiveRebounds()+"\t"+a.get(i).getDoubleDouble()+"\t"+a.get(i).getEfficiency()+"\t"+a.get(i).getExp()+"\t"+a.get(i).getFieldGoalsMade()+"\t"+a.get(i).getFouls()+"\t"+a.get(i).getFreeThrowsMade()+"\t"+a.get(i).getGamesPlayed()+"\t"+a.get(i).getGamesStarting()+"\t"+a.get(i).getGmSc()+"\t"+a.get(i).getHeight()+"\t"+a.get(i).getMinutes()+"\t"+a.get(i).getNumber()+"\t"+a.get(i).getOffensiveReboundRating()
-					+"\t"+a.get(i).getOffensiveRebounds()+"\t"+a.get(i).getPlayerName()+"\t"+a.get(i).getPoints()+"\t"+a.get(i).getPosition()+"\t"+a.get(i).getReboundRating()+"\t"+a.get(i).getRebounds()+"\t"+a.get(i).getSchool()+"\t"+a.get(i).getShootingEfficiency()+"\t"+a.get(i).getStealRating()+"\t"+a.get(i).getSteals()+"\t"+a.get(i).getTeamName()+"\t"+a.get(i).getThreePointFieldGoalsMade()+"\t"+a.get(i).getTrueShootingPercentage()+"\t"+a.get(i).getTurnoverRating()+"\t"+a.get(i).getTurnovers()+"\t"+a.get(i).getUtilizationRating()+"\t"+a.get(i).getWeight());
+			System.out.println(a.get(i).getPosition()+"\t"+i+a.get(i).getPlayerName()+"\t"+a.get(i).getAge()+"\t"+a.get(i).getAssists()+"\t"+a.get(i).getAssisyRating()+"\t"+a.get(i).getBirth()+"\t"+a.get(i).getBlockRating()+"\t"+a.get(i).getBlocks()+"\t"+a.get(i).getDefensiveReboundRating()+"\t"+a.get(i).getDefensiveRebounds()+"\t"+a.get(i).getDoubleDouble()+"\t"+a.get(i).getEfficiency()+"\t"+a.get(i).getExp()+"\t"+a.get(i).getFieldGoalsPercentage()+"\t"+a.get(i).getFouls()+"\t"+a.get(i).getFreeThrowsPercentage()+"\t"+a.get(i).getGamesPlayed()+"\t"+a.get(i).getGamesStarting()+"\t"+a.get(i).getGmSc()+"\t"+a.get(i).getHeight()+"\t"+a.get(i).getMinutes()+"\t"+a.get(i).getNumber()+"\t"+a.get(i).getOffensiveReboundRating()
+					+"\t"+a.get(i).getOffensiveRebounds()+"\t"+a.get(i).getPlayerName()+"\t"+a.get(i).getPoints()+"\t"+a.get(i).getPosition()+"\t"+a.get(i).getReboundRating()+"\t"+a.get(i).getRebounds()+"\t"+a.get(i).getSchool()+"\t"+a.get(i).getShootingEfficiency()+"\t"+a.get(i).getStealRating()+"\t"+a.get(i).getSteals()+"\t"+a.get(i).getTeamName()+"\t"+a.get(i).getThreePointFieldGoalsPercentage()+"\t"+a.get(i).getTrueShootingPercentage()+"\t"+a.get(i).getTurnoverRating()+"\t"+a.get(i).getTurnovers()+"\t"+a.get(i).getUtilizationRating()+"\t"+a.get(i).getWeight());
 		}
 		
 		
