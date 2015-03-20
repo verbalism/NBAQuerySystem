@@ -11,14 +11,6 @@ import po.PlayerInfoPO;
 import dataservice.PlayerDataService;
 
 public class PlayerData implements PlayerDataService{
-	public static void main(String args[]){
-		PlayerData pd = new PlayerData();
-		ArrayList<PlayerInfoPO> a = pd.getPlayerOriginal();
-		for(int i=0;i<a.size();i++){
-			System.out.println(a.get(i).getName()+"  "+a.get(i).getNumber()+a.get(i).getPosition());
-		}
-	}
-	
 	public ArrayList<PlayerInfoPO> getPlayerOriginal()  {
 		ArrayList<PlayerInfoPO> allPlayers = new ArrayList<PlayerInfoPO>();
 		String Dpath="Data\\players\\info";
@@ -36,13 +28,13 @@ public class PlayerData implements PlayerDataService{
 				br.close();
 				PlayerInfoPO player = new PlayerInfoPO();
 				player.setName(filelist[i]);
-				player.setNumber(wtf.get(3).split("©¦")[1].split("¨U")[0]);
-				player.setPosition(wtf.get(5).split("©¦")[1].split("¨U")[0]);
-				player.setHeight(wtf.get(7).split("©¦")[1].split("¨U")[0]);
-				player.setWeight(wtf.get(9).split("©¦")[1].split("¨U")[0]);
+				player.setNumber(wtf.get(3).split("©¦")[1].split("¨U")[0].trim());
+				player.setPosition(wtf.get(5).split("©¦")[1].split("¨U")[0].trim());
+				player.setHeight(wtf.get(7).split("©¦")[1].split("¨U")[0].trim());
+				player.setWeight(wtf.get(9).split("©¦")[1].split("¨U")[0].trim());
 				player.setBirth(wtf.get(11).split("©¦")[1].split("¨U")[0]);
-				player.setAge(wtf.get(13).split("©¦")[1].split("¨U")[0]);
-				player.setExp(wtf.get(15).split("©¦")[1].split("¨U")[0]);
+				player.setAge(wtf.get(13).split("©¦")[1].split("¨U")[0].trim());
+				player.setExp(wtf.get(15).split("©¦")[1].split("¨U")[0].trim());
 				player.setSchool(wtf.get(17).split("©¦")[1].split("¨U")[0]);
 				allPlayers.add(player);
 			} catch (FileNotFoundException e) {
