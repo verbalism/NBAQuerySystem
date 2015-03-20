@@ -15,7 +15,9 @@ import vo.playerInfoVO;
 import vo.playerPartition;
 import vo.playerPosition;
 import vo.sortOpinions;
+import vo.teamCondition;
 import vo.teamInfoVO;
+import vo.teamPartion;
 
 public class ServiceImp implements IService{
 	public teamInfoVO getSingleTeamInfo(teamInfoVO t){
@@ -46,7 +48,7 @@ public class ServiceImp implements IService{
 		
 		TeamInfoCalculate tic=new TeamInfoCalculate();
 				
-		result.setgamesPlayed(mpselected.size());
+		result.setGamesPlayed(mpselected.size());
 		result.setFieldGoalsMade(tic.calculateFieldGoalsMade(result.getTeamName(), mpselected));
 		result.setFieldGoalsAttempted(tic.calculateFieldGoalsAttempted(result.getTeamName(), mpselected));
 		result.setThreePointFieldGoalsMade(tic.calculateThreePointFieldGoalsMade(result.getTeamName(), mpselected));
@@ -62,12 +64,12 @@ public class ServiceImp implements IService{
 		result.setTurnovers(tic.calculateTurnovers(result.getTeamName(), mpselected));
 		result.setFouls(tic.calculateFouls(result.getTeamName(),mpselected));
 		result.setPoints(tic.calculatePoints(result.getTeamName(), mpselected));
-		result.setFieldGoalPercentage((double)result.getFieldGoalsMade()/(double)result.getFieldGoalsAttempted());
-		result.setThreePointFieldGoalPercentage((double)result.getThreePointFieldGoalsMade()/(double)result.getThreePointFieldGoalsAttempted());
-		result.setFreeThrowPercentage((double)result.getFreeThrowsMade()/(double)result.getFreeThrowsAttempted());
-		result.setWinPercentage((double)tic.calculateWins(result.getTeamName(), mpselected)/(double)result.getgamesPlayed());
-		result.setOffensiveReboundPercentage((double)result.getOffensiveRebounds()/(double)(result.getOffensiveRebounds()+tic.calculateOppositeDefensiveRebounds(result.getTeamName(), mpselected)));
-		result.setDefensiveReboundPercentage((double)result.getDefensiveRebounds()/(double)(result.getDefensiveRebounds()+tic.calculateOppositeOffensiveRebounds(result.getTeamName(), mpselected)));
+		result.setFieldGoalPercentage(result.getFieldGoalsMade()/result.getFieldGoalsAttempted());
+		result.setThreePointFieldGoalPercentage(result.getThreePointFieldGoalsMade()/result.getThreePointFieldGoalsAttempted());
+		result.setFreeThrowPercentage(result.getFreeThrowsMade()/result.getFreeThrowsAttempted());
+		result.setWinPercentage((double)tic.calculateWins(result.getTeamName(), mpselected)/(double)result.getGamesPlayed());
+		result.setOffensiveReboundPercentage(result.getOffensiveRebounds()/(result.getOffensiveRebounds()+tic.calculateOppositeDefensiveRebounds(result.getTeamName(), mpselected)));
+		result.setDefensiveReboundPercentage(result.getDefensiveRebounds()/(result.getDefensiveRebounds()+tic.calculateOppositeOffensiveRebounds(result.getTeamName(), mpselected)));
 		result.setPossessions(result.getFieldGoalsAttempted()+0.4*result.getFreeThrowsAttempted()
 				-1.07*result.getOffensiveReboundPercentage()*(result.getFieldGoalsAttempted()-result.getFieldGoalsMade())+1.07*result.getTurnovers());
 		result.setOffensiveRating(result.getPoints()/result.getPossessions()*100);
@@ -83,24 +85,185 @@ public class ServiceImp implements IService{
 	}
 	
 	
-	public ArrayList<teamInfoVO> getTeamInfo(){
+	public ArrayList<teamInfoVO> getTeamInfo(teamCondition tc){
 		ServiceImp si=new ServiceImp();
+		ArrayList<teamInfoVO> original=new ArrayList<teamInfoVO>();
 		ArrayList<teamInfoVO> result=new ArrayList<teamInfoVO>();
-		
+	
 		TeamData td=new TeamData();
 		ArrayList<TeamInfoPO> tp=td.getTeamOriginal();
-		
 		for(int i=0;i<tp.size()&&i<30;i++){
 			if(tp.get(i).getFullName()!=null){
 				teamInfoVO temp=new teamInfoVO();
 				temp.setTeamName(tp.get(i).getFullName());
-				result.add(si.getSingleTeamInfo(temp));				
+				temp.setSubarea(tp.get(i).getSubarea());	
+				original.add(temp);
 			}
 		}
-		
+		if(tc.getTeampartion().equals(teamPartion.All)){	
+			for(int i=0;i<original.size();i++){
+				result.add(si.getSingleTeamInfo(original.get(i)));
+			}
+		}
+		else if(tc.getTeampartion().equals(teamPartion.East)){
+			for(int i=0;i<original.size();i++){
+				if(original.get(i).getSubarea().equals("Southeast")||original.get(i).getSubarea().equals("Central")||original.get(i).getSubarea().equals("Atlantic")){
+					result.add(si.getSingleTeamInfo(original.get(i)));
+				}
+			}
+		}
+		else if(tc.getTeampartion().equals(teamPartion.West)){
+			for(int i=0;i<original.size();i++){
+				if(original.get(i).getSubarea().equals("Southwest")||original.get(i).getSubarea().equals("Northwest")||original.get(i).getSubarea().equals("Pacific")){
+					result.add(si.getSingleTeamInfo(original.get(i)));
+				}
+			}
+		}
+		else if(tc.getTeampartion().equals(teamPartion.Southeast)){
+			for(int i=0;i<original.size();i++){
+				if(original.get(i).getSubarea().equals("Southeast")){
+					result.add(si.getSingleTeamInfo(original.get(i)));
+				}
+			}
+		}
+		else if(tc.getTeampartion().equals(teamPartion.Central)){
+			for(int i=0;i<original.size();i++){
+				if(original.get(i).getSubarea().equals("Central")){
+					result.add(si.getSingleTeamInfo(original.get(i)));
+				}
+			}
+		}
+		else if(tc.getTeampartion().equals(teamPartion.Atlantic)){
+			for(int i=0;i<original.size();i++){
+				if(original.get(i).getSubarea().equals("Atlantic")){
+					result.add(si.getSingleTeamInfo(original.get(i)));
+				}
+			}
+		}
+		else if(tc.getTeampartion().equals(teamPartion.Southwest)){
+			for(int i=0;i<original.size();i++){
+				if(original.get(i).getSubarea().equals("Southwest")){
+					result.add(si.getSingleTeamInfo(original.get(i)));
+				}
+			}
+		}
+		else if(tc.getTeampartion().equals(teamPartion.Northwest)){
+			for(int i=0;i<original.size();i++){
+				if(original.get(i).getSubarea().equals("Northwest")){
+					result.add(si.getSingleTeamInfo(original.get(i)));
+				}
+			}
+		}
+		else if(tc.getTeampartion().equals(teamPartion.Pacific)){
+			for(int i=0;i<original.size();i++){
+				if(original.get(i).getSubarea().equals("Pacific")){
+					result.add(si.getSingleTeamInfo(original.get(i)));
+				}
+			}
+		}
 		return result;
 	}
 	
+	/*public ArrayList<teamInfoVO> sortTeam(ArrayList<teamInfoVO> original ,String s ){
+		ArrayList <teamInfoVO> result =new ArrayList<teamInfoVO>();
+		if(s.equals("gamesPlayed")){
+			while(original.size()>0){
+				int max=0;
+				for(int i=0;i<original.size();i++){
+					if(original.get(i).getGamesPlayed()>original.get(max).getGamesPlayed()){
+						max=i;
+					}
+				}
+				result.add(original.get(max));
+				original.remove(max);
+			}
+		}
+		else if(s.equals("fieldGoalsMade")){
+			while(original.size()>0){
+				int max=0;
+				for(int i=0;i<original.size();i++){
+					if(original.get(i).getFieldGoalsMade()>original.get(max).getFieldGoalsMade()){
+						max=i;
+					}
+				}
+				result.add(original.get(max));
+				original.remove(max);
+			}
+		}
+		else if(s.equals("fieldGoalsAttempted")){
+			while(original.size()>0){
+				int max=0;
+				for(int i=0;i<original.size();i++){
+					if(original.get(i).getFieldGoalsAttempted()>original.get(max).getFieldGoalsAttempted()){
+						max=i;
+					}
+				}
+				result.add(original.get(max));
+				original.remove(max);
+			}
+		}
+		else if(s.equals("threePointFieldGoalsMade")){
+			while(original.size()>0){
+				int max=0;
+				for(int i=0;i<original.size();i++){
+					if(original.get(i).getThreePointFieldGoalsMade()>original.get(max).getThreePointFieldGoalsMade()){
+						max=i;
+					}
+				}
+				result.add(original.get(max));
+				original.remove(max);
+			}
+		}
+		else if(s.equals("threePointFieldGoalsAttempted")){
+			while(original.size()>0){
+				int max=0;
+				for(int i=0;i<original.size();i++){
+					if(original.get(i).getThreePointFieldGoalsAttempted()>original.get(max).getThreePointFieldGoalsAttempted()){
+						max=i;
+					}
+				}
+				result.add(original.get(max));
+				original.remove(max);
+			}
+		}
+		else if(s.equals("freeThrowsMade")){
+			while(original.size()>0){
+				int max=0;
+				for(int i=0;i<original.size();i++){
+					if(original.get(i).getFreeThrowsMade()>original.get(max).getFreeThrowsMade()){
+						max=i;
+					}
+				}
+				result.add(original.get(max));
+				original.remove(max);
+			}
+		}
+		else if(s.equals("freeThrowsAttempted")){
+			while(original.size()>0){
+				int max=0;
+				for(int i=0;i<original.size();i++){
+					if(original.get(i).getFreeThrowsAttempted()>original.get(max).getFreeThrowsAttempted()){
+						max=i;
+					}
+				}
+				result.add(original.get(max));
+				original.remove(max);
+			}
+		}
+		else if(s.equals("freeThrowsAttempted")){
+			while(original.size()>0){
+				int max=0;
+				for(int i=0;i<original.size();i++){
+					if(original.get(i).getFreeThrowsAttempted()>original.get(max).getFreeThrowsAttempted()){
+						max=i;
+					}
+				}
+				result.add(original.get(max));
+				original.remove(max);
+			}
+		}
+	}
+	*/
 	
 	public ArrayList<playerInfoVO> getPlayerInfo(playerCondition pc){
 		ArrayList<playerInfoVO> result=new ArrayList<playerInfoVO>();
@@ -337,12 +500,14 @@ public class ServiceImp implements IService{
 		
 	}*/
 	
-	/*public static void main(String []args){
+	public static void main(String []args){
 		ServiceImp si=new ServiceImp();
+		teamCondition tc=new teamCondition();
+		tc.setTeampartion(teamPartion.All);
 		teamInfoVO a=new teamInfoVO();
 		a.setTeamName("Celtics");
 		teamInfoVO b=si.getSingleTeamInfo(a);
-		ArrayList<teamInfoVO> t=si.getTeamInfo();
-		System.out.println(t.get(0).getTeamName()+"\t"+t.get(0).getAssistPercentage()+"\t"+t.get(0).getAssists()+"\t"+t.get(0).getBlocks()+"\t"+b.getWinPercentage()+"\t"+t.get(0).getFieldGoalPercentage());
-	}*/
+		ArrayList<teamInfoVO> t=si.getTeamInfo(tc);
+		System.out.println(t.get(0).getTeamName()+"\t"+t.get(0).getAssistPercentage()+"\t"+t.get(0).getAssists()+"\t"+t.get(0).getBlocks()+"\t"+b.getWinPercentage()+"\t"+b.getStealPercentage());
+	}
 }
