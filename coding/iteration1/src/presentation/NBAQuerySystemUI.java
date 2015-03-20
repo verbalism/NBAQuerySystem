@@ -1,7 +1,6 @@
 package presentation;
 
 import java.util.ArrayList;
-
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
@@ -10,17 +9,16 @@ import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.ShellAdapter;
 import org.eclipse.swt.events.ShellEvent;
+
 import org.eclipse.wb.swt.SWTResourceManager;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-
 import presentation.ImageButton;
 import vo.playerCondition;
 import vo.playerInfoVO;
 import vo.playerPartition;
 import vo.playerPosition;
 import vo.sortOpinions;
-
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Font;
@@ -187,23 +185,14 @@ public class NBAQuerySystemUI {
 					if(n==0){
 						item.setText(new String[]{String.valueOf(i+1),temp.get(i).getPlayerName(),temp.get(i).getTeamName(),String.valueOf(temp.get(i).getGamesPlayed())
 								,String.valueOf(temp.get(i).getGamesStarting()),String.valueOf(temp.get(i).getRebounds()),String.valueOf(temp.get(i).getAssists()),
-								String.valueOf(temp.get(i).getMinutes()),String.valueOf(temp.get(i).getFieldGoalsMade()),String.valueOf(temp.get(i).getThreePointFieldGoalsMade())
-								,String.valueOf(temp.get(i).getFreeThrowsMade()),String.valueOf(temp.get(i).getOffensiveRebounds()),String.valueOf(temp.get(i).getDefensiveRebounds()),
+								String.valueOf(temp.get(i).getMinutes()),String.valueOf(temp.get(i).getFieldGoalsPercentage()),String.valueOf(temp.get(i).getThreePointFieldGoalsPercentage())
+								,String.valueOf(temp.get(i).getFreeThrowsPercentage()),String.valueOf(temp.get(i).getOffensiveRebounds()),String.valueOf(temp.get(i).getDefensiveRebounds()),
 								String.valueOf(temp.get(i).getSteals()),String.valueOf(temp.get(i).getBlocks()),String.valueOf(temp.get(i).getTurnovers()),String.valueOf(temp.get(i).getFouls()),
 								String.valueOf(temp.get(i).getPoints()),String.valueOf(temp.get(i).getEfficiency()),String.valueOf(temp.get(i).getGmSc()),String.valueOf(temp.get(i).getTrueShootingPercentage())
 								,String.valueOf(temp.get(i).getShootingEfficiency()),String.valueOf(temp.get(i).getReboundRating()),String.valueOf(temp.get(i).getOffensiveReboundRating())
 								,String.valueOf(temp.get(i).getDefensiveReboundRating()),String.valueOf(temp.get(i).getAssisyRating()),String.valueOf(temp.get(i).getStealRating()),String.valueOf(temp.get(i).getBlockRating())
 								,String.valueOf(temp.get(i).getTurnoverRating()),String.valueOf(temp.get(i).getUtilizationRating())});
 					}else if(n==1){
-						item.setText(new String[]{String.valueOf(i+1),temp.get(i).getPlayerName(),temp.get(i).getTeamName(),String.valueOf(temp.get(i).getGamesPlayed())
-								,String.valueOf(temp.get(i).getGamesStarting()),String.valueOf(temp.get(i).getRebounds()),String.valueOf(temp.get(i).getAssists()),
-								String.valueOf(temp.get(i).getMinutes()),String.valueOf(temp.get(i).getFieldGoalsMade()),String.valueOf(temp.get(i).getThreePointFieldGoalsMade())
-								,String.valueOf(temp.get(i).getFreeThrowsMade()),String.valueOf(temp.get(i).getOffensiveRebounds()),String.valueOf(temp.get(i).getDefensiveRebounds()),
-								String.valueOf(temp.get(i).getSteals()),String.valueOf(temp.get(i).getBlocks()),String.valueOf(temp.get(i).getTurnovers()),String.valueOf(temp.get(i).getFouls()),
-								String.valueOf(temp.get(i).getPoints()),String.valueOf(temp.get(i).getEfficiency()),String.valueOf(temp.get(i).getGmSc()),String.valueOf(temp.get(i).getTrueShootingPercentage())
-								,String.valueOf(temp.get(i).getShootingEfficiency()),String.valueOf(temp.get(i).getReboundRating()),String.valueOf(temp.get(i).getOffensiveReboundRating())
-								,String.valueOf(temp.get(i).getDefensiveReboundRating()),String.valueOf(temp.get(i).getAssisyRating()),String.valueOf(temp.get(i).getStealRating()),String.valueOf(temp.get(i).getBlockRating())
-								,String.valueOf(temp.get(i).getTurnoverRating()),String.valueOf(temp.get(i).getUtilizationRating())});
 						
 					}
 				}
