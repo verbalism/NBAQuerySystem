@@ -1,21 +1,27 @@
 package businesslogic;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.util.ArrayList;
 
+import data.PlayerData;
 import po.MatchInfoPO;
 import po.MatchPlayer;
 import po.MatchTeam;
+import po.PlayerInfoPO;
 import vo.playerInfoVO;
 
 public class playerInfoCalculate {
 	public String CalculateTeam(String playerName,MatchInfoPO match){
+		playerInfoCalculate pic=new playerInfoCalculate();
 		ArrayList<MatchPlayer> tp=match.getTeam1().getPlayers();
 		for(int j=0;j<tp.size();j++){
 			if(tp.get(j).getPlayerName().equals(playerName)){
-				return match.getTeam1().getTeamName();
+				return pic.getFullName(match.getTeam1().getTeamName());
 			}
 		}
-		return match.getTeam2().getTeamName();
+		return pic.getFullName(match.getTeam2().getTeamName());
 	}//计算所属球队
 	
 	public int CalculateGamesStarting(String playerName,ArrayList<MatchInfoPO> mpSelected){
@@ -1004,5 +1010,130 @@ public class playerInfoCalculate {
 		
 		return result;
 	}//按条件筛选前50
+	
+	public void savePlayerInfoVO(){
+		try{
+			File path=new File("Data");
+			File dir=new File(path,"playerInfoVO.txt");
+			if(!dir.exists()) 
+				dir.createNewFile(); 
+		}catch(Exception e){
+			 System.out.print("创建失败");
+		}
+		 
+		ArrayList<playerInfoVO> result=new ArrayList<playerInfoVO>();
+		
+		PlayerData pd=new PlayerData();
+		ArrayList<PlayerInfoPO> pip=pd.getPlayerOriginal();
+		for(int i=0;i<pip.size();i++){
+			playerInfoVO temp=new playerInfoVO();
+			temp.setPlayerName(pip.get(i).getName());
+			ServiceImp si=new ServiceImp();
+			playerInfoVO piv=si.getSinglePlayerInfo(temp);
+			result.add(piv);
+		}
+		for(int i=result.size()-1;i>=0;i--){
+			if(result.get(i).getTeamName().equals("Unknow"))
+				result.remove(i);
+		}
+		
+		File f = new File("Data//playerInfoVO.txt");
+		FileWriter fw;
+		BufferedWriter bw;
+		try{		
+			fw = new FileWriter(f);
+			fw.write("");
+			fw.close();
+		}catch(Exception e) {
+        	e.printStackTrace();
+        }
+		
+		try{		
+			fw = new FileWriter(f);
+			bw = new BufferedWriter(fw);
+
+			for(int i=0;i<result.size();i++){
+				bw.write(result.get(i).getPlayerName()+";"+result.get(i).getTeamName()+";"+result.get(i).getGamesPlayed()+";"+result.get(i).getGamesStarting()+";"+result.get(i).getRebounds()+";"+result.get(i).getAssists()+";"+result.get(i).getMinutes()+";"+result.get(i).getFieldGoalsMade()+";"+result.get(i).getThreePointFieldGoalsMade()+";"+result.get(i).getFieldGoalsMade()+";"+result.get(i).getOffensiveRebounds()+";"+result.get(i).getDefensiveRebounds()+";"+result.get(i).getSteals()+";"+result.get(i).getBlocks()+";"+result.get(i).getTurnovers()+";"+result.get(i).getFouls()+";"+result.get(i).getPoints()+";"+result.get(i).getEfficiency()+";"+result.get(i).getGmSc()+";"+result.get(i).getTrueShootingPercentage()+";"+result.get(i).getShootingEfficiency()+";"+result.get(i).getReboundRating()+";"+result.get(i).getOffensiveReboundRating()+";"+result.get(i).getDefensiveReboundRating()+";"+result.get(i).getAssisyRating()+";"+result.get(i).getStealRating()+";"+result.get(i).getBlockRating()+";"+result.get(i).getTurnoverRating()+";"+result.get(i).getUtilizationRating()+";"+result.get(i).getNumber()+";"+result.get(i).getPosition()+";"+result.get(i).getHeight()+";"+result.get(i).getWeight()+";"+result.get(i).getBirth()+";"+result.get(i).getAge()+";"+result.get(i).getExp()+";"+result.get(i).getSchool()+";"+result.get(i).getDoubleDouble());
+				bw.write("\r\n");
+			}
+
+			bw.flush();
+			bw.close();
+			fw.close();
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+	}//保存球员VO信息
+	
+	public String getFullName(String s){
+		if(s.equals("ATL")){
+			return "Hawks";
+		}else if(s.equals("BKN")){
+			return "Nets";
+		}else if(s.equals("BOS")){
+			return "Celtics";
+		}else if(s.equals("CHA")){
+			return "Hornets";
+		}else if(s.equals("CHI")){
+			return "Bulls";
+		}else if(s.equals("CLE")){
+			return "Cavaliers";
+		}else if(s.equals("DAL")){
+			return "Mavericks";
+		}else if(s.equals("DEN")){
+			return "Nuggets";
+		}else if(s.equals("DET")){
+			return "Pistons";
+		}else if(s.equals("GSW")){
+			return "Warriors";
+		}else if(s.equals("HOU")){
+			return "Rockets";
+		}else if(s.equals("IND")){
+			return "Pacers";
+		}else if(s.equals("LAC")){
+			return "Clippers";
+		}else if(s.equals("LAL")){
+			return "Lakers";
+		}else if(s.equals("MEM")){
+			return "Grizzlies";
+		}else if(s.equals("MIA")){
+			return "Heat";
+		}else if(s.equals("MIL")){
+			return "Bucks";
+		}else if(s.equals("MIN")){
+			return "Timberwolves";
+		}else if(s.equals("NOP")){
+			return "Pelicans";
+		}else if(s.equals("NYK")){
+			return "Knicks";
+		}else if(s.equals("OKC")){
+			return "Thunder";
+		}else if(s.equals("ORL")){
+			return "Magic";
+		}else if(s.equals("PHI")){
+			return "76ers";
+		}else if(s.equals("PHX")){
+			return "Suns";
+		}else if(s.equals("POR")){
+			return "Trail Blazers";
+		}else if(s.equals("SAC")){
+			return "Kings";
+		}else if(s.equals("SAS")){
+			return "Spurs";
+		}else if(s.equals("TOR")){
+			return "Raptors";
+		}else if(s.equals("UTA")){
+			return "Jazz";
+		}else if(s.equals("WAS")){
+			return "Wizards";
+		}
+		return "Unknow";
+	}//球队全称
+	
+	public static void main(String []args ){
+		playerInfoCalculate pic=new playerInfoCalculate();
+		pic.savePlayerInfoVO();
+	}
 	
 }

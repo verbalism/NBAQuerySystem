@@ -1,5 +1,8 @@
 package businesslogic;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.util.ArrayList;
 
 import po.MatchInfoPO;
@@ -268,30 +271,69 @@ public class ServiceImp implements IService{
 	public ArrayList<playerInfoVO> getPlayerInfo(playerCondition pc){
 		ArrayList<playerInfoVO> result=new ArrayList<playerInfoVO>();
 		
-		PlayerData pd=new PlayerData();
-		ArrayList<PlayerInfoPO> pip=pd.getPlayerOriginal();
-		for(int i=0;i<pip.size();i++){
-			playerInfoVO temp=new playerInfoVO();
-			temp.setPlayerName(pip.get(i).getName());
-			ServiceImp si=new ServiceImp();
-			playerInfoVO piv=si.getSinglePlayerInfo(temp);
-			result.add(piv);
-		}
-		for(int i=result.size()-1;i>=0;i--){
-			if(result.get(i).getTeamName().equals("Unknow"))
-				result.remove(i);
+		File file = new File("Data//playerInfoVO.txt");
+		try{
+			BufferedReader br = new BufferedReader(new FileReader(file));
+			String s = null;
+			while((s = br.readLine())!=null){
+				String[] temp=s.split(";");
+				playerInfoVO piv=new playerInfoVO();
+				piv.setPlayerName(temp[0]);
+				piv.setTeamName(temp[1]);
+				piv.setGamesPlayed(Integer.parseInt(temp[2]));
+				piv.setGamesStarting(Integer.parseInt(temp[3]));
+				piv.setRebounds(Double.valueOf(temp[4]));
+				piv.setAssists(Double.valueOf(temp[5]));
+				piv.setMinutes(Double.valueOf(temp[6]));
+				piv.setFieldGoalsMade(Double.valueOf(temp[7]));
+				piv.setThreePointFieldGoalsMade(Double.valueOf(temp[8]));
+				piv.setFreeThrowsMade(Double.valueOf(temp[9]));
+				piv.setOffensiveRebounds(Double.valueOf(temp[10]));
+				piv.setDefensiveRebounds(Double.valueOf(temp[11]));
+				piv.setSteals(Double.valueOf(temp[12]));
+				piv.setBlocks(Double.valueOf(temp[13]));
+				piv.setTurnovers(Double.valueOf(temp[14]));
+				piv.setFouls(Double.valueOf(temp[15]));
+				piv.setPoints(Double.valueOf(temp[16]));
+				piv.setEfficiency(Double.valueOf(temp[17]));
+				piv.setGmSc(Double.valueOf(temp[18]));
+				piv.setTrueShootingPercentage(Double.valueOf(temp[19]));
+				piv.setShootingEfficiency(Double.valueOf(temp[20]));
+				piv.setReboundRating(Double.valueOf(temp[21]));
+				piv.setOffensiveReboundRating(Double.valueOf(temp[22]));
+				piv.setDefensiveReboundRating(Double.valueOf(temp[23]));
+				piv.setAssisyRating(Double.valueOf(temp[24]));
+				piv.setStealRating(Double.valueOf(temp[25]));
+				piv.setBlockRating(Double.valueOf(temp[26]));
+				piv.setTurnoverRating(Double.valueOf(temp[27]));
+				piv.setUtilizationRating(Double.valueOf(temp[28]));
+				piv.setNumber(temp[29]);
+				piv.setPosition(temp[30]);
+				piv.setHeight(temp[31]);
+				piv.setWeight(temp[32]);
+				piv.setBirth(temp[33]);
+				piv.setAge(temp[34]);
+				piv.setExp(temp[35]);
+				piv.setSchool(temp[36]);
+				piv.setDoubleDouble(Double.valueOf(temp[37]));
+				result.add(piv);
+
+			}
+			br.close();    
+		}catch(Exception e){
+			e.printStackTrace();
 		}
 		
 		if(pc.getPlayerPosition().equals(playerPosition.All)){
 		}else if(pc.getPlayerPosition().equals(playerPosition.Center)){
 			for(int i=result.size()-1;i>=0;i--){
-				if(!result.get(i).getPosition().equals("C") && !result.get(i).getPosition().equals("C-F")){	
+				if(!result.get(i).getPosition().equals("C") && !result.get(i).getPosition().equals("C-F") && !result.get(i).getPosition().equals("F-C")){	
 					result.remove(i);
 				}
 			}
 		}else if(pc.getPlayerPosition().equals(playerPosition.Guard)){
 			for(int i=result.size()-1;i>=0;i--){
-				if(!result.get(i).getPosition().equals("G") && !result.get(i).getPosition().equals("G-F")){	
+				if(!result.get(i).getPosition().equals("G") && !result.get(i).getPosition().equals("G-F") && !result.get(i).getPosition().equals("F-G")){	
 					result.remove(i);
 				}
 			}
@@ -470,14 +512,14 @@ public class ServiceImp implements IService{
 		
 		return result;
 	}
-	/*public static void main(String[] args){
+	public static void main(String[] args){
 		ArrayList<playerInfoVO> a=new ArrayList<playerInfoVO>();
 		playerInfoVO b=new playerInfoVO();
 		playerInfoVO c=new playerInfoVO();
 
 		ServiceImp si=new ServiceImp();
 		playerCondition pc=new playerCondition();
-		pc.setPlayerPartition(playerPartition.All);
+		pc.setPlayerPartition(playerPartition.Central);
 		pc.setPlayerPosition(playerPosition.All);
 		pc.setSortOpinions(sortOpinions.Null);
 		
@@ -492,15 +534,15 @@ public class ServiceImp implements IService{
 		a=si.getPlayerInfo(pc);
 		System.out.println(a.size());
 		for(int i=0;i<a.size();i++){
-			System.out.println(i+a.get(i).getPlayerName()+"\t"+a.get(i).getAge()+"\t"+a.get(i).getAssists()+"\t"+a.get(i).getAssisyRating()+"\t"+a.get(i).getBirth()+"\t"+a.get(i).getBlockRating()+"\t"+a.get(i).getBlocks()+"\t"+a.get(i).getDefensiveReboundRating()+"\t"+a.get(i).getDefensiveRebounds()+"\t"+a.get(i).getDoubleDouble()+"\t"+a.get(i).getEfficiency()+"\t"+a.get(i).getExp()+"\t"+a.get(i).getFieldGoalsMade()+"\t"+a.get(i).getFouls()+"\t"+a.get(i).getFreeThrowsMade()+"\t"+a.get(i).getGamesPlayed()+"\t"+a.get(i).getGamesStarting()+"\t"+a.get(i).getGmSc()+"\t"+a.get(i).getHeight()+"\t"+a.get(i).getMinutes()+"\t"+a.get(i).getNumber()+"\t"+a.get(i).getOffensiveReboundRating()
+			System.out.println(a.get(i).getPosition()+"\t"+i+a.get(i).getPlayerName()+"\t"+a.get(i).getAge()+"\t"+a.get(i).getAssists()+"\t"+a.get(i).getAssisyRating()+"\t"+a.get(i).getBirth()+"\t"+a.get(i).getBlockRating()+"\t"+a.get(i).getBlocks()+"\t"+a.get(i).getDefensiveReboundRating()+"\t"+a.get(i).getDefensiveRebounds()+"\t"+a.get(i).getDoubleDouble()+"\t"+a.get(i).getEfficiency()+"\t"+a.get(i).getExp()+"\t"+a.get(i).getFieldGoalsMade()+"\t"+a.get(i).getFouls()+"\t"+a.get(i).getFreeThrowsMade()+"\t"+a.get(i).getGamesPlayed()+"\t"+a.get(i).getGamesStarting()+"\t"+a.get(i).getGmSc()+"\t"+a.get(i).getHeight()+"\t"+a.get(i).getMinutes()+"\t"+a.get(i).getNumber()+"\t"+a.get(i).getOffensiveReboundRating()
 					+"\t"+a.get(i).getOffensiveRebounds()+"\t"+a.get(i).getPlayerName()+"\t"+a.get(i).getPoints()+"\t"+a.get(i).getPosition()+"\t"+a.get(i).getReboundRating()+"\t"+a.get(i).getRebounds()+"\t"+a.get(i).getSchool()+"\t"+a.get(i).getShootingEfficiency()+"\t"+a.get(i).getStealRating()+"\t"+a.get(i).getSteals()+"\t"+a.get(i).getTeamName()+"\t"+a.get(i).getThreePointFieldGoalsMade()+"\t"+a.get(i).getTrueShootingPercentage()+"\t"+a.get(i).getTurnoverRating()+"\t"+a.get(i).getTurnovers()+"\t"+a.get(i).getUtilizationRating()+"\t"+a.get(i).getWeight());
 		}
 		
 		
 		
-	}*/
+	}
 	
-	public static void main(String []args){
+	/*public static void main(String []args){
 		ServiceImp si=new ServiceImp();
 		teamCondition tc=new teamCondition();
 		tc.setTeampartion(teamPartion.All);
@@ -509,5 +551,5 @@ public class ServiceImp implements IService{
 		teamInfoVO b=si.getSingleTeamInfo(a);
 		ArrayList<teamInfoVO> t=si.getTeamInfo(tc);
 		System.out.println(t.get(0).getTeamName()+"\t"+t.get(0).getAssistPercentage()+"\t"+t.get(0).getAssists()+"\t"+t.get(0).getBlocks()+"\t"+b.getWinPercentage()+"\t"+b.getStealPercentage());
-	}
+	}*/
 }
