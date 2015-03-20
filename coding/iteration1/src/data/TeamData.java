@@ -12,7 +12,6 @@ import po.TeamInfoPO;
 import dataservice.TeamDataService;
 
 public class TeamData implements TeamDataService{
-	
 	public ArrayList<TeamInfoPO> getTeamOriginal() {
 		
 		File readfile = new File("Data\\teams\\teams");
@@ -29,13 +28,13 @@ public class TeamData implements TeamDataService{
 				String infos = wtf.get(i).split("¨U")[1];
 				TeamInfoPO team = new TeamInfoPO();
 				String[] temp = infos.split("©¦");
-				team.setFullName(temp[0]);
-				team.setAbbreviation(temp[1]);
-				team.setCity(temp[2]);
-				team.setZone(temp[3]);
-				team.setSubarea(temp[4]);
-				team.setHomeCourt(temp[5]);
-				team.setCreateTime(temp[6]);
+				team.setFullName(removeBlankSpace(temp[0]));
+				team.setAbbreviation(removeBlankSpace(temp[1]));
+				team.setCity(removeBlankSpace(temp[2]));
+				team.setZone(removeBlankSpace(temp[3]));
+				team.setSubarea(removeBlankSpace(temp[4]));
+				team.setHomeCourt(removeBlankSpace(temp[5]));
+				team.setCreateTime(removeBlankSpace(temp[6]));
 				allTeams.add(team);
 			}
 			
@@ -64,12 +63,12 @@ public class TeamData implements TeamDataService{
 				if(infos.subSequence(0, length).equals(teamName)){
 					String[] temp = infos.split("©¦");
 					team.setFullName(teamName);
-					team.setAbbreviation(temp[1]);
-					team.setCity(temp[2]);
-					team.setZone(temp[3]);
-					team.setSubarea(temp[4]);
-					team.setHomeCourt(temp[5]);
-					team.setCreateTime(temp[6]);
+					team.setAbbreviation(removeBlankSpace(temp[1]));
+					team.setCity(removeBlankSpace(temp[2]));
+					team.setZone(removeBlankSpace(temp[3]));
+					team.setSubarea(removeBlankSpace(temp[4]));
+					team.setHomeCourt(removeBlankSpace(temp[5]));
+					team.setCreateTime(removeBlankSpace(temp[6]));
 					return team;
 				}
 			}
@@ -81,6 +80,16 @@ public class TeamData implements TeamDataService{
 		}
 		
 		return null;
+	}
+	
+	public static String removeBlankSpace(String s){
+		for(int i=s.length();i>0;i--){
+			if(s.charAt(i-1)==' ')
+				s=s.substring(0, i-1);
+			else
+				break;
+		}
+		return s;
 	}
 
 }
