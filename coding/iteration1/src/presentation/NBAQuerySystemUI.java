@@ -1,6 +1,7 @@
 package presentation;
 
 import java.util.ArrayList;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
@@ -9,18 +10,21 @@ import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.ShellAdapter;
 import org.eclipse.swt.events.ShellEvent;
-
 import org.eclipse.wb.swt.SWTResourceManager;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+
 import vo.playerCondition;
 import vo.playerInfoVO;
 import vo.playerPartition;
 import vo.playerPosition;
 import vo.sortOpinions;
+
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Font;
+import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Table;
@@ -81,7 +85,7 @@ public class NBAQuerySystemUI {
 	private Text teamText_5;	
 	private Text teamText_6;
 	private Text teamText_7;
-	
+	private Combo combo_7;
 	
 	
 	public static void main(String[] args) {
@@ -189,7 +193,15 @@ public class NBAQuerySystemUI {
 								,String.valueOf(temp.get(i).getDefensiveReboundRating()),String.valueOf(temp.get(i).getAssisyRating()),String.valueOf(temp.get(i).getStealRating()),String.valueOf(temp.get(i).getBlockRating())
 								,String.valueOf(temp.get(i).getTurnoverRating()),String.valueOf(temp.get(i).getUtilizationRating())});
 					}else if(n==1){
-						
+						item.setText(new String[]{String.valueOf(i+1),temp.get(i).getPlayerName(),temp.get(i).getTeamName(),String.valueOf(temp.get(i).getGamesPlayed())
+								,String.valueOf(temp.get(i).getGamesStarting()),String.valueOf(temp.get(i).getRebounds()/temp.get(i).getGamesPlayed()),String.valueOf(temp.get(i).getAssists()/temp.get(i).getGamesPlayed()),
+								String.valueOf(temp.get(i).getMinutes()/temp.get(i).getGamesPlayed()),String.valueOf(temp.get(i).getFieldGoalsPercentage()),String.valueOf(temp.get(i).getThreePointFieldGoalsPercentage())
+								,String.valueOf(temp.get(i).getFreeThrowsPercentage()),String.valueOf(temp.get(i).getOffensiveRebounds()/temp.get(i).getGamesPlayed()),String.valueOf(temp.get(i).getDefensiveRebounds()/temp.get(i).getGamesPlayed()),
+								String.valueOf(temp.get(i).getSteals()/temp.get(i).getGamesPlayed()),String.valueOf(temp.get(i).getBlocks()/temp.get(i).getGamesPlayed()),String.valueOf(temp.get(i).getTurnovers()/temp.get(i).getGamesPlayed()),String.valueOf(temp.get(i).getFouls()/temp.get(i).getGamesPlayed()),
+								String.valueOf(temp.get(i).getPoints()/temp.get(i).getGamesPlayed()),String.valueOf(temp.get(i).getEfficiency()),String.valueOf(temp.get(i).getGmSc()),String.valueOf(temp.get(i).getTrueShootingPercentage())
+								,String.valueOf(temp.get(i).getShootingEfficiency()),String.valueOf(temp.get(i).getReboundRating()),String.valueOf(temp.get(i).getOffensiveReboundRating())
+								,String.valueOf(temp.get(i).getDefensiveReboundRating()),String.valueOf(temp.get(i).getAssisyRating()),String.valueOf(temp.get(i).getStealRating()),String.valueOf(temp.get(i).getBlockRating())
+								,String.valueOf(temp.get(i).getTurnoverRating()),String.valueOf(temp.get(i).getUtilizationRating())});
 					}
 				}
 			} 
@@ -277,6 +289,14 @@ public class NBAQuerySystemUI {
 		button.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				teamInfoVO t1=new teamInfoVO();
+				t1.setFullName(text_1.getText());
+				ServiceImp si=new ServiceImp();
+				teamInfoVO t2=si.getSingleTeamInfo(t1);
+				TableItem item=new TableItem(table_2,SWT.NONE);
+				item.setText(new String[]{t2.getFullName(),t2.getTeamName(),t2.getCity()
+						,t2.getZone(),t2.getSubarea(),t2.getHomeCourt(),t2.getCreateTime()}); 
+				
 			}
 		});
 		button.setLocation(1050, 170);
@@ -488,6 +508,8 @@ public class NBAQuerySystemUI {
 				text_9.setText("年龄："+p2.getAge());
 				text_10.setText("球龄："+p2.getExp());
 				text_11.setText("毕业学校："+p2.getSchool());
+				
+				
 				composite_7.setBackgroundImage(SWTResourceManager.getImage(NBAQuerySystemUI.class, "/presentation/image/"+firstInfo+".png"));
 				
 			}
@@ -620,7 +642,8 @@ public class NBAQuerySystemUI {
 		combo_2.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				table.clearAll();
+			
+				table.removeAll();
 				playerCondition pc=new playerCondition();
 				if(combo_2.getText().equals("前锋")){
 					pc.setPlayerPosition(playerPosition.Forward);
@@ -633,8 +656,8 @@ public class NBAQuerySystemUI {
 				pc.setPlayerPartition(playerPartition.All);			
 				pc.setSortOpinions(sortOpinions.Null);			
 				ServiceImp si=new ServiceImp();
-				ArrayList<playerInfoVO> player=si.getPlayerInfo(pc);
-				writeTable(player);
+				ArrayList<playerInfoVO> p=si.getPlayerInfo(pc);
+				writeTable(p);
 			}
 		});
 		combo_2.setBounds(458, 191, 140, 28);
@@ -650,6 +673,7 @@ public class NBAQuerySystemUI {
 				p.setPlayerName(text.getText());
 				ServiceImp si=new ServiceImp();
 				playerInfoVO player=si.getSinglePlayerInfo(p);
+				table.removeAll();
 				TableItem item=new TableItem(table,SWT.NONE);
 				item.setText(new String[]{player.getPlayerName(),player.getNumber(),player.getPosition()
 						,player.getHeight(),player.getWeight(),player.getBirth(),player.getAge(),
@@ -724,6 +748,7 @@ public class NBAQuerySystemUI {
 				pc.setPlayerPartition(playerPartition.All);
 				pc.setPlayerPosition(playerPosition.All);
 				pc.setSortOpinions(sortOpinions.Null);			
+
 				ServiceImp si=new ServiceImp();
 				ArrayList<playerInfoVO> player=si.getPlayerInfo(pc);
 				writeTable4(player,0);
@@ -763,11 +788,32 @@ public class NBAQuerySystemUI {
 		});
 		button_5.setBounds(933, 599, 123, 56);
 		button_5.setText("\u9000\u51FA");
-		
-		Combo combo = new Combo(composite_4, SWT.NONE);//位置
+		final playerCondition pc2=new playerCondition();
+		pc2.setPlayerPosition(playerPosition.All);
+		pc2.setPlayerPartition(playerPartition.All);
+		pc2.setSortOpinions(sortOpinions.Null);
+		final Combo combo = new Combo(composite_4, SWT.NONE);//位置
 		combo.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+	
+				if(combo.getText().equals("前锋")){
+					pc2.setPlayerPosition(playerPosition.Forward);				
+				}else if(combo.getText().equals("中锋")){
+					pc2.setPlayerPosition(playerPosition.Center);				
+				}else if(combo.getText().equals("后卫")){
+					pc2.setPlayerPosition(playerPosition.Guard);				
+				}else{
+					pc2.setPlayerPosition(playerPosition.All);
+				}
+				table_1.removeAll();
+				ServiceImp si=new ServiceImp();
+				ArrayList<playerInfoVO> player=si.getPlayerInfo(pc2);
+				if(combo_7.getText().equals("场均数据")){
+					writeTable4(player,1);
+				}else{
+					writeTable4(player,0);
+				}
 			}
 		});
 		combo.setBounds(120, 170, 92, 28);
@@ -783,6 +829,33 @@ public class NBAQuerySystemUI {
 		combo_5.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				if(combo_5.getText().equals("东南分区——东部联盟")){
+					pc2.setPlayerPartition(playerPartition.Southeast);
+				}else if(combo_5.getText().equals("中央分区——东部联盟")){
+					pc2.setPlayerPartition(playerPartition.Central);
+				}else if(combo_5.getText().equals("大西洋分区——东部联盟")){
+					pc2.setPlayerPartition(playerPartition.Atlantic);
+				}else if(combo_5.getText().equals("太平洋分区——西部联盟")){
+					pc2.setPlayerPartition(playerPartition.Pacific);
+				}else if(combo_5.getText().equals("西北分区——西部联盟")){
+					pc2.setPlayerPartition(playerPartition.Northwest);
+				}else if(combo_5.getText().equals("西南分区——西部联盟")){
+					pc2.setPlayerPartition(playerPartition.Northwest);
+				}else if(combo_5.getText().equals("东部联盟")){
+					pc2.setPlayerPartition(playerPartition.East);
+				}else if(combo_5.getText().equals("西部联盟")){
+					pc2.setPlayerPartition(playerPartition.West);
+				}else{
+					pc2.setPlayerPartition(playerPartition.All);
+				}
+				table_1.removeAll();
+				ServiceImp si=new ServiceImp();
+				ArrayList<playerInfoVO> player=si.getPlayerInfo(pc2);
+				if(combo_7.getText().equals("场均数据")){
+					writeTable4(player,1);
+				}else{
+					writeTable4(player,0);
+				}
 			}
 		});
 		combo_5.setBounds(320, 170, 92, 28);
@@ -808,6 +881,45 @@ public class NBAQuerySystemUI {
 		combo_6.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				if(combo_6.getText().equals("得分")){
+					pc2.setSortOpinions(sortOpinions.Points);
+				}else if(combo_6.getText().equals("篮板")){
+					pc2.setSortOpinions(sortOpinions.Rebounds);
+				}else if(combo_6.getText().equals("助攻")){
+					pc2.setSortOpinions(sortOpinions.Assists );
+				}else if(combo_6.getText().equals("得分/篮板/助攻")){
+					pc2.setSortOpinions(sortOpinions.PointsReboundsAssists);
+				}else if(combo_6.getText().equals("盖帽")){
+					pc2.setSortOpinions(sortOpinions.Blocks);
+				}else if(combo_6.getText().equals("抢断")){
+					pc2.setSortOpinions(sortOpinions.Steals);
+				}else if(combo_6.getText().equals("犯规")){
+					pc2.setSortOpinions(sortOpinions.Fouls);
+				}else if(combo_6.getText().equals("失误")){
+					pc2.setSortOpinions(sortOpinions.Turnovers);
+				}else if(combo_6.getText().equals("分钟")){
+					pc2.setSortOpinions(sortOpinions.Minutes);
+				}else if(combo_6.getText().equals("效率")){
+					pc2.setSortOpinions(sortOpinions.Efficiency);
+				}else if(combo_6.getText().equals("投篮")){
+					pc2.setSortOpinions(sortOpinions.FieldGoalsMade);
+				}else if(combo_6.getText().equals("三分")){
+					pc2.setSortOpinions(sortOpinions.ThreePointFieldGoalsMade);
+				}else if(combo_6.getText().equals("罚球")){
+					pc2.setSortOpinions(sortOpinions.FreeThrowsMade);
+				}else if(combo_6.getText().equals("两双")){
+					pc2.setSortOpinions(sortOpinions.DoubleDouble);
+				}else{
+					pc2.setSortOpinions(sortOpinions.Null);
+				}
+				table_1.removeAll();
+				ServiceImp si=new ServiceImp();
+				ArrayList<playerInfoVO> player=si.getPlayerInfo(pc2);
+				if(combo_7.getText().equals("场均数据")){
+					writeTable4(player,1);
+				}else{
+					writeTable4(player,0);
+				}
 				
 			}
 		});
@@ -843,7 +955,24 @@ public class NBAQuerySystemUI {
 		combo_6.add("两双");
 		combo_6.setData("13", "两双");
 		
-		final Combo combo_7 = new Combo(composite_4, SWT.NONE);//选择场均数据/总数据
+		combo_7 = new Combo(composite_4, SWT.NONE);//选择场均数据/总数据
+		combo_7.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				
+				if(combo_7.getText().equals("总数据")){
+					table_1.removeAll();	
+					ServiceImp si=new ServiceImp();
+					ArrayList<playerInfoVO> player=si.getPlayerInfo(pc2);
+					writeTable4(player,0);
+				}else if(combo_7.getText().equals("场均数据")){
+					table_1.removeAll();		
+					ServiceImp si=new ServiceImp();
+					ArrayList<playerInfoVO> player=si.getPlayerInfo(pc2);
+					writeTable4(player,1);
+				}
+			}
+		});
 		combo_7.setBounds(720, 170, 92, 28);
 		combo_7.setText("\u603B\u6570\u636E/\u573A\u5747\u6570\u636E");
 		combo_7.add("总数据");
