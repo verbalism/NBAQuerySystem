@@ -149,7 +149,7 @@ public class NBAQuerySystemUI {
 				for(int i=0;i<temp.size();i++){
 					TableItem item=new TableItem(table_3,SWT.NONE);
 					if(n==0){
-						item.setText(new String[]{String.valueOf(i+1),temp.get(i).getTeamName(),String.valueOf(temp.get(i).getGamesPlayed()),String.valueOf(temp.get(i).getFieldGoalsMade()),
+						item.setText(new String[]{String.valueOf(i+1),temp.get(i).getFullName(),String.valueOf(temp.get(i).getGamesPlayed()),String.valueOf(temp.get(i).getFieldGoalsMade()),
 							String.valueOf(temp.get(i).getFieldGoalsAttempted()),String.valueOf(temp.get(i).getThreePointFieldGoalsMade()),
 							String.valueOf(temp.get(i).getThreePointFieldGoalsAttempted()),String.valueOf(temp.get(i).getFreeThrowsMade()),
 							String.valueOf(temp.get(i).getFreeThrowsAttempted()),String.valueOf(temp.get(i).getOffensiveRebounds()),
@@ -160,7 +160,7 @@ public class NBAQuerySystemUI {
 							String.valueOf(temp.get(i).getOffensiveRating()),String.valueOf(temp.get(i).getDefensiveRating()),String.valueOf(temp.get(i).getOffensiveReboundPercentage()),
 							String.valueOf(temp.get(i).getDefensiveReboundPercentage()),String.valueOf(temp.get(i).getStealPercentage()),String.valueOf(temp.get(i).getAssistPercentage())});
 					}else if(n==1){
-						item.setText(new String[]{String.valueOf(i+1),temp.get(i).getTeamName(),String.valueOf(temp.get(i).getGamesPlayed()),String.valueOf(temp.get(i).getFieldGoalsMade()/temp.get(i).getGamesPlayed()),
+						item.setText(new String[]{String.valueOf(i+1),temp.get(i).getFullName(),String.valueOf(temp.get(i).getGamesPlayed()),String.valueOf(temp.get(i).getFieldGoalsMade()/temp.get(i).getGamesPlayed()),
 								String.valueOf(temp.get(i).getFieldGoalsAttempted()/temp.get(i).getGamesPlayed()),String.valueOf(temp.get(i).getThreePointFieldGoalsMade()/temp.get(i).getGamesPlayed()),
 								String.valueOf(temp.get(i).getThreePointFieldGoalsAttempted()/temp.get(i).getGamesPlayed()),String.valueOf(temp.get(i).getFreeThrowsMade()/temp.get(i).getGamesPlayed()),
 								String.valueOf(temp.get(i).getFreeThrowsAttempted()/temp.get(i).getGamesPlayed()),String.valueOf(temp.get(i).getOffensiveRebounds()/temp.get(i).getGamesPlayed()),
@@ -1346,7 +1346,7 @@ public class NBAQuerySystemUI {
 				composite_8.setVisible(true);
 				TableItem[] itemList =table_3.getItems();
 				int listHaveChouse = table_3.getSelectionIndex();		
-				String firstInfo = itemList[listHaveChouse].getText(0);
+				String firstInfo = itemList[listHaveChouse].getText(1);
 				System.out.println(firstInfo);
 				teamInfoVO t=new teamInfoVO();
 				t.setFullName(firstInfo);
