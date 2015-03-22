@@ -12,6 +12,13 @@ import po.TeamInfoPO;
 import dataservice.TeamDataService;
 
 public class TeamData implements TeamDataService{
+/**	public static void main(String args[]){
+		TeamData td = new TeamData();
+		ArrayList<TeamInfoPO> l = td.getTeamOriginal();
+		for(int i=0;i<l.size();i++){
+			System.out.println(l.get(i).getFullName()+"a");
+		}
+	}*/
 	public ArrayList<TeamInfoPO> getTeamOriginal() {
 		
 		File readfile = new File("Data\\teams\\teams");
@@ -83,12 +90,11 @@ public class TeamData implements TeamDataService{
 	}
 	
 	public static String removeBlankSpace(String s){
-		for(int i=s.length();i>0;i--){
-			if(s.charAt(i-1)==' ')
-				s=s.substring(0, i-1);
-			else
-				break;
+		
+		while(' '==s.charAt(s.length()-1)||'\t'==s.charAt(s.length()-1)){
+			s=s.substring(0, s.length()-1);
 		}
+		
 		return s;
 	}
 
