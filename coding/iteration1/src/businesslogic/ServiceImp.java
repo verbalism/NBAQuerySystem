@@ -167,7 +167,7 @@ public class ServiceImp implements IService{
 		return result;
 	}
 	
-	/*public ArrayList<teamInfoVO> sortTeam(ArrayList<teamInfoVO> original ,String s ){
+	public ArrayList<teamInfoVO> sortTeam(ArrayList<teamInfoVO> original ,String s ){
 		ArrayList <teamInfoVO> result =new ArrayList<teamInfoVO>();
 		if(s.equals("gamesPlayed")){
 			while(original.size()>0){
@@ -253,11 +253,11 @@ public class ServiceImp implements IService{
 				original.remove(max);
 			}
 		}
-		else if(s.equals("freeThrowsAttempted")){
+		else if(s.equals("offensiveRebounds")){
 			while(original.size()>0){
 				int max=0;
 				for(int i=0;i<original.size();i++){
-					if(original.get(i).getFreeThrowsAttempted()>original.get(max).getFreeThrowsAttempted()){
+					if(original.get(i).getOffensiveRebounds()>original.get(max).getOffensiveRebounds()){
 						max=i;
 					}
 				}
@@ -265,8 +265,237 @@ public class ServiceImp implements IService{
 				original.remove(max);
 			}
 		}
+		else if(s.equals("defensiveRebounds")){
+			while(original.size()>0){
+				int max=0;
+				for(int i=0;i<original.size();i++){
+					if(original.get(i).getDefensiveRebounds()>original.get(max).getDefensiveRebounds()){
+						max=i;
+					}
+				}
+				result.add(original.get(max));
+				original.remove(max);
+			}
+		}
+		else if(s.equals("rebounds")){
+			while(original.size()>0){
+				int max=0;
+				for(int i=0;i<original.size();i++){
+					if(original.get(i).getRebounds()>original.get(max).getRebounds()){
+						max=i;
+					}
+				}
+				result.add(original.get(max));
+				original.remove(max);
+			}
+		}
+		else if(s.equals("assists")){
+			while(original.size()>0){
+				int max=0;
+				for(int i=0;i<original.size();i++){
+					if(original.get(i).getAssists()>original.get(max).getAssists()){
+						max=i;
+					}
+				}
+				result.add(original.get(max));
+				original.remove(max);
+			}
+		}
+		else if(s.equals("steals")){
+			while(original.size()>0){
+				int max=0;
+				for(int i=0;i<original.size();i++){
+					if(original.get(i).getSteals()>original.get(max).getSteals()){
+						max=i;
+					}
+				}
+				result.add(original.get(max));
+				original.remove(max);
+			}
+		}
+		else if(s.equals("blocks")){
+			while(original.size()>0){
+				int max=0;
+				for(int i=0;i<original.size();i++){
+					if(original.get(i).getBlocks()>original.get(max).getBlocks()){
+						max=i;
+					}
+				}
+				result.add(original.get(max));
+				original.remove(max);
+			}
+		}
+		else if(s.equals("turnovers")){
+			while(original.size()>0){
+				int max=0;
+				for(int i=0;i<original.size();i++){
+					if(original.get(i).getTurnovers()>original.get(max).getTurnovers()){
+						max=i;
+					}
+				}
+				result.add(original.get(max));
+				original.remove(max);
+			}
+		}
+		else if(s.equals("fouls")){
+			while(original.size()>0){
+				int max=0;
+				for(int i=0;i<original.size();i++){
+					if(original.get(i).getFouls()>original.get(max).getFouls()){
+						max=i;
+					}
+				}
+				result.add(original.get(max));
+				original.remove(max);
+			}
+		}
+		else if(s.equals("points")){
+			while(original.size()>0){
+				int max=0;
+				for(int i=0;i<original.size();i++){
+					if(original.get(i).getPoints()>original.get(max).getPoints()){
+						max=i;
+					}
+				}
+				result.add(original.get(max));
+				original.remove(max);
+			}
+		}
+		else if(s.equals("fieldGoalPercentage")){
+			while(original.size()>0){
+				int max=0;
+				for(int i=0;i<original.size();i++){
+					if(original.get(i).getFieldGoalPercentage()>original.get(max).getFieldGoalPercentage()){
+						max=i;
+					}
+				}
+				result.add(original.get(max));
+				original.remove(max);
+			}
+		}
+		else if(s.equals("threePointFieldGoalPercentage")){
+			while(original.size()>0){
+				int max=0;
+				for(int i=0;i<original.size();i++){
+					if(original.get(i).getThreePointFieldGoalPercentage()>original.get(max).getThreePointFieldGoalPercentage()){
+						max=i;
+					}
+				}
+				result.add(original.get(max));
+				original.remove(max);
+			}
+		}
+		else if(s.equals("freeThrowPercentage")){
+			while(original.size()>0){
+				int max=0;
+				for(int i=0;i<original.size();i++){
+					if(original.get(i).getFreeThrowPercentage()>original.get(max).getFreeThrowPercentage()){
+						max=i;
+					}
+				}
+				result.add(original.get(max));
+				original.remove(max);
+			}
+		}
+		else if(s.equals("winPercentage")){
+			while(original.size()>0){
+				int max=0;
+				for(int i=0;i<original.size();i++){
+					if(original.get(i).getWinPercentage()>original.get(max).getWinPercentage()){
+						max=i;
+					}
+				}
+				result.add(original.get(max));
+				original.remove(max);
+			}
+		}
+		else if(s.equals("possessions")){
+			while(original.size()>0){
+				int max=0;
+				for(int i=0;i<original.size();i++){
+					if(original.get(i).getPossessions()>original.get(max).getPossessions()){
+						max=i;
+					}
+				}
+				result.add(original.get(max));
+				original.remove(max);
+			}
+		}
+		else if(s.equals("offensiveRating")){
+			while(original.size()>0){
+				int max=0;
+				for(int i=0;i<original.size();i++){
+					if(original.get(i).getOffensiveRating()>original.get(max).getOffensiveRating()){
+						max=i;
+					}
+				}
+				result.add(original.get(max));
+				original.remove(max);
+			}
+		}
+		else if(s.equals("defensiveRating")){
+			while(original.size()>0){
+				int max=0;
+				for(int i=0;i<original.size();i++){
+					if(original.get(i).getDefensiveRating()>original.get(max).getDefensiveRating()){
+						max=i;
+					}
+				}
+				result.add(original.get(max));
+				original.remove(max);
+			}
+		}
+		else if(s.equals("offensiveReboundPercentage")){
+			while(original.size()>0){
+				int max=0;
+				for(int i=0;i<original.size();i++){
+					if(original.get(i).getOffensiveReboundPercentage()>original.get(max).getOffensiveReboundPercentage()){
+						max=i;
+					}
+				}
+				result.add(original.get(max));
+				original.remove(max);
+			}
+		}
+		else if(s.equals("defensiveReboundPercentage")){
+			while(original.size()>0){
+				int max=0;
+				for(int i=0;i<original.size();i++){
+					if(original.get(i).getDefensiveReboundPercentage()>original.get(max).getDefensiveReboundPercentage()){
+						max=i;
+					}
+				}
+				result.add(original.get(max));
+				original.remove(max);
+			}
+		}
+		else if(s.equals("stealPercentage")){
+			while(original.size()>0){
+				int max=0;
+				for(int i=0;i<original.size();i++){
+					if(original.get(i).getStealPercentage()>original.get(max).getStealPercentage()){
+						max=i;
+					}
+				}
+				result.add(original.get(max));
+				original.remove(max);
+			}
+		}
+		else if(s.equals("assistPercentage")){
+			while(original.size()>0){
+				int max=0;
+				for(int i=0;i<original.size();i++){
+					if(original.get(i).getAssistPercentage()>original.get(max).getAssistPercentage()){
+						max=i;
+					}
+				}
+				result.add(original.get(max));
+				original.remove(max);
+			}
+		}
+		return result;
 	}
-	*/
+	
 	
 	public ArrayList<playerInfoVO> getPlayerInfo(playerCondition pc){
 		ArrayList<playerInfoVO> result=new ArrayList<playerInfoVO>();
@@ -512,7 +741,7 @@ public class ServiceImp implements IService{
 		
 		return result;
 	}
-	public static void main(String[] args){
+	/*public static void main(String[] args){
 		ArrayList<playerInfoVO> a=new ArrayList<playerInfoVO>();
 		playerInfoVO b=new playerInfoVO();
 		playerInfoVO c=new playerInfoVO();
@@ -540,16 +769,18 @@ public class ServiceImp implements IService{
 		
 		
 		
-	}
+	}*/
 	
 	/*public static void main(String []args){
 		ServiceImp si=new ServiceImp();
 		teamCondition tc=new teamCondition();
-		tc.setTeampartion(teamPartion.All);
+		tc.setTeampartion(teamPartion.Atlantic);
 		teamInfoVO a=new teamInfoVO();
 		a.setTeamName("Celtics");
 		teamInfoVO b=si.getSingleTeamInfo(a);
 		ArrayList<teamInfoVO> t=si.getTeamInfo(tc);
-		System.out.println(t.get(0).getTeamName()+"\t"+t.get(0).getAssistPercentage()+"\t"+t.get(0).getAssists()+"\t"+t.get(0).getBlocks()+"\t"+b.getWinPercentage()+"\t"+b.getStealPercentage());
+		for(int i=0;i<t.size();i++){
+			System.out.println(t.get(i).getTeamName()+"\t"+t.get(i).getAssistPercentage()+"\t"+t.get(i).getAssists()+"\t"+t.get(0).getBlocks()+"\t"+t.get(i).getWinPercentage()+"\t"+t.get(i).getStealPercentage());	
+		}
 	}*/
 }

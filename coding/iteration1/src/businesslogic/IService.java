@@ -17,5 +17,5 @@ public interface IService {
 	
 	public ArrayList<playerInfoVO> getPlayerInfo(playerCondition pc);//查询所有球员
 	
-	/*public ArrayList<teamInfoVO> sortTeam(ArrayList<teamInfoVO> original ,String s );//降序排列球队信息*/
+	public ArrayList<teamInfoVO> sortTeam(ArrayList<teamInfoVO> original ,String s );//降序排列球队信息
 }
