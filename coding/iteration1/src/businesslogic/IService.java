@@ -9,7 +9,7 @@ import vo.teamInfoVO;
 
 
 public interface IService {
-	public teamInfoVO getSingleTeamInfo(teamInfoVO t);//查询单个球队
+	public teamInfoVO getSingleTeamInfo(teamInfoVO t);//根据FullName查询单个球队
 	
 	public playerInfoVO getSinglePlayerInfo(playerInfoVO p);//查询单个球员
 	

@@ -27,10 +27,10 @@ public class ServiceImp implements IService{
 		teamInfoVO result=new teamInfoVO();
 		
 		TeamData td=new TeamData();
-		TeamInfoPO tp=td.getSingleTeamOriginal(t.getTeamName());
+		TeamInfoPO tp=td.getSingleTeamOriginal(t.getFullName());
 		
 		result.setTeamName(tp.getAbbreviation());
-		result.setFullName(t.getTeamName());
+		result.setFullName(t.getFullName());
 		result.setCity(tp.getCity());
 		result.setZone(tp.getZone());
 		result.setSubarea(tp.getSubarea());
@@ -98,7 +98,7 @@ public class ServiceImp implements IService{
 		for(int i=0;i<tp.size()&&i<30;i++){
 			if(tp.get(i).getFullName()!=null){
 				teamInfoVO temp=new teamInfoVO();
-				temp.setTeamName(tp.get(i).getFullName());
+				temp.setFullName(tp.get(i).getFullName());
 				temp.setSubarea(tp.get(i).getSubarea());	
 				original.add(temp);
 			}
@@ -771,16 +771,17 @@ public class ServiceImp implements IService{
 		
 	}*/
 	
-	/*public static void main(String []args){
+	public static void main(String []args){
 		ServiceImp si=new ServiceImp();
 		teamCondition tc=new teamCondition();
-		tc.setTeampartion(teamPartion.Atlantic);
+		tc.setTeampartion(teamPartion.East);
 		teamInfoVO a=new teamInfoVO();
-		a.setTeamName("Celtics");
+		a.setFullName("Hawks");
 		teamInfoVO b=si.getSingleTeamInfo(a);
 		ArrayList<teamInfoVO> t=si.getTeamInfo(tc);
+		System.out.println(b.getSubarea());
 		for(int i=0;i<t.size();i++){
-			System.out.println(t.get(i).getTeamName()+"\t"+t.get(i).getAssistPercentage()+"\t"+t.get(i).getAssists()+"\t"+t.get(0).getBlocks()+"\t"+t.get(i).getWinPercentage()+"\t"+t.get(i).getStealPercentage());	
+			System.out.println(t.get(i).getTeamName()+"\t"+t.get(i).getSubarea()+"\t"+t.get(i).getAssistPercentage()+"\t"+t.get(i).getAssists()+"\t"+t.get(i).getBlocks()+"\t"+t.get(i).getWinPercentage()+"\t"+t.get(i).getStealPercentage());	
 		}
-	}*/
+	}
 }
