@@ -741,7 +741,285 @@ public class ServiceImp implements IService{
 		
 		return result;
 	}
-	public static void main(String[] args){
+	
+	public ArrayList<playerInfoVO> descendingOrder(ArrayList<playerInfoVO> piv,String s){
+		ArrayList<playerInfoVO> result=new ArrayList<playerInfoVO>();
+		if(s.equals("rebounds")){
+			while(piv.size()>0){
+				int i=0;
+				for(int j=i+1;j<piv.size();j++){
+					if(piv.get(i).getRebounds()<piv.get(j).getRebounds())
+						i=j;
+				}
+				result.add(piv.get(i));
+				piv.remove(i);
+			}
+		}else if(s.equals("assists")){
+			while(piv.size()>0){
+				int i=0;
+				for(int j=i+1;j<piv.size();j++){
+					if(piv.get(i).getAssists()<piv.get(j).getAssists())
+						i=j;
+				}
+				result.add(piv.get(i));
+				piv.remove(i);
+			}
+		}else if(s.equals("minutes")){
+			while(piv.size()>0){
+				int i=0;
+				for(int j=i+1;j<piv.size();j++){
+					if(piv.get(i).getMinutes()<piv.get(j).getMinutes())
+						i=j;
+				}
+				result.add(piv.get(i));
+				piv.remove(i);
+			}
+		}else if(s.equals("fieldGoalsMade")){
+			while(piv.size()>0){
+				int i=0;
+				for(int j=i+1;j<piv.size();j++){
+					if(piv.get(i).getFieldGoalsPercentage()<piv.get(j).getFieldGoalsPercentage())
+						i=j;
+				}
+				result.add(piv.get(i));
+				piv.remove(i);
+			}
+		}else if(s.equals("threePointFieldGoalsMade")){
+			while(piv.size()>0){
+				int i=0;
+				for(int j=i+1;j<piv.size();j++){
+					if(piv.get(i).getThreePointFieldGoalsPercentage()<piv.get(j).getThreePointFieldGoalsPercentage())
+						i=j;
+				}
+				result.add(piv.get(i));
+				piv.remove(i);
+			}
+		}else if(s.equals("freeThrowsMade")){
+			while(piv.size()>0){
+				int i=0;
+				for(int j=i+1;j<piv.size();j++){
+					if(piv.get(i).getFreeThrowsPercentage()<piv.get(j).getFreeThrowsPercentage())
+						i=j;
+				}
+				result.add(piv.get(i));
+				piv.remove(i);
+			}
+		}else if(s.equals("offensiveRebounds")){
+			while(piv.size()>0){
+				int i=0;
+				for(int j=i+1;j<piv.size();j++){
+					if(piv.get(i).getOffensiveRebounds()<piv.get(j).getOffensiveRebounds())
+						i=j;
+				}
+				result.add(piv.get(i));
+				piv.remove(i);
+			}
+		}else if(s.equals("defensiveRebounds")){
+			while(piv.size()>0){
+				int i=0;
+				for(int j=i+1;j<piv.size();j++){
+					if(piv.get(i).getDefensiveRebounds()<piv.get(j).getDefensiveRebounds())
+						i=j;
+				}
+				result.add(piv.get(i));
+				piv.remove(i);
+			}
+		}else if(s.equals("steals")){
+			while(piv.size()>0){
+				int i=0;
+				for(int j=i+1;j<piv.size();j++){
+					if(piv.get(i).getSteals()<piv.get(j).getSteals())
+						i=j;
+				}
+				result.add(piv.get(i));
+				piv.remove(i);
+			}
+		}else if(s.equals("blocks")){
+			while(piv.size()>0){
+				int i=0;
+				for(int j=i+1;j<piv.size();j++){
+					if(piv.get(i).getBlocks()<piv.get(j).getBlocks())
+						i=j;
+				}
+				result.add(piv.get(i));
+				piv.remove(i);
+			}
+		}else if(s.equals("turnovers")){
+			while(piv.size()>0){
+				int i=0;
+				for(int j=i+1;j<piv.size();j++){
+					if(piv.get(i).getTurnovers()<piv.get(j).getTurnovers())
+						i=j;
+				}
+				result.add(piv.get(i));
+				piv.remove(i);
+			}
+		}else if(s.equals("fouls")){
+			while(piv.size()>0){
+				int i=0;
+				for(int j=i+1;j<piv.size();j++){
+					if(piv.get(i).getFouls()<piv.get(j).getFouls())
+						i=j;
+				}
+				result.add(piv.get(i));
+				piv.remove(i);
+			}
+		}else if(s.equals("points")){
+			while(piv.size()>0){
+				int i=0;
+				for(int j=i+1;j<piv.size();j++){
+					if(piv.get(i).getPoints()<piv.get(j).getPoints())
+						i=j;
+				}
+				result.add(piv.get(i));
+				piv.remove(i);
+			}
+		}else if(s.equals("efficiency")){
+			while(piv.size()>0){
+				int i=0;
+				for(int j=i+1;j<piv.size();j++){
+					if(piv.get(i).getEfficiency()<piv.get(j).getEfficiency())
+						i=j;
+				}
+				result.add(piv.get(i));
+				piv.remove(i);
+			}
+		}else if(s.equals("GmSc")){
+			while(piv.size()>0){
+				int i=0;
+				for(int j=i+1;j<piv.size();j++){
+					if(piv.get(i).getGmSc()<piv.get(j).getGmSc())
+						i=j;
+				}
+				result.add(piv.get(i));
+				piv.remove(i);
+			}
+		}else if(s.equals("trueShootingPercentage")){
+			while(piv.size()>0){
+				int i=0;
+				for(int j=i+1;j<piv.size();j++){
+					if(piv.get(i).getTrueShootingPercentage()<piv.get(j).getTrueShootingPercentage())
+						i=j;
+				}
+				result.add(piv.get(i));
+				piv.remove(i);
+			}
+		}else if(s.equals("shootingEfficiency")){
+			while(piv.size()>0){
+				int i=0;
+				for(int j=i+1;j<piv.size();j++){
+					if(piv.get(i).getShootingEfficiency()<piv.get(j).getShootingEfficiency())
+						i=j;
+				}
+				result.add(piv.get(i));
+				piv.remove(i);
+			}
+		}else if(s.equals("reboundRating")){
+			while(piv.size()>0){
+				int i=0;
+				for(int j=i+1;j<piv.size();j++){
+					if(piv.get(i).getReboundRating()<piv.get(j).getReboundRating())
+						i=j;
+				}
+				result.add(piv.get(i));
+				piv.remove(i);
+			}
+		}else if(s.equals("offensiveReboundRating")){
+			while(piv.size()>0){
+				int i=0;
+				for(int j=i+1;j<piv.size();j++){
+					if(piv.get(i).getOffensiveReboundRating()<piv.get(j).getOffensiveReboundRating())
+						i=j;
+				}
+				result.add(piv.get(i));
+				piv.remove(i);
+			}
+		}else if(s.equals("defensiveReboundRating")){
+			while(piv.size()>0){
+				int i=0;
+				for(int j=i+1;j<piv.size();j++){
+					if(piv.get(i).getDefensiveReboundRating()<piv.get(j).getDefensiveReboundRating())
+						i=j;
+				}
+				result.add(piv.get(i));
+				piv.remove(i);
+			}
+		}else if(s.equals("assisyRating")){
+			while(piv.size()>0){
+				int i=0;
+				for(int j=i+1;j<piv.size();j++){
+					if(piv.get(i).getAssisyRating()<piv.get(j).getAssisyRating())
+						i=j;
+				}
+				result.add(piv.get(i));
+				piv.remove(i);
+			}
+		}else if(s.equals("stealRating")){
+			while(piv.size()>0){
+				int i=0;
+				for(int j=i+1;j<piv.size();j++){
+					if(piv.get(i).getStealRating()<piv.get(j).getStealRating())
+						i=j;
+				}
+				result.add(piv.get(i));
+				piv.remove(i);
+			}
+		}else if(s.equals("blockRating")){
+			while(piv.size()>0){
+				int i=0;
+				for(int j=i+1;j<piv.size();j++){
+					if(piv.get(i).getBlockRating()<piv.get(j).getBlockRating())
+						i=j;
+				}
+				result.add(piv.get(i));
+				piv.remove(i);
+			}
+		}else if(s.equals("turnoverRating")){
+			while(piv.size()>0){
+				int i=0;
+				for(int j=i+1;j<piv.size();j++){
+					if(piv.get(i).getTurnoverRating()<piv.get(j).getTurnoverRating())
+						i=j;
+				}
+				result.add(piv.get(i));
+				piv.remove(i);
+			}
+		}else if(s.equals("utilizationRating")){
+			while(piv.size()>0){
+				int i=0;
+				for(int j=i+1;j<piv.size();j++){
+					if(piv.get(i).getUtilizationRating()<piv.get(j).getUtilizationRating())
+						i=j;
+				}
+				result.add(piv.get(i));
+				piv.remove(i);
+			}
+		}else if(s.equals("pointsReboundsAssists")){
+			while(piv.size()>0){
+				int i=0;
+				for(int j=i+1;j<piv.size();j++){
+					if(piv.get(i).getPoints()+piv.get(i).getRebounds()+piv.get(i).getAssists()
+							<piv.get(j).getPoints()+piv.get(j).getRebounds()+piv.get(j).getAssists())
+						i=j;
+				}
+				result.add(piv.get(i));
+				piv.remove(i);
+			}
+		}else if(s.equals("doubleDouble")){
+			while(piv.size()>0){
+				int i=0;
+				for(int j=i+1;j<piv.size();j++){
+					if(piv.get(i).getDoubleDouble()<piv.get(j).getDoubleDouble())
+						i=j;
+				}
+				result.add(piv.get(i));
+				piv.remove(i);
+			}
+		}
+		return result;
+	}//½µÐòÅÅÐò
+	
+	/*public static void main(String[] args){
 		ArrayList<playerInfoVO> a=new ArrayList<playerInfoVO>();
 		playerInfoVO b=new playerInfoVO();
 		playerInfoVO c=new playerInfoVO();
@@ -750,7 +1028,7 @@ public class ServiceImp implements IService{
 		playerCondition pc=new playerCondition();
 		pc.setPlayerPartition(playerPartition.East);
 		pc.setPlayerPosition(playerPosition.All);
-		pc.setSortOpinions(sortOpinions.Points);
+		pc.setSortOpinions(sortOpinions.Null);
 		
 		b.setPlayerName("Kobe Bryant");
 		c=si.getSinglePlayerInfo(b);
@@ -760,16 +1038,18 @@ public class ServiceImp implements IService{
 		c=si.getSinglePlayerInfo(b);
 		System.out.println(c.getAge());
 		
+		playerInfoCalculate pic=new playerInfoCalculate();
 		a=si.getPlayerInfo(pc);
+		a=pic.ascendingOrder(a,"points");
 		System.out.println(a.size());
 		for(int i=0;i<a.size();i++){
-			System.out.println(i+"\t"+a.get(i).getPosition()+"\t"+i+a.get(i).getPlayerName()+"\t"+a.get(i).getAge()+"\t"+a.get(i).getAssists()+"\t"+a.get(i).getAssisyRating()+"\t"+a.get(i).getBirth()+"\t"+a.get(i).getBlockRating()+"\t"+a.get(i).getBlocks()+"\t"+a.get(i).getDefensiveReboundRating()+"\t"+a.get(i).getDefensiveRebounds()+"\t"+a.get(i).getDoubleDouble()+"\t"+a.get(i).getEfficiency()+"\t"+a.get(i).getExp()+"\t"+a.get(i).getFieldGoalsPercentage()+"\t"+a.get(i).getFouls()+"\t"+a.get(i).getFreeThrowsPercentage()+"\t"+a.get(i).getGamesPlayed()+"\t"+a.get(i).getGamesStarting()+"\t"+a.get(i).getGmSc()+"\t"+a.get(i).getHeight()+"\t"+a.get(i).getMinutes()+"\t"+a.get(i).getNumber()+"\t"+a.get(i).getOffensiveReboundRating()
+			System.out.println(i+"\t"+a.get(i).getPoints()+"\t"+a.get(i).getPosition()+"\t"+i+a.get(i).getPlayerName()+"\t"+a.get(i).getAge()+"\t"+a.get(i).getAssists()+"\t"+a.get(i).getAssisyRating()+"\t"+a.get(i).getBirth()+"\t"+a.get(i).getBlockRating()+"\t"+a.get(i).getBlocks()+"\t"+a.get(i).getDefensiveReboundRating()+"\t"+a.get(i).getDefensiveRebounds()+"\t"+a.get(i).getDoubleDouble()+"\t"+a.get(i).getEfficiency()+"\t"+a.get(i).getExp()+"\t"+a.get(i).getFieldGoalsPercentage()+"\t"+a.get(i).getFouls()+"\t"+a.get(i).getFreeThrowsPercentage()+"\t"+a.get(i).getGamesPlayed()+"\t"+a.get(i).getGamesStarting()+"\t"+a.get(i).getGmSc()+"\t"+a.get(i).getHeight()+"\t"+a.get(i).getMinutes()+"\t"+a.get(i).getNumber()+"\t"+a.get(i).getOffensiveReboundRating()
 					+"\t"+a.get(i).getOffensiveRebounds()+"\t"+a.get(i).getPlayerName()+"\t"+a.get(i).getPoints()+"\t"+a.get(i).getPosition()+"\t"+a.get(i).getReboundRating()+"\t"+a.get(i).getRebounds()+"\t"+a.get(i).getSchool()+"\t"+a.get(i).getShootingEfficiency()+"\t"+a.get(i).getStealRating()+"\t"+a.get(i).getSteals()+"\t"+a.get(i).getTeamName()+"\t"+a.get(i).getThreePointFieldGoalsPercentage()+"\t"+a.get(i).getTrueShootingPercentage()+"\t"+a.get(i).getTurnoverRating()+"\t"+a.get(i).getTurnovers()+"\t"+a.get(i).getUtilizationRating()+"\t"+a.get(i).getWeight());
 		}
 		
 		
 		
-	}
+	}*/
 	
 	/*public static void main(String []args){
 		ServiceImp si=new ServiceImp();
