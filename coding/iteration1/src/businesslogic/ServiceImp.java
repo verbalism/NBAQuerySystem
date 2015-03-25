@@ -591,7 +591,7 @@ public class ServiceImp implements IService{
 		}else if(pc.getPlayerPartition().equals(playerPartition.East)){
 			for(int i=result.size()-1;i>=0;i--){
 				String area=TD.getSingleTeamOriginal(result.get(i).getTeamName()).getZone();
-				if(!area.equals("East"))
+				if(!area.equals("E"))
 					result.remove(i);
 			}
 		}else if(pc.getPlayerPartition().equals(playerPartition.Northwest)){
@@ -615,7 +615,7 @@ public class ServiceImp implements IService{
 		}else if(pc.getPlayerPartition().equals(playerPartition.West)){
 			for(int i=result.size()-1;i>=0;i--){
 				String area=TD.getSingleTeamOriginal(result.get(i).getTeamName()).getZone();
-				if(!area.equals("West"))
+				if(!area.equals("W"))
 					result.remove(i);
 			}
 		}
@@ -741,16 +741,16 @@ public class ServiceImp implements IService{
 		
 		return result;
 	}
-	/*public static void main(String[] args){
+	public static void main(String[] args){
 		ArrayList<playerInfoVO> a=new ArrayList<playerInfoVO>();
 		playerInfoVO b=new playerInfoVO();
 		playerInfoVO c=new playerInfoVO();
 
 		ServiceImp si=new ServiceImp();
 		playerCondition pc=new playerCondition();
-		pc.setPlayerPartition(playerPartition.Central);
+		pc.setPlayerPartition(playerPartition.East);
 		pc.setPlayerPosition(playerPosition.All);
-		pc.setSortOpinions(sortOpinions.Null);
+		pc.setSortOpinions(sortOpinions.Points);
 		
 		b.setPlayerName("Kobe Bryant");
 		c=si.getSinglePlayerInfo(b);
@@ -763,15 +763,15 @@ public class ServiceImp implements IService{
 		a=si.getPlayerInfo(pc);
 		System.out.println(a.size());
 		for(int i=0;i<a.size();i++){
-			System.out.println(a.get(i).getPosition()+"\t"+i+a.get(i).getPlayerName()+"\t"+a.get(i).getAge()+"\t"+a.get(i).getAssists()+"\t"+a.get(i).getAssisyRating()+"\t"+a.get(i).getBirth()+"\t"+a.get(i).getBlockRating()+"\t"+a.get(i).getBlocks()+"\t"+a.get(i).getDefensiveReboundRating()+"\t"+a.get(i).getDefensiveRebounds()+"\t"+a.get(i).getDoubleDouble()+"\t"+a.get(i).getEfficiency()+"\t"+a.get(i).getExp()+"\t"+a.get(i).getFieldGoalsPercentage()+"\t"+a.get(i).getFouls()+"\t"+a.get(i).getFreeThrowsPercentage()+"\t"+a.get(i).getGamesPlayed()+"\t"+a.get(i).getGamesStarting()+"\t"+a.get(i).getGmSc()+"\t"+a.get(i).getHeight()+"\t"+a.get(i).getMinutes()+"\t"+a.get(i).getNumber()+"\t"+a.get(i).getOffensiveReboundRating()
+			System.out.println(i+"\t"+a.get(i).getPosition()+"\t"+i+a.get(i).getPlayerName()+"\t"+a.get(i).getAge()+"\t"+a.get(i).getAssists()+"\t"+a.get(i).getAssisyRating()+"\t"+a.get(i).getBirth()+"\t"+a.get(i).getBlockRating()+"\t"+a.get(i).getBlocks()+"\t"+a.get(i).getDefensiveReboundRating()+"\t"+a.get(i).getDefensiveRebounds()+"\t"+a.get(i).getDoubleDouble()+"\t"+a.get(i).getEfficiency()+"\t"+a.get(i).getExp()+"\t"+a.get(i).getFieldGoalsPercentage()+"\t"+a.get(i).getFouls()+"\t"+a.get(i).getFreeThrowsPercentage()+"\t"+a.get(i).getGamesPlayed()+"\t"+a.get(i).getGamesStarting()+"\t"+a.get(i).getGmSc()+"\t"+a.get(i).getHeight()+"\t"+a.get(i).getMinutes()+"\t"+a.get(i).getNumber()+"\t"+a.get(i).getOffensiveReboundRating()
 					+"\t"+a.get(i).getOffensiveRebounds()+"\t"+a.get(i).getPlayerName()+"\t"+a.get(i).getPoints()+"\t"+a.get(i).getPosition()+"\t"+a.get(i).getReboundRating()+"\t"+a.get(i).getRebounds()+"\t"+a.get(i).getSchool()+"\t"+a.get(i).getShootingEfficiency()+"\t"+a.get(i).getStealRating()+"\t"+a.get(i).getSteals()+"\t"+a.get(i).getTeamName()+"\t"+a.get(i).getThreePointFieldGoalsPercentage()+"\t"+a.get(i).getTrueShootingPercentage()+"\t"+a.get(i).getTurnoverRating()+"\t"+a.get(i).getTurnovers()+"\t"+a.get(i).getUtilizationRating()+"\t"+a.get(i).getWeight());
 		}
 		
 		
 		
-	}*/
+	}
 	
-	public static void main(String []args){
+	/*public static void main(String []args){
 		ServiceImp si=new ServiceImp();
 		teamCondition tc=new teamCondition();
 		tc.setTeampartion(teamPartion.East);
@@ -779,9 +779,9 @@ public class ServiceImp implements IService{
 		a.setFullName("Hawks");
 		teamInfoVO b=si.getSingleTeamInfo(a);
 		ArrayList<teamInfoVO> t=si.getTeamInfo(tc);
-		System.out.println(b.getSubarea());
-		for(int i=0;i<t.size();i++){
-			System.out.println(t.get(i).getTeamName()+"\t"+t.get(i).getSubarea()+"\t"+t.get(i).getAssistPercentage()+"\t"+t.get(i).getAssists()+"\t"+t.get(i).getBlocks()+"\t"+t.get(i).getWinPercentage()+"\t"+t.get(i).getStealPercentage());	
+		ArrayList<teamInfoVO> t1=si.sortTeam(t, "assistPercentage");
+		for(int i=0;i<t1.size();i++){
+			System.out.println(t1.get(i).getTeamName()+"\t"+t1.get(i).getSubarea()+"\t"+t1.get(i).getAssistPercentage()+"\t"+t1.get(i).getAssists()+"\t"+t1.get(i).getBlocks()+"\t"+t1.get(i).getWinPercentage()+"\t"+t1.get(i).getStealPercentage());	
 		}
-	}
+	}*/
 }

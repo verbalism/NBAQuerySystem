@@ -941,98 +941,98 @@ public class playerInfoCalculate {
 		if(s.equals("Points")){
 			result=pc.descendingOrder(piv, "points");
 			if(result.size()>50){
-				for(int i=50;i<result.size();i++){
+				for(int i=result.size()-1;i>=50;i--){
 					result.remove(i);
 				}
 			}
 		}else if(s.equals("Rebounds")){
 			result=pc.descendingOrder(piv, "rebounds");
 			if(result.size()>50){
-				for(int i=50;i<result.size();i++){
+				for(int i=result.size()-1;i>=50;i--){
 					result.remove(i);
 				}
 			}
 		}else if(s.equals("Assists")){
 			result=pc.descendingOrder(piv, "assists");
 			if(result.size()>50){
-				for(int i=50;i<result.size();i++){
+				for(int i=result.size()-1;i>=50;i--){
 					result.remove(i);
 				}
 			}
 		}else if(s.equals("PointsReboundsAssists")){
 			result=pc.descendingOrder(piv, "pointsReboundsAssists");
 			if(result.size()>50){
-				for(int i=50;i<result.size();i++){
+				for(int i=result.size()-1;i>=50;i--){
 					result.remove(i);
 				}
 			}
 		}else if(s.equals("Blocks")){
 			result=pc.descendingOrder(piv, "blocks");
 			if(result.size()>50){
-				for(int i=50;i<result.size();i++){
+				for(int i=result.size()-1;i>=50;i--){
 					result.remove(i);
 				}
 			}
 		}else if(s.equals("Steals")){
 			result=pc.descendingOrder(piv, "steals");
 			if(result.size()>50){
-				for(int i=50;i<result.size();i++){
+				for(int i=result.size()-1;i>=50;i--){
 					result.remove(i);
 				}
 			}
 		}else if(s.equals("Fouls")){
 			result=pc.descendingOrder(piv, "fouls");
 			if(result.size()>50){
-				for(int i=50;i<result.size();i++){
+				for(int i=result.size()-1;i>=50;i--){
 					result.remove(i);
 				}
 			}
 		}else if(s.equals("Turnovers")){
 			result=pc.descendingOrder(piv, "turnovers");
 			if(result.size()>50){
-				for(int i=50;i<result.size();i++){
+				for(int i=result.size()-1;i>=50;i--){
 					result.remove(i);
 				}
 			}
 		}else if(s.equals("Minutes")){
 			result=pc.descendingOrder(piv, "minutes");
 			if(result.size()>50){
-				for(int i=50;i<result.size();i++){
+				for(int i=result.size()-1;i>=50;i--){
 					result.remove(i);
 				}
 			}
 		}else if(s.equals("Efficiency")){
 			result=pc.descendingOrder(piv, "efficiency");
 			if(result.size()>50){
-				for(int i=50;i<result.size();i++){
+				for(int i=result.size()-1;i>=50;i--){
 					result.remove(i);
 				}
 			}
 		}else if(s.equals("FieldGoalsMade")){
 			result=pc.descendingOrder(piv, "fieldGoalsMade");
 			if(result.size()>50){
-				for(int i=50;i<result.size();i++){
+				for(int i=result.size()-1;i>=50;i--){
 					result.remove(i);
 				}
 			}
 		}else if(s.equals("ThreePointFieldGoalsMade")){
 			result=pc.descendingOrder(piv, "threePointFieldGoalsMade");
 			if(result.size()>50){
-				for(int i=50;i<result.size();i++){
+				for(int i=result.size()-1;i>=50;i--){
 					result.remove(i);
 				}
 			}
 		}else if(s.equals("FreeThrowsMade")){
 			result=pc.descendingOrder(piv, "freeThrowsMade");
 			if(result.size()>50){
-				for(int i=50;i<result.size();i++){
+				for(int i=result.size()-1;i>=50;i--){
 					result.remove(i);
 				}
 			}
 		}else if(s.equals("DoubleDouble")){
 			result=pc.descendingOrder(piv, "doubledouble");
 			if(result.size()>50){
-				for(int i=50;i<result.size();i++){
+				for(int i=result.size()-1;i>=50;i--){
 					result.remove(i);
 				}
 			}
