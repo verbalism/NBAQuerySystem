@@ -539,10 +539,10 @@ public class playerInfoCalculate {
 			playerInfoVO piv=si.getSinglePlayerInfo(temp);
 			result.add(piv);
 		}
-		for(int i=result.size()-1;i>=0;i--){
+		/*for(int i=result.size()-1;i>=0;i--){
 			if(result.get(i).getTeamName().equals("Unknow"))
 				result.remove(i);
-		}
+		}*/
 		
 		File f = new File("Data//playerInfoVO.txt");
 		FileWriter fw;
