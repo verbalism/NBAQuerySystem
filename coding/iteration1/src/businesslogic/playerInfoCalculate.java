@@ -102,7 +102,10 @@ public class playerInfoCalculate {
 			result1=result1+MP.get(i).getFieldGoal();
 			result2=result2+MP.get(i).getFieldGoalAttempts();
 		}
-		return result1/result2;
+		if(result2==0)
+			return 0;
+		else 
+			return result1/result2;
 	}//计算投篮命中率
 	
 	public double CalculateThreePointFieldGoalsPercentage(ArrayList<MatchPlayer> MP){
@@ -112,7 +115,10 @@ public class playerInfoCalculate {
 			result1=result1+MP.get(i).getThreePointShot();
 			result2=result2+MP.get(i).getThreePointAttempts();
 		}
-		return result1/result2;
+		if(result2==0)
+			return 0;
+		else 
+			return result1/result2;
 	}//计算三分命中率
 	
 	public double CalculateFreeThrowsPercentage(ArrayList<MatchPlayer> MP){
@@ -122,7 +128,11 @@ public class playerInfoCalculate {
 			result1=result1+MP.get(i).getFreeThrowGoal();
 			result2=result2+MP.get(i).getFreeThrowAttempts();
 		}
-		return result1/result2;
+		
+		if(result2==0)
+			return 0;
+		else 
+			return result1/result2;
 	}//计算罚球命中率
 	
 	public double CalculateOffensiveRebounds(ArrayList<MatchPlayer> MP){
