@@ -754,6 +754,26 @@ public class ServiceImp implements IService{
 				result.add(piv.get(i));
 				piv.remove(i);
 			}
+		}else if(s.equals("gamesPlayed")){
+			while(piv.size()>0){
+				int i=0;
+				for(int j=i+1;j<piv.size();j++){
+					if(piv.get(i).getGamesPlayed()<piv.get(j).getGamesPlayed())
+						i=j;
+				}
+				result.add(piv.get(i));
+				piv.remove(i);
+			}
+		}else if(s.equals("gamesStarting")){
+			while(piv.size()>0){
+				int i=0;
+				for(int j=i+1;j<piv.size();j++){
+					if(piv.get(i).getGamesStarting()<piv.get(j).getGamesStarting())
+						i=j;
+				}
+				result.add(piv.get(i));
+				piv.remove(i);
+			}
 		}else if(s.equals("assists")){
 			while(piv.size()>0){
 				int i=0;
@@ -1040,7 +1060,6 @@ public class ServiceImp implements IService{
 		
 		playerInfoCalculate pic=new playerInfoCalculate();
 		a=si.getPlayerInfo(pc);
-		a=pic.ascendingOrder(a,"points");
 		System.out.println(a.size());
 		for(int i=0;i<a.size();i++){
 			System.out.println(i+"\t"+a.get(i).getPoints()+"\t"+a.get(i).getPosition()+"\t"+i+a.get(i).getPlayerName()+"\t"+a.get(i).getAge()+"\t"+a.get(i).getAssists()+"\t"+a.get(i).getAssisyRating()+"\t"+a.get(i).getBirth()+"\t"+a.get(i).getBlockRating()+"\t"+a.get(i).getBlocks()+"\t"+a.get(i).getDefensiveReboundRating()+"\t"+a.get(i).getDefensiveRebounds()+"\t"+a.get(i).getDoubleDouble()+"\t"+a.get(i).getEfficiency()+"\t"+a.get(i).getExp()+"\t"+a.get(i).getFieldGoalsPercentage()+"\t"+a.get(i).getFouls()+"\t"+a.get(i).getFreeThrowsPercentage()+"\t"+a.get(i).getGamesPlayed()+"\t"+a.get(i).getGamesStarting()+"\t"+a.get(i).getGmSc()+"\t"+a.get(i).getHeight()+"\t"+a.get(i).getMinutes()+"\t"+a.get(i).getNumber()+"\t"+a.get(i).getOffensiveReboundRating()
