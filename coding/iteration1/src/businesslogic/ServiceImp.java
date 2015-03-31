@@ -714,9 +714,9 @@ public class ServiceImp implements IService{
 			result.setRebounds(pic.CalculateRebounds(MP));
 			result.setAssists(pic.CalculateAssists(MP));
 			result.setMinutes(pic.CalculateMinutes(MP));
-			result.setFieldGoalsPercentage(pic.CalculateFieldGoalsPercentage(MP));
-			result.setThreePointFieldGoalsPercentage(pic.CalculateThreePointFieldGoalsPercentage(MP));
-			result.setFreeThrowsPercentage(pic.CalculateFreeThrowsPercentage(MP));
+			result.setFieldGoalsPercentage(100*pic.CalculateFieldGoalsPercentage(MP));
+			result.setThreePointFieldGoalsPercentage(100*pic.CalculateThreePointFieldGoalsPercentage(MP));
+			result.setFreeThrowsPercentage(100*pic.CalculateFreeThrowsPercentage(MP));
 			result.setOffensiveRebounds(pic.CalculateOffensiveRebounds(MP));
 			result.setDefensiveRebounds(pic.CalculateDefensiveRebounds(MP));
 			result.setSteals(pic.CalculateSteals(MP));
@@ -726,16 +726,16 @@ public class ServiceImp implements IService{
 			result.setPoints(pic.CalculatePoints(MP));
 			result.setEfficiency(pic.CalculateEfficiency(MP));
 			result.setGmSc(pic.CalculateGmSc(MP));
-			result.setTrueShootingPercentage(pic.CalculateTrueShootingPercentage(MP));
-			result.setShootingEfficiency(pic.CalculateShootingEfficiency(MP));
-			result.setReboundRating(pic.CalculateReboundRating(MT,MT2,MP));
-			result.setOffensiveReboundRating(pic.CalculateOffensiveReboundRating(MT,MT2,MP));
-			result.setDefensiveReboundRating(pic.CalculateDefensiveReboundRating(MT,MT2,MP));
-			result.setAssisyRating(pic.CalculateAssisyRating(MT,MP));
-			result.setStealRating(pic.CalculateStealRating(MT,MT2,MP));
-			result.setBlockRating(pic.CalculateBlockRating(MT,MT2,MP));
-			result.setTurnoverRating(pic.CalculateTurnoverRating(MP));
-			result.setUtilizationRating(pic.CalculateUtilizationRating(MT,MP));
+			result.setTrueShootingPercentage(100*pic.CalculateTrueShootingPercentage(MP));
+			result.setShootingEfficiency(100*pic.CalculateShootingEfficiency(MP));
+			result.setReboundRating(100*pic.CalculateReboundRating(MT,MT2,MP));
+			result.setOffensiveReboundRating(100*pic.CalculateOffensiveReboundRating(MT,MT2,MP));
+			result.setDefensiveReboundRating(100*pic.CalculateDefensiveReboundRating(MT,MT2,MP));
+			result.setAssisyRating(100*pic.CalculateAssisyRating(MT,MP));
+			result.setStealRating(100*pic.CalculateStealRating(MT,MT2,MP));
+			result.setBlockRating(100*pic.CalculateBlockRating(MT,MT2,MP));
+			result.setTurnoverRating(100*pic.CalculateTurnoverRating(MP));
+			result.setUtilizationRating(100*pic.CalculateUtilizationRating(MT,MP));
 			result.setDoubleDouble(pic.CalculateDoubleDouble(MP));
 		}
 		
