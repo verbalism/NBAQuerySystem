@@ -774,7 +774,7 @@ public class ServiceImp implements IService{
 				result.add(piv.get(i));
 				piv.remove(i);
 			}
-		}else if(s.equals("fieldGoalsMade")){
+		}else if(s.equals("fieldGoalsPercentage")){
 			while(piv.size()>0){
 				int i=0;
 				for(int j=i+1;j<piv.size();j++){
@@ -784,7 +784,7 @@ public class ServiceImp implements IService{
 				result.add(piv.get(i));
 				piv.remove(i);
 			}
-		}else if(s.equals("threePointFieldGoalsMade")){
+		}else if(s.equals("threePointFieldGoalsPercentage")){
 			while(piv.size()>0){
 				int i=0;
 				for(int j=i+1;j<piv.size();j++){
@@ -794,7 +794,7 @@ public class ServiceImp implements IService{
 				result.add(piv.get(i));
 				piv.remove(i);
 			}
-		}else if(s.equals("freeThrowsMade")){
+		}else if(s.equals("freeThrowsPercentage")){
 			while(piv.size()>0){
 				int i=0;
 				for(int j=i+1;j<piv.size();j++){

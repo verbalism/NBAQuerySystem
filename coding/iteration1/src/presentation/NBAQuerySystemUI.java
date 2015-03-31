@@ -1,6 +1,13 @@
 package presentation;
 
+
 import java.util.ArrayList;
+
+
+
+
+
+import java.util.Collections;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Display;
@@ -23,9 +30,12 @@ import vo.sortOpinions;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Font;
+import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageData;
+import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
@@ -146,6 +156,7 @@ public class NBAQuerySystemUI {
 	public static void writeTable3(final ArrayList<teamInfoVO> temp,final int n){
 		Display.getDefault().asyncExec(new Runnable() { 
 			public void run() { 
+				table_3.removeAll();
 				for(int i=0;i<temp.size();i++){
 					TableItem item=new TableItem(table_3,SWT.NONE);
 					if(n==0){
@@ -181,6 +192,7 @@ public class NBAQuerySystemUI {
 		Display.getDefault().asyncExec(new Runnable() { 
 			public void run() { 
 				for(int i=0;i<temp.size();i++){
+					table_1.removeAll();
 					TableItem item=new TableItem(table_1,SWT.NONE);
 					if(n==0){
 						item.setText(new String[]{String.valueOf(i+1),temp.get(i).getPlayerName(),temp.get(i).getTeamName(),String.valueOf(temp.get(i).getGamesPlayed())
@@ -330,12 +342,14 @@ public class NBAQuerySystemUI {
 			public void widgetSelected(SelectionEvent e) {
 				if(combo_3.getText().equals("东部联盟")){
 					combo_4.removeAll();
+					combo_4.add("请选择分区");
+					combo_4.setData("0", "请选择分区");
 					combo_4.add("东南分区");
-					combo_4.setData("0", "东南分区");
+					combo_4.setData("1", "东南分区");
 					combo_4.add("中央分区");
-					combo_4.setData("1", "中央分区");
+					combo_4.setData("2", "中央分区");
 					combo_4.add("大西洋分区");
-					combo_4.setData("2", "大西洋分区");
+					combo_4.setData("3", "大西洋分区");
 					
 					table_2.removeAll();
 					ServiceImp si=new ServiceImp();
@@ -348,12 +362,14 @@ public class NBAQuerySystemUI {
 					
 				}else if(combo_3.getText().equals("西部联盟")){
 					combo_4.removeAll();
+					combo_4.add("请选择分区");
+					combo_4.setData("0", "请选择分区");
 					combo_4.add("太平洋分区");
-					combo_4.setData("0", "太平洋分区");
+					combo_4.setData("1", "太平洋分区");
 					combo_4.add("西北分区");
-					combo_4.setData("1", "西北分区");
+					combo_4.setData("2", "西北分区");
 					combo_4.add("西南分区");
-					combo_4.setData("2", "西南分区");
+					combo_4.setData("3", "西南分区");
 					
 					table_2.removeAll();
 					ServiceImp si=new ServiceImp();
@@ -367,11 +383,14 @@ public class NBAQuerySystemUI {
 		});
 		combo_3.setLocation(250, 170);
 		combo_3.setSize(109, 28);
+		
 		combo_3.setText("\u8D5B\u533A");
+		combo_3.add("全部");
+		combo_3.setData("0", "全部");
 		combo_3.add("东部联盟");
-		combo_3.setData("0", "东部联盟");
+		combo_3.setData("1", "东部联盟");
 		combo_3.add("西部联盟");
-		combo_3.setData("1", "西部联盟");
+		combo_3.setData("2", "西部联盟");
 		
 	
 		combo_4.addSelectionListener(new SelectionAdapter() {
@@ -411,18 +430,20 @@ public class NBAQuerySystemUI {
 		combo_4.setLocation(450, 170);
 		combo_4.setSize(92, 28);
 		combo_4.setText("\u5206\u533A");
+		combo_4.add("请选择分区");
+		combo_4.setData("0", "请选择分区");
 		combo_4.add("东南分区");
-		combo_4.setData("0", "东南分区");
+		combo_4.setData("1", "东南分区");
 		combo_4.add("中央分区");
-		combo_4.setData("1", "中央分区");
+		combo_4.setData("2", "中央分区");
 		combo_4.add("大西洋分区");
-		combo_4.setData("2", "大西洋分区");
+		combo_4.setData("3", "大西洋分区");
 		combo_4.add("太平洋分区");
-		combo_4.setData("3", "太平洋分区");
+		combo_4.setData("4", "太平洋分区");
 		combo_4.add("西北分区");
-		combo_4.setData("4", "西北分区");
+		combo_4.setData("5", "西北分区");
 		combo_4.add("西南分区");
-		combo_4.setData("5", "西南分区");
+		combo_4.setData("6", "西南分区");
 		
 		table_2 = new Table(composite_3, SWT.BORDER | SWT.FULL_SELECTION);//球队基本信息列表
 		table_2.addMouseListener(new MouseAdapter() {
@@ -434,7 +455,9 @@ public class NBAQuerySystemUI {
 				TableItem[] itemList =table_2.getItems();
 				int listHaveChouse = table_2.getSelectionIndex();		
 				String firstInfo = itemList[listHaveChouse].getText(0);
+				String secondInfo = itemList[listHaveChouse].getText(1);
 				System.out.println(firstInfo);
+				System.out.println(secondInfo);
 				teamInfoVO t=new teamInfoVO();
 				t.setFullName(firstInfo);
 				ServiceImp si=new ServiceImp();
@@ -446,8 +469,10 @@ public class NBAQuerySystemUI {
 				teamText_5.setText("分区："+t2.getSubarea());
 				teamText_6.setText("主场："+t2.getHomeCourt());
 				teamText_7.setText("建立时间："+t2.getCreateTime());
-				
-				composite_9.setBackgroundImage(SWTResourceManager.getImage(NBAQuerySystemUI.class, "/presentation/image/"+firstInfo+".svg"));
+				Image image=SWTResourceManager.getImage(NBAQuerySystemUI.class, "/presentation/image/teams/"+secondInfo+".jpg");
+				final Rectangle bounds=image.getBounds();
+				composite_9.setBounds(100, 200, bounds.width, bounds.height);					
+				composite_9.setBackgroundImage(image);
 				
 			}
 		});
@@ -493,7 +518,7 @@ public class NBAQuerySystemUI {
 				composite_6.setVisible(true);
 				TableItem[] itemList =table.getItems();
 				int listHaveChouse = table.getSelectionIndex();		
-				String firstInfo = itemList[listHaveChouse].getText(0);
+				final String firstInfo = itemList[listHaveChouse].getText(0);
 				playerInfoVO p=new playerInfoVO();
 				p.setPlayerName(firstInfo);
 				ServiceImp si=new ServiceImp();
@@ -509,8 +534,11 @@ public class NBAQuerySystemUI {
 				text_10.setText("球龄："+p2.getExp());
 				text_11.setText("毕业学校："+p2.getSchool());
 				
-				
-				composite_7.setBackgroundImage(SWTResourceManager.getImage(NBAQuerySystemUI.class, "/presentation/image/"+firstInfo+".png"));
+				Image image=SWTResourceManager.getImage(NBAQuerySystemUI.class, "/presentation/image/players/action/"+firstInfo+".png");
+				final Rectangle bounds=image.getBounds();
+				composite_7.setBounds(100, 100, bounds.width, bounds.height);					
+				composite_7.setBackgroundImage(image);
+
 				
 			}
 		});
@@ -555,22 +583,11 @@ public class NBAQuerySystemUI {
 		tableColumn_9.setWidth(100);
 		tableColumn_9.setText("\u6BD5\u4E1A\u5B66\u6821");
 		
-		Combo combo_1 = new Combo(composite_2, SWT.NONE);//按所属球队筛选
-		combo_1.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				/*playerCondition pc=new playerCondition();
-				pc.setPlayerPartition(playerPartition.All);
-				pc.setPlayerPosition(playerPosition.All);
-				pc.setSortOpinions(sortOpinions.Null);			
-				ServiceImp si=new ServiceImp();
-				ArrayList<playerInfoVO> player=si.getPlayerInfo(pc);
-				writeTable(player);*/
-			}
-		});
+		/*Combo combo_1 = new Combo(composite_2, SWT.NONE);//按所属球队筛选
+	
 		combo_1.setBounds(248, 191, 140, 28);
 		combo_1.setText("\u6309\u6240\u5C5E\u7403\u961F\u67E5\u627E");
-		/*30支球队*/
+		
 		combo_1.add("Hawks");
 		combo_1.setData("0", "Hawks");
 		combo_1.add("Nets");
@@ -631,14 +648,16 @@ public class NBAQuerySystemUI {
 		combo_1.setData("28", "Jazz");	
 		combo_1.add("Wizards");
 		combo_1.setData("29", "Wizards");
-				
+				*/
 		final Combo combo_2 = new Combo(composite_2, SWT.NONE);//按位置筛选
+		combo_2.add("全部");
+		combo_2.setData("0", "全部");
 		combo_2.add("前锋");
-		combo_2.setData("0", "前锋");
+		combo_2.setData("1", "前锋");
 		combo_2.add("中锋");
-		combo_2.setData("1", "中锋");
+		combo_2.setData("2", "中锋");
 		combo_2.add("后卫");
-		combo_2.setData("2", "后卫");
+		combo_2.setData("3", "后卫");
 		combo_2.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -726,7 +745,7 @@ public class NBAQuerySystemUI {
 			public void widgetSelected(SelectionEvent e) {
 				composite_1.setVisible(false);
 				composite_3.setVisible(true);
-				table_2.clearAll();
+				table_2.removeAll();
 				ServiceImp si=new ServiceImp();
 				
 				teamCondition tc=new teamCondition();
@@ -818,12 +837,14 @@ public class NBAQuerySystemUI {
 		});
 		combo.setBounds(120, 170, 92, 28);
 		combo.setText("\u4F4D\u7F6E");
+		combo.add("请选择位置");
+		combo.setData("0", "请选择位置");
 		combo.add("前锋");
-		combo.setData("0", "前锋");
+		combo.setData("1", "前锋");
 		combo.add("中锋");
-		combo.setData("1", "中锋");
+		combo.setData("2", "中锋");
 		combo.add("后卫");
-		combo.setData("2", "后卫");
+		combo.setData("3", "后卫");
 		
 		final Combo combo_5 = new Combo(composite_4, SWT.NONE);//选择球员联盟
 		combo_5.addSelectionListener(new SelectionAdapter() {
@@ -860,22 +881,24 @@ public class NBAQuerySystemUI {
 		});
 		combo_5.setBounds(320, 170, 92, 28);
 		combo_5.setText("\u7403\u5458\u8054\u76DF");
+		combo_5.add("请选择分区");
+		combo_5.setData("0", "请选择分区");
 		combo_5.add("东部联盟");
-		combo_5.setData("0", "东部联盟");
+		combo_5.setData("1", "东部联盟");
 		combo_5.add("西部联盟");
-		combo_5.setData("1", "西部联盟");
+		combo_5.setData("2", "西部联盟");
 		combo_5.add("东南分区——东部联盟");
-		combo_5.setData("2", "东南分区——东部联盟");
+		combo_5.setData("3", "东南分区——东部联盟");
 		combo_5.add("中央分区——东部联盟");
-		combo_5.setData("3", "中央分区——东部联盟");
+		combo_5.setData("4", "中央分区——东部联盟");
 		combo_5.add("大西洋分区——东部联盟");
-		combo_5.setData("4", "大西洋分区——东部联盟");
+		combo_5.setData("5", "大西洋分区——东部联盟");
 		combo_5.add("太平洋分区——西部联盟");
-		combo_5.setData("5", "太平洋分区——西部联盟");
+		combo_5.setData("6", "太平洋分区——西部联盟");
 		combo_5.add("西北分区——西部联盟");
-		combo_5.setData("6", "西北分区——西部联盟");
+		combo_5.setData("7", "西北分区——西部联盟");
 		combo_5.add("西南分区——西部联盟");
-		combo_5.setData("7", "西南分区——西部联盟");
+		combo_5.setData("8", "西南分区——西部联盟");
 		
 		final Combo combo_6 = new Combo(composite_4, SWT.NONE);//选择排序依据
 		combo_6.addSelectionListener(new SelectionAdapter() {
@@ -926,6 +949,8 @@ public class NBAQuerySystemUI {
 		combo_6.setEnabled(true);
 		combo_6.setBounds(520, 170, 92, 28);
 		combo_6.setText("\u6392\u5E8F\u4F9D\u636E");
+		combo_6.add("请选择排序依据");
+		combo_6.setData("0", "请选择排序依据");
 		combo_6.add("得分");
 		combo_6.setData("0", "得分");
 		combo_6.add("篮板");
@@ -1004,7 +1029,7 @@ public class NBAQuerySystemUI {
 				text_9.setText("年龄："+p2.getAge());
 				text_10.setText("球龄："+p2.getExp());
 				text_11.setText("毕业学校："+p2.getSchool());
-				composite_7.setBackgroundImage(SWTResourceManager.getImage(NBAQuerySystemUI.class, "/presentation/image/"+firstInfo+".png"));
+				composite_7.setBackgroundImage(SWTResourceManager.getImage(NBAQuerySystemUI.class, "/presentation/image/players/action"+firstInfo+".png"));
 				
 			}
 		});
@@ -1012,16 +1037,22 @@ public class NBAQuerySystemUI {
 		table_1.setHeaderVisible(true);
 		table_1.setLinesVisible(true);
 		
-		TableColumn tableColumn = new TableColumn(table_1, SWT.NONE);
+		final int item[] =new int[30] ;
+		for(int i=0;i<30;i++){
+			item[i]=0;
+		}
+		
+		TableColumn tableColumn = new TableColumn(table_1, SWT.NONE);//排名
 		tableColumn.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				
 			}
 		});
 		tableColumn.setWidth(43);
 		tableColumn.setText("\u6392\u540D");
 		
-		TableColumn tableColumn_10 = new TableColumn(table_1, SWT.NONE);
+		TableColumn tableColumn_10 = new TableColumn(table_1, SWT.NONE);//球员名称
 		tableColumn_10.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -1030,7 +1061,7 @@ public class NBAQuerySystemUI {
 		tableColumn_10.setWidth(80);
 		tableColumn_10.setText("\u7403\u5458");
 		
-		TableColumn tableColumn_11 = new TableColumn(table_1, SWT.NONE);
+		TableColumn tableColumn_11 = new TableColumn(table_1, SWT.NONE);//所属球队
 		tableColumn_11.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -1039,7 +1070,7 @@ public class NBAQuerySystemUI {
 		tableColumn_11.setWidth(70);
 		tableColumn_11.setText("\u7403\u961F");
 		
-		TableColumn tblclmnNewColumn = new TableColumn(table_1, SWT.NONE);
+		TableColumn tblclmnNewColumn = new TableColumn(table_1, SWT.NONE);//参赛场数
 		tblclmnNewColumn.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -1048,7 +1079,7 @@ public class NBAQuerySystemUI {
 		tblclmnNewColumn.setWidth(66);
 		tblclmnNewColumn.setText("\u53C2\u8D5B\u6B21\u6570");
 		
-		TableColumn tblclmnNewColumn_1 = new TableColumn(table_1, SWT.NONE);
+		TableColumn tblclmnNewColumn_1 = new TableColumn(table_1, SWT.NONE);//先发场数
 		tblclmnNewColumn_1.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -1057,37 +1088,169 @@ public class NBAQuerySystemUI {
 		tblclmnNewColumn_1.setWidth(73);
 		tblclmnNewColumn_1.setText("\u5148\u53D1\u573A\u6570");
 		
-		TableColumn tableColumn_12 = new TableColumn(table_1, SWT.NONE);
+		TableColumn tableColumn_12 = new TableColumn(table_1, SWT.NONE);//篮板数
 		tableColumn_12.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				item[5]++;
+				ServiceImp si=new ServiceImp();
+				ArrayList<playerInfoVO> player=si.getPlayerInfo(pc2);
+				if(combo_7.getText().equals("场均数据")){
+					for(int i=0;i<player.size();i++){
+						player.get(i).setRebounds(player.get(i).getRebounds()/player.get(i).getGamesPlayed());
+						player.get(i).setAssists(player.get(i).getAssists()/player.get(i).getGamesPlayed());
+						player.get(i).setMinutes(player.get(i).getMinutes()/player.get(i).getGamesPlayed());
+						player.get(i).setOffensiveRebounds(player.get(i).getOffensiveRebounds()/player.get(i).getGamesPlayed());
+						player.get(i).setDefensiveRebounds(player.get(i).getDefensiveRebounds()/player.get(i).getGamesPlayed());
+						player.get(i).setSteals(player.get(i).getSteals()/player.get(i).getGamesPlayed());
+						player.get(i).setBlocks(player.get(i).getBlocks()/player.get(i).getGamesPlayed());
+						player.get(i).setTurnovers(player.get(i).getTurnovers()/player.get(i).getGamesPlayed());
+						player.get(i).setFouls(player.get(i).getFouls()/player.get(i).getGamesPlayed());
+						player.get(i).setPoints(player.get(i).getPoints()/player.get(i).getGamesPlayed());
+					}
+				}
+			
+				table_1.removeAll();	
+				if(item[5]%3==0){			
+					writeTable4(player,0);
+					
+				}else if(item[5]%3==1){
+					ArrayList<playerInfoVO> player2=si.descendingOrder(player,"rebounds");
+					writeTable4(player2,0);
+	
+				}else{
+					ArrayList<playerInfoVO> player2=si.descendingOrder(player,"rebounds");
+					Collections.reverse(player2);
+					writeTable4(player2,0);
+					
+					
+				}
 			}
+			
 		});
 		tableColumn_12.setWidth(67);
 		tableColumn_12.setText("\u7BEE\u677F\u6570");
 		
-		TableColumn tableColumn_13 = new TableColumn(table_1, SWT.NONE);
+		TableColumn tableColumn_13 = new TableColumn(table_1, SWT.NONE);//助攻数
 		tableColumn_13.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				item[6]++;
+				ServiceImp si=new ServiceImp();
+				ArrayList<playerInfoVO> player=si.getPlayerInfo(pc2);
+				if(combo_7.getText().equals("场均数据")){
+					for(int i=0;i<player.size();i++){
+						player.get(i).setRebounds(player.get(i).getRebounds()/player.get(i).getGamesPlayed());
+						player.get(i).setAssists(player.get(i).getAssists()/player.get(i).getGamesPlayed());
+						player.get(i).setMinutes(player.get(i).getMinutes()/player.get(i).getGamesPlayed());
+						player.get(i).setOffensiveRebounds(player.get(i).getOffensiveRebounds()/player.get(i).getGamesPlayed());
+						player.get(i).setDefensiveRebounds(player.get(i).getDefensiveRebounds()/player.get(i).getGamesPlayed());
+						player.get(i).setSteals(player.get(i).getSteals()/player.get(i).getGamesPlayed());
+						player.get(i).setBlocks(player.get(i).getBlocks()/player.get(i).getGamesPlayed());
+						player.get(i).setTurnovers(player.get(i).getTurnovers()/player.get(i).getGamesPlayed());
+						player.get(i).setFouls(player.get(i).getFouls()/player.get(i).getGamesPlayed());
+						player.get(i).setPoints(player.get(i).getPoints()/player.get(i).getGamesPlayed());
+					}
+				}
+				
+				table_1.removeAll();	
+				if(item[6]%3==0){
+					
+					writeTable4(player,0);
+					
+				}else if(item[6]%3==1){
+					
+					ArrayList<playerInfoVO> player2=si.descendingOrder(player,"assists");
+					writeTable4(player2,0);
+					
+				}else{
+					ArrayList<playerInfoVO> player2=si.descendingOrder(player,"assists");
+					Collections.reverse(player2);
+					writeTable4(player2,0);
+					
+					
+				}
 			}
 		});
 		tableColumn_13.setWidth(61);
 		tableColumn_13.setText("\u52A9\u653B\u6570");
 		
-		TableColumn tableColumn_14 = new TableColumn(table_1, SWT.NONE);
+		TableColumn tableColumn_14 = new TableColumn(table_1, SWT.NONE);//在场时间
 		tableColumn_14.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				item[7]++;
+				ServiceImp si=new ServiceImp();
+				ArrayList<playerInfoVO> player=si.getPlayerInfo(pc2);
+				if(combo_7.getText().equals("场均数据")){
+					for(int i=0;i<player.size();i++){
+						player.get(i).setRebounds(player.get(i).getRebounds()/player.get(i).getGamesPlayed());
+						player.get(i).setAssists(player.get(i).getAssists()/player.get(i).getGamesPlayed());
+						player.get(i).setMinutes(player.get(i).getMinutes()/player.get(i).getGamesPlayed());
+						player.get(i).setOffensiveRebounds(player.get(i).getOffensiveRebounds()/player.get(i).getGamesPlayed());
+						player.get(i).setDefensiveRebounds(player.get(i).getDefensiveRebounds()/player.get(i).getGamesPlayed());
+						player.get(i).setSteals(player.get(i).getSteals()/player.get(i).getGamesPlayed());
+						player.get(i).setBlocks(player.get(i).getBlocks()/player.get(i).getGamesPlayed());
+						player.get(i).setTurnovers(player.get(i).getTurnovers()/player.get(i).getGamesPlayed());
+						player.get(i).setFouls(player.get(i).getFouls()/player.get(i).getGamesPlayed());
+						player.get(i).setPoints(player.get(i).getPoints()/player.get(i).getGamesPlayed());
+					}
+				}
+				
+				table_1.removeAll();	
+				if(item[7]%3==0){
+					writeTable4(player,0);
+					
+				}else if(item[7]%3==1){
+					
+					ArrayList<playerInfoVO> player2=si.descendingOrder(player,"minutes");
+					writeTable4(player2,0);
+					
+				}else{
+					ArrayList<playerInfoVO> player2=si.descendingOrder(player,"minutes");
+					Collections.reverse(player2);
+					writeTable4(player2,0);
+					
+					
+				}
+				
 			}
 		});
 		tableColumn_14.setWidth(76);
 		tableColumn_14.setText("\u5728\u573A\u65F6\u95F4");
 		
-		TableColumn tableColumn_15 = new TableColumn(table_1, SWT.NONE);
+		TableColumn tableColumn_15 = new TableColumn(table_1, SWT.NONE);//投篮命中率
 		tableColumn_15.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				item[8]++;
+				ServiceImp si=new ServiceImp();
+				ArrayList<playerInfoVO> player=si.getPlayerInfo(pc2);
+				
+				ArrayList<playerInfoVO> player2=si.descendingOrder(player,"fieldGoalsPercentage");
+				table_1.removeAll();	
+				if(item[8]%3==0){
+					
+					if(combo_7.getText().equals("场均数据")){
+						writeTable4(si.getPlayerInfo(pc2),1);
+					}else{
+						writeTable4(si.getPlayerInfo(pc2),0);
+					}
+				}else if(item[8]%3==1){
+					if(combo_7.getText().equals("场均数据")){
+					writeTable4(player2,1);
+					}else{
+					writeTable4(player2,0);
+					}
+				}else{
+					Collections.reverse(player2);
+					if(combo_7.getText().equals("场均数据")){
+						writeTable4(player2,1);
+						}else{
+						writeTable4(player2,0);
+						}
+					
+				}
 			}
 		});
 		tableColumn_15.setWidth(88);
@@ -1097,6 +1260,33 @@ public class NBAQuerySystemUI {
 		tableColumn_16.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				item[9]++;
+				ServiceImp si=new ServiceImp();
+				ArrayList<playerInfoVO> player=si.getPlayerInfo(pc2);
+				ArrayList<playerInfoVO> player2=si.descendingOrder(player,"threePointFieldGoalsPercentage");
+				table_1.removeAll();	
+				if(item[9]%3==0){
+					
+					if(combo_7.getText().equals("场均数据")){
+						writeTable4(si.getPlayerInfo(pc2),1);
+					}else{
+						writeTable4(si.getPlayerInfo(pc2),0);
+					}
+				}else if(item[9]%3==1){
+					if(combo_7.getText().equals("场均数据")){
+					writeTable4(player2,1);
+					}else{
+					writeTable4(player2,0);
+					}
+				}else{
+					Collections.reverse(player2);
+					if(combo_7.getText().equals("场均数据")){
+						writeTable4(player2,1);
+						}else{
+						writeTable4(player2,0);
+						}
+					
+				}
 			}
 		});
 		tableColumn_16.setWidth(96);
@@ -1106,6 +1296,33 @@ public class NBAQuerySystemUI {
 		tableColumn_17.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				item[10]++;
+				ServiceImp si=new ServiceImp();
+				ArrayList<playerInfoVO> player=si.getPlayerInfo(pc2);
+				ArrayList<playerInfoVO> player2=si.descendingOrder(player,"freeThrowsPercentage");
+				table_1.removeAll();	
+				if(item[10]%3==0){
+					
+					if(combo_7.getText().equals("场均数据")){
+						writeTable4(si.getPlayerInfo(pc2),1);
+					}else{
+						writeTable4(si.getPlayerInfo(pc2),0);
+					}
+				}else if(item[10]%3==1){
+					if(combo_7.getText().equals("场均数据")){
+					writeTable4(player2,1);
+					}else{
+					writeTable4(player2,0);
+					}
+				}else{
+					Collections.reverse(player2);
+					if(combo_7.getText().equals("场均数据")){
+						writeTable4(player2,1);
+						}else{
+						writeTable4(player2,0);
+						}
+					
+				}
 			}
 		});
 		tableColumn_17.setWidth(92);
@@ -1115,15 +1332,84 @@ public class NBAQuerySystemUI {
 		tableColumn_18.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				item[11]++;
+				ServiceImp si=new ServiceImp();
+				ArrayList<playerInfoVO> player=si.getPlayerInfo(pc2);
+				if(combo_7.getText().equals("场均数据")){
+					for(int i=0;i<player.size();i++){
+						player.get(i).setRebounds(player.get(i).getRebounds()/player.get(i).getGamesPlayed());
+						player.get(i).setAssists(player.get(i).getAssists()/player.get(i).getGamesPlayed());
+						player.get(i).setMinutes(player.get(i).getMinutes()/player.get(i).getGamesPlayed());
+						player.get(i).setOffensiveRebounds(player.get(i).getOffensiveRebounds()/player.get(i).getGamesPlayed());
+						player.get(i).setDefensiveRebounds(player.get(i).getDefensiveRebounds()/player.get(i).getGamesPlayed());
+						player.get(i).setSteals(player.get(i).getSteals()/player.get(i).getGamesPlayed());
+						player.get(i).setBlocks(player.get(i).getBlocks()/player.get(i).getGamesPlayed());
+						player.get(i).setTurnovers(player.get(i).getTurnovers()/player.get(i).getGamesPlayed());
+						player.get(i).setFouls(player.get(i).getFouls()/player.get(i).getGamesPlayed());
+						player.get(i).setPoints(player.get(i).getPoints()/player.get(i).getGamesPlayed());
+					}
+				}
+				
+				table_1.removeAll();	
+				if(item[11]%3==0){
+					
+					
+					writeTable4(player,0);
+					
+				}else if(item[11]%3==1){
+					ArrayList<playerInfoVO> player2=si.descendingOrder(player,"offensiveRebounds");
+					writeTable4(player2,0);
+					
+				}else{
+					ArrayList<playerInfoVO> player2=si.descendingOrder(player,"offensiveRebounds");
+					Collections.reverse(player2);
+					writeTable4(player2,0);
+					
+					
+				}
 			}
 		});
 		tableColumn_18.setWidth(66);
 		tableColumn_18.setText("\u8FDB\u653B\u6570");
 		
-		TableColumn tableColumn_19 = new TableColumn(table_1, SWT.NONE);
+		TableColumn tableColumn_19 = new TableColumn(table_1, SWT.NONE);//防守篮板数
 		tableColumn_19.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				item[12]++;
+				ServiceImp si=new ServiceImp();
+				ArrayList<playerInfoVO> player=si.getPlayerInfo(pc2);
+				if(combo_7.getText().equals("场均数据")){
+					for(int i=0;i<player.size();i++){
+						player.get(i).setRebounds(player.get(i).getRebounds()/player.get(i).getGamesPlayed());
+						player.get(i).setAssists(player.get(i).getAssists()/player.get(i).getGamesPlayed());
+						player.get(i).setMinutes(player.get(i).getMinutes()/player.get(i).getGamesPlayed());
+						player.get(i).setOffensiveRebounds(player.get(i).getOffensiveRebounds()/player.get(i).getGamesPlayed());
+						player.get(i).setDefensiveRebounds(player.get(i).getDefensiveRebounds()/player.get(i).getGamesPlayed());
+						player.get(i).setSteals(player.get(i).getSteals()/player.get(i).getGamesPlayed());
+						player.get(i).setBlocks(player.get(i).getBlocks()/player.get(i).getGamesPlayed());
+						player.get(i).setTurnovers(player.get(i).getTurnovers()/player.get(i).getGamesPlayed());
+						player.get(i).setFouls(player.get(i).getFouls()/player.get(i).getGamesPlayed());
+						player.get(i).setPoints(player.get(i).getPoints()/player.get(i).getGamesPlayed());
+					}
+				}
+				
+				table_1.removeAll();	
+				if(item[12]%3==0){
+					
+					writeTable4(player,0);
+					
+				}else if(item[12]%3==1){
+					ArrayList<playerInfoVO> player2=si.descendingOrder(player,"defensiveRebounds");
+					writeTable4(player2,0);
+					
+				}else{
+					ArrayList<playerInfoVO> player2=si.descendingOrder(player,"defensiveRebounds");
+					Collections.reverse(player2);
+					writeTable4(player2,0);
+					
+					
+				}
 			}
 		});
 		tableColumn_19.setWidth(61);
@@ -1133,6 +1419,39 @@ public class NBAQuerySystemUI {
 		tableColumn_20.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				item[13]++;
+				ServiceImp si=new ServiceImp();
+				ArrayList<playerInfoVO> player=si.getPlayerInfo(pc2);
+				if(combo_7.getText().equals("场均数据")){
+					for(int i=0;i<player.size();i++){
+						player.get(i).setRebounds(player.get(i).getRebounds()/player.get(i).getGamesPlayed());
+						player.get(i).setAssists(player.get(i).getAssists()/player.get(i).getGamesPlayed());
+						player.get(i).setMinutes(player.get(i).getMinutes()/player.get(i).getGamesPlayed());
+						player.get(i).setOffensiveRebounds(player.get(i).getOffensiveRebounds()/player.get(i).getGamesPlayed());
+						player.get(i).setDefensiveRebounds(player.get(i).getDefensiveRebounds()/player.get(i).getGamesPlayed());
+						player.get(i).setSteals(player.get(i).getSteals()/player.get(i).getGamesPlayed());
+						player.get(i).setBlocks(player.get(i).getBlocks()/player.get(i).getGamesPlayed());
+						player.get(i).setTurnovers(player.get(i).getTurnovers()/player.get(i).getGamesPlayed());
+						player.get(i).setFouls(player.get(i).getFouls()/player.get(i).getGamesPlayed());
+						player.get(i).setPoints(player.get(i).getPoints()/player.get(i).getGamesPlayed());
+					}
+				}
+				
+				table_1.removeAll();	
+				if(item[13]%3==0){
+					
+					writeTable4(player,0);
+					
+				}else if(item[13]%3==1){
+					ArrayList<playerInfoVO> player2=si.descendingOrder(player,"steals");
+					writeTable4(player2,0);
+					
+				}else{
+					ArrayList<playerInfoVO> player2=si.descendingOrder(player,"steals");
+					Collections.reverse(player2);
+					writeTable4(player2,0);
+					
+				}
 			}
 		});
 		tableColumn_20.setWidth(64);
@@ -1142,33 +1461,169 @@ public class NBAQuerySystemUI {
 		tableColumn_21.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				item[14]++;
+				ServiceImp si=new ServiceImp();
+				ArrayList<playerInfoVO> player=si.getPlayerInfo(pc2);
+				if(combo_7.getText().equals("场均数据")){
+					for(int i=0;i<player.size();i++){
+						player.get(i).setRebounds(player.get(i).getRebounds()/player.get(i).getGamesPlayed());
+						player.get(i).setAssists(player.get(i).getAssists()/player.get(i).getGamesPlayed());
+						player.get(i).setMinutes(player.get(i).getMinutes()/player.get(i).getGamesPlayed());
+						player.get(i).setOffensiveRebounds(player.get(i).getOffensiveRebounds()/player.get(i).getGamesPlayed());
+						player.get(i).setDefensiveRebounds(player.get(i).getDefensiveRebounds()/player.get(i).getGamesPlayed());
+						player.get(i).setSteals(player.get(i).getSteals()/player.get(i).getGamesPlayed());
+						player.get(i).setBlocks(player.get(i).getBlocks()/player.get(i).getGamesPlayed());
+						player.get(i).setTurnovers(player.get(i).getTurnovers()/player.get(i).getGamesPlayed());
+						player.get(i).setFouls(player.get(i).getFouls()/player.get(i).getGamesPlayed());
+						player.get(i).setPoints(player.get(i).getPoints()/player.get(i).getGamesPlayed());
+					}
+				}
+				
+				table_1.removeAll();	
+				if(item[14]%3==0){
+					
+					writeTable4(player,0);
+					
+				}else if(item[14]%3==1){
+					ArrayList<playerInfoVO> player2=si.descendingOrder(player,"blocks");
+					writeTable4(player2,0);
+					
+				}else{
+					ArrayList<playerInfoVO> player2=si.descendingOrder(player,"blocks");
+					Collections.reverse(player2);
+					writeTable4(player2,0);
+					
+					
+				}
 			}
 		});
 		tableColumn_21.setWidth(62);
 		tableColumn_21.setText("\u76D6\u5E3D\u6570");
 		
-		TableColumn tableColumn_22 = new TableColumn(table_1, SWT.NONE);
+		TableColumn tableColumn_22 = new TableColumn(table_1, SWT.NONE);//失误数
 		tableColumn_22.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				item[15]++;
+				ServiceImp si=new ServiceImp();
+				ArrayList<playerInfoVO> player=si.getPlayerInfo(pc2);
+				if(combo_7.getText().equals("场均数据")){
+					for(int i=0;i<player.size();i++){
+						player.get(i).setRebounds(player.get(i).getRebounds()/player.get(i).getGamesPlayed());
+						player.get(i).setAssists(player.get(i).getAssists()/player.get(i).getGamesPlayed());
+						player.get(i).setMinutes(player.get(i).getMinutes()/player.get(i).getGamesPlayed());
+						player.get(i).setOffensiveRebounds(player.get(i).getOffensiveRebounds()/player.get(i).getGamesPlayed());
+						player.get(i).setDefensiveRebounds(player.get(i).getDefensiveRebounds()/player.get(i).getGamesPlayed());
+						player.get(i).setSteals(player.get(i).getSteals()/player.get(i).getGamesPlayed());
+						player.get(i).setBlocks(player.get(i).getBlocks()/player.get(i).getGamesPlayed());
+						player.get(i).setTurnovers(player.get(i).getTurnovers()/player.get(i).getGamesPlayed());
+						player.get(i).setFouls(player.get(i).getFouls()/player.get(i).getGamesPlayed());
+						player.get(i).setPoints(player.get(i).getPoints()/player.get(i).getGamesPlayed());
+					}
+				}
+				
+				table_1.removeAll();	
+				if(item[15]%3==0){
+					
+					writeTable4(player,0);
+					
+				}else if(item[15]%3==1){
+					ArrayList<playerInfoVO> player2=si.descendingOrder(player,"turnovers");
+					writeTable4(player2,0);
+					
+				}else{
+					ArrayList<playerInfoVO> player2=si.descendingOrder(player,"turnovers");
+					Collections.reverse(player2);
+					writeTable4(player2,0);
+				
+					
+				}
 			}
 		});
 		tableColumn_22.setWidth(63);
 		tableColumn_22.setText("\u5931\u8BEF\u6570");
 		
-		TableColumn tableColumn_23 = new TableColumn(table_1, SWT.NONE);
+		TableColumn tableColumn_23 = new TableColumn(table_1, SWT.NONE);//犯规数
 		tableColumn_23.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				item[16]++;
+				ServiceImp si=new ServiceImp();
+				ArrayList<playerInfoVO> player=si.getPlayerInfo(pc2);
+				if(combo_7.getText().equals("场均数据")){
+					for(int i=0;i<player.size();i++){
+						player.get(i).setRebounds(player.get(i).getRebounds()/player.get(i).getGamesPlayed());
+						player.get(i).setAssists(player.get(i).getAssists()/player.get(i).getGamesPlayed());
+						player.get(i).setMinutes(player.get(i).getMinutes()/player.get(i).getGamesPlayed());
+						player.get(i).setOffensiveRebounds(player.get(i).getOffensiveRebounds()/player.get(i).getGamesPlayed());
+						player.get(i).setDefensiveRebounds(player.get(i).getDefensiveRebounds()/player.get(i).getGamesPlayed());
+						player.get(i).setSteals(player.get(i).getSteals()/player.get(i).getGamesPlayed());
+						player.get(i).setBlocks(player.get(i).getBlocks()/player.get(i).getGamesPlayed());
+						player.get(i).setTurnovers(player.get(i).getTurnovers()/player.get(i).getGamesPlayed());
+						player.get(i).setFouls(player.get(i).getFouls()/player.get(i).getGamesPlayed());
+						player.get(i).setPoints(player.get(i).getPoints()/player.get(i).getGamesPlayed());
+					}
+				}
+				
+				table_1.removeAll();	
+				if(item[16]%3==0){
+					
+					writeTable4(player,0);
+					
+				}else if(item[16]%3==1){
+					ArrayList<playerInfoVO> player2=si.descendingOrder(player,"fouls");
+					writeTable4(player2,0);
+					
+				}else{
+					ArrayList<playerInfoVO> player2=si.descendingOrder(player,"fouls");
+					Collections.reverse(player2);
+					writeTable4(player2,0);
+						
+					
+				}
 			}
 		});
 		tableColumn_23.setWidth(57);
 		tableColumn_23.setText("\u72AF\u89C4\u6570");
 		
-		TableColumn tableColumn_24 = new TableColumn(table_1, SWT.NONE);
+		TableColumn tableColumn_24 = new TableColumn(table_1, SWT.NONE);//得分
 		tableColumn_24.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				item[17]++;
+				ServiceImp si=new ServiceImp();
+				ArrayList<playerInfoVO> player=si.getPlayerInfo(pc2);
+				if(combo_7.getText().equals("场均数据")){
+					for(int i=0;i<player.size();i++){
+						player.get(i).setRebounds(player.get(i).getRebounds()/player.get(i).getGamesPlayed());
+						player.get(i).setAssists(player.get(i).getAssists()/player.get(i).getGamesPlayed());
+						player.get(i).setMinutes(player.get(i).getMinutes()/player.get(i).getGamesPlayed());
+						player.get(i).setOffensiveRebounds(player.get(i).getOffensiveRebounds()/player.get(i).getGamesPlayed());
+						player.get(i).setDefensiveRebounds(player.get(i).getDefensiveRebounds()/player.get(i).getGamesPlayed());
+						player.get(i).setSteals(player.get(i).getSteals()/player.get(i).getGamesPlayed());
+						player.get(i).setBlocks(player.get(i).getBlocks()/player.get(i).getGamesPlayed());
+						player.get(i).setTurnovers(player.get(i).getTurnovers()/player.get(i).getGamesPlayed());
+						player.get(i).setFouls(player.get(i).getFouls()/player.get(i).getGamesPlayed());
+						player.get(i).setPoints(player.get(i).getPoints()/player.get(i).getGamesPlayed());
+					}
+				}
+				
+				table_1.removeAll();	
+				if(item[17]%3==0){
+					
+					writeTable4(player,0);
+					
+				}else if(item[17]%3==1){
+					ArrayList<playerInfoVO> player2=si.descendingOrder(player,"points");
+					writeTable4(player2,0);
+					
+				}else{
+					ArrayList<playerInfoVO> player2=si.descendingOrder(player,"points");
+					Collections.reverse(player2);
+					writeTable4(player2,0);
+						
+					
+				}
 			}
 		});
 		tableColumn_24.setWidth(44);
@@ -1178,24 +1633,105 @@ public class NBAQuerySystemUI {
 		tableColumn_25.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				item[18]++;
+				ServiceImp si=new ServiceImp();
+				ArrayList<playerInfoVO> player=si.getPlayerInfo(pc2);
+				ArrayList<playerInfoVO> player2=si.descendingOrder(player,"efficiency");
+				table_1.removeAll();	
+				if(item[18]%3==0){
+					
+					if(combo_7.getText().equals("场均数据")){
+						writeTable4(si.getPlayerInfo(pc2),1);
+					}else{
+						writeTable4(si.getPlayerInfo(pc2),0);
+					}
+				}else if(item[18]%3==1){
+					if(combo_7.getText().equals("场均数据")){
+					writeTable4(player2,1);
+					}else{
+					writeTable4(player2,0);
+					}
+				}else{
+					Collections.reverse(player2);
+					if(combo_7.getText().equals("场均数据")){
+						writeTable4(player2,1);
+						}else{
+						writeTable4(player2,0);
+						}
+					
+				}
 			}
 		});
 		tableColumn_25.setWidth(52);
 		tableColumn_25.setText("\u6548\u7387");
 		
-		TableColumn tableColumn_26 = new TableColumn(table_1, SWT.NONE);
+		TableColumn tableColumn_26 = new TableColumn(table_1, SWT.NONE);//GmSc效率值
 		tableColumn_26.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				item[19]++;
+				ServiceImp si=new ServiceImp();
+				ArrayList<playerInfoVO> player=si.getPlayerInfo(pc2);
+				ArrayList<playerInfoVO> player2=si.descendingOrder(player,"GmSc");
+				table_1.removeAll();	
+				if(item[19]%3==0){
+					
+					if(combo_7.getText().equals("场均数据")){
+						writeTable4(si.getPlayerInfo(pc2),1);
+					}else{
+						writeTable4(si.getPlayerInfo(pc2),0);
+					}
+				}else if(item[19]%3==1){
+					if(combo_7.getText().equals("场均数据")){
+					writeTable4(player2,1);
+					}else{
+					writeTable4(player2,0);
+					}
+				}else{
+					Collections.reverse(player2);
+					if(combo_7.getText().equals("场均数据")){
+						writeTable4(player2,1);
+						}else{
+						writeTable4(player2,0);
+						}
+					
+				}
 			}
 		});
 		tableColumn_26.setWidth(70);
 		tableColumn_26.setText("GmSc\u6548\u7387\u503C");
 		
-		TableColumn tableColumn_27 = new TableColumn(table_1, SWT.NONE);
+		TableColumn tableColumn_27 = new TableColumn(table_1, SWT.NONE);//真实命中率
 		tableColumn_27.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				item[20]++;
+				ServiceImp si=new ServiceImp();
+				ArrayList<playerInfoVO> player=si.getPlayerInfo(pc2);
+				ArrayList<playerInfoVO> player2=si.descendingOrder(player,"trueShootingPercentage");
+				table_1.removeAll();	
+				if(item[20]%3==0){
+					
+					if(combo_7.getText().equals("场均数据")){
+						writeTable4(si.getPlayerInfo(pc2),1);
+					}else{
+						writeTable4(si.getPlayerInfo(pc2),0);
+					}
+				}else if(item[20]%3==1){
+					if(combo_7.getText().equals("场均数据")){
+					writeTable4(player2,1);
+					}else{
+					writeTable4(player2,0);
+					}
+				}else{
+					Collections.reverse(player2);
+					if(combo_7.getText().equals("场均数据")){
+						writeTable4(player2,1);
+						}else{
+						writeTable4(player2,0);
+						}
+					
+				}
 			}
 		});
 		tableColumn_27.setWidth(70);
@@ -1205,33 +1741,141 @@ public class NBAQuerySystemUI {
 		tableColumn_28.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				item[21]++;
+				ServiceImp si=new ServiceImp();
+				ArrayList<playerInfoVO> player=si.getPlayerInfo(pc2);
+				ArrayList<playerInfoVO> player2=si.descendingOrder(player,"shootingEfficiency");
+				table_1.removeAll();	
+				if(item[21]%3==0){
+					
+					if(combo_7.getText().equals("场均数据")){
+						writeTable4(si.getPlayerInfo(pc2),1);
+					}else{
+						writeTable4(si.getPlayerInfo(pc2),0);
+					}
+				}else if(item[21]%3==1){
+					if(combo_7.getText().equals("场均数据")){
+					writeTable4(player2,1);
+					}else{
+					writeTable4(player2,0);
+					}
+				}else{
+					Collections.reverse(player2);
+					if(combo_7.getText().equals("场均数据")){
+						writeTable4(player2,1);
+						}else{
+						writeTable4(player2,0);
+						}
+					
+				}
 			}
 		});
 		tableColumn_28.setWidth(70);
 		tableColumn_28.setText("\u6295\u7BEE\u6548\u7387");
 		
-		TableColumn tableColumn_29 = new TableColumn(table_1, SWT.NONE);
+		TableColumn tableColumn_29 = new TableColumn(table_1, SWT.NONE);//篮板率
 		tableColumn_29.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				item[22]++;
+				ServiceImp si=new ServiceImp();
+				ArrayList<playerInfoVO> player=si.getPlayerInfo(pc2);
+				ArrayList<playerInfoVO> player2=si.descendingOrder(player,"reboundRating");
+				table_1.removeAll();	
+				if(item[22]%3==0){
+					
+					if(combo_7.getText().equals("场均数据")){
+						writeTable4(si.getPlayerInfo(pc2),1);
+					}else{
+						writeTable4(si.getPlayerInfo(pc2),0);
+					}
+				}else if(item[22]%3==1){
+					if(combo_7.getText().equals("场均数据")){
+					writeTable4(player2,1);
+					}else{
+					writeTable4(player2,0);
+					}
+				}else{
+					Collections.reverse(player2);
+					if(combo_7.getText().equals("场均数据")){
+						writeTable4(player2,1);
+						}else{
+						writeTable4(player2,0);
+						}
+					
+				}
 			}
 		});
 		tableColumn_29.setWidth(70);
 		tableColumn_29.setText("\u7BEE\u677F\u7387");
 		
-		TableColumn tblclmnNewColumn_2 = new TableColumn(table_1, SWT.NONE);
+		TableColumn tblclmnNewColumn_2 = new TableColumn(table_1, SWT.NONE);//进攻篮板率
 		tblclmnNewColumn_2.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				item[23]++;
+				ServiceImp si=new ServiceImp();
+				ArrayList<playerInfoVO> player=si.getPlayerInfo(pc2);
+				ArrayList<playerInfoVO> player2=si.descendingOrder(player,"offensiveReboundRating");
+				table_1.removeAll();	
+				if(item[23]%3==0){
+					
+					if(combo_7.getText().equals("场均数据")){
+						writeTable4(si.getPlayerInfo(pc2),1);
+					}else{
+						writeTable4(si.getPlayerInfo(pc2),0);
+					}
+				}else if(item[23]%3==1){
+					if(combo_7.getText().equals("场均数据")){
+					writeTable4(player2,1);
+					}else{
+					writeTable4(player2,0);
+					}
+				}else{
+					Collections.reverse(player2);
+					if(combo_7.getText().equals("场均数据")){
+						writeTable4(player2,1);
+						}else{
+						writeTable4(player2,0);
+						}
+					
+				}
 			}
 		});
 		tblclmnNewColumn_2.setText("\u8FDB\u653B\u7BEE\u677F\u7387");
 		tblclmnNewColumn_2.setWidth(70);
 		
-		TableColumn tblclmnNewColumn_3 = new TableColumn(table_1, SWT.NONE);
+		TableColumn tblclmnNewColumn_3 = new TableColumn(table_1, SWT.NONE);//防守篮板率
 		tblclmnNewColumn_3.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				item[24]++;
+				ServiceImp si=new ServiceImp();
+				ArrayList<playerInfoVO> player=si.getPlayerInfo(pc2);
+				ArrayList<playerInfoVO> player2=si.descendingOrder(player,"defensiveReboundRating");
+				table_1.removeAll();	
+				if(item[24]%3==0){
+					
+					if(combo_7.getText().equals("场均数据")){
+						writeTable4(si.getPlayerInfo(pc2),1);
+					}else{
+						writeTable4(si.getPlayerInfo(pc2),0);
+					}
+				}else if(item[24]%3==1){
+					if(combo_7.getText().equals("场均数据")){
+					writeTable4(player2,1);
+					}else{
+					writeTable4(player2,0);
+					}
+				}else{
+					Collections.reverse(player2);
+					if(combo_7.getText().equals("场均数据")){
+						writeTable4(player2,1);
+						}else{
+						writeTable4(player2,0);
+						}
+					
+				}
 			}
 		});
 		tblclmnNewColumn_3.setWidth(70);
@@ -1241,42 +1885,177 @@ public class NBAQuerySystemUI {
 		tableColumn_30.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				item[25]++;
+				ServiceImp si=new ServiceImp();
+				ArrayList<playerInfoVO> player=si.getPlayerInfo(pc2);
+				ArrayList<playerInfoVO> player2=si.descendingOrder(player,"assisyRating");
+				table_1.removeAll();	
+				if(item[25]%3==0){
+					
+					if(combo_7.getText().equals("场均数据")){
+						writeTable4(si.getPlayerInfo(pc2),1);
+					}else{
+						writeTable4(si.getPlayerInfo(pc2),0);
+					}
+				}else if(item[25]%3==1){
+					if(combo_7.getText().equals("场均数据")){
+					writeTable4(player2,1);
+					}else{
+					writeTable4(player2,0);
+					}
+				}else{
+					Collections.reverse(player2);
+					if(combo_7.getText().equals("场均数据")){
+						writeTable4(player2,1);
+						}else{
+						writeTable4(player2,0);
+						}
+					
+				}
 			}
 		});
 		tableColumn_30.setWidth(70);
 		tableColumn_30.setText("\u52A9\u653B\u7387");
 		
-		TableColumn tableColumn_31 = new TableColumn(table_1, SWT.NONE);
+		TableColumn tableColumn_31 = new TableColumn(table_1, SWT.NONE);//抢断率
 		tableColumn_31.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				item[26]++;
+				ServiceImp si=new ServiceImp();
+				ArrayList<playerInfoVO> player=si.getPlayerInfo(pc2);
+				ArrayList<playerInfoVO> player2=si.descendingOrder(player,"stealRating");
+				table_1.removeAll();	
+				if(item[26]%3==0){
+					
+					if(combo_7.getText().equals("场均数据")){
+						writeTable4(si.getPlayerInfo(pc2),1);
+					}else{
+						writeTable4(si.getPlayerInfo(pc2),0);
+					}
+				}else if(item[26]%3==1){
+					if(combo_7.getText().equals("场均数据")){
+					writeTable4(player2,1);
+					}else{
+					writeTable4(player2,0);
+					}
+				}else{
+					Collections.reverse(player2);
+					if(combo_7.getText().equals("场均数据")){
+						writeTable4(player2,1);
+						}else{
+						writeTable4(player2,0);
+						}
+					
+				}
 			}
 		});
 		tableColumn_31.setText("\u62A2\u65AD\u7387");
 		tableColumn_31.setWidth(70);
 		
-		TableColumn tblclmnNewColumn_4 = new TableColumn(table_1, SWT.NONE);
+		TableColumn tblclmnNewColumn_4 = new TableColumn(table_1, SWT.NONE);//盖帽率
 		tblclmnNewColumn_4.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				item[27]++;
+				ServiceImp si=new ServiceImp();
+				ArrayList<playerInfoVO> player=si.getPlayerInfo(pc2);
+				ArrayList<playerInfoVO> player2=si.descendingOrder(player,"blockRating");
+				table_1.removeAll();	
+				if(item[27]%3==0){
+					
+					if(combo_7.getText().equals("场均数据")){
+						writeTable4(si.getPlayerInfo(pc2),1);
+					}else{
+						writeTable4(si.getPlayerInfo(pc2),0);
+					}
+				}else if(item[27]%3==1){
+					if(combo_7.getText().equals("场均数据")){
+					writeTable4(player2,1);
+					}else{
+					writeTable4(player2,0);
+					}
+				}else{
+					Collections.reverse(player2);
+					if(combo_7.getText().equals("场均数据")){
+						writeTable4(player2,1);
+						}else{
+						writeTable4(player2,0);
+						}
+					
+				}
 			}
 		});
 		tblclmnNewColumn_4.setWidth(70);
 		tblclmnNewColumn_4.setText("\u76D6\u5E3D\u7387");
 		
-		TableColumn tblclmnNewColumn_5 = new TableColumn(table_1, SWT.NONE);
+		TableColumn tblclmnNewColumn_5 = new TableColumn(table_1, SWT.NONE);//失误率
 		tblclmnNewColumn_5.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				item[28]++;
+				ServiceImp si=new ServiceImp();
+				ArrayList<playerInfoVO> player=si.getPlayerInfo(pc2);
+				ArrayList<playerInfoVO> player2=si.descendingOrder(player,"turnoverRating");
+				table_1.removeAll();	
+				if(item[28]%3==0){
+					
+					if(combo_7.getText().equals("场均数据")){
+						writeTable4(si.getPlayerInfo(pc2),1);
+					}else{
+						writeTable4(si.getPlayerInfo(pc2),0);
+					}
+				}else if(item[28]%3==1){
+					if(combo_7.getText().equals("场均数据")){
+					writeTable4(player2,1);
+					}else{
+					writeTable4(player2,0);
+					}
+				}else{
+					Collections.reverse(player2);
+					if(combo_7.getText().equals("场均数据")){
+						writeTable4(player2,1);
+						}else{
+						writeTable4(player2,0);
+						}
+					
+				}
 			}
 		});
 		tblclmnNewColumn_5.setWidth(70);
 		tblclmnNewColumn_5.setText("\u5931\u8BEF\u7387");
 		
-		TableColumn tblclmnNewColumn_6 = new TableColumn(table_1, SWT.NONE);
+		TableColumn tblclmnNewColumn_6 = new TableColumn(table_1, SWT.NONE);//使用率
 		tblclmnNewColumn_6.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				item[29]++;
+				ServiceImp si=new ServiceImp();
+				ArrayList<playerInfoVO> player=si.getPlayerInfo(pc2);
+				ArrayList<playerInfoVO> player2=si.descendingOrder(player,"utilizationRating");
+				table_1.removeAll();	
+				if(item[29]%3==0){
+					
+					if(combo_7.getText().equals("场均数据")){
+						writeTable4(si.getPlayerInfo(pc2),1);
+					}else{
+						writeTable4(si.getPlayerInfo(pc2),0);
+					}
+				}else if(item[29]%3==1){
+					if(combo_7.getText().equals("场均数据")){
+					writeTable4(player2,1);
+					}else{
+					writeTable4(player2,0);
+					}
+				}else{
+					Collections.reverse(player2);
+					if(combo_7.getText().equals("场均数据")){
+						writeTable4(player2,1);
+						}else{
+						writeTable4(player2,0);
+						}
+					
+				}
 			}
 		});
 		tblclmnNewColumn_6.setWidth(70);
@@ -1347,7 +2126,7 @@ public class NBAQuerySystemUI {
 				TableItem[] itemList =table_3.getItems();
 				int listHaveChouse = table_3.getSelectionIndex();		
 				String firstInfo = itemList[listHaveChouse].getText(1);
-				System.out.println(firstInfo);
+				
 				teamInfoVO t=new teamInfoVO();
 				t.setFullName(firstInfo);
 				ServiceImp si=new ServiceImp();
@@ -1360,7 +2139,11 @@ public class NBAQuerySystemUI {
 				teamText_6.setText("主场："+t2.getHomeCourt());
 				teamText_7.setText("建立时间："+t2.getCreateTime());
 				
-				composite_9.setBackgroundImage(SWTResourceManager.getImage(NBAQuerySystemUI.class, "/presentation/image/"+firstInfo+".svg"));
+				Image image=SWTResourceManager.getImage(NBAQuerySystemUI.class, "/presentation/image/teams/"+t2.getTeamName()+".jpg");
+				final Rectangle bounds=image.getBounds();
+				composite_9.setBounds(100, 200, bounds.width, bounds.height);					
+				composite_9.setBackgroundImage(image);
+			
 				
 			}
 		});
@@ -1368,127 +2151,1411 @@ public class NBAQuerySystemUI {
 		table_3.setSize(1240, 550);
 		table_3.setHeaderVisible(true);
 		table_3.setLinesVisible(true);
+		final int item2[] =new int[30] ;
+		for(int i=0;i<30;i++){
+			item2[i]=0;
+		}
 		
-		TableColumn tableColumn_32 = new TableColumn(table_3, SWT.NONE);
+		TableColumn tableColumn_32 = new TableColumn(table_3, SWT.NONE);//排名
+		tableColumn_32.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+			}
+		});
 		tableColumn_32.setWidth(43);
 		tableColumn_32.setText("\u6392\u540D");
 		
-		TableColumn tblclmnNewColumn_7 = new TableColumn(table_3, SWT.NONE);
+		TableColumn tblclmnNewColumn_7 = new TableColumn(table_3, SWT.NONE);//球队名称
+		tblclmnNewColumn_7.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+			}
+		});
 		tblclmnNewColumn_7.setWidth(100);
 		tblclmnNewColumn_7.setText("\u7403\u961F\u540D\u79F0");
 		
-		TableColumn tblclmnNewColumn_8 = new TableColumn(table_3, SWT.NONE);
+		TableColumn tblclmnNewColumn_8 = new TableColumn(table_3, SWT.NONE);//比赛场次
+		tblclmnNewColumn_8.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				
+				item2[2]++;
+				ServiceImp si=new ServiceImp();
+				teamCondition t=new teamCondition();
+				t.setTeampartion(teamPartion.All);
+				ArrayList<teamInfoVO> team=si.getTeamInfo(t);
+				if(combo_8.getText().equals("场均数据")){
+					for(int i=0;i<team.size();i++){			
+						team.get(i).setFieldGoalsMade(team.get(i).getFieldGoalsMade()/team.get(i).getGamesPlayed());
+						team.get(i).setFieldGoalsAttempted(team.get(i).getFieldGoalsAttempted()/team.get(i).getGamesPlayed());
+						team.get(i).setThreePointFieldGoalsMade(team.get(i).getThreePointFieldGoalsMade()/team.get(i).getGamesPlayed());
+						team.get(i).setThreePointFieldGoalsAttempted(team.get(i).getThreePointFieldGoalsAttempted()/team.get(i).getGamesPlayed());
+						team.get(i).setFreeThrowsMade(team.get(i).getFreeThrowsMade()/team.get(i).getGamesPlayed());
+						team.get(i).setOffensiveRebounds(team.get(i).getOffensiveRebounds()/team.get(i).getGamesPlayed());
+						team.get(i).setDefensiveRebounds(team.get(i).getDefensiveRebounds()/team.get(i).getGamesPlayed());				
+						team.get(i).setRebounds(team.get(i).getRebounds()/team.get(i).getGamesPlayed());
+						team.get(i).setAssists(team.get(i).getAssists()/team.get(i).getGamesPlayed());
+						team.get(i).setSteals(team.get(i).getSteals()/team.get(i).getGamesPlayed());
+						team.get(i).setBlocks(team.get(i).getBlocks()/team.get(i).getGamesPlayed());
+						team.get(i).setTurnovers(team.get(i).getTurnovers()/team.get(i).getGamesPlayed());
+						team.get(i).setFouls(team.get(i).getFouls()/team.get(i).getGamesPlayed());
+						team.get(i).setPoints(team.get(i).getPoints()/team.get(i).getGamesPlayed());
+						team.get(i).setPossessions(team.get(i).getPossessions()/team.get(i).getGamesPlayed());
+					}
+				}
+				
+				table_3.removeAll();	
+				if(item2[2]%3==0){
+					
+					writeTable3(team,0);
+					
+				}else if(item2[2]%3==1){
+					
+					ArrayList<teamInfoVO> team2=si.sortTeam(team, "gamesPlayed");
+					writeTable3(team2,0);
+					
+				}else{
+					ArrayList<teamInfoVO> team2=si.sortTeam(team, "gamesPlayed");
+					Collections.reverse(team2);
+					writeTable3(team2,0);
+					
+					
+				}
+			
+			}
+		});
 		tblclmnNewColumn_8.setWidth(100);
 		tblclmnNewColumn_8.setText("\u6BD4\u8D5B\u573A\u6570");
 		
 		TableColumn tblclmnNewColumn_9 = new TableColumn(table_3, SWT.NONE);
+		tblclmnNewColumn_9.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				item2[3]++;
+				ServiceImp si=new ServiceImp();
+				teamCondition t=new teamCondition();
+				t.setTeampartion(teamPartion.All);
+				ArrayList<teamInfoVO> team=si.getTeamInfo(t);
+				if(combo_8.getText().equals("场均数据")){
+					for(int i=0;i<team.size();i++){			
+						team.get(i).setFieldGoalsMade(team.get(i).getFieldGoalsMade()/team.get(i).getGamesPlayed());
+						team.get(i).setFieldGoalsAttempted(team.get(i).getFieldGoalsAttempted()/team.get(i).getGamesPlayed());
+						team.get(i).setThreePointFieldGoalsMade(team.get(i).getThreePointFieldGoalsMade()/team.get(i).getGamesPlayed());
+						team.get(i).setThreePointFieldGoalsAttempted(team.get(i).getThreePointFieldGoalsAttempted()/team.get(i).getGamesPlayed());
+						team.get(i).setFreeThrowsMade(team.get(i).getFreeThrowsMade()/team.get(i).getGamesPlayed());
+						team.get(i).setOffensiveRebounds(team.get(i).getOffensiveRebounds()/team.get(i).getGamesPlayed());
+						team.get(i).setDefensiveRebounds(team.get(i).getDefensiveRebounds()/team.get(i).getGamesPlayed());				
+						team.get(i).setRebounds(team.get(i).getRebounds()/team.get(i).getGamesPlayed());
+						team.get(i).setAssists(team.get(i).getAssists()/team.get(i).getGamesPlayed());
+						team.get(i).setSteals(team.get(i).getSteals()/team.get(i).getGamesPlayed());
+						team.get(i).setBlocks(team.get(i).getBlocks()/team.get(i).getGamesPlayed());
+						team.get(i).setTurnovers(team.get(i).getTurnovers()/team.get(i).getGamesPlayed());
+						team.get(i).setFouls(team.get(i).getFouls()/team.get(i).getGamesPlayed());
+						team.get(i).setPoints(team.get(i).getPoints()/team.get(i).getGamesPlayed());
+						team.get(i).setPossessions(team.get(i).getPossessions()/team.get(i).getGamesPlayed());
+					}
+				}
+				
+				table_3.removeAll();	
+				if(item2[3]%3==0){
+					
+					writeTable3(team,0);
+					
+				}else if(item2[3]%3==1){
+					
+					ArrayList<teamInfoVO> team2=si.sortTeam(team, "fieldGoalsMade");
+					writeTable3(team2,0);
+					
+				}else{
+					ArrayList<teamInfoVO> team2=si.sortTeam(team, "fieldGoalsMade");
+					Collections.reverse(team2);
+					writeTable3(team2,0);
+					
+					
+				}
+			}
+		});
 		tblclmnNewColumn_9.setWidth(100);
 		tblclmnNewColumn_9.setText("\u6295\u7BEE\u547D\u4E2D\u6570");
 		
 		TableColumn tblclmnNewColumn_10 = new TableColumn(table_3, SWT.NONE);
+		tblclmnNewColumn_10.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				item2[4]++;
+				ServiceImp si=new ServiceImp();
+				teamCondition t=new teamCondition();
+				t.setTeampartion(teamPartion.All);
+				ArrayList<teamInfoVO> team=si.getTeamInfo(t);
+				if(combo_8.getText().equals("场均数据")){
+					for(int i=0;i<team.size();i++){			
+						team.get(i).setFieldGoalsMade(team.get(i).getFieldGoalsMade()/team.get(i).getGamesPlayed());
+						team.get(i).setFieldGoalsAttempted(team.get(i).getFieldGoalsAttempted()/team.get(i).getGamesPlayed());
+						team.get(i).setThreePointFieldGoalsMade(team.get(i).getThreePointFieldGoalsMade()/team.get(i).getGamesPlayed());
+						team.get(i).setThreePointFieldGoalsAttempted(team.get(i).getThreePointFieldGoalsAttempted()/team.get(i).getGamesPlayed());
+						team.get(i).setFreeThrowsMade(team.get(i).getFreeThrowsMade()/team.get(i).getGamesPlayed());
+						team.get(i).setOffensiveRebounds(team.get(i).getOffensiveRebounds()/team.get(i).getGamesPlayed());
+						team.get(i).setDefensiveRebounds(team.get(i).getDefensiveRebounds()/team.get(i).getGamesPlayed());				
+						team.get(i).setRebounds(team.get(i).getRebounds()/team.get(i).getGamesPlayed());
+						team.get(i).setAssists(team.get(i).getAssists()/team.get(i).getGamesPlayed());
+						team.get(i).setSteals(team.get(i).getSteals()/team.get(i).getGamesPlayed());
+						team.get(i).setBlocks(team.get(i).getBlocks()/team.get(i).getGamesPlayed());
+						team.get(i).setTurnovers(team.get(i).getTurnovers()/team.get(i).getGamesPlayed());
+						team.get(i).setFouls(team.get(i).getFouls()/team.get(i).getGamesPlayed());
+						team.get(i).setPoints(team.get(i).getPoints()/team.get(i).getGamesPlayed());
+						team.get(i).setPossessions(team.get(i).getPossessions()/team.get(i).getGamesPlayed());
+					}
+				}
+				
+				table_3.removeAll();	
+				if(item2[4]%3==0){
+					
+					writeTable3(team,0);
+					
+				}else if(item2[4]%3==1){
+					
+					ArrayList<teamInfoVO> team2=si.sortTeam(team, "fieldGoalsAttempted");
+					writeTable3(team2,0);
+					
+				}else{
+					ArrayList<teamInfoVO> team2=si.sortTeam(team, "fieldGoalsAttempted");
+					Collections.reverse(team2);
+					writeTable3(team2,0);
+					
+					
+				}
+			}
+		});
 		tblclmnNewColumn_10.setWidth(100);
 		tblclmnNewColumn_10.setText("\u6295\u7BEE\u51FA\u624B\u6B21\u6570");
 		
 		TableColumn tblclmnNewColumn_11 = new TableColumn(table_3, SWT.NONE);
+		tblclmnNewColumn_11.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				item2[5]++;
+				ServiceImp si=new ServiceImp();
+				teamCondition t=new teamCondition();
+				t.setTeampartion(teamPartion.All);
+				ArrayList<teamInfoVO> team=si.getTeamInfo(t);
+				if(combo_8.getText().equals("场均数据")){
+					for(int i=0;i<team.size();i++){			
+						team.get(i).setFieldGoalsMade(team.get(i).getFieldGoalsMade()/team.get(i).getGamesPlayed());
+						team.get(i).setFieldGoalsAttempted(team.get(i).getFieldGoalsAttempted()/team.get(i).getGamesPlayed());
+						team.get(i).setThreePointFieldGoalsMade(team.get(i).getThreePointFieldGoalsMade()/team.get(i).getGamesPlayed());
+						team.get(i).setThreePointFieldGoalsAttempted(team.get(i).getThreePointFieldGoalsAttempted()/team.get(i).getGamesPlayed());
+						team.get(i).setFreeThrowsMade(team.get(i).getFreeThrowsMade()/team.get(i).getGamesPlayed());
+						team.get(i).setOffensiveRebounds(team.get(i).getOffensiveRebounds()/team.get(i).getGamesPlayed());
+						team.get(i).setDefensiveRebounds(team.get(i).getDefensiveRebounds()/team.get(i).getGamesPlayed());				
+						team.get(i).setRebounds(team.get(i).getRebounds()/team.get(i).getGamesPlayed());
+						team.get(i).setAssists(team.get(i).getAssists()/team.get(i).getGamesPlayed());
+						team.get(i).setSteals(team.get(i).getSteals()/team.get(i).getGamesPlayed());
+						team.get(i).setBlocks(team.get(i).getBlocks()/team.get(i).getGamesPlayed());
+						team.get(i).setTurnovers(team.get(i).getTurnovers()/team.get(i).getGamesPlayed());
+						team.get(i).setFouls(team.get(i).getFouls()/team.get(i).getGamesPlayed());
+						team.get(i).setPoints(team.get(i).getPoints()/team.get(i).getGamesPlayed());
+						team.get(i).setPossessions(team.get(i).getPossessions()/team.get(i).getGamesPlayed());
+					}
+				}
+				
+				table_3.removeAll();	
+				if(item2[5]%3==0){
+					
+					writeTable3(team,0);
+					
+				}else if(item2[5]%3==1){
+					
+					ArrayList<teamInfoVO> team2=si.sortTeam(team, "threePointFieldGoalsMade");
+					writeTable3(team2,0);
+					
+				}else{
+					ArrayList<teamInfoVO> team2=si.sortTeam(team, "threePointFieldGoalsMade");
+					Collections.reverse(team2);
+					writeTable3(team2,0);
+					
+					
+				}
+			}
+		});
 		tblclmnNewColumn_11.setWidth(100);
 		tblclmnNewColumn_11.setText("\u4E09\u5206\u547D\u4E2D\u6570");
 		
 		TableColumn tblclmnNewColumn_12 = new TableColumn(table_3, SWT.NONE);
+		tblclmnNewColumn_12.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				item2[6]++;
+				ServiceImp si=new ServiceImp();
+				teamCondition t=new teamCondition();
+				t.setTeampartion(teamPartion.All);
+				ArrayList<teamInfoVO> team=si.getTeamInfo(t);
+				if(combo_8.getText().equals("场均数据")){
+					for(int i=0;i<team.size();i++){			
+						team.get(i).setFieldGoalsMade(team.get(i).getFieldGoalsMade()/team.get(i).getGamesPlayed());
+						team.get(i).setFieldGoalsAttempted(team.get(i).getFieldGoalsAttempted()/team.get(i).getGamesPlayed());
+						team.get(i).setThreePointFieldGoalsMade(team.get(i).getThreePointFieldGoalsMade()/team.get(i).getGamesPlayed());
+						team.get(i).setThreePointFieldGoalsAttempted(team.get(i).getThreePointFieldGoalsAttempted()/team.get(i).getGamesPlayed());
+						team.get(i).setFreeThrowsMade(team.get(i).getFreeThrowsMade()/team.get(i).getGamesPlayed());
+						team.get(i).setOffensiveRebounds(team.get(i).getOffensiveRebounds()/team.get(i).getGamesPlayed());
+						team.get(i).setDefensiveRebounds(team.get(i).getDefensiveRebounds()/team.get(i).getGamesPlayed());				
+						team.get(i).setRebounds(team.get(i).getRebounds()/team.get(i).getGamesPlayed());
+						team.get(i).setAssists(team.get(i).getAssists()/team.get(i).getGamesPlayed());
+						team.get(i).setSteals(team.get(i).getSteals()/team.get(i).getGamesPlayed());
+						team.get(i).setBlocks(team.get(i).getBlocks()/team.get(i).getGamesPlayed());
+						team.get(i).setTurnovers(team.get(i).getTurnovers()/team.get(i).getGamesPlayed());
+						team.get(i).setFouls(team.get(i).getFouls()/team.get(i).getGamesPlayed());
+						team.get(i).setPoints(team.get(i).getPoints()/team.get(i).getGamesPlayed());
+						team.get(i).setPossessions(team.get(i).getPossessions()/team.get(i).getGamesPlayed());
+					}
+				}
+				
+				table_3.removeAll();	
+				if(item2[6]%3==0){
+					
+					writeTable3(team,0);
+					
+				}else if(item2[6]%3==1){
+					
+					ArrayList<teamInfoVO> team2=si.sortTeam(team, "threePointFieldGoalsAttempted");
+					writeTable3(team2,0);
+					
+				}else{
+					ArrayList<teamInfoVO> team2=si.sortTeam(team, "threePointFieldGoalsAttempted");
+					Collections.reverse(team2);
+					writeTable3(team2,0);
+					
+					
+				}
+			}
+		});
 		tblclmnNewColumn_12.setWidth(100);
 		tblclmnNewColumn_12.setText("\u4E09\u5206\u51FA\u624B\u6570");
 		
 		TableColumn tblclmnNewColumn_13 = new TableColumn(table_3, SWT.NONE);
+		tblclmnNewColumn_13.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				item2[7]++;
+				ServiceImp si=new ServiceImp();
+				teamCondition t=new teamCondition();
+				t.setTeampartion(teamPartion.All);
+				ArrayList<teamInfoVO> team=si.getTeamInfo(t);
+				if(combo_8.getText().equals("场均数据")){
+					for(int i=0;i<team.size();i++){			
+						team.get(i).setFieldGoalsMade(team.get(i).getFieldGoalsMade()/team.get(i).getGamesPlayed());
+						team.get(i).setFieldGoalsAttempted(team.get(i).getFieldGoalsAttempted()/team.get(i).getGamesPlayed());
+						team.get(i).setThreePointFieldGoalsMade(team.get(i).getThreePointFieldGoalsMade()/team.get(i).getGamesPlayed());
+						team.get(i).setThreePointFieldGoalsAttempted(team.get(i).getThreePointFieldGoalsAttempted()/team.get(i).getGamesPlayed());
+						team.get(i).setFreeThrowsMade(team.get(i).getFreeThrowsMade()/team.get(i).getGamesPlayed());
+						team.get(i).setOffensiveRebounds(team.get(i).getOffensiveRebounds()/team.get(i).getGamesPlayed());
+						team.get(i).setDefensiveRebounds(team.get(i).getDefensiveRebounds()/team.get(i).getGamesPlayed());				
+						team.get(i).setRebounds(team.get(i).getRebounds()/team.get(i).getGamesPlayed());
+						team.get(i).setAssists(team.get(i).getAssists()/team.get(i).getGamesPlayed());
+						team.get(i).setSteals(team.get(i).getSteals()/team.get(i).getGamesPlayed());
+						team.get(i).setBlocks(team.get(i).getBlocks()/team.get(i).getGamesPlayed());
+						team.get(i).setTurnovers(team.get(i).getTurnovers()/team.get(i).getGamesPlayed());
+						team.get(i).setFouls(team.get(i).getFouls()/team.get(i).getGamesPlayed());
+						team.get(i).setPoints(team.get(i).getPoints()/team.get(i).getGamesPlayed());
+						team.get(i).setPossessions(team.get(i).getPossessions()/team.get(i).getGamesPlayed());
+					}
+				}
+				
+				table_3.removeAll();	
+				if(item2[7]%3==0){
+					
+					writeTable3(team,0);
+					
+				}else if(item2[7]%3==1){
+					
+					ArrayList<teamInfoVO> team2=si.sortTeam(team, "freeThrowsMade");
+					writeTable3(team2,0);
+					
+				}else{
+					ArrayList<teamInfoVO> team2=si.sortTeam(team, "freeThrowsMade");
+					Collections.reverse(team2);
+					writeTable3(team2,0);
+					
+					
+				}
+			}
+		});
 		tblclmnNewColumn_13.setWidth(100);
 		tblclmnNewColumn_13.setText("\u7F5A\u7403\u547D\u4E2D\u6570");
 		
 		TableColumn tblclmnNewColumn_14 = new TableColumn(table_3, SWT.NONE);
+		tblclmnNewColumn_14.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				item2[8]++;
+				ServiceImp si=new ServiceImp();
+				teamCondition t=new teamCondition();
+				t.setTeampartion(teamPartion.All);
+				ArrayList<teamInfoVO> team=si.getTeamInfo(t);
+				if(combo_8.getText().equals("场均数据")){
+					for(int i=0;i<team.size();i++){			
+						team.get(i).setFieldGoalsMade(team.get(i).getFieldGoalsMade()/team.get(i).getGamesPlayed());
+						team.get(i).setFieldGoalsAttempted(team.get(i).getFieldGoalsAttempted()/team.get(i).getGamesPlayed());
+						team.get(i).setThreePointFieldGoalsMade(team.get(i).getThreePointFieldGoalsMade()/team.get(i).getGamesPlayed());
+						team.get(i).setThreePointFieldGoalsAttempted(team.get(i).getThreePointFieldGoalsAttempted()/team.get(i).getGamesPlayed());
+						team.get(i).setFreeThrowsMade(team.get(i).getFreeThrowsMade()/team.get(i).getGamesPlayed());
+						team.get(i).setOffensiveRebounds(team.get(i).getOffensiveRebounds()/team.get(i).getGamesPlayed());
+						team.get(i).setDefensiveRebounds(team.get(i).getDefensiveRebounds()/team.get(i).getGamesPlayed());				
+						team.get(i).setRebounds(team.get(i).getRebounds()/team.get(i).getGamesPlayed());
+						team.get(i).setAssists(team.get(i).getAssists()/team.get(i).getGamesPlayed());
+						team.get(i).setSteals(team.get(i).getSteals()/team.get(i).getGamesPlayed());
+						team.get(i).setBlocks(team.get(i).getBlocks()/team.get(i).getGamesPlayed());
+						team.get(i).setTurnovers(team.get(i).getTurnovers()/team.get(i).getGamesPlayed());
+						team.get(i).setFouls(team.get(i).getFouls()/team.get(i).getGamesPlayed());
+						team.get(i).setPoints(team.get(i).getPoints()/team.get(i).getGamesPlayed());
+						team.get(i).setPossessions(team.get(i).getPossessions()/team.get(i).getGamesPlayed());
+					}
+				}
+				
+				table_3.removeAll();	
+				if(item2[8]%3==0){
+					
+					writeTable3(team,0);
+					
+				}else if(item2[8]%3==1){
+					
+					ArrayList<teamInfoVO> team2=si.sortTeam(team, "freeThrowsAttempted");
+					writeTable3(team2,0);
+					
+				}else{
+					ArrayList<teamInfoVO> team2=si.sortTeam(team, "freeThrowsAttempted");
+					Collections.reverse(team2);
+					writeTable3(team2,0);
+					
+					
+				}
+			}
+		});
 		tblclmnNewColumn_14.setWidth(100);
 		tblclmnNewColumn_14.setText("\u7F5A\u7403\u51FA\u624B\u6570");
 		
 		TableColumn tblclmnNewColumn_15 = new TableColumn(table_3, SWT.NONE);
+		tblclmnNewColumn_15.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				item2[9]++;
+				ServiceImp si=new ServiceImp();
+				teamCondition t=new teamCondition();
+				t.setTeampartion(teamPartion.All);
+				ArrayList<teamInfoVO> team=si.getTeamInfo(t);
+				if(combo_8.getText().equals("场均数据")){
+					for(int i=0;i<team.size();i++){			
+						team.get(i).setFieldGoalsMade(team.get(i).getFieldGoalsMade()/team.get(i).getGamesPlayed());
+						team.get(i).setFieldGoalsAttempted(team.get(i).getFieldGoalsAttempted()/team.get(i).getGamesPlayed());
+						team.get(i).setThreePointFieldGoalsMade(team.get(i).getThreePointFieldGoalsMade()/team.get(i).getGamesPlayed());
+						team.get(i).setThreePointFieldGoalsAttempted(team.get(i).getThreePointFieldGoalsAttempted()/team.get(i).getGamesPlayed());
+						team.get(i).setFreeThrowsMade(team.get(i).getFreeThrowsMade()/team.get(i).getGamesPlayed());
+						team.get(i).setOffensiveRebounds(team.get(i).getOffensiveRebounds()/team.get(i).getGamesPlayed());
+						team.get(i).setDefensiveRebounds(team.get(i).getDefensiveRebounds()/team.get(i).getGamesPlayed());				
+						team.get(i).setRebounds(team.get(i).getRebounds()/team.get(i).getGamesPlayed());
+						team.get(i).setAssists(team.get(i).getAssists()/team.get(i).getGamesPlayed());
+						team.get(i).setSteals(team.get(i).getSteals()/team.get(i).getGamesPlayed());
+						team.get(i).setBlocks(team.get(i).getBlocks()/team.get(i).getGamesPlayed());
+						team.get(i).setTurnovers(team.get(i).getTurnovers()/team.get(i).getGamesPlayed());
+						team.get(i).setFouls(team.get(i).getFouls()/team.get(i).getGamesPlayed());
+						team.get(i).setPoints(team.get(i).getPoints()/team.get(i).getGamesPlayed());
+						team.get(i).setPossessions(team.get(i).getPossessions()/team.get(i).getGamesPlayed());
+					}
+				}
+				
+				table_3.removeAll();	
+				if(item2[9]%3==0){
+					
+					writeTable3(team,0);
+					
+				}else if(item2[9]%3==1){
+					
+					ArrayList<teamInfoVO> team2=si.sortTeam(team, "offensiveRebounds");
+					writeTable3(team2,0);
+					
+				}else{
+					ArrayList<teamInfoVO> team2=si.sortTeam(team, "offensiveRebounds");
+					Collections.reverse(team2);
+					writeTable3(team2,0);
+					
+					
+				}
+			}
+		});
 		tblclmnNewColumn_15.setWidth(100);
 		tblclmnNewColumn_15.setText("\u8FDB\u653B\u7BEE\u677F\u6570");
 		
 		TableColumn tblclmnNewColumn_16 = new TableColumn(table_3, SWT.NONE);
+		tblclmnNewColumn_16.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				item2[10]++;
+				ServiceImp si=new ServiceImp();
+				teamCondition t=new teamCondition();
+				t.setTeampartion(teamPartion.All);
+				ArrayList<teamInfoVO> team=si.getTeamInfo(t);
+				if(combo_8.getText().equals("场均数据")){
+					for(int i=0;i<team.size();i++){			
+						team.get(i).setFieldGoalsMade(team.get(i).getFieldGoalsMade()/team.get(i).getGamesPlayed());
+						team.get(i).setFieldGoalsAttempted(team.get(i).getFieldGoalsAttempted()/team.get(i).getGamesPlayed());
+						team.get(i).setThreePointFieldGoalsMade(team.get(i).getThreePointFieldGoalsMade()/team.get(i).getGamesPlayed());
+						team.get(i).setThreePointFieldGoalsAttempted(team.get(i).getThreePointFieldGoalsAttempted()/team.get(i).getGamesPlayed());
+						team.get(i).setFreeThrowsMade(team.get(i).getFreeThrowsMade()/team.get(i).getGamesPlayed());
+						team.get(i).setOffensiveRebounds(team.get(i).getOffensiveRebounds()/team.get(i).getGamesPlayed());
+						team.get(i).setDefensiveRebounds(team.get(i).getDefensiveRebounds()/team.get(i).getGamesPlayed());				
+						team.get(i).setRebounds(team.get(i).getRebounds()/team.get(i).getGamesPlayed());
+						team.get(i).setAssists(team.get(i).getAssists()/team.get(i).getGamesPlayed());
+						team.get(i).setSteals(team.get(i).getSteals()/team.get(i).getGamesPlayed());
+						team.get(i).setBlocks(team.get(i).getBlocks()/team.get(i).getGamesPlayed());
+						team.get(i).setTurnovers(team.get(i).getTurnovers()/team.get(i).getGamesPlayed());
+						team.get(i).setFouls(team.get(i).getFouls()/team.get(i).getGamesPlayed());
+						team.get(i).setPoints(team.get(i).getPoints()/team.get(i).getGamesPlayed());
+						team.get(i).setPossessions(team.get(i).getPossessions()/team.get(i).getGamesPlayed());
+					}
+				}
+				
+				table_3.removeAll();	
+				if(item2[10]%3==0){
+					
+					writeTable3(team,0);
+					
+				}else if(item2[10]%3==1){
+					
+					ArrayList<teamInfoVO> team2=si.sortTeam(team, "defensiveRebounds");
+					writeTable3(team2,0);
+					
+				}else{
+					ArrayList<teamInfoVO> team2=si.sortTeam(team, "defensiveRebounds");
+					Collections.reverse(team2);
+					writeTable3(team2,0);
+					
+					
+				}
+			}
+		});
 		tblclmnNewColumn_16.setWidth(100);
 		tblclmnNewColumn_16.setText("\u9632\u5B88\u7BEE\u677F\u6570");
 		
 		TableColumn tblclmnNewColumn_17 = new TableColumn(table_3, SWT.NONE);
+		tblclmnNewColumn_17.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				item2[11]++;
+				ServiceImp si=new ServiceImp();
+				teamCondition t=new teamCondition();
+				t.setTeampartion(teamPartion.All);
+				ArrayList<teamInfoVO> team=si.getTeamInfo(t);
+				if(combo_8.getText().equals("场均数据")){
+					for(int i=0;i<team.size();i++){			
+						team.get(i).setFieldGoalsMade(team.get(i).getFieldGoalsMade()/team.get(i).getGamesPlayed());
+						team.get(i).setFieldGoalsAttempted(team.get(i).getFieldGoalsAttempted()/team.get(i).getGamesPlayed());
+						team.get(i).setThreePointFieldGoalsMade(team.get(i).getThreePointFieldGoalsMade()/team.get(i).getGamesPlayed());
+						team.get(i).setThreePointFieldGoalsAttempted(team.get(i).getThreePointFieldGoalsAttempted()/team.get(i).getGamesPlayed());
+						team.get(i).setFreeThrowsMade(team.get(i).getFreeThrowsMade()/team.get(i).getGamesPlayed());
+						team.get(i).setOffensiveRebounds(team.get(i).getOffensiveRebounds()/team.get(i).getGamesPlayed());
+						team.get(i).setDefensiveRebounds(team.get(i).getDefensiveRebounds()/team.get(i).getGamesPlayed());				
+						team.get(i).setRebounds(team.get(i).getRebounds()/team.get(i).getGamesPlayed());
+						team.get(i).setAssists(team.get(i).getAssists()/team.get(i).getGamesPlayed());
+						team.get(i).setSteals(team.get(i).getSteals()/team.get(i).getGamesPlayed());
+						team.get(i).setBlocks(team.get(i).getBlocks()/team.get(i).getGamesPlayed());
+						team.get(i).setTurnovers(team.get(i).getTurnovers()/team.get(i).getGamesPlayed());
+						team.get(i).setFouls(team.get(i).getFouls()/team.get(i).getGamesPlayed());
+						team.get(i).setPoints(team.get(i).getPoints()/team.get(i).getGamesPlayed());
+						team.get(i).setPossessions(team.get(i).getPossessions()/team.get(i).getGamesPlayed());
+					}
+				}
+				
+				table_3.removeAll();	
+				if(item2[11]%3==0){
+					
+					writeTable3(team,0);
+					
+				}else if(item2[11]%3==1){
+					
+					ArrayList<teamInfoVO> team2=si.sortTeam(team, "rebounds");
+					writeTable3(team2,0);
+					
+				}else{
+					ArrayList<teamInfoVO> team2=si.sortTeam(team, "rebounds");
+					Collections.reverse(team2);
+					writeTable3(team2,0);
+					
+					
+				}
+			}
+		});
 		tblclmnNewColumn_17.setWidth(100);
 		tblclmnNewColumn_17.setText("\u7BEE\u677F\u6570");
 		
 		TableColumn tblclmnNewColumn_18 = new TableColumn(table_3, SWT.NONE);
+		tblclmnNewColumn_18.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				item2[12]++;
+				ServiceImp si=new ServiceImp();
+				teamCondition t=new teamCondition();
+				t.setTeampartion(teamPartion.All);
+				ArrayList<teamInfoVO> team=si.getTeamInfo(t);
+				if(combo_8.getText().equals("场均数据")){
+					for(int i=0;i<team.size();i++){			
+						team.get(i).setFieldGoalsMade(team.get(i).getFieldGoalsMade()/team.get(i).getGamesPlayed());
+						team.get(i).setFieldGoalsAttempted(team.get(i).getFieldGoalsAttempted()/team.get(i).getGamesPlayed());
+						team.get(i).setThreePointFieldGoalsMade(team.get(i).getThreePointFieldGoalsMade()/team.get(i).getGamesPlayed());
+						team.get(i).setThreePointFieldGoalsAttempted(team.get(i).getThreePointFieldGoalsAttempted()/team.get(i).getGamesPlayed());
+						team.get(i).setFreeThrowsMade(team.get(i).getFreeThrowsMade()/team.get(i).getGamesPlayed());
+						team.get(i).setOffensiveRebounds(team.get(i).getOffensiveRebounds()/team.get(i).getGamesPlayed());
+						team.get(i).setDefensiveRebounds(team.get(i).getDefensiveRebounds()/team.get(i).getGamesPlayed());				
+						team.get(i).setRebounds(team.get(i).getRebounds()/team.get(i).getGamesPlayed());
+						team.get(i).setAssists(team.get(i).getAssists()/team.get(i).getGamesPlayed());
+						team.get(i).setSteals(team.get(i).getSteals()/team.get(i).getGamesPlayed());
+						team.get(i).setBlocks(team.get(i).getBlocks()/team.get(i).getGamesPlayed());
+						team.get(i).setTurnovers(team.get(i).getTurnovers()/team.get(i).getGamesPlayed());
+						team.get(i).setFouls(team.get(i).getFouls()/team.get(i).getGamesPlayed());
+						team.get(i).setPoints(team.get(i).getPoints()/team.get(i).getGamesPlayed());
+						team.get(i).setPossessions(team.get(i).getPossessions()/team.get(i).getGamesPlayed());
+					}
+				}
+				
+				table_3.removeAll();	
+				if(item2[12]%3==0){
+					
+					writeTable3(team,0);
+					
+				}else if(item2[12]%3==1){
+					
+					ArrayList<teamInfoVO> team2=si.sortTeam(team, "assists");
+					writeTable3(team2,0);
+					
+				}else{
+					ArrayList<teamInfoVO> team2=si.sortTeam(team, "assists");
+					Collections.reverse(team2);
+					writeTable3(team2,0);
+					
+					
+				}
+			}
+		});
 		tblclmnNewColumn_18.setWidth(100);
 		tblclmnNewColumn_18.setText("\u52A9\u653B\u6570");
 		
 		TableColumn tblclmnNewColumn_19 = new TableColumn(table_3, SWT.NONE);
+		tblclmnNewColumn_19.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				item2[13]++;
+				ServiceImp si=new ServiceImp();
+				teamCondition t=new teamCondition();
+				t.setTeampartion(teamPartion.All);
+				ArrayList<teamInfoVO> team=si.getTeamInfo(t);
+				if(combo_8.getText().equals("场均数据")){
+					for(int i=0;i<team.size();i++){			
+						team.get(i).setFieldGoalsMade(team.get(i).getFieldGoalsMade()/team.get(i).getGamesPlayed());
+						team.get(i).setFieldGoalsAttempted(team.get(i).getFieldGoalsAttempted()/team.get(i).getGamesPlayed());
+						team.get(i).setThreePointFieldGoalsMade(team.get(i).getThreePointFieldGoalsMade()/team.get(i).getGamesPlayed());
+						team.get(i).setThreePointFieldGoalsAttempted(team.get(i).getThreePointFieldGoalsAttempted()/team.get(i).getGamesPlayed());
+						team.get(i).setFreeThrowsMade(team.get(i).getFreeThrowsMade()/team.get(i).getGamesPlayed());
+						team.get(i).setOffensiveRebounds(team.get(i).getOffensiveRebounds()/team.get(i).getGamesPlayed());
+						team.get(i).setDefensiveRebounds(team.get(i).getDefensiveRebounds()/team.get(i).getGamesPlayed());				
+						team.get(i).setRebounds(team.get(i).getRebounds()/team.get(i).getGamesPlayed());
+						team.get(i).setAssists(team.get(i).getAssists()/team.get(i).getGamesPlayed());
+						team.get(i).setSteals(team.get(i).getSteals()/team.get(i).getGamesPlayed());
+						team.get(i).setBlocks(team.get(i).getBlocks()/team.get(i).getGamesPlayed());
+						team.get(i).setTurnovers(team.get(i).getTurnovers()/team.get(i).getGamesPlayed());
+						team.get(i).setFouls(team.get(i).getFouls()/team.get(i).getGamesPlayed());
+						team.get(i).setPoints(team.get(i).getPoints()/team.get(i).getGamesPlayed());
+						team.get(i).setPossessions(team.get(i).getPossessions()/team.get(i).getGamesPlayed());
+					}
+				}
+				
+				table_3.removeAll();	
+				if(item2[13]%3==0){
+					
+					writeTable3(team,0);
+					
+				}else if(item2[13]%3==1){
+					
+					ArrayList<teamInfoVO> team2=si.sortTeam(team, "steals");
+					writeTable3(team2,0);
+					
+				}else{
+					ArrayList<teamInfoVO> team2=si.sortTeam(team, "steals");
+					Collections.reverse(team2);
+					writeTable3(team2,0);
+					
+					
+				}
+			}
+		});
 		tblclmnNewColumn_19.setWidth(100);
 		tblclmnNewColumn_19.setText("\u62A2\u65AD\u6570");
 		
 		TableColumn tblclmnNewColumn_20 = new TableColumn(table_3, SWT.NONE);
+		tblclmnNewColumn_20.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				item2[14]++;
+				ServiceImp si=new ServiceImp();
+				teamCondition t=new teamCondition();
+				t.setTeampartion(teamPartion.All);
+				ArrayList<teamInfoVO> team=si.getTeamInfo(t);
+				if(combo_8.getText().equals("场均数据")){
+					for(int i=0;i<team.size();i++){			
+						team.get(i).setFieldGoalsMade(team.get(i).getFieldGoalsMade()/team.get(i).getGamesPlayed());
+						team.get(i).setFieldGoalsAttempted(team.get(i).getFieldGoalsAttempted()/team.get(i).getGamesPlayed());
+						team.get(i).setThreePointFieldGoalsMade(team.get(i).getThreePointFieldGoalsMade()/team.get(i).getGamesPlayed());
+						team.get(i).setThreePointFieldGoalsAttempted(team.get(i).getThreePointFieldGoalsAttempted()/team.get(i).getGamesPlayed());
+						team.get(i).setFreeThrowsMade(team.get(i).getFreeThrowsMade()/team.get(i).getGamesPlayed());
+						team.get(i).setOffensiveRebounds(team.get(i).getOffensiveRebounds()/team.get(i).getGamesPlayed());
+						team.get(i).setDefensiveRebounds(team.get(i).getDefensiveRebounds()/team.get(i).getGamesPlayed());				
+						team.get(i).setRebounds(team.get(i).getRebounds()/team.get(i).getGamesPlayed());
+						team.get(i).setAssists(team.get(i).getAssists()/team.get(i).getGamesPlayed());
+						team.get(i).setSteals(team.get(i).getSteals()/team.get(i).getGamesPlayed());
+						team.get(i).setBlocks(team.get(i).getBlocks()/team.get(i).getGamesPlayed());
+						team.get(i).setTurnovers(team.get(i).getTurnovers()/team.get(i).getGamesPlayed());
+						team.get(i).setFouls(team.get(i).getFouls()/team.get(i).getGamesPlayed());
+						team.get(i).setPoints(team.get(i).getPoints()/team.get(i).getGamesPlayed());
+						team.get(i).setPossessions(team.get(i).getPossessions()/team.get(i).getGamesPlayed());
+					}
+				}
+				
+				table_3.removeAll();	
+				if(item2[14]%3==0){
+					
+					writeTable3(team,0);
+					
+				}else if(item2[14]%3==1){
+					
+					ArrayList<teamInfoVO> team2=si.sortTeam(team, "blocks");
+					writeTable3(team2,0);
+					
+				}else{
+					ArrayList<teamInfoVO> team2=si.sortTeam(team, "blocks");
+					Collections.reverse(team2);
+					writeTable3(team2,0);
+					
+					
+				}
+			}
+		});
 		tblclmnNewColumn_20.setWidth(100);
 		tblclmnNewColumn_20.setText("\u76D6\u5E3D\u6570");
 		
 		TableColumn tblclmnNewColumn_21 = new TableColumn(table_3, SWT.NONE);
+		tblclmnNewColumn_21.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				item2[15]++;
+				ServiceImp si=new ServiceImp();
+				teamCondition t=new teamCondition();
+				t.setTeampartion(teamPartion.All);
+				ArrayList<teamInfoVO> team=si.getTeamInfo(t);
+				if(combo_8.getText().equals("场均数据")){
+					for(int i=0;i<team.size();i++){			
+						team.get(i).setFieldGoalsMade(team.get(i).getFieldGoalsMade()/team.get(i).getGamesPlayed());
+						team.get(i).setFieldGoalsAttempted(team.get(i).getFieldGoalsAttempted()/team.get(i).getGamesPlayed());
+						team.get(i).setThreePointFieldGoalsMade(team.get(i).getThreePointFieldGoalsMade()/team.get(i).getGamesPlayed());
+						team.get(i).setThreePointFieldGoalsAttempted(team.get(i).getThreePointFieldGoalsAttempted()/team.get(i).getGamesPlayed());
+						team.get(i).setFreeThrowsMade(team.get(i).getFreeThrowsMade()/team.get(i).getGamesPlayed());
+						team.get(i).setOffensiveRebounds(team.get(i).getOffensiveRebounds()/team.get(i).getGamesPlayed());
+						team.get(i).setDefensiveRebounds(team.get(i).getDefensiveRebounds()/team.get(i).getGamesPlayed());				
+						team.get(i).setRebounds(team.get(i).getRebounds()/team.get(i).getGamesPlayed());
+						team.get(i).setAssists(team.get(i).getAssists()/team.get(i).getGamesPlayed());
+						team.get(i).setSteals(team.get(i).getSteals()/team.get(i).getGamesPlayed());
+						team.get(i).setBlocks(team.get(i).getBlocks()/team.get(i).getGamesPlayed());
+						team.get(i).setTurnovers(team.get(i).getTurnovers()/team.get(i).getGamesPlayed());
+						team.get(i).setFouls(team.get(i).getFouls()/team.get(i).getGamesPlayed());
+						team.get(i).setPoints(team.get(i).getPoints()/team.get(i).getGamesPlayed());
+						team.get(i).setPossessions(team.get(i).getPossessions()/team.get(i).getGamesPlayed());
+					}
+				}
+				
+				table_3.removeAll();	
+				if(item2[15]%3==0){
+					
+					writeTable3(team,0);
+					
+				}else if(item2[15]%3==1){
+					
+					ArrayList<teamInfoVO> team2=si.sortTeam(team, "turnovers");
+					writeTable3(team2,0);
+					
+				}else{
+					ArrayList<teamInfoVO> team2=si.sortTeam(team, "turnovers");
+					Collections.reverse(team2);
+					writeTable3(team2,0);
+					
+					
+				}
+			}
+		});
 		tblclmnNewColumn_21.setWidth(100);
 		tblclmnNewColumn_21.setText("\u5931\u8BEF\u6570");
 		
 		TableColumn tblclmnNewColumn_22 = new TableColumn(table_3, SWT.NONE);
+		tblclmnNewColumn_22.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				item2[16]++;
+				ServiceImp si=new ServiceImp();
+				teamCondition t=new teamCondition();
+				t.setTeampartion(teamPartion.All);
+				ArrayList<teamInfoVO> team=si.getTeamInfo(t);
+				if(combo_8.getText().equals("场均数据")){
+					for(int i=0;i<team.size();i++){			
+						team.get(i).setFieldGoalsMade(team.get(i).getFieldGoalsMade()/team.get(i).getGamesPlayed());
+						team.get(i).setFieldGoalsAttempted(team.get(i).getFieldGoalsAttempted()/team.get(i).getGamesPlayed());
+						team.get(i).setThreePointFieldGoalsMade(team.get(i).getThreePointFieldGoalsMade()/team.get(i).getGamesPlayed());
+						team.get(i).setThreePointFieldGoalsAttempted(team.get(i).getThreePointFieldGoalsAttempted()/team.get(i).getGamesPlayed());
+						team.get(i).setFreeThrowsMade(team.get(i).getFreeThrowsMade()/team.get(i).getGamesPlayed());
+						team.get(i).setOffensiveRebounds(team.get(i).getOffensiveRebounds()/team.get(i).getGamesPlayed());
+						team.get(i).setDefensiveRebounds(team.get(i).getDefensiveRebounds()/team.get(i).getGamesPlayed());				
+						team.get(i).setRebounds(team.get(i).getRebounds()/team.get(i).getGamesPlayed());
+						team.get(i).setAssists(team.get(i).getAssists()/team.get(i).getGamesPlayed());
+						team.get(i).setSteals(team.get(i).getSteals()/team.get(i).getGamesPlayed());
+						team.get(i).setBlocks(team.get(i).getBlocks()/team.get(i).getGamesPlayed());
+						team.get(i).setTurnovers(team.get(i).getTurnovers()/team.get(i).getGamesPlayed());
+						team.get(i).setFouls(team.get(i).getFouls()/team.get(i).getGamesPlayed());
+						team.get(i).setPoints(team.get(i).getPoints()/team.get(i).getGamesPlayed());
+						team.get(i).setPossessions(team.get(i).getPossessions()/team.get(i).getGamesPlayed());
+					}
+				}
+				
+				table_3.removeAll();	
+				if(item2[16]%3==0){
+					
+					writeTable3(team,0);
+					
+				}else if(item2[16]%3==1){
+					
+					ArrayList<teamInfoVO> team2=si.sortTeam(team, "fouls");
+					writeTable3(team2,0);
+					
+				}else{
+					ArrayList<teamInfoVO> team2=si.sortTeam(team, "fouls");
+					Collections.reverse(team2);
+					writeTable3(team2,0);
+					
+					
+				}
+			}
+		});
 		tblclmnNewColumn_22.setWidth(100);
 		tblclmnNewColumn_22.setText("\u72AF\u89C4\u6570");
 		
 		TableColumn tblclmnNewColumn_23 = new TableColumn(table_3, SWT.NONE);
+		tblclmnNewColumn_23.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				item2[17]++;
+				ServiceImp si=new ServiceImp();
+				teamCondition t=new teamCondition();
+				t.setTeampartion(teamPartion.All);
+				ArrayList<teamInfoVO> team=si.getTeamInfo(t);
+				if(combo_8.getText().equals("场均数据")){
+					for(int i=0;i<team.size();i++){			
+						team.get(i).setFieldGoalsMade(team.get(i).getFieldGoalsMade()/team.get(i).getGamesPlayed());
+						team.get(i).setFieldGoalsAttempted(team.get(i).getFieldGoalsAttempted()/team.get(i).getGamesPlayed());
+						team.get(i).setThreePointFieldGoalsMade(team.get(i).getThreePointFieldGoalsMade()/team.get(i).getGamesPlayed());
+						team.get(i).setThreePointFieldGoalsAttempted(team.get(i).getThreePointFieldGoalsAttempted()/team.get(i).getGamesPlayed());
+						team.get(i).setFreeThrowsMade(team.get(i).getFreeThrowsMade()/team.get(i).getGamesPlayed());
+						team.get(i).setOffensiveRebounds(team.get(i).getOffensiveRebounds()/team.get(i).getGamesPlayed());
+						team.get(i).setDefensiveRebounds(team.get(i).getDefensiveRebounds()/team.get(i).getGamesPlayed());				
+						team.get(i).setRebounds(team.get(i).getRebounds()/team.get(i).getGamesPlayed());
+						team.get(i).setAssists(team.get(i).getAssists()/team.get(i).getGamesPlayed());
+						team.get(i).setSteals(team.get(i).getSteals()/team.get(i).getGamesPlayed());
+						team.get(i).setBlocks(team.get(i).getBlocks()/team.get(i).getGamesPlayed());
+						team.get(i).setTurnovers(team.get(i).getTurnovers()/team.get(i).getGamesPlayed());
+						team.get(i).setFouls(team.get(i).getFouls()/team.get(i).getGamesPlayed());
+						team.get(i).setPoints(team.get(i).getPoints()/team.get(i).getGamesPlayed());
+						team.get(i).setPossessions(team.get(i).getPossessions()/team.get(i).getGamesPlayed());
+					}
+				}
+				
+				table_3.removeAll();	
+				if(item2[17]%3==0){
+					
+					writeTable3(team,0);
+					
+				}else if(item2[17]%3==1){
+					
+					ArrayList<teamInfoVO> team2=si.sortTeam(team, "points");
+					writeTable3(team2,0);
+					
+				}else{
+					ArrayList<teamInfoVO> team2=si.sortTeam(team, "points");
+					Collections.reverse(team2);
+					writeTable3(team2,0);
+					
+					
+				}
+			}
+		});
 		tblclmnNewColumn_23.setWidth(100);
 		tblclmnNewColumn_23.setText("\u6BD4\u8D5B\u5F97\u5206");
 		
 		TableColumn tblclmnNewColumn_24 = new TableColumn(table_3, SWT.NONE);
+		tblclmnNewColumn_24.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				item2[18]++;
+				ServiceImp si=new ServiceImp();
+				teamCondition t=new teamCondition();
+				t.setTeampartion(teamPartion.All);
+				ArrayList<teamInfoVO> team=si.getTeamInfo(t);
+				if(combo_8.getText().equals("场均数据")){
+					for(int i=0;i<team.size();i++){			
+						team.get(i).setFieldGoalsMade(team.get(i).getFieldGoalsMade()/team.get(i).getGamesPlayed());
+						team.get(i).setFieldGoalsAttempted(team.get(i).getFieldGoalsAttempted()/team.get(i).getGamesPlayed());
+						team.get(i).setThreePointFieldGoalsMade(team.get(i).getThreePointFieldGoalsMade()/team.get(i).getGamesPlayed());
+						team.get(i).setThreePointFieldGoalsAttempted(team.get(i).getThreePointFieldGoalsAttempted()/team.get(i).getGamesPlayed());
+						team.get(i).setFreeThrowsMade(team.get(i).getFreeThrowsMade()/team.get(i).getGamesPlayed());
+						team.get(i).setOffensiveRebounds(team.get(i).getOffensiveRebounds()/team.get(i).getGamesPlayed());
+						team.get(i).setDefensiveRebounds(team.get(i).getDefensiveRebounds()/team.get(i).getGamesPlayed());				
+						team.get(i).setRebounds(team.get(i).getRebounds()/team.get(i).getGamesPlayed());
+						team.get(i).setAssists(team.get(i).getAssists()/team.get(i).getGamesPlayed());
+						team.get(i).setSteals(team.get(i).getSteals()/team.get(i).getGamesPlayed());
+						team.get(i).setBlocks(team.get(i).getBlocks()/team.get(i).getGamesPlayed());
+						team.get(i).setTurnovers(team.get(i).getTurnovers()/team.get(i).getGamesPlayed());
+						team.get(i).setFouls(team.get(i).getFouls()/team.get(i).getGamesPlayed());
+						team.get(i).setPoints(team.get(i).getPoints()/team.get(i).getGamesPlayed());
+						team.get(i).setPossessions(team.get(i).getPossessions()/team.get(i).getGamesPlayed());
+					}
+				}
+				
+				table_3.removeAll();	
+				if(item2[18]%3==0){
+					
+					writeTable3(team,0);
+					
+				}else if(item2[18]%3==1){
+					
+					ArrayList<teamInfoVO> team2=si.sortTeam(team, "fieldGoalPercentage");
+					writeTable3(team2,0);
+					
+				}else{
+					ArrayList<teamInfoVO> team2=si.sortTeam(team, "fieldGoalPercentage");
+					Collections.reverse(team2);
+					writeTable3(team2,0);
+					
+					
+				}
+			}
+		});
 		tblclmnNewColumn_24.setWidth(100);
 		tblclmnNewColumn_24.setText("\u6295\u7BEE\u547D\u4E2D\u7387");
 		
 		TableColumn tblclmnNewColumn_25 = new TableColumn(table_3, SWT.NONE);
+		tblclmnNewColumn_25.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				item2[19]++;
+				ServiceImp si=new ServiceImp();
+				teamCondition t=new teamCondition();
+				t.setTeampartion(teamPartion.All);
+				ArrayList<teamInfoVO> team=si.getTeamInfo(t);
+				if(combo_8.getText().equals("场均数据")){
+					for(int i=0;i<team.size();i++){			
+						team.get(i).setFieldGoalsMade(team.get(i).getFieldGoalsMade()/team.get(i).getGamesPlayed());
+						team.get(i).setFieldGoalsAttempted(team.get(i).getFieldGoalsAttempted()/team.get(i).getGamesPlayed());
+						team.get(i).setThreePointFieldGoalsMade(team.get(i).getThreePointFieldGoalsMade()/team.get(i).getGamesPlayed());
+						team.get(i).setThreePointFieldGoalsAttempted(team.get(i).getThreePointFieldGoalsAttempted()/team.get(i).getGamesPlayed());
+						team.get(i).setFreeThrowsMade(team.get(i).getFreeThrowsMade()/team.get(i).getGamesPlayed());
+						team.get(i).setOffensiveRebounds(team.get(i).getOffensiveRebounds()/team.get(i).getGamesPlayed());
+						team.get(i).setDefensiveRebounds(team.get(i).getDefensiveRebounds()/team.get(i).getGamesPlayed());				
+						team.get(i).setRebounds(team.get(i).getRebounds()/team.get(i).getGamesPlayed());
+						team.get(i).setAssists(team.get(i).getAssists()/team.get(i).getGamesPlayed());
+						team.get(i).setSteals(team.get(i).getSteals()/team.get(i).getGamesPlayed());
+						team.get(i).setBlocks(team.get(i).getBlocks()/team.get(i).getGamesPlayed());
+						team.get(i).setTurnovers(team.get(i).getTurnovers()/team.get(i).getGamesPlayed());
+						team.get(i).setFouls(team.get(i).getFouls()/team.get(i).getGamesPlayed());
+						team.get(i).setPoints(team.get(i).getPoints()/team.get(i).getGamesPlayed());
+						team.get(i).setPossessions(team.get(i).getPossessions()/team.get(i).getGamesPlayed());
+					}
+				}
+				
+				table_3.removeAll();	
+				if(item2[19]%3==0){
+					
+					writeTable3(team,0);
+					
+				}else if(item2[19]%3==1){
+					
+					ArrayList<teamInfoVO> team2=si.sortTeam(team, "threePointFieldGoalPercentage");
+					writeTable3(team2,0);
+					
+				}else{
+					ArrayList<teamInfoVO> team2=si.sortTeam(team, "threePointFieldGoalPercentage");
+					Collections.reverse(team2);
+					writeTable3(team2,0);
+					
+					
+				}
+			}
+		});
 		tblclmnNewColumn_25.setWidth(100);
 		tblclmnNewColumn_25.setText("\u4E09\u5206\u547D\u4E2D\u7387");
 		
 		TableColumn tblclmnNewColumn_26 = new TableColumn(table_3, SWT.NONE);
+		tblclmnNewColumn_26.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				item2[20]++;
+				ServiceImp si=new ServiceImp();
+				teamCondition t=new teamCondition();
+				t.setTeampartion(teamPartion.All);
+				ArrayList<teamInfoVO> team=si.getTeamInfo(t);
+				if(combo_8.getText().equals("场均数据")){
+					for(int i=0;i<team.size();i++){			
+						team.get(i).setFieldGoalsMade(team.get(i).getFieldGoalsMade()/team.get(i).getGamesPlayed());
+						team.get(i).setFieldGoalsAttempted(team.get(i).getFieldGoalsAttempted()/team.get(i).getGamesPlayed());
+						team.get(i).setThreePointFieldGoalsMade(team.get(i).getThreePointFieldGoalsMade()/team.get(i).getGamesPlayed());
+						team.get(i).setThreePointFieldGoalsAttempted(team.get(i).getThreePointFieldGoalsAttempted()/team.get(i).getGamesPlayed());
+						team.get(i).setFreeThrowsMade(team.get(i).getFreeThrowsMade()/team.get(i).getGamesPlayed());
+						team.get(i).setOffensiveRebounds(team.get(i).getOffensiveRebounds()/team.get(i).getGamesPlayed());
+						team.get(i).setDefensiveRebounds(team.get(i).getDefensiveRebounds()/team.get(i).getGamesPlayed());				
+						team.get(i).setRebounds(team.get(i).getRebounds()/team.get(i).getGamesPlayed());
+						team.get(i).setAssists(team.get(i).getAssists()/team.get(i).getGamesPlayed());
+						team.get(i).setSteals(team.get(i).getSteals()/team.get(i).getGamesPlayed());
+						team.get(i).setBlocks(team.get(i).getBlocks()/team.get(i).getGamesPlayed());
+						team.get(i).setTurnovers(team.get(i).getTurnovers()/team.get(i).getGamesPlayed());
+						team.get(i).setFouls(team.get(i).getFouls()/team.get(i).getGamesPlayed());
+						team.get(i).setPoints(team.get(i).getPoints()/team.get(i).getGamesPlayed());
+						team.get(i).setPossessions(team.get(i).getPossessions()/team.get(i).getGamesPlayed());
+					}
+				}
+				
+				table_3.removeAll();	
+				if(item2[20]%3==0){
+					
+					writeTable3(team,0);
+					
+				}else if(item2[20]%3==1){
+					
+					ArrayList<teamInfoVO> team2=si.sortTeam(team, "freeThrowPercentage");
+					writeTable3(team2,0);
+					
+				}else{
+					ArrayList<teamInfoVO> team2=si.sortTeam(team, "freeThrowPercentage");
+					Collections.reverse(team2);
+					writeTable3(team2,0);
+					
+					
+				}
+			}
+		});
 		tblclmnNewColumn_26.setWidth(100);
 		tblclmnNewColumn_26.setText("\u7F5A\u7403\u547D\u4E2D\u7387");
 		
 		TableColumn tblclmnNewColumn_27 = new TableColumn(table_3, SWT.NONE);
+		tblclmnNewColumn_27.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				item2[21]++;
+				ServiceImp si=new ServiceImp();
+				teamCondition t=new teamCondition();
+				t.setTeampartion(teamPartion.All);
+				ArrayList<teamInfoVO> team=si.getTeamInfo(t);
+				if(combo_8.getText().equals("场均数据")){
+					for(int i=0;i<team.size();i++){			
+						team.get(i).setFieldGoalsMade(team.get(i).getFieldGoalsMade()/team.get(i).getGamesPlayed());
+						team.get(i).setFieldGoalsAttempted(team.get(i).getFieldGoalsAttempted()/team.get(i).getGamesPlayed());
+						team.get(i).setThreePointFieldGoalsMade(team.get(i).getThreePointFieldGoalsMade()/team.get(i).getGamesPlayed());
+						team.get(i).setThreePointFieldGoalsAttempted(team.get(i).getThreePointFieldGoalsAttempted()/team.get(i).getGamesPlayed());
+						team.get(i).setFreeThrowsMade(team.get(i).getFreeThrowsMade()/team.get(i).getGamesPlayed());
+						team.get(i).setOffensiveRebounds(team.get(i).getOffensiveRebounds()/team.get(i).getGamesPlayed());
+						team.get(i).setDefensiveRebounds(team.get(i).getDefensiveRebounds()/team.get(i).getGamesPlayed());				
+						team.get(i).setRebounds(team.get(i).getRebounds()/team.get(i).getGamesPlayed());
+						team.get(i).setAssists(team.get(i).getAssists()/team.get(i).getGamesPlayed());
+						team.get(i).setSteals(team.get(i).getSteals()/team.get(i).getGamesPlayed());
+						team.get(i).setBlocks(team.get(i).getBlocks()/team.get(i).getGamesPlayed());
+						team.get(i).setTurnovers(team.get(i).getTurnovers()/team.get(i).getGamesPlayed());
+						team.get(i).setFouls(team.get(i).getFouls()/team.get(i).getGamesPlayed());
+						team.get(i).setPoints(team.get(i).getPoints()/team.get(i).getGamesPlayed());
+						team.get(i).setPossessions(team.get(i).getPossessions()/team.get(i).getGamesPlayed());
+					}
+				}
+				
+				table_3.removeAll();	
+				if(item2[21]%3==0){
+					
+					writeTable3(team,0);
+					
+				}else if(item2[21]%3==1){
+					
+					ArrayList<teamInfoVO> team2=si.sortTeam(team, "winPercentage");
+					writeTable3(team2,0);
+					
+				}else{
+					ArrayList<teamInfoVO> team2=si.sortTeam(team, "winPercentage");
+					Collections.reverse(team2);
+					writeTable3(team2,0);
+					
+					
+				}
+			}
+		});
 		tblclmnNewColumn_27.setWidth(100);
 		tblclmnNewColumn_27.setText("\u80DC\u7387");
 		
 		TableColumn tblclmnNewColumn_28 = new TableColumn(table_3, SWT.NONE);
+		tblclmnNewColumn_28.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				item2[22]++;
+				ServiceImp si=new ServiceImp();
+				teamCondition t=new teamCondition();
+				t.setTeampartion(teamPartion.All);
+				ArrayList<teamInfoVO> team=si.getTeamInfo(t);
+				if(combo_8.getText().equals("场均数据")){
+					for(int i=0;i<team.size();i++){			
+						team.get(i).setFieldGoalsMade(team.get(i).getFieldGoalsMade()/team.get(i).getGamesPlayed());
+						team.get(i).setFieldGoalsAttempted(team.get(i).getFieldGoalsAttempted()/team.get(i).getGamesPlayed());
+						team.get(i).setThreePointFieldGoalsMade(team.get(i).getThreePointFieldGoalsMade()/team.get(i).getGamesPlayed());
+						team.get(i).setThreePointFieldGoalsAttempted(team.get(i).getThreePointFieldGoalsAttempted()/team.get(i).getGamesPlayed());
+						team.get(i).setFreeThrowsMade(team.get(i).getFreeThrowsMade()/team.get(i).getGamesPlayed());
+						team.get(i).setOffensiveRebounds(team.get(i).getOffensiveRebounds()/team.get(i).getGamesPlayed());
+						team.get(i).setDefensiveRebounds(team.get(i).getDefensiveRebounds()/team.get(i).getGamesPlayed());				
+						team.get(i).setRebounds(team.get(i).getRebounds()/team.get(i).getGamesPlayed());
+						team.get(i).setAssists(team.get(i).getAssists()/team.get(i).getGamesPlayed());
+						team.get(i).setSteals(team.get(i).getSteals()/team.get(i).getGamesPlayed());
+						team.get(i).setBlocks(team.get(i).getBlocks()/team.get(i).getGamesPlayed());
+						team.get(i).setTurnovers(team.get(i).getTurnovers()/team.get(i).getGamesPlayed());
+						team.get(i).setFouls(team.get(i).getFouls()/team.get(i).getGamesPlayed());
+						team.get(i).setPoints(team.get(i).getPoints()/team.get(i).getGamesPlayed());
+						team.get(i).setPossessions(team.get(i).getPossessions()/team.get(i).getGamesPlayed());
+					}
+				}
+				
+				table_3.removeAll();	
+				if(item2[22]%3==0){
+					
+					writeTable3(team,0);
+					
+				}else if(item2[22]%3==1){
+					
+					ArrayList<teamInfoVO> team2=si.sortTeam(team, "possessions");
+					writeTable3(team2,0);
+					
+				}else{
+					ArrayList<teamInfoVO> team2=si.sortTeam(team, "possessions");
+					Collections.reverse(team2);
+					writeTable3(team2,0);
+					
+					
+				}
+			}
+		});
 		tblclmnNewColumn_28.setWidth(100);
 		tblclmnNewColumn_28.setText("\u8FDB\u653B\u56DE\u5408");
 		
 		TableColumn tblclmnNewColumn_29 = new TableColumn(table_3, SWT.NONE);
+		tblclmnNewColumn_29.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				item2[23]++;
+				ServiceImp si=new ServiceImp();
+				teamCondition t=new teamCondition();
+				t.setTeampartion(teamPartion.All);
+				ArrayList<teamInfoVO> team=si.getTeamInfo(t);
+				if(combo_8.getText().equals("场均数据")){
+					for(int i=0;i<team.size();i++){			
+						team.get(i).setFieldGoalsMade(team.get(i).getFieldGoalsMade()/team.get(i).getGamesPlayed());
+						team.get(i).setFieldGoalsAttempted(team.get(i).getFieldGoalsAttempted()/team.get(i).getGamesPlayed());
+						team.get(i).setThreePointFieldGoalsMade(team.get(i).getThreePointFieldGoalsMade()/team.get(i).getGamesPlayed());
+						team.get(i).setThreePointFieldGoalsAttempted(team.get(i).getThreePointFieldGoalsAttempted()/team.get(i).getGamesPlayed());
+						team.get(i).setFreeThrowsMade(team.get(i).getFreeThrowsMade()/team.get(i).getGamesPlayed());
+						team.get(i).setOffensiveRebounds(team.get(i).getOffensiveRebounds()/team.get(i).getGamesPlayed());
+						team.get(i).setDefensiveRebounds(team.get(i).getDefensiveRebounds()/team.get(i).getGamesPlayed());				
+						team.get(i).setRebounds(team.get(i).getRebounds()/team.get(i).getGamesPlayed());
+						team.get(i).setAssists(team.get(i).getAssists()/team.get(i).getGamesPlayed());
+						team.get(i).setSteals(team.get(i).getSteals()/team.get(i).getGamesPlayed());
+						team.get(i).setBlocks(team.get(i).getBlocks()/team.get(i).getGamesPlayed());
+						team.get(i).setTurnovers(team.get(i).getTurnovers()/team.get(i).getGamesPlayed());
+						team.get(i).setFouls(team.get(i).getFouls()/team.get(i).getGamesPlayed());
+						team.get(i).setPoints(team.get(i).getPoints()/team.get(i).getGamesPlayed());
+						team.get(i).setPossessions(team.get(i).getPossessions()/team.get(i).getGamesPlayed());
+					}
+				}
+				
+				table_3.removeAll();	
+				if(item2[23]%3==0){
+					
+					writeTable3(team,0);
+					
+				}else if(item2[23]%3==1){
+					
+					ArrayList<teamInfoVO> team2=si.sortTeam(team, "offensiveRating");
+					writeTable3(team2,0);
+					
+				}else{
+					ArrayList<teamInfoVO> team2=si.sortTeam(team, "offensiveRating");
+					Collections.reverse(team2);
+					writeTable3(team2,0);
+					
+					
+				}
+			}
+		});
 		tblclmnNewColumn_29.setWidth(100);
 		tblclmnNewColumn_29.setText("\u8FDB\u653B\u6548\u7387");
 		
 		TableColumn tblclmnNewColumn_30 = new TableColumn(table_3, SWT.NONE);
+		tblclmnNewColumn_30.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				item2[24]++;
+				ServiceImp si=new ServiceImp();
+				teamCondition t=new teamCondition();
+				t.setTeampartion(teamPartion.All);
+				ArrayList<teamInfoVO> team=si.getTeamInfo(t);
+				if(combo_8.getText().equals("场均数据")){
+					for(int i=0;i<team.size();i++){			
+						team.get(i).setFieldGoalsMade(team.get(i).getFieldGoalsMade()/team.get(i).getGamesPlayed());
+						team.get(i).setFieldGoalsAttempted(team.get(i).getFieldGoalsAttempted()/team.get(i).getGamesPlayed());
+						team.get(i).setThreePointFieldGoalsMade(team.get(i).getThreePointFieldGoalsMade()/team.get(i).getGamesPlayed());
+						team.get(i).setThreePointFieldGoalsAttempted(team.get(i).getThreePointFieldGoalsAttempted()/team.get(i).getGamesPlayed());
+						team.get(i).setFreeThrowsMade(team.get(i).getFreeThrowsMade()/team.get(i).getGamesPlayed());
+						team.get(i).setOffensiveRebounds(team.get(i).getOffensiveRebounds()/team.get(i).getGamesPlayed());
+						team.get(i).setDefensiveRebounds(team.get(i).getDefensiveRebounds()/team.get(i).getGamesPlayed());				
+						team.get(i).setRebounds(team.get(i).getRebounds()/team.get(i).getGamesPlayed());
+						team.get(i).setAssists(team.get(i).getAssists()/team.get(i).getGamesPlayed());
+						team.get(i).setSteals(team.get(i).getSteals()/team.get(i).getGamesPlayed());
+						team.get(i).setBlocks(team.get(i).getBlocks()/team.get(i).getGamesPlayed());
+						team.get(i).setTurnovers(team.get(i).getTurnovers()/team.get(i).getGamesPlayed());
+						team.get(i).setFouls(team.get(i).getFouls()/team.get(i).getGamesPlayed());
+						team.get(i).setPoints(team.get(i).getPoints()/team.get(i).getGamesPlayed());
+						team.get(i).setPossessions(team.get(i).getPossessions()/team.get(i).getGamesPlayed());
+					}
+				}
+				
+				table_3.removeAll();	
+				if(item2[24]%3==0){
+					
+					writeTable3(team,0);
+					
+				}else if(item2[24]%3==1){				
+					ArrayList<teamInfoVO> team2=si.sortTeam(team, "defensiveRating");
+					writeTable3(team2,0);			
+				}else{
+					ArrayList<teamInfoVO> team2=si.sortTeam(team, "defensiveRating");
+					Collections.reverse(team2);
+					writeTable3(team2,0);
+		
+				}
+			}
+		});
 		tblclmnNewColumn_30.setWidth(100);
 		tblclmnNewColumn_30.setText("\u9632\u5B88\u6548\u7387");
 		
 		TableColumn tableColumn_34 = new TableColumn(table_3, SWT.NONE);
+		tableColumn_34.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				item2[25]++;
+				ServiceImp si=new ServiceImp();
+				teamCondition t=new teamCondition();
+				t.setTeampartion(teamPartion.All);
+				ArrayList<teamInfoVO> team=si.getTeamInfo(t);
+				if(combo_8.getText().equals("场均数据")){
+					for(int i=0;i<team.size();i++){			
+						team.get(i).setFieldGoalsMade(team.get(i).getFieldGoalsMade()/team.get(i).getGamesPlayed());
+						team.get(i).setFieldGoalsAttempted(team.get(i).getFieldGoalsAttempted()/team.get(i).getGamesPlayed());
+						team.get(i).setThreePointFieldGoalsMade(team.get(i).getThreePointFieldGoalsMade()/team.get(i).getGamesPlayed());
+						team.get(i).setThreePointFieldGoalsAttempted(team.get(i).getThreePointFieldGoalsAttempted()/team.get(i).getGamesPlayed());
+						team.get(i).setFreeThrowsMade(team.get(i).getFreeThrowsMade()/team.get(i).getGamesPlayed());
+						team.get(i).setOffensiveRebounds(team.get(i).getOffensiveRebounds()/team.get(i).getGamesPlayed());
+						team.get(i).setDefensiveRebounds(team.get(i).getDefensiveRebounds()/team.get(i).getGamesPlayed());				
+						team.get(i).setRebounds(team.get(i).getRebounds()/team.get(i).getGamesPlayed());
+						team.get(i).setAssists(team.get(i).getAssists()/team.get(i).getGamesPlayed());
+						team.get(i).setSteals(team.get(i).getSteals()/team.get(i).getGamesPlayed());
+						team.get(i).setBlocks(team.get(i).getBlocks()/team.get(i).getGamesPlayed());
+						team.get(i).setTurnovers(team.get(i).getTurnovers()/team.get(i).getGamesPlayed());
+						team.get(i).setFouls(team.get(i).getFouls()/team.get(i).getGamesPlayed());
+						team.get(i).setPoints(team.get(i).getPoints()/team.get(i).getGamesPlayed());
+						team.get(i).setPossessions(team.get(i).getPossessions()/team.get(i).getGamesPlayed());
+					}
+				}
+				
+				table_3.removeAll();	
+				if(item2[25]%3==0){
+					
+					writeTable3(team,0);
+					
+				}else if(item2[25]%3==1){
+					
+					ArrayList<teamInfoVO> team2=si.sortTeam(team, "offensiveReboundPercentage");
+					writeTable3(team2,0);
+					
+				}else{
+					ArrayList<teamInfoVO> team2=si.sortTeam(team, "offensiveReboundPercentage");
+					Collections.reverse(team2);
+					writeTable3(team2,0);
+					
+					
+				}
+			}
+		});
 		tableColumn_34.setWidth(100);
 		tableColumn_34.setText("\u8FDB\u653B\u7BEE\u677F\u6548\u7387");
 		
 		TableColumn tableColumn_33 = new TableColumn(table_3, SWT.NONE);
+		tableColumn_33.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				item2[26]++;
+				ServiceImp si=new ServiceImp();
+				teamCondition t=new teamCondition();
+				t.setTeampartion(teamPartion.All);
+				ArrayList<teamInfoVO> team=si.getTeamInfo(t);
+				if(combo_8.getText().equals("场均数据")){
+					for(int i=0;i<team.size();i++){			
+						team.get(i).setFieldGoalsMade(team.get(i).getFieldGoalsMade()/team.get(i).getGamesPlayed());
+						team.get(i).setFieldGoalsAttempted(team.get(i).getFieldGoalsAttempted()/team.get(i).getGamesPlayed());
+						team.get(i).setThreePointFieldGoalsMade(team.get(i).getThreePointFieldGoalsMade()/team.get(i).getGamesPlayed());
+						team.get(i).setThreePointFieldGoalsAttempted(team.get(i).getThreePointFieldGoalsAttempted()/team.get(i).getGamesPlayed());
+						team.get(i).setFreeThrowsMade(team.get(i).getFreeThrowsMade()/team.get(i).getGamesPlayed());
+						team.get(i).setOffensiveRebounds(team.get(i).getOffensiveRebounds()/team.get(i).getGamesPlayed());
+						team.get(i).setDefensiveRebounds(team.get(i).getDefensiveRebounds()/team.get(i).getGamesPlayed());				
+						team.get(i).setRebounds(team.get(i).getRebounds()/team.get(i).getGamesPlayed());
+						team.get(i).setAssists(team.get(i).getAssists()/team.get(i).getGamesPlayed());
+						team.get(i).setSteals(team.get(i).getSteals()/team.get(i).getGamesPlayed());
+						team.get(i).setBlocks(team.get(i).getBlocks()/team.get(i).getGamesPlayed());
+						team.get(i).setTurnovers(team.get(i).getTurnovers()/team.get(i).getGamesPlayed());
+						team.get(i).setFouls(team.get(i).getFouls()/team.get(i).getGamesPlayed());
+						team.get(i).setPoints(team.get(i).getPoints()/team.get(i).getGamesPlayed());
+						team.get(i).setPossessions(team.get(i).getPossessions()/team.get(i).getGamesPlayed());
+					}
+				}
+				
+				table_3.removeAll();	
+				if(item2[26]%3==0){
+					
+					writeTable3(team,0);
+					
+				}else if(item2[26]%3==1){
+					
+					ArrayList<teamInfoVO> team2=si.sortTeam(team, "defensiveReboundPercentage");
+					writeTable3(team2,0);
+					
+				}else{
+					ArrayList<teamInfoVO> team2=si.sortTeam(team, "defensiveReboundPercentage");
+					Collections.reverse(team2);
+					writeTable3(team2,0);
+					
+					
+				}
+			}
+		});
 		tableColumn_33.setWidth(100);
 		tableColumn_33.setText("\u9632\u5B88\u7BEE\u677F\u6548\u7387");
 		
 		TableColumn tblclmnNewColumn_32 = new TableColumn(table_3, SWT.NONE);
+		tblclmnNewColumn_32.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				item2[27]++;
+				ServiceImp si=new ServiceImp();
+				teamCondition t=new teamCondition();
+				t.setTeampartion(teamPartion.All);
+				ArrayList<teamInfoVO> team=si.getTeamInfo(t);
+				if(combo_8.getText().equals("场均数据")){
+					for(int i=0;i<team.size();i++){			
+						team.get(i).setFieldGoalsMade(team.get(i).getFieldGoalsMade()/team.get(i).getGamesPlayed());
+						team.get(i).setFieldGoalsAttempted(team.get(i).getFieldGoalsAttempted()/team.get(i).getGamesPlayed());
+						team.get(i).setThreePointFieldGoalsMade(team.get(i).getThreePointFieldGoalsMade()/team.get(i).getGamesPlayed());
+						team.get(i).setThreePointFieldGoalsAttempted(team.get(i).getThreePointFieldGoalsAttempted()/team.get(i).getGamesPlayed());
+						team.get(i).setFreeThrowsMade(team.get(i).getFreeThrowsMade()/team.get(i).getGamesPlayed());
+						team.get(i).setOffensiveRebounds(team.get(i).getOffensiveRebounds()/team.get(i).getGamesPlayed());
+						team.get(i).setDefensiveRebounds(team.get(i).getDefensiveRebounds()/team.get(i).getGamesPlayed());				
+						team.get(i).setRebounds(team.get(i).getRebounds()/team.get(i).getGamesPlayed());
+						team.get(i).setAssists(team.get(i).getAssists()/team.get(i).getGamesPlayed());
+						team.get(i).setSteals(team.get(i).getSteals()/team.get(i).getGamesPlayed());
+						team.get(i).setBlocks(team.get(i).getBlocks()/team.get(i).getGamesPlayed());
+						team.get(i).setTurnovers(team.get(i).getTurnovers()/team.get(i).getGamesPlayed());
+						team.get(i).setFouls(team.get(i).getFouls()/team.get(i).getGamesPlayed());
+						team.get(i).setPoints(team.get(i).getPoints()/team.get(i).getGamesPlayed());
+						team.get(i).setPossessions(team.get(i).getPossessions()/team.get(i).getGamesPlayed());
+					}
+				}
+				
+				table_3.removeAll();	
+				if(item2[27]%3==0){
+					
+					writeTable3(team,0);
+					
+				}else if(item2[27]%3==1){
+					
+					ArrayList<teamInfoVO> team2=si.sortTeam(team, "stealPercentage");
+					writeTable3(team2,0);
+					
+				}else{
+					ArrayList<teamInfoVO> team2=si.sortTeam(team, "stealPercentage");
+					Collections.reverse(team2);
+					writeTable3(team2,0);
+					
+					
+				}
+			}
+		});
 		tblclmnNewColumn_32.setWidth(100);
 		tblclmnNewColumn_32.setText("\u62A2\u65AD\u6548\u7387");
 		
 		TableColumn tblclmnNewColumn_33 = new TableColumn(table_3, SWT.NONE);
+		tblclmnNewColumn_33.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				item2[28]++;
+				ServiceImp si=new ServiceImp();
+				teamCondition t=new teamCondition();
+				t.setTeampartion(teamPartion.All);
+				ArrayList<teamInfoVO> team=si.getTeamInfo(t);
+				if(combo_8.getText().equals("场均数据")){
+					for(int i=0;i<team.size();i++){			
+						team.get(i).setFieldGoalsMade(team.get(i).getFieldGoalsMade()/team.get(i).getGamesPlayed());
+						team.get(i).setFieldGoalsAttempted(team.get(i).getFieldGoalsAttempted()/team.get(i).getGamesPlayed());
+						team.get(i).setThreePointFieldGoalsMade(team.get(i).getThreePointFieldGoalsMade()/team.get(i).getGamesPlayed());
+						team.get(i).setThreePointFieldGoalsAttempted(team.get(i).getThreePointFieldGoalsAttempted()/team.get(i).getGamesPlayed());
+						team.get(i).setFreeThrowsMade(team.get(i).getFreeThrowsMade()/team.get(i).getGamesPlayed());
+						team.get(i).setOffensiveRebounds(team.get(i).getOffensiveRebounds()/team.get(i).getGamesPlayed());
+						team.get(i).setDefensiveRebounds(team.get(i).getDefensiveRebounds()/team.get(i).getGamesPlayed());				
+						team.get(i).setRebounds(team.get(i).getRebounds()/team.get(i).getGamesPlayed());
+						team.get(i).setAssists(team.get(i).getAssists()/team.get(i).getGamesPlayed());
+						team.get(i).setSteals(team.get(i).getSteals()/team.get(i).getGamesPlayed());
+						team.get(i).setBlocks(team.get(i).getBlocks()/team.get(i).getGamesPlayed());
+						team.get(i).setTurnovers(team.get(i).getTurnovers()/team.get(i).getGamesPlayed());
+						team.get(i).setFouls(team.get(i).getFouls()/team.get(i).getGamesPlayed());
+						team.get(i).setPoints(team.get(i).getPoints()/team.get(i).getGamesPlayed());
+						team.get(i).setPossessions(team.get(i).getPossessions()/team.get(i).getGamesPlayed());
+					}
+				}
+				
+				table_3.removeAll();	
+				if(item2[28]%3==0){
+					
+					writeTable3(team,0);
+					
+				}else if(item2[28]%3==1){
+					
+					ArrayList<teamInfoVO> team2=si.sortTeam(team, "assistPercentage");
+					writeTable3(team2,0);
+					
+				}else{
+					ArrayList<teamInfoVO> team2=si.sortTeam(team, "assistPercentage");
+					Collections.reverse(team2);
+					writeTable3(team2,0);
+					
+					
+				}
+			}
+		});
 		tblclmnNewColumn_33.setWidth(100);
 		tblclmnNewColumn_33.setText("\u52A9\u653B\u7387");
 		
 		composite_6 = new Composite(shell, SWT.NONE);
+		composite_6.setBackground(SWTResourceManager.getColor(204, 204, 204));
+		composite_6.setTouchEnabled(true);
 		composite_6.setSize(1440, 900);
 		composite_6.setVisible(false);
-		composite_6.setBackgroundMode(SWT.INHERIT_NONE);
+		composite_6.setBackgroundMode(SWT.INHERIT_DEFAULT);
 			
 		
 		Button button_7 = new Button(composite_6, SWT.NONE);
@@ -1502,48 +3569,57 @@ public class NBAQuerySystemUI {
 				composite_1.setVisible(true);
 			}
 		});
-		composite_7 = new Composite(composite_6, SWT.NONE);
-		composite_7.setBounds(100, 100, 440, 700);
 		
-		text_2 = new Text(composite_6, SWT.BORDER);
-		text_2.setBounds(740, 140, 300, 50);
-		text_2.setFont(new Font(null,"方正舒体",16,SWT.BOLD));
 		
-		text_3 = new Text(composite_6, SWT.BORDER);
-		text_3.setBounds(740, 200, 300, 50);
-		text_3.setFont(new Font(null,"方正舒体",16,SWT.BOLD));
+		text_2 = new Text(composite_6, SWT.BORDER | SWT.READ_ONLY);
+		text_2.setForeground(SWTResourceManager.getColor(255, 102, 51));
+		text_2.setBounds(740, 140, 350, 50);
+		text_2.setFont(SWTResourceManager.getFont("方正舒体", 16, SWT.BOLD));
 		
-		text_4 = new Text(composite_6, SWT.BORDER);
-		text_4.setBounds(740, 260, 300, 50);
-		text_4.setFont(new Font(null,"方正舒体",16,SWT.BOLD));
+		text_3 = new Text(composite_6, SWT.BORDER | SWT.READ_ONLY);
+		text_3.setForeground(SWTResourceManager.getColor(255, 102, 51));
+		text_3.setBounds(740, 200, 350, 50);
+		text_3.setFont(SWTResourceManager.getFont("方正舒体", 16, SWT.BOLD));
 		
-		text_5 = new Text(composite_6, SWT.BORDER);
-		text_5.setBounds(740, 320, 300, 50);
-		text_5.setFont(new Font(null,"方正舒体",16,SWT.BOLD));
+		text_4 = new Text(composite_6, SWT.BORDER | SWT.READ_ONLY);
+		text_4.setForeground(SWTResourceManager.getColor(255, 102, 51));
+		text_4.setBounds(740, 260, 350, 50);
+		text_4.setFont(SWTResourceManager.getFont("方正舒体", 16, SWT.BOLD));
 		
-		text_6 = new Text(composite_6, SWT.BORDER);
-		text_6.setBounds(740, 380, 300,50);
-		text_6.setFont(new Font(null,"方正舒体",16,SWT.BOLD));
+		text_5 = new Text(composite_6, SWT.BORDER | SWT.READ_ONLY);
+		text_5.setForeground(SWTResourceManager.getColor(255, 102, 51));
+		text_5.setBounds(740, 320, 350, 50);
+		text_5.setFont(SWTResourceManager.getFont("方正舒体", 16, SWT.BOLD));
 		
-		text_7 = new Text(composite_6, SWT.BORDER);
-		text_7.setBounds(740, 440, 300, 50);
-		text_7.setFont(new Font(null,"方正舒体",16,SWT.BOLD));
+		text_6 = new Text(composite_6, SWT.BORDER | SWT.READ_ONLY);
+		text_6.setForeground(SWTResourceManager.getColor(255, 102, 51));
+		text_6.setBounds(740, 380, 350,50);
+		text_6.setFont(SWTResourceManager.getFont("方正舒体", 16, SWT.BOLD));
 		
-		text_8 = new Text(composite_6, SWT.BORDER);
-		text_8.setBounds(740, 500, 300, 50);
-		text_8.setFont(new Font(null,"方正舒体",16,SWT.BOLD));
+		text_7 = new Text(composite_6, SWT.BORDER | SWT.READ_ONLY);
+		text_7.setForeground(SWTResourceManager.getColor(255, 102, 51));
+		text_7.setBounds(740, 440, 350, 50);
+		text_7.setFont(SWTResourceManager.getFont("方正舒体", 16, SWT.BOLD));
 		
-		text_9 = new Text(composite_6, SWT.BORDER);
-		text_9.setBounds(740, 560,300, 50);
-		text_9.setFont(new Font(null,"方正舒体",16,SWT.BOLD));
+		text_8 = new Text(composite_6, SWT.BORDER | SWT.READ_ONLY);
+		text_8.setForeground(SWTResourceManager.getColor(255, 102, 51));
+		text_8.setBounds(740, 500, 350, 50);
+		text_8.setFont(SWTResourceManager.getFont("方正舒体", 16, SWT.BOLD));
 		
-		text_10 = new Text(composite_6, SWT.BORDER);
-		text_10.setBounds(740, 620, 300, 50);
-		text_10.setFont(new Font(null,"方正舒体",16,SWT.BOLD));
+		text_9 = new Text(composite_6, SWT.BORDER | SWT.READ_ONLY);
+		text_9.setForeground(SWTResourceManager.getColor(255, 102, 51));
+		text_9.setBounds(740, 560,350, 50);
+		text_9.setFont(SWTResourceManager.getFont("方正舒体", 16, SWT.BOLD));
 		
-		text_11 = new Text(composite_6, SWT.BORDER);
-		text_11.setBounds(740, 680, 300, 50);	
-		text_11.setFont(new Font(null,"方正舒体",16,SWT.BOLD));
+		text_10 = new Text(composite_6, SWT.BORDER | SWT.READ_ONLY);
+		text_10.setForeground(SWTResourceManager.getColor(255, 102, 51));
+		text_10.setBounds(740, 620, 350, 50);
+		text_10.setFont(SWTResourceManager.getFont("方正舒体", 16, SWT.BOLD));
+		
+		text_11 = new Text(composite_6, SWT.BORDER | SWT.READ_ONLY);
+		text_11.setForeground(SWTResourceManager.getColor(255, 102, 51));
+		text_11.setBounds(740, 680, 350, 50);	
+		text_11.setFont(SWTResourceManager.getFont("方正舒体", 16, SWT.BOLD));
 		
 		composite_8 = new Composite(shell, SWT.NONE);
 		composite_8.setSize(1440, 900);
@@ -1565,35 +3641,42 @@ public class NBAQuerySystemUI {
 		composite_9 = new Composite(composite_8, SWT.NONE);
 		composite_9.setBounds(100, 100, 440, 700);
 		
-		teamText_1 = new Text(composite_8, SWT.BORDER);
-		teamText_1.setBounds(740, 140, 300, 50);
-		teamText_1.setFont(new Font(null,"方正舒体",16,SWT.BOLD));
+		teamText_1 = new Text(composite_8, SWT.BORDER | SWT.READ_ONLY);
+		teamText_1.setForeground(SWTResourceManager.getColor(255, 102, 51));
+		teamText_1.setBounds(740, 140, 350, 50);
+		teamText_1.setFont(SWTResourceManager.getFont("方正舒体", 16, SWT.BOLD));
 		
-		teamText_2 = new Text(composite_8, SWT.BORDER);
-		teamText_2.setBounds(740, 220, 300, 50);
-		teamText_2.setFont(new Font(null,"方正舒体",16,SWT.BOLD));
+		teamText_2 = new Text(composite_8, SWT.BORDER | SWT.READ_ONLY);
+		teamText_2.setForeground(SWTResourceManager.getColor(255, 102, 51));
+		teamText_2.setBounds(740, 220, 350, 50);
+		teamText_2.setFont(SWTResourceManager.getFont("方正舒体", 16, SWT.BOLD));
 		
-		teamText_3 = new Text(composite_8, SWT.BORDER);
-		teamText_3.setBounds(740, 300, 300, 50);
-		teamText_3.setFont(new Font(null,"方正舒体",16,SWT.BOLD));
+		teamText_3 = new Text(composite_8, SWT.BORDER | SWT.READ_ONLY);
+		teamText_3.setForeground(SWTResourceManager.getColor(255, 102, 51));
+		teamText_3.setBounds(740, 300, 350, 50);
+		teamText_3.setFont(SWTResourceManager.getFont("方正舒体", 16, SWT.BOLD));
 		
-		teamText_4 = new Text(composite_8, SWT.BORDER);
-		teamText_4.setBounds(740, 380, 300, 50);
-		teamText_4.setFont(new Font(null,"方正舒体",16,SWT.BOLD));
+		teamText_4 = new Text(composite_8, SWT.BORDER | SWT.READ_ONLY);
+		teamText_4.setForeground(SWTResourceManager.getColor(255, 102, 51));
+		teamText_4.setBounds(740, 380, 350, 50);
+		teamText_4.setFont(SWTResourceManager.getFont("方正舒体", 16, SWT.BOLD));
 		
-		teamText_5 = new Text(composite_8, SWT.BORDER);
-		teamText_5.setBounds(740, 460, 300, 50);
-		teamText_5.setFont(new Font(null,"方正舒体",16,SWT.BOLD));
+		teamText_5 = new Text(composite_8, SWT.BORDER | SWT.READ_ONLY);
+		teamText_5.setForeground(SWTResourceManager.getColor(255, 102, 51));
+		teamText_5.setBounds(740, 460, 350, 50);
+		teamText_5.setFont(SWTResourceManager.getFont("方正舒体", 16, SWT.BOLD));
 		
-		teamText_6 = new Text(composite_8, SWT.BORDER);
-		teamText_6.setBounds(740, 540, 300, 50);
-		teamText_6.setFont(new Font(null,"方正舒体",16,SWT.BOLD));
+		teamText_6 = new Text(composite_8, SWT.BORDER | SWT.READ_ONLY);
+		teamText_6.setForeground(SWTResourceManager.getColor(255, 102, 51));
+		teamText_6.setBounds(740, 540, 350, 50);
+		teamText_6.setFont(SWTResourceManager.getFont("方正舒体", 16, SWT.BOLD));
 		
-		teamText_7 = new Text(composite_8, SWT.BORDER);
-		teamText_7.setBounds(740, 620, 300, 50);
-		teamText_7.setFont(new Font(null,"方正舒体",16,SWT.BOLD));
+		teamText_7 = new Text(composite_8, SWT.BORDER | SWT.READ_ONLY);
+		teamText_7.setForeground(SWTResourceManager.getColor(255, 102, 51));
+		teamText_7.setBounds(740, 620, 350, 50);
+		teamText_7.setFont(SWTResourceManager.getFont("方正舒体", 16, SWT.BOLD));
 		
-		
+		composite_7 = new Composite(composite_6, SWT.NONE);
 		
 		
 		
