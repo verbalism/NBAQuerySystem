@@ -38,7 +38,10 @@ public class TeamData implements TeamDataService{
 				team.setFullName(removeBlankSpace(temp[0]));
 				team.setAbbreviation(removeBlankSpace(temp[1]));
 				team.setCity(removeBlankSpace(temp[2]));
-				team.setZone(removeBlankSpace(temp[3]));
+				if(i==3)
+					team.setZone("E");
+				else
+					team.setZone(removeBlankSpace(temp[3]));
 				team.setSubarea(removeBlankSpace(temp[4]));
 				team.setHomeCourt(removeBlankSpace(temp[5]));
 				team.setCreateTime(removeBlankSpace(temp[6]));
@@ -72,7 +75,10 @@ public class TeamData implements TeamDataService{
 					team.setFullName(teamName);
 					team.setAbbreviation(removeBlankSpace(temp[1]));
 					team.setCity(removeBlankSpace(temp[2]));
-					team.setZone(removeBlankSpace(temp[3]));
+					if(i==3)
+						team.setZone("E");
+					else
+						team.setZone(removeBlankSpace(temp[3]));
 					team.setSubarea(removeBlankSpace(temp[4]));
 					team.setHomeCourt(removeBlankSpace(temp[5]));
 					team.setCreateTime(removeBlankSpace(temp[6]));
