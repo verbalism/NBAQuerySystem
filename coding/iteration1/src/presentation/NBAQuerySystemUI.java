@@ -190,9 +190,10 @@ public class NBAQuerySystemUI {
 	}
 	public static void writeTable4(final ArrayList<playerInfoVO> temp,final int n){
 		Display.getDefault().asyncExec(new Runnable() { 
-			public void run() { 
+			public void run() {
+				table_1.removeAll();
 				for(int i=0;i<temp.size();i++){
-					table_1.removeAll();
+					
 					TableItem item=new TableItem(table_1,SWT.NONE);
 					if(n==0){
 						item.setText(new String[]{String.valueOf(i+1),temp.get(i).getPlayerName(),temp.get(i).getTeamName(),String.valueOf(temp.get(i).getGamesPlayed())
@@ -301,14 +302,20 @@ public class NBAQuerySystemUI {
 		button.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				
 				teamInfoVO t1=new teamInfoVO();
 				t1.setFullName(text_1.getText());
+				if(text.getText().length()>0){
+					try{
 				ServiceImp si=new ServiceImp();
 				teamInfoVO t2=si.getSingleTeamInfo(t1);
 				TableItem item=new TableItem(table_2,SWT.NONE);
 				item.setText(new String[]{t2.getFullName(),t2.getTeamName(),t2.getCity()
 						,t2.getZone(),t2.getSubarea(),t2.getHomeCourt(),t2.getCreateTime()}); 
-				
+					}catch(Exception e1){
+						
+					}
+				}
 			}
 		});
 		button.setLocation(1050, 170);
@@ -690,13 +697,19 @@ public class NBAQuerySystemUI {
 				//只实现了输入全名查找
 				playerInfoVO p=new playerInfoVO();
 				p.setPlayerName(text.getText());
-				ServiceImp si=new ServiceImp();
-				playerInfoVO player=si.getSinglePlayerInfo(p);
-				table.removeAll();
-				TableItem item=new TableItem(table,SWT.NONE);
-				item.setText(new String[]{player.getPlayerName(),player.getNumber(),player.getPosition()
+				if(text.getText().length()>0){
+					try{
+					ServiceImp si=new ServiceImp();
+					playerInfoVO player=si.getSinglePlayerInfo(p);
+					table.removeAll();
+					TableItem item=new TableItem(table,SWT.NONE);
+					item.setText(new String[]{player.getPlayerName(),player.getNumber(),player.getPosition()
 						,player.getHeight(),player.getWeight(),player.getBirth(),player.getAge(),
 						player.getExp(),player.getSchool()});
+					}catch(Exception e1){
+						
+					}
+				}
 			}
 		});
 		checkbutton_1.setBounds(952, 189, 98, 30);
@@ -770,6 +783,7 @@ public class NBAQuerySystemUI {
 
 				ServiceImp si=new ServiceImp();
 				ArrayList<playerInfoVO> player=si.getPlayerInfo(pc);
+				System.out.println(player.size());
 				writeTable4(player,0);
 			}
 			
