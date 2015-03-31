@@ -893,9 +893,9 @@ public class playerInfoCalculate {
 		return "Unknow";
 	}//Çò¶ÓÈ«³Æ
 	
-	/*public static void main(String []args ){
+	public static void main(String []args ){
 		playerInfoCalculate pic=new playerInfoCalculate();
 		pic.savePlayerInfoVO();
-	}*/
+	}
 	
 }
