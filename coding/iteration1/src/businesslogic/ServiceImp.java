@@ -24,148 +24,170 @@ import vo.teamPartion;
 
 public class ServiceImp implements IService{
 	public teamInfoVO getSingleTeamInfo(teamInfoVO t){
-		teamInfoVO result=new teamInfoVO();
-		
-		TeamData td=new TeamData();
-		TeamInfoPO tp=td.getSingleTeamOriginal(t.getFullName());
-		
-		result.setTeamName(tp.getAbbreviation());
-		result.setFullName(t.getFullName());
-		result.setCity(tp.getCity());
-		result.setZone(tp.getZone());
-		result.setSubarea(tp.getSubarea());
-		result.setHomeCourt(tp.getHomeCourt());
-		result.setCreateTime(tp.getCreateTime());
-		
-		
-		MatchData md=new MatchData();
-		ArrayList<MatchInfoPO> mp=md.getMatchOriginal();
-		ArrayList<MatchInfoPO> mpselected=new ArrayList<MatchInfoPO>();
-		
-		for(int i=0;i<mp.size();i++){
-			if(mp.get(i).getTeam1().getTeamName().equals(result.getTeamName())
-					||mp.get(i).getTeam2().getTeamName().equals(result.getTeamName())){
-				mpselected.add(mp.get(i));
-			}
-		}//筛选队伍参与的比赛
-		
 		TeamInfoCalculate tic=new TeamInfoCalculate();
-				
-		result.setGamesPlayed(mpselected.size());
-		result.setFieldGoalsMade(tic.calculateFieldGoalsMade(result.getTeamName(), mpselected));
-		result.setFieldGoalsAttempted(tic.calculateFieldGoalsAttempted(result.getTeamName(), mpselected));
-		result.setThreePointFieldGoalsMade(tic.calculateThreePointFieldGoalsMade(result.getTeamName(), mpselected));
-		result.setThreePointFieldGoalsAttempted(tic.calculateThreePointFieldGoalsAttempted(result.getTeamName(), mpselected));
-		result.setFreeThrowsMade(tic.calculateFreeThrowsMade(result.getTeamName(),mpselected));
-		result.setFreeThrowsAttempted(tic.calculateFreeThrowsAttempted(result.getTeamName(), mpselected));
-		result.setOffensiveRebounds(tic.calculateOffensiveRebounds(result.getTeamName(), mpselected));
-		result.setDefensiveRebounds(tic.calculateDefensiveRebounds(result.getTeamName(), mpselected));
-		result.setRebounds(result.getOffensiveRebounds()+result.getDefensiveRebounds());
-		result.setAssists(tic.calculateAssists(result.getTeamName(),mpselected));
-		result.setSteals(tic.calculateSteals(result.getTeamName(), mpselected));
-		result.setBlocks(tic.calculateBlocks(result.getTeamName(), mpselected));
-		result.setTurnovers(tic.calculateTurnovers(result.getTeamName(), mpselected));
-		result.setFouls(tic.calculateFouls(result.getTeamName(),mpselected));
-		result.setPoints(tic.calculatePoints(result.getTeamName(), mpselected));
-		result.setFieldGoalPercentage(result.getFieldGoalsMade()/result.getFieldGoalsAttempted());
-		result.setThreePointFieldGoalPercentage(result.getThreePointFieldGoalsMade()/result.getThreePointFieldGoalsAttempted());
-		result.setFreeThrowPercentage(result.getFreeThrowsMade()/result.getFreeThrowsAttempted());
-		result.setWinPercentage((double)tic.calculateWins(result.getTeamName(), mpselected)/(double)result.getGamesPlayed());
-		result.setOffensiveReboundPercentage(result.getOffensiveRebounds()/(result.getOffensiveRebounds()+tic.calculateOppositeDefensiveRebounds(result.getTeamName(), mpselected)));
-		result.setDefensiveReboundPercentage(result.getDefensiveRebounds()/(result.getDefensiveRebounds()+tic.calculateOppositeOffensiveRebounds(result.getTeamName(), mpselected)));
-		result.setPossessions(result.getFieldGoalsAttempted()+0.4*result.getFreeThrowsAttempted()
-				-1.07*result.getOffensiveReboundPercentage()*(result.getFieldGoalsAttempted()-result.getFieldGoalsMade())+1.07*result.getTurnovers());
-		result.setOffensiveRating(result.getPoints()/result.getPossessions()*100);
-		double oppositeOffensiveReboundPer=tic.calculateOppositeOffensiveRebounds(result.getTeamName(), mpselected)/(tic.calculateOppositeOffensiveRebounds(result.getTeamName(), mpselected)+result.getDefensiveRebounds());
-		double oppositePossessions=tic.calculateOppositeFieldGoalsAttempted(result.getTeamName(), mpselected)+0.4*tic.calculateOppositeFreeThrowsAttempted(result.getTeamName(), mpselected)
-				-1.07*oppositeOffensiveReboundPer*(tic.calculateOppositeFieldGoalsAttempted(result.getTeamName(), mpselected)-tic.calculateOppositeFieldGoalsMade(result.getTeamName(), mpselected))+1.07*tic.calculateOppositeTurnovers(result.getTeamName(), mpselected);
-		//计算对手进攻回合数
-		result.setDefensiveRating(tic.calculateOppositePoints(result.getTeamName(), mpselected)/oppositePossessions*100);
-		result.setStealPercentage(result.getSteals()/oppositePossessions*100);
-		result.setAssistPercentage(result.getAssists()/result.getPossessions()*100);
+		teamInfoVO result=new teamInfoVO();
+		if(tic.judgeEmptyFile("Data//teamInfoVO.txt")){
 		
-		return result;
+			TeamData td=new TeamData();
+			TeamInfoPO tp=td.getSingleTeamOriginal(t.getFullName());
+			
+			result.setTeamName(tp.getAbbreviation());
+			result.setFullName(t.getFullName());
+			result.setCity(tp.getCity());
+			result.setZone(tp.getZone());
+			result.setSubarea(tp.getSubarea());
+			result.setHomeCourt(tp.getHomeCourt());
+			result.setCreateTime(tp.getCreateTime());
+		
+		
+			MatchData md=new MatchData();
+			ArrayList<MatchInfoPO> mp=md.getMatchOriginal();
+			ArrayList<MatchInfoPO> mpselected=new ArrayList<MatchInfoPO>();
+		
+			for(int i=0;i<mp.size();i++){
+				if(mp.get(i).getTeam1().getTeamName().equals(result.getTeamName())
+						||mp.get(i).getTeam2().getTeamName().equals(result.getTeamName())){
+					mpselected.add(mp.get(i));
+				}
+			}//筛选队伍参与的比赛
+			
+			result.setGamesPlayed(mpselected.size());
+			result.setFieldGoalsMade(tic.calculateFieldGoalsMade(result.getTeamName(), mpselected));
+			result.setFieldGoalsAttempted(tic.calculateFieldGoalsAttempted(result.getTeamName(), mpselected));
+			result.setThreePointFieldGoalsMade(tic.calculateThreePointFieldGoalsMade(result.getTeamName(), mpselected));
+			result.setThreePointFieldGoalsAttempted(tic.calculateThreePointFieldGoalsAttempted(result.getTeamName(), mpselected));
+			result.setFreeThrowsMade(tic.calculateFreeThrowsMade(result.getTeamName(),mpselected));
+			result.setFreeThrowsAttempted(tic.calculateFreeThrowsAttempted(result.getTeamName(), mpselected));
+			result.setOffensiveRebounds(tic.calculateOffensiveRebounds(result.getTeamName(), mpselected));
+			result.setDefensiveRebounds(tic.calculateDefensiveRebounds(result.getTeamName(), mpselected));
+			result.setRebounds(result.getOffensiveRebounds()+result.getDefensiveRebounds());
+			result.setAssists(tic.calculateAssists(result.getTeamName(),mpselected));
+			result.setSteals(tic.calculateSteals(result.getTeamName(), mpselected));
+			result.setBlocks(tic.calculateBlocks(result.getTeamName(), mpselected));
+			result.setTurnovers(tic.calculateTurnovers(result.getTeamName(), mpselected));
+			result.setFouls(tic.calculateFouls(result.getTeamName(),mpselected));
+			result.setPoints(tic.calculatePoints(result.getTeamName(), mpselected));
+			result.setFieldGoalPercentage(result.getFieldGoalsMade()/result.getFieldGoalsAttempted());
+			result.setThreePointFieldGoalPercentage(result.getThreePointFieldGoalsMade()/result.getThreePointFieldGoalsAttempted());
+			result.setFreeThrowPercentage(result.getFreeThrowsMade()/result.getFreeThrowsAttempted());
+			result.setWinPercentage((double)tic.calculateWins(result.getTeamName(), mpselected)/(double)result.getGamesPlayed());
+			result.setOffensiveReboundPercentage(result.getOffensiveRebounds()/(result.getOffensiveRebounds()+tic.calculateOppositeDefensiveRebounds(result.getTeamName(), mpselected)));
+			result.setDefensiveReboundPercentage(result.getDefensiveRebounds()/(result.getDefensiveRebounds()+tic.calculateOppositeOffensiveRebounds(result.getTeamName(), mpselected)));
+			result.setPossessions(result.getFieldGoalsAttempted()+0.4*result.getFreeThrowsAttempted()
+					-1.07*result.getOffensiveReboundPercentage()*(result.getFieldGoalsAttempted()-result.getFieldGoalsMade())+1.07*result.getTurnovers());
+			result.setOffensiveRating(result.getPoints()/result.getPossessions()*100);
+			double oppositeOffensiveReboundPer=tic.calculateOppositeOffensiveRebounds(result.getTeamName(), mpselected)/(tic.calculateOppositeOffensiveRebounds(result.getTeamName(), mpselected)+result.getDefensiveRebounds());
+			double oppositePossessions=tic.calculateOppositeFieldGoalsAttempted(result.getTeamName(), mpselected)+0.4*tic.calculateOppositeFreeThrowsAttempted(result.getTeamName(), mpselected)
+				-1.07*oppositeOffensiveReboundPer*(tic.calculateOppositeFieldGoalsAttempted(result.getTeamName(), mpselected)-tic.calculateOppositeFieldGoalsMade(result.getTeamName(), mpselected))+1.07*tic.calculateOppositeTurnovers(result.getTeamName(), mpselected);
+			//计算对手进攻回合数
+			result.setDefensiveRating(tic.calculateOppositePoints(result.getTeamName(), mpselected)/oppositePossessions*100);
+			result.setStealPercentage(result.getSteals()/oppositePossessions*100);
+			result.setAssistPercentage(result.getAssists()/result.getPossessions()*100);
+		
+			return result;
+		}
+		else{
+			ArrayList<teamInfoVO> all=tic.readTeamInfo();
+			for(int i=0;i<all.size();i++){
+				if(t.getFullName().equals(all.get(i).getFullName())){
+					result=all.get(i);
+				}
+			}
+			return result;
+		}
 	}
 	
 	
 	public ArrayList<teamInfoVO> getTeamInfo(teamCondition tc){
-		ServiceImp si=new ServiceImp();
-		ArrayList<teamInfoVO> original=new ArrayList<teamInfoVO>();
+		TeamInfoCalculate tic=new TeamInfoCalculate();
 		ArrayList<teamInfoVO> result=new ArrayList<teamInfoVO>();
-	
-		TeamData td=new TeamData();
-		ArrayList<TeamInfoPO> tp=td.getTeamOriginal();
-		for(int i=0;i<tp.size()&&i<30;i++){
-			if(tp.get(i).getFullName()!=null){
-				teamInfoVO temp=new teamInfoVO();
-				temp.setFullName(tp.get(i).getFullName());
-				temp.setSubarea(tp.get(i).getSubarea());	
-				original.add(temp);
+		ArrayList<teamInfoVO> original=new ArrayList<teamInfoVO>();
+		ServiceImp si=new ServiceImp();
+		
+		if(tic.judgeEmptyFile("Data//teamInfoVO.txt")){
+			TeamData td=new TeamData();
+			ArrayList<TeamInfoPO> tp=td.getTeamOriginal();
+			for(int i=0;i<tp.size()&&i<30;i++){
+				if(tp.get(i).getFullName()!=null){
+					teamInfoVO temp=new teamInfoVO();
+					temp.setFullName(tp.get(i).getFullName());
+					temp.setSubarea(tp.get(i).getSubarea());	
+					original.add(si.getSingleTeamInfo(temp));
+				}
 			}
+			tic.writeTeamInfo(original);
+			System.out.println("未执行readTeam");
 		}
+		else{
+			original=tic.readTeamInfo();
+			System.out.println("执行了readTeam");
+		}
+		
+		
 		if(tc.getTeampartion().equals(teamPartion.All)){	
 			for(int i=0;i<original.size();i++){
-				result.add(si.getSingleTeamInfo(original.get(i)));
+				result.add(original.get(i));
 			}
 		}
 		else if(tc.getTeampartion().equals(teamPartion.East)){
 			for(int i=0;i<original.size();i++){
 				if(original.get(i).getSubarea().equals("Southeast")||original.get(i).getSubarea().equals("Central")||original.get(i).getSubarea().equals("Atlantic")){
-					result.add(si.getSingleTeamInfo(original.get(i)));
+					result.add(original.get(i));
 				}
 			}
 		}
 		else if(tc.getTeampartion().equals(teamPartion.West)){
 			for(int i=0;i<original.size();i++){
 				if(original.get(i).getSubarea().equals("Southwest")||original.get(i).getSubarea().equals("Northwest")||original.get(i).getSubarea().equals("Pacific")){
-					result.add(si.getSingleTeamInfo(original.get(i)));
+					result.add(original.get(i));
 				}
 			}
 		}
 		else if(tc.getTeampartion().equals(teamPartion.Southeast)){
 			for(int i=0;i<original.size();i++){
 				if(original.get(i).getSubarea().equals("Southeast")){
-					result.add(si.getSingleTeamInfo(original.get(i)));
+					result.add(original.get(i));
 				}
 			}
 		}
 		else if(tc.getTeampartion().equals(teamPartion.Central)){
 			for(int i=0;i<original.size();i++){
 				if(original.get(i).getSubarea().equals("Central")){
-					result.add(si.getSingleTeamInfo(original.get(i)));
+					result.add(original.get(i));
 				}
 			}
 		}
 		else if(tc.getTeampartion().equals(teamPartion.Atlantic)){
 			for(int i=0;i<original.size();i++){
 				if(original.get(i).getSubarea().equals("Atlantic")){
-					result.add(si.getSingleTeamInfo(original.get(i)));
+					result.add(original.get(i));
 				}
 			}
 		}
 		else if(tc.getTeampartion().equals(teamPartion.Southwest)){
 			for(int i=0;i<original.size();i++){
 				if(original.get(i).getSubarea().equals("Southwest")){
-					result.add(si.getSingleTeamInfo(original.get(i)));
+					result.add(original.get(i));
 				}
 			}
 		}
 		else if(tc.getTeampartion().equals(teamPartion.Northwest)){
 			for(int i=0;i<original.size();i++){
 				if(original.get(i).getSubarea().equals("Northwest")){
-					result.add(si.getSingleTeamInfo(original.get(i)));
+					result.add(original.get(i));
 				}
 			}
 		}
 		else if(tc.getTeampartion().equals(teamPartion.Pacific)){
 			for(int i=0;i<original.size();i++){
 				if(original.get(i).getSubarea().equals("Pacific")){
-					result.add(si.getSingleTeamInfo(original.get(i)));
+					result.add(original.get(i));
 				}
 			}
 		}
 		return result;
 	}
+	
 	
 	public ArrayList<teamInfoVO> sortTeam(ArrayList<teamInfoVO> original ,String s ){
 		ArrayList <teamInfoVO> result =new ArrayList<teamInfoVO>();
@@ -1070,17 +1092,20 @@ public class ServiceImp implements IService{
 		
 	}*/
 	
-	/*public static void main(String []args){
+
+	public static void main(String []args){
 		ServiceImp si=new ServiceImp();
 		teamCondition tc=new teamCondition();
 		tc.setTeampartion(teamPartion.East);
-		teamInfoVO a=new teamInfoVO();
-		a.setFullName("Hawks");
-		teamInfoVO b=si.getSingleTeamInfo(a);
-		ArrayList<teamInfoVO> t=si.getTeamInfo(tc);
-		ArrayList<teamInfoVO> t1=si.sortTeam(t, "assistPercentage");
-		for(int i=0;i<t1.size();i++){
-			System.out.println(t1.get(i).getTeamName()+"\t"+t1.get(i).getSubarea()+"\t"+t1.get(i).getAssistPercentage()+"\t"+t1.get(i).getAssists()+"\t"+t1.get(i).getBlocks()+"\t"+t1.get(i).getWinPercentage()+"\t"+t1.get(i).getStealPercentage());	
+		ArrayList<teamInfoVO> teaminfo=si.getTeamInfo(tc);
+		System.out.println(teaminfo.size());
+		for(int i=0;i<teaminfo.size();i++){
+			System.out.println(i+";"+teaminfo.get(i).getTeamName()+";"+teaminfo.get(i).getGamesPlayed()+";"+teaminfo.get(i).getFieldGoalsMade()+";"+teaminfo.get(i).getFieldGoalsAttempted()+";"+teaminfo.get(i).getThreePointFieldGoalsMade()
+					+";"+teaminfo.get(i).getThreePointFieldGoalsAttempted()+";"+teaminfo.get(i).getFreeThrowsMade()+";"+teaminfo.get(i).getFreeThrowsAttempted()+";"+teaminfo.get(i).getOffensiveRebounds()+";"+teaminfo.get(i).getDefensiveRebounds()
+					+";"+teaminfo.get(i).getRebounds()+";"+teaminfo.get(i).getAssists()+";"+teaminfo.get(i).getSteals()+";"+teaminfo.get(i).getBlocks()+";"+teaminfo.get(i).getTurnovers()+";"+teaminfo.get(i).getFouls()+";"+teaminfo.get(i).getPoints()
+					+";"+teaminfo.get(i).getFieldGoalPercentage()+";"+teaminfo.get(i).getThreePointFieldGoalPercentage()+";"+teaminfo.get(i).getFreeThrowPercentage()+";"+teaminfo.get(i).getWinPercentage()+";"+teaminfo.get(i).getPossessions()
+					+";"+teaminfo.get(i).getOffensiveRating()+";"+teaminfo.get(i).getDefensiveRating()+";"+teaminfo.get(i).getOffensiveReboundPercentage()+";"+teaminfo.get(i).getDefensiveReboundPercentage()+";"+teaminfo.get(i).getStealPercentage()
+					+";"+teaminfo.get(i).getAssistPercentage()+";"+teaminfo.get(i).getFullName()+";"+teaminfo.get(i).getCity()+";"+teaminfo.get(i).getZone()+";"+teaminfo.get(i).getSubarea()+";"+teaminfo.get(i).getHomeCourt()+";"+teaminfo.get(i).getCreateTime());
 		}
-	}*/
+	}
 }
