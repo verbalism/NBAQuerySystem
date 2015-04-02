@@ -739,7 +739,6 @@ public class NBAQuerySystemUI {
 		checkText_1.setBounds(764, 189, 170, 32);
 		
 		Button button_1 = new Button(composite_1, SWT.NONE);//球员信息
-		button_1.setForeground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		button_1.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -3640,7 +3639,6 @@ public class NBAQuerySystemUI {
 		teamDataTableColumn_29.setText("\u52A9\u653B\u7387");
 		
 		composite_6 = new Composite(shell, SWT.NONE);
-		composite_6.setBackground(SWTResourceManager.getColor(204, 204, 204));
 		composite_6.setTouchEnabled(true);
 		composite_6.setSize(1440, 900);
 		composite_6.setVisible(false);
@@ -3661,52 +3659,52 @@ public class NBAQuerySystemUI {
 		
 		
 		playerText_1 = new Text(composite_6, SWT.BORDER | SWT.READ_ONLY);
-		playerText_1.setForeground(SWTResourceManager.getColor(255, 102, 51));
+		playerText_1.setForeground(SWTResourceManager.getColor(SWT.COLOR_WIDGET_FOREGROUND));
 		playerText_1.setBounds(740, 140, 350, 50);
 		playerText_1.setFont(SWTResourceManager.getFont("方正舒体", 16, SWT.BOLD));
 		
 		playerText_2 = new Text(composite_6, SWT.BORDER | SWT.READ_ONLY);
-		playerText_2.setForeground(SWTResourceManager.getColor(255, 102, 51));
+		playerText_2.setForeground(SWTResourceManager.getColor(SWT.COLOR_WIDGET_FOREGROUND));
 		playerText_2.setBounds(740, 200, 350, 50);
 		playerText_2.setFont(SWTResourceManager.getFont("方正舒体", 16, SWT.BOLD));
 		
 		playerText_3 = new Text(composite_6, SWT.BORDER | SWT.READ_ONLY);
-		playerText_3.setForeground(SWTResourceManager.getColor(255, 102, 51));
+		playerText_3.setForeground(SWTResourceManager.getColor(SWT.COLOR_WIDGET_FOREGROUND));
 		playerText_3.setBounds(740, 260, 350, 50);
 		playerText_3.setFont(SWTResourceManager.getFont("方正舒体", 16, SWT.BOLD));
 		
 		playerText_4 = new Text(composite_6, SWT.BORDER | SWT.READ_ONLY);
-		playerText_4.setForeground(SWTResourceManager.getColor(255, 102, 51));
+		playerText_4.setForeground(SWTResourceManager.getColor(SWT.COLOR_WIDGET_FOREGROUND));
 		playerText_4.setBounds(740, 320, 350, 50);
 		playerText_4.setFont(SWTResourceManager.getFont("方正舒体", 16, SWT.BOLD));
 		
 		playerText_5 = new Text(composite_6, SWT.BORDER | SWT.READ_ONLY);
-		playerText_5.setForeground(SWTResourceManager.getColor(255, 102, 51));
+		playerText_5.setForeground(SWTResourceManager.getColor(SWT.COLOR_WIDGET_FOREGROUND));
 		playerText_5.setBounds(740, 380, 350,50);
 		playerText_5.setFont(SWTResourceManager.getFont("方正舒体", 16, SWT.BOLD));
 		
 		playerText_6 = new Text(composite_6, SWT.BORDER | SWT.READ_ONLY);
-		playerText_6.setForeground(SWTResourceManager.getColor(255, 102, 51));
+		playerText_6.setForeground(SWTResourceManager.getColor(SWT.COLOR_WIDGET_FOREGROUND));
 		playerText_6.setBounds(740, 440, 350, 50);
 		playerText_6.setFont(SWTResourceManager.getFont("方正舒体", 16, SWT.BOLD));
 		
 		playerText_7 = new Text(composite_6, SWT.BORDER | SWT.READ_ONLY);
-		playerText_7.setForeground(SWTResourceManager.getColor(255, 102, 51));
+		playerText_7.setForeground(SWTResourceManager.getColor(SWT.COLOR_WIDGET_FOREGROUND));
 		playerText_7.setBounds(740, 500, 350, 50);
 		playerText_7.setFont(SWTResourceManager.getFont("方正舒体", 16, SWT.BOLD));
 		
 		playerText_8 = new Text(composite_6, SWT.BORDER | SWT.READ_ONLY);
-		playerText_8.setForeground(SWTResourceManager.getColor(255, 102, 51));
+		playerText_8.setForeground(SWTResourceManager.getColor(SWT.COLOR_WIDGET_FOREGROUND));
 		playerText_8.setBounds(740, 560,350, 50);
 		playerText_8.setFont(SWTResourceManager.getFont("方正舒体", 16, SWT.BOLD));
 		
 		playerText_9 = new Text(composite_6, SWT.BORDER | SWT.READ_ONLY);
-		playerText_9.setForeground(SWTResourceManager.getColor(255, 102, 51));
+		playerText_9.setForeground(SWTResourceManager.getColor(SWT.COLOR_WIDGET_FOREGROUND));
 		playerText_9.setBounds(740, 620, 350, 50);
 		playerText_9.setFont(SWTResourceManager.getFont("方正舒体", 16, SWT.BOLD));
 		
 		playerText_10 = new Text(composite_6, SWT.BORDER | SWT.READ_ONLY);
-		playerText_10.setForeground(SWTResourceManager.getColor(255, 102, 51));
+		playerText_10.setForeground(SWTResourceManager.getColor(SWT.COLOR_WIDGET_FOREGROUND));
 		playerText_10.setBounds(740, 680, 350, 50);	
 		playerText_10.setFont(SWTResourceManager.getFont("方正舒体", 16, SWT.BOLD));
 		
@@ -3731,37 +3729,37 @@ public class NBAQuerySystemUI {
 		composite_9.setBounds(100, 100, 440, 700);
 		
 		teamText_1 = new Text(composite_8, SWT.BORDER | SWT.READ_ONLY);
-		teamText_1.setForeground(SWTResourceManager.getColor(255, 102, 51));
+		teamText_1.setForeground(SWTResourceManager.getColor(SWT.COLOR_WIDGET_FOREGROUND));
 		teamText_1.setBounds(740, 140, 350, 50);
 		teamText_1.setFont(SWTResourceManager.getFont("方正舒体", 16, SWT.BOLD));
 		
 		teamText_2 = new Text(composite_8, SWT.BORDER | SWT.READ_ONLY);
-		teamText_2.setForeground(SWTResourceManager.getColor(255, 102, 51));
+		teamText_2.setForeground(SWTResourceManager.getColor(SWT.COLOR_WIDGET_FOREGROUND));
 		teamText_2.setBounds(740, 220, 350, 50);
 		teamText_2.setFont(SWTResourceManager.getFont("方正舒体", 16, SWT.BOLD));
 		
 		teamText_3 = new Text(composite_8, SWT.BORDER | SWT.READ_ONLY);
-		teamText_3.setForeground(SWTResourceManager.getColor(255, 102, 51));
+		teamText_3.setForeground(SWTResourceManager.getColor(SWT.COLOR_WIDGET_FOREGROUND));
 		teamText_3.setBounds(740, 300, 350, 50);
 		teamText_3.setFont(SWTResourceManager.getFont("方正舒体", 16, SWT.BOLD));
 		
 		teamText_4 = new Text(composite_8, SWT.BORDER | SWT.READ_ONLY);
-		teamText_4.setForeground(SWTResourceManager.getColor(255, 102, 51));
+		teamText_4.setForeground(SWTResourceManager.getColor(SWT.COLOR_WIDGET_FOREGROUND));
 		teamText_4.setBounds(740, 380, 350, 50);
 		teamText_4.setFont(SWTResourceManager.getFont("方正舒体", 16, SWT.BOLD));
 		
 		teamText_5 = new Text(composite_8, SWT.BORDER | SWT.READ_ONLY);
-		teamText_5.setForeground(SWTResourceManager.getColor(255, 102, 51));
+		teamText_5.setForeground(SWTResourceManager.getColor(SWT.COLOR_WIDGET_FOREGROUND));
 		teamText_5.setBounds(740, 460, 350, 50);
 		teamText_5.setFont(SWTResourceManager.getFont("方正舒体", 16, SWT.BOLD));
 		
 		teamText_6 = new Text(composite_8, SWT.BORDER | SWT.READ_ONLY);
-		teamText_6.setForeground(SWTResourceManager.getColor(255, 102, 51));
+		teamText_6.setForeground(SWTResourceManager.getColor(SWT.COLOR_WIDGET_FOREGROUND));
 		teamText_6.setBounds(740, 540, 350, 50);
 		teamText_6.setFont(SWTResourceManager.getFont("方正舒体", 16, SWT.BOLD));
 		
 		teamText_7 = new Text(composite_8, SWT.BORDER | SWT.READ_ONLY);
-		teamText_7.setForeground(SWTResourceManager.getColor(255, 102, 51));
+		teamText_7.setForeground(SWTResourceManager.getColor(SWT.COLOR_WIDGET_FOREGROUND));
 		teamText_7.setBounds(740, 620, 350, 50);
 		teamText_7.setFont(SWTResourceManager.getFont("方正舒体", 16, SWT.BOLD));
 		
