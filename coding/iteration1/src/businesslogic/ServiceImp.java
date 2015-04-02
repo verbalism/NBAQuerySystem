@@ -600,45 +600,73 @@ public class ServiceImp implements IService{
 		if(pc.getPlayerPartition().equals(playerPartition.All)){
 		}else if(pc.getPlayerPartition().equals(playerPartition.Atlantic)){
 			for(int i=result.size()-1;i>=0;i--){
-				String area=TD.getSingleTeamOriginal(result.get(i).getTeamName()).getSubarea();
-				if(!area.equals("Atlantic"))
+				if(result.get(i).getTeamName().equals("Unknow")){
 					result.remove(i);
+				}else{
+					String area=TD.getSingleTeamOriginal(result.get(i).getTeamName()).getSubarea();
+					if(!area.equals("Atlantic"))
+						result.remove(i);
+				}
 			}
 		}else if(pc.getPlayerPartition().equals(playerPartition.Central)){
 			for(int i=result.size()-1;i>=0;i--){
-				String area=TD.getSingleTeamOriginal(result.get(i).getTeamName()).getSubarea();
-				if(!area.equals("Central"))
+				if(result.get(i).getTeamName().equals("Unknow")){
 					result.remove(i);
+				}else{
+					String area=TD.getSingleTeamOriginal(result.get(i).getTeamName()).getSubarea();
+					if(!area.equals("Central"))
+						result.remove(i);
+				}
 			}
 		}else if(pc.getPlayerPartition().equals(playerPartition.East)){
 			for(int i=result.size()-1;i>=0;i--){
-				String area=TD.getSingleTeamOriginal(result.get(i).getTeamName()).getZone();
-				if(!area.equals("E"))
+				if(result.get(i).getTeamName().equals("Unknow")){
 					result.remove(i);
+				}else{
+					String area=TD.getSingleTeamOriginal(result.get(i).getTeamName()).getZone();
+					if(!area.equals("E"))
+						result.remove(i);
+				}
 			}
 		}else if(pc.getPlayerPartition().equals(playerPartition.Northwest)){
 			for(int i=result.size()-1;i>=0;i--){
-				String area=TD.getSingleTeamOriginal(result.get(i).getTeamName()).getSubarea();
-				if(!area.equals("Northwest"))
+				if(result.get(i).getTeamName().equals("Unknow")){
 					result.remove(i);
+				}else{
+					String area=TD.getSingleTeamOriginal(result.get(i).getTeamName()).getSubarea();
+					if(!area.equals("Northwest"))
+						result.remove(i);
+				}
 			}
 		}else if(pc.getPlayerPartition().equals(playerPartition.Pacific)){
 			for(int i=result.size()-1;i>=0;i--){
-				String area=TD.getSingleTeamOriginal(result.get(i).getTeamName()).getSubarea();
-				if(!area.equals("Pacific"))
+				if(result.get(i).getTeamName().equals("Unknow")){
 					result.remove(i);
+				}else{
+					String area=TD.getSingleTeamOriginal(result.get(i).getTeamName()).getSubarea();
+					if(!area.equals("Pacific"))
+						result.remove(i);
+				}
 			}
 		}else if(pc.getPlayerPartition().equals(playerPartition.Southeast)){
 			for(int i=result.size()-1;i>=0;i--){
-				String area=TD.getSingleTeamOriginal(result.get(i).getTeamName()).getSubarea();
-				if(!area.equals("Southeast"))
+				if(result.get(i).getTeamName().equals("Unknow")){
 					result.remove(i);
+				}else{
+					String area=TD.getSingleTeamOriginal(result.get(i).getTeamName()).getSubarea();
+					if(!area.equals("Southeast"))
+						result.remove(i);
+				}
 			}
 		}else if(pc.getPlayerPartition().equals(playerPartition.West)){
 			for(int i=result.size()-1;i>=0;i--){
-				String area=TD.getSingleTeamOriginal(result.get(i).getTeamName()).getZone();
-				if(!area.equals("W"))
+				if(result.get(i).getTeamName().equals("Unknow")){
 					result.remove(i);
+				}else{
+					String area=TD.getSingleTeamOriginal(result.get(i).getTeamName()).getZone();
+					if(!area.equals("W"))
+						result.remove(i);
+				}
 			}
 		}
 		
@@ -1068,7 +1096,7 @@ public class ServiceImp implements IService{
 
 		ServiceImp si=new ServiceImp();
 		playerCondition pc=new playerCondition();
-		pc.setPlayerPartition(playerPartition.East);
+		pc.setPlayerPartition(playerPartition.Southeast);
 		pc.setPlayerPosition(playerPosition.All);
 		pc.setSortOpinions(sortOpinions.Null);
 		
@@ -1093,7 +1121,7 @@ public class ServiceImp implements IService{
 	}*/
 	
 
-	public static void main(String []args){
+	/*public static void main(String []args){
 		ServiceImp si=new ServiceImp();
 		teamCondition tc=new teamCondition();
 		tc.setTeampartion(teamPartion.East);
@@ -1107,5 +1135,5 @@ public class ServiceImp implements IService{
 					+";"+teaminfo.get(i).getOffensiveRating()+";"+teaminfo.get(i).getDefensiveRating()+";"+teaminfo.get(i).getOffensiveReboundPercentage()+";"+teaminfo.get(i).getDefensiveReboundPercentage()+";"+teaminfo.get(i).getStealPercentage()
 					+";"+teaminfo.get(i).getAssistPercentage()+";"+teaminfo.get(i).getFullName()+";"+teaminfo.get(i).getCity()+";"+teaminfo.get(i).getZone()+";"+teaminfo.get(i).getSubarea()+";"+teaminfo.get(i).getHomeCourt()+";"+teaminfo.get(i).getCreateTime());
 		}
-	}
+	}*/
 }
