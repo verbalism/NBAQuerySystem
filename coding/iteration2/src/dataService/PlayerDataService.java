@@ -6,10 +6,10 @@ import po.PlayerPO;
 import po.TodayPlayerPO;
 
 public interface PlayerDataService {
-	public PlayerPO getSinglePlayerInfo(String playerName);
+	public PlayerPO getSinglePlayerInfo(String playerName);//查询单个球员信息
 	
-	public ArrayList<PlayerPO> getAllPlayerInfo();
+	public ArrayList<PlayerPO> getAllPlayerInfo();//查询全部球员信息
 	
-	public ArrayList<TodayPlayerPO> getTodayPlayerInfo(String date);
+	public ArrayList<TodayPlayerPO> getTodayPlayerInfo(String date);//查询当天球员信息
 	
 }

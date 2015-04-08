@@ -1,5 +1,5 @@
 package data;
 
-public class playerDataCalculate {
+public class PlayerDataCalculate {
 
 }

@@ -6,7 +6,7 @@ import po.PlayerPO;
 import po.TodayPlayerPO;
 import dataService.PlayerDataService;
 
-public class playerData implements PlayerDataService{
+public class PlayerData implements PlayerDataService{
 	public PlayerPO getSinglePlayerInfo(String playerName){
 		return null;
 	}
