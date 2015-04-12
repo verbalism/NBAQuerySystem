@@ -2,6 +2,14 @@ package po;
 
 public class PlayerPO {
 	private String playerName;//球员名称
+	private String number;		//球衣号码
+	private String position;	//球队位置
+	private String height;		//身高
+	private String weight;		//体重
+	private String birth;		//生日
+	private String age;			//年龄
+	private String exp;			//球龄
+	private String school;		//毕业学校
 	private String teamName;//所属球队
 	private int gamesPlayed;//参赛场数
 	private int gamesStarting;//先发场数
@@ -36,14 +44,6 @@ public class PlayerPO {
 	private double blockRating;//盖帽率
 	private double turnoverRating;//失误率
 	private double utilizationRating;//使用率
-	private String number;		//球衣号码
-	private String position;	//球队位置
-	private String height;		//身高
-	private String weight;		//体重
-	private String birth;		//生日
-	private String age;			//年龄
-	private String exp;			//球龄
-	private String school;		//毕业学校
 	private double doubleDouble; //两双
 	
 	
