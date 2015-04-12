@@ -18,4 +18,5 @@ public class PlayerData implements PlayerDataService{
 	public ArrayList<TodayPlayerPO> getTodayPlayerInfo(String date){
 		return null;
 	}
+
 }
