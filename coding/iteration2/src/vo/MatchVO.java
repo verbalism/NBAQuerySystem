@@ -1,8 +1,8 @@
-package po;
+package vo;
 
 import java.util.ArrayList;
 
-public class MatchPO {
+public class MatchVO {
 	private String matchTime;			//比赛时间
 	private String teams;				//对阵队伍
 	private String score;				//总比分
@@ -13,7 +13,7 @@ public class MatchPO {
 	public void setExtraScores(ArrayList<String> s){
 		this.extraScores = s;
 	}
-	public ArrayList<String> getExtraScores(){
+	public ArrayList<String> getExtreaScores(){
 		return extraScores;
 	}
 	public void setMatchTime(String t){

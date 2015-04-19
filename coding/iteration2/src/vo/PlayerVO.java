@@ -1,6 +1,6 @@
-package po;
+package vo;
 
-public class PlayerPO {
+public class PlayerVO {
 	private String playerName;//球员名称
 	private String number;		//球衣号码
 	private String position;	//球队位置
@@ -67,7 +67,7 @@ public class PlayerPO {
 	private double increaseOfRebounds;//近五场篮板提升率
 	private double increaseOfAssists;//近五场助攻提升率
 	
-	public PlayerPO(){
+	public PlayerVO(){
 		gamesPlayed=0;//参赛场数
 		gamesStarting=0;//先发场数
 		rebounds=0;//篮板数
