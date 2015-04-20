@@ -1,12 +1,11 @@
 package presentation;
 
-
 import java.util.ArrayList;
 import java.util.Collections;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.swt.events.MouseMoveListener;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.ShellAdapter;
@@ -14,25 +13,30 @@ import org.eclipse.swt.events.ShellEvent;
 import org.eclipse.wb.swt.SWTResourceManager;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+
 import vo.playerCondition;
 import vo.playerInfoVO;
 import vo.playerPartition;
 import vo.playerPosition;
 import vo.sortOpinions;
+
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.TableItem;
+
 import businesslogic.ServiceImp;
 import vo.teamCondition;
 import vo.teamInfoVO;
 import vo.teamPartion;
-
 public class NBAQuerySystemUI {
 
 	protected Shell shell;
@@ -40,9 +44,6 @@ public class NBAQuerySystemUI {
 	 * Launch the application.
 	 * @param args
 	 */
-	private boolean isDraw = false;   
-	private int xx;   
-	private int yy;
 	private static Table playerInfoTable;
 	private Text checkText_1;
 	private static Table teamInfoTable;
@@ -215,25 +216,24 @@ public class NBAQuerySystemUI {
 		});
 		
 		/*鼠标拖动*/
-		shell.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseDown(MouseEvent e) {
-				
-				isDraw = true;   
-				xx = e.x;   
-				yy = e.y;
-			}
-			@Override
-			public void mouseUp(MouseEvent e) {
-				isDraw = false;
-			}
-		});
-		shell.addMouseMoveListener(new MouseMoveListener() {
-			public void mouseMove(MouseEvent arg0) {
-				if (isDraw) {  shell.setLocation(shell.getLocation().x + arg0.x - xx,shell.getLocation().y + arg0.y - yy);    }
-			}
-		});
-		
+		Listener listener = new Listener() {
+		    int startX, startY;
+		    public void handleEvent(Event e) {
+		        if (e.type == SWT.MouseDown && e.button == 1) {
+		            startX = e.x;
+		            startY = e.y;
+		        }
+		        if (e.type == SWT.MouseMove && (e.stateMask & SWT.BUTTON1) != 0) {
+		            Point p = shell.toDisplay(e.x, e.y);
+		            p.x -= startX;
+		            p.y -= startY;
+		            shell.setLocation(p);
+		        }
+		    }
+		};
+		shell.addListener(SWT.MouseDown, listener);
+		shell.addListener(SWT.MouseMove, listener);
+	
 		shell.setSize(1440,900);
 		shell.setLocation(Display.getCurrent().getClientArea().width / 2 - shell.getShell().getSize().x/2, Display.getCurrent()  
                 .getClientArea().height / 2 - shell.getSize().y/2); //shell居中
@@ -247,27 +247,37 @@ public class NBAQuerySystemUI {
 		composite_1 = new Composite(shell, SWT.NONE);//主界面
 		composite_1.setBounds(0, 0, 1440, 900);
 		composite_1.setBackgroundMode(SWT.INHERIT_NONE); 
+		composite_1.addListener(SWT.MouseDown, listener);
+		composite_1.addListener(SWT.MouseMove, listener);
 		
 		composite_2 = new Composite(shell, SWT.NONE);//球员信息
 		composite_2.setLocation(0, 0);
 		composite_2.setSize(1440, 900);
 		composite_2.setVisible(false);
 		composite_2.setBackgroundMode(SWT.INHERIT_NONE); 
+		composite_2.addListener(SWT.MouseDown, listener);
+		composite_2.addListener(SWT.MouseMove, listener);
 		
 		composite_3 = new Composite(shell, SWT.NONE);//球队信息
 		composite_3.setBounds(0, 0, 1440, 900);
 		composite_3.setVisible(false);
 		composite_3.setBackgroundMode(SWT.INHERIT_NONE); 
+		composite_3.addListener(SWT.MouseDown, listener);
+		composite_3.addListener(SWT.MouseMove, listener);
 		
 		composite_4 = new Composite(shell, SWT.NONE);//球员数据
 		composite_4.setBounds(0, 0, 1440, 900);
 		composite_4.setVisible(false);
 		composite_4.setBackgroundMode(SWT.INHERIT_NONE); 
+		composite_4.addListener(SWT.MouseDown, listener);
+		composite_4.addListener(SWT.MouseMove, listener);
 		
 		composite_5 = new Composite(shell, SWT.NONE);//球队数据
 		composite_5.setBounds(0, 0, 1440, 900);
 		composite_5.setVisible(false);
 		composite_5.setBackgroundMode(SWT.INHERIT_NONE); 
+		composite_5.addListener(SWT.MouseDown, listener);
+		composite_5.addListener(SWT.MouseMove, listener);
 		
 		Button checkButton_2 = new Button(composite_3, SWT.NONE);//按关键字查找球队信息
 		checkButton_2.setForeground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
@@ -456,8 +466,6 @@ public class NBAQuerySystemUI {
 				int listHaveChouse = teamInfoTable.getSelectionIndex();		
 				String firstInfo = itemList[listHaveChouse].getText(0);
 				String secondInfo = itemList[listHaveChouse].getText(1);
-				System.out.println(firstInfo);
-				System.out.println(secondInfo);
 				teamInfoVO t=new teamInfoVO();
 				t.setFullName(firstInfo);
 				ServiceImp si=new ServiceImp();
@@ -788,7 +796,6 @@ public class NBAQuerySystemUI {
 
 				ServiceImp si=new ServiceImp();
 				ArrayList<playerInfoVO> player=si.getPlayerInfo(pc);
-				System.out.println(player.size());
 				writeTable4(player,0);
 			}
 			
