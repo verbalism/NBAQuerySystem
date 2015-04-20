@@ -20,7 +20,7 @@ public class BasicPlayerData {
 }*/
 public ArrayList<BasicPlayerPO> getPlayerOriginal()  {
 	ArrayList<BasicPlayerPO> allPlayers = new ArrayList<BasicPlayerPO>();
-	String Dpath="Data\\players\\info";
+	String Dpath="C://Users//user//Desktop//ศํนค3//NBAQuerySystem//coding//iteration1//Data//players//info";
 	File f = new File(Dpath);
 	String[] filelist = f.list();
 	for(int i=0; i<filelist.length; i++){
