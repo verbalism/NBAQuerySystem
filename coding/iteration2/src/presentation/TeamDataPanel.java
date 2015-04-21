@@ -34,7 +34,7 @@ public class TeamDataPanel extends JPanel{
 		JPanel searchPanel = new JPanel();
 		searchPanel.setBounds(0, 10, panelWidth, 50);
 		searchPanel.setBackground(new Color(87,89,91));
-		JLabel title = new JLabel("球 队 分 析");
+		JLabel title = new JLabel("球 队 数 据");
 		title.setBounds(20,0,100,50);
 		title.setBackground(null);
 		title.setFont(new Font("微软雅黑",Font.BOLD,16));

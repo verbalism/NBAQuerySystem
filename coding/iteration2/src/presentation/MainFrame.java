@@ -18,6 +18,7 @@ import javax.swing.JScrollPane;
 public class MainFrame extends JFrame implements ActionListener{
 	int frameHeight,frameWidth,panelWidth,panelHeight;
 	JButton teamInfoBtn,playerInfoBtn,matchInfoBtn,teamDataBtn,playerDataBtn,hotBtn;
+	JPanel containPanel;
 	TeamListPanel teamListPanel = new TeamListPanel();
 	PlayerListPanel playerListPanel = new PlayerListPanel();
 	TeamDataPanel teamDataPanel = new TeamDataPanel();
@@ -33,11 +34,6 @@ public class MainFrame extends JFrame implements ActionListener{
 		Dimension screenSize = kit.getScreenSize();
 		frameHeight = screenSize.height-40;
 		frameWidth = screenSize.width-285;
-		
-		this.setBounds(150, 0,frameWidth, frameHeight);
-		this.setTitle("NBA查询系统");
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setVisible(true);
 		panelWidth = frameWidth-35;
 		panelHeight = frameHeight-110;
 		
@@ -58,7 +54,7 @@ public class MainFrame extends JFrame implements ActionListener{
 				teamInfoBtn.setBackground(null);
 				}
 		});
-		
+		teamInfoBtn.addActionListener(this);
 		playerInfoBtn = new JButton();
 		playerInfoBtn.setText("球 员");
 		playerInfoBtn.setBackground(null);
@@ -76,7 +72,7 @@ public class MainFrame extends JFrame implements ActionListener{
 				playerInfoBtn.setBackground(null);
 				}
 		});
-		
+		playerInfoBtn.addActionListener(this);
 		matchInfoBtn = new JButton();
 		matchInfoBtn.setText("比  赛");
 		matchInfoBtn.setBackground(null);
@@ -94,7 +90,7 @@ public class MainFrame extends JFrame implements ActionListener{
 				matchInfoBtn.setBackground(null);
 				}
 		});
-		
+		matchInfoBtn.addActionListener(this);
 		teamDataBtn = new JButton();
 		teamDataBtn.setText("球队分析");
 		teamDataBtn.setBackground(null);
@@ -112,7 +108,7 @@ public class MainFrame extends JFrame implements ActionListener{
 				teamDataBtn.setBackground(null);
 				}
 		});
-		
+		teamDataBtn.addActionListener(this);
 		playerDataBtn = new JButton();
 		playerDataBtn.setText("球员分析");
 		playerDataBtn.setBackground(null);
@@ -130,7 +126,7 @@ public class MainFrame extends JFrame implements ActionListener{
 				playerDataBtn.setBackground(null);
 				}
 		});
-		
+		playerDataBtn.addActionListener(this);
 		hotBtn = new JButton();
 		hotBtn.setText("热 点");
 		hotBtn.setBackground(null);
@@ -148,6 +144,7 @@ public class MainFrame extends JFrame implements ActionListener{
 				hotBtn.setBackground(null);
 				}
 		});
+		hotBtn.addActionListener(this);
 		
 		JPanel buttonPanel = new JPanel();
 		buttonPanel.setBounds(200, 50, panelWidth-200, 40);
@@ -167,20 +164,83 @@ public class MainFrame extends JFrame implements ActionListener{
 		guidePanel.setLayout(null);
 		guidePanel.add(buttonPanel);
 		
-		JPanel containPanel = new JPanel();
+		containPanel = new JPanel();
 		containPanel.setBounds(0, 0, frameWidth-15, frameHeight);
 		containPanel.setBackground(Color.WHITE);
 		containPanel.setLayout(null);
 		containPanel.add(guidePanel);
-		containPanel.add(hotPanel);
 		
 		this.setLayout(null);
 		this.add(containPanel);
+		
+		this.setBounds(150, 0,frameWidth, frameHeight);
+		this.setTitle("NBA查询系统");
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setVisible(true);
 	}
 
 	
-	public void actionPerformed(ActionEvent arg0) {
-		
+	public void actionPerformed(ActionEvent e) {
+		if(e.getSource()==teamInfoBtn){
+			containPanel.remove(teamListPanel);
+			containPanel.remove(teamDataPanel);
+			containPanel.remove(playerListPanel);
+			containPanel.remove(playerDataPanel);
+			containPanel.remove(matchListPanel);
+			containPanel.remove(hotPanel);
+			containPanel.add(teamListPanel);
+			containPanel.repaint();
+		}
+		if(e.getSource()==playerInfoBtn){
+			containPanel.remove(teamListPanel);
+			containPanel.remove(teamDataPanel);
+			containPanel.remove(playerListPanel);
+			containPanel.remove(playerDataPanel);
+			containPanel.remove(matchListPanel);
+			containPanel.remove(hotPanel);
+			containPanel.add(playerListPanel);
+			containPanel.repaint();
+		}
+		if(e.getSource()==matchInfoBtn){
+			containPanel.remove(teamListPanel);
+			containPanel.remove(teamDataPanel);
+			containPanel.remove(playerListPanel);
+			containPanel.remove(playerDataPanel);
+			containPanel.remove(matchListPanel);
+			containPanel.remove(hotPanel);
+			containPanel.add(matchListPanel);
+			containPanel.repaint();
+		}
+		if(e.getSource()==teamDataBtn){
+			containPanel.remove(teamListPanel);
+			containPanel.remove(teamDataPanel);
+			containPanel.remove(playerListPanel);
+			containPanel.remove(playerDataPanel);
+			containPanel.remove(matchListPanel);
+			containPanel.remove(hotPanel);
+			containPanel.add(teamDataPanel);
+			containPanel.repaint();
+		}
+		if(e.getSource()==playerDataBtn){
+			containPanel.remove(teamListPanel);
+			containPanel.remove(teamDataPanel);
+			containPanel.remove(playerListPanel);
+			containPanel.remove(playerDataPanel);
+			containPanel.remove(matchListPanel);
+			containPanel.remove(hotPanel);
+			containPanel.add(playerDataPanel);
+			containPanel.repaint();
+		}
+		if(e.getSource()==hotBtn){
+			containPanel.remove(teamListPanel);
+			containPanel.remove(teamDataPanel);
+			containPanel.remove(playerListPanel);
+			containPanel.remove(playerDataPanel);
+			containPanel.remove(matchListPanel);
+			containPanel.remove(hotPanel);
+			containPanel.add(hotPanel);
+			containPanel.repaint();
+		}
 	}
 	
 }
