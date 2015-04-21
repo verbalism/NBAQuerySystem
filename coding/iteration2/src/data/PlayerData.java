@@ -30,7 +30,7 @@ public class PlayerData implements PlayerDataService{
         
 			while(rs.next()){
 				result.setPlayerName(rs.getString("playerName"));
-				result.setNumber(rs.getString("number"));
+				result.setNumber(rs.getString("playerNumber"));
 				result.setPosition(rs.getString("position"));
 				result.setHeight(rs.getString("height"));
 				result.setWeight(rs.getString("weight"));
@@ -43,7 +43,7 @@ public class PlayerData implements PlayerDataService{
 				result.setGamesStarting(rs.getInt("gamesStarting"));
 				result.setRebounds(rs.getDouble("rebounds"));
 				result.setOffensiveRebounds(rs.getDouble("offensiveRebounds"));
-				result.setDefensiveRebounds(rs.getDouble("setdefensiveRebounds"));
+				result.setDefensiveRebounds(rs.getDouble("defensiveRebounds"));
 				result.setAssists(rs.getDouble("assists"));
 				result.setMinutes(rs.getString("minutes"));
 				result.setFieldGoalsAttempts(rs.getDouble("fieldGoalsAttempts"));
@@ -118,7 +118,7 @@ public class PlayerData implements PlayerDataService{
 	        while(rs.next()){
 	        	PlayerPO result=new PlayerPO();
 	        	result.setPlayerName(rs.getString("playerName"));
-				result.setNumber(rs.getString("number"));
+				result.setNumber(rs.getString("playerNumber"));
 				result.setPosition(rs.getString("position"));
 				result.setHeight(rs.getString("height"));
 				result.setWeight(rs.getString("weight"));
@@ -131,7 +131,7 @@ public class PlayerData implements PlayerDataService{
 				result.setGamesStarting(rs.getInt("gamesStarting"));
 				result.setRebounds(rs.getDouble("rebounds"));
 				result.setOffensiveRebounds(rs.getDouble("offensiveRebounds"));
-				result.setDefensiveRebounds(rs.getDouble("setdefensiveRebounds"));
+				result.setDefensiveRebounds(rs.getDouble("defensiveRebounds"));
 				result.setAssists(rs.getDouble("assists"));
 				result.setMinutes(rs.getString("minutes"));
 				result.setFieldGoalsAttempts(rs.getDouble("fieldGoalsAttempts"));

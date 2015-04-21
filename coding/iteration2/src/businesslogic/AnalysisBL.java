@@ -3,6 +3,7 @@ package businesslogic;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import data.MatchData;
 import dataService.MatchDataService;
 import vo.PlayerPartition;
 import vo.PlayerPosition;
@@ -1029,17 +1030,20 @@ public class AnalysisBL implements AnalysisBLService {
 		if(partition.equals(PlayerPartition.All)){
 		}else if(partition.equals(PlayerPartition.Atlantic)){
 			for(int i=result.size()-1;i>=0;i--){
-				if(result.get(i).getTeamName().equals("Unknow")){
+				if(result.get(i).getTeamName().equals("")){
 					result.remove(i);
 				}else{
 					String area=d.getSingleTeamInfo(result.get(i).getTeamName()).getSubarea();
+					/*System.out.println(result.get(i).getPlayerName());
+					System.out.println(result.get(i).getTeamName());
+					System.out.println(area);*/
 					if(!area.equals("Atlantic"))
 						result.remove(i);
 				}
 			}
 		}else if(partition.equals(PlayerPartition.Central)){
 			for(int i=result.size()-1;i>=0;i--){
-				if(result.get(i).getTeamName().equals("Unknow")){
+				if(result.get(i).getTeamName().equals("")){
 					result.remove(i);
 				}else{
 					String area=d.getSingleTeamInfo(result.get(i).getTeamName()).getSubarea();
@@ -1049,7 +1053,7 @@ public class AnalysisBL implements AnalysisBLService {
 			}
 		}else if(partition.equals(PlayerPartition.East)){
 			for(int i=result.size()-1;i>=0;i--){
-				if(result.get(i).getTeamName().equals("Unknow")){
+				if(result.get(i).getTeamName().equals("")){
 					result.remove(i);
 				}else{
 					String area=d.getSingleTeamInfo(result.get(i).getTeamName()).getZone();
@@ -1059,7 +1063,7 @@ public class AnalysisBL implements AnalysisBLService {
 			}
 		}else if(partition.equals(PlayerPartition.Northwest)){
 			for(int i=result.size()-1;i>=0;i--){
-				if(result.get(i).getTeamName().equals("Unknow")){
+				if(result.get(i).getTeamName().equals("")){
 					result.remove(i);
 				}else{
 					String area=d.getSingleTeamInfo(result.get(i).getTeamName()).getSubarea();
@@ -1069,7 +1073,7 @@ public class AnalysisBL implements AnalysisBLService {
 			}
 		}else if(partition.equals(PlayerPartition.Pacific)){
 			for(int i=result.size()-1;i>=0;i--){
-				if(result.get(i).getTeamName().equals("Unknow")){
+				if(result.get(i).getTeamName().equals("")){
 					result.remove(i);
 				}else{
 					String area=d.getSingleTeamInfo(result.get(i).getTeamName()).getSubarea();
@@ -1079,7 +1083,7 @@ public class AnalysisBL implements AnalysisBLService {
 			}
 		}else if(partition.equals(PlayerPartition.Southeast)){
 			for(int i=result.size()-1;i>=0;i--){
-				if(result.get(i).getTeamName().equals("Unknow")){
+				if(result.get(i).getTeamName().equals("")){
 					result.remove(i);
 				}else{
 					String area=d.getSingleTeamInfo(result.get(i).getTeamName()).getSubarea();
@@ -1089,7 +1093,7 @@ public class AnalysisBL implements AnalysisBLService {
 			}
 		}else if(partition.equals(PlayerPartition.West)){
 			for(int i=result.size()-1;i>=0;i--){
-				if(result.get(i).getTeamName().equals("Unknow")){
+				if(result.get(i).getTeamName().equals("")){
 					result.remove(i);
 				}else{
 					String area=d.getSingleTeamInfo(result.get(i).getTeamName()).getZone();
@@ -1112,13 +1116,17 @@ public class AnalysisBL implements AnalysisBLService {
 	}
 
 	public ArrayList<PlayerVO> getTodayHotSpotPlayer(String keyword) {
-		//MatchDataService md=new MatchData();
+		MatchDataService md=new MatchData();
 		DataBLService d=new DataBL();
 		ArrayList<PlayerVO> p=d.getAllPlayerInfo();
-		for(int i=p.size();i>0;i--){
-			/*if(!md.getPlayerRecentMatchInfo(1,p.get(i).getPlayerName()).get(0).getMatchTime().equals("today")){
+
+		for(int i=p.size()-1;i>=0;i--){
+			System.out.println(p.get(i).getPlayerName());
+			System.out.println(md.getPlayerRecentMatchInfo(1,p.get(i).getPlayerName()).get(0).getMatchTime());
+			
+			if(!md.getPlayerRecentMatchInfo(1,p.get(i).getPlayerName()).get(0).getMatchTime().equals("today")){
 				p.remove(i);
-			}*/
+			}
 		}
 		p=sortPlayer(p, keyword,SortType.Descending);
 		if(p.size()>5){

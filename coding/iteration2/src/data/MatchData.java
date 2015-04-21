@@ -48,15 +48,15 @@ public class MatchData implements MatchDataService{
 	 			 }
 	 			 result.setExtraScores(temp);
 	 		 }
-	 		 t1.setTeamName("teamName1");
-	 		 t2.setTeamName("teamName2");
-	 		 rs = stmt.executeQuery("select * from playerMatchInfo where generalMatchID='"+matchID+"' and teamName='"+teamName1+"'");
+	 		 t1.setTeamName(teamName1);
+	 		 t2.setTeamName(teamName2);
+	 		 rs = stmt.executeQuery("select * from playerMatchInfo where generalMatch="+matchID+" and teamName='"+teamName1+"'");
 	 		 while(rs.next()){
 	 			 mp.setPlayerName(rs.getString("playerName"));
 	 			 mp.setPosition(rs.getString("position"));
 	 			 mp.setMatchTime(rs.getString("matchTime"));
-	 			 mp.setFieldGoal(rs.getInt("filedGoal"));
-	 			 mp.setFieldGoalAttempts(rs.getInt("filedGoalAttempts"));
+	 			 mp.setFieldGoal(rs.getInt("fieldGoal"));
+	 			 mp.setFieldGoalAttempts(rs.getInt("fieldGoalAttempts"));
 	 			 mp.setThreePointShot(rs.getInt("threepointShot"));
 	 			 mp.setThreePointAttempts(rs.getInt("threepointAttempts"));
 	 			 mp.setFreeThrowGoal(rs.getInt("freeThrowGoal"));
@@ -72,13 +72,13 @@ public class MatchData implements MatchDataService{
 	 			 mp.setScore(rs.getInt("score"));	
 	 			 t1.addPlayer(mp);
 	 		 }
-	 		 rs = stmt.executeQuery("select * from playerMatchInfo where generalMatchID='"+matchID+"' and teamName='"+teamName2+"'");
+	 		 rs = stmt.executeQuery("select * from playerMatchInfo where generalMatch="+matchID+" and teamName='"+teamName2+"'");
 	 		 while(rs.next()){
 	 			 mp.setPlayerName(rs.getString("playerName"));
 	 			 mp.setPosition(rs.getString("position"));
 	 			 mp.setMatchTime(rs.getString("matchTime"));
-	 			 mp.setFieldGoal(rs.getInt("filedGoal"));
-	 			 mp.setFieldGoalAttempts(rs.getInt("filedGoalAttempts"));
+	 			 mp.setFieldGoal(rs.getInt("fieldGoal"));
+	 			 mp.setFieldGoalAttempts(rs.getInt("fieldGoalAttempts"));
 	 			 mp.setThreePointShot(rs.getInt("threepointShot"));
 	 			 mp.setThreePointAttempts(rs.getInt("threepointAttempts"));
 	 			 mp.setFreeThrowGoal(rs.getInt("freeThrowGoal"));
@@ -178,8 +178,12 @@ public class MatchData implements MatchDataService{
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 		 }
-		for(int j=related.size();j>related.size()-number&j>0;j--){
-			result.add(related.get(j));
+		System.out.println(related.size());
+		int rsize=related.size();
+		for(int j=rsize-1;j>rsize-number-1;j--){
+			if(j>0){
+				result.add(related.get(j));
+			}
 		}
 		
 		return result;

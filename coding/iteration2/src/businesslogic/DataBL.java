@@ -4,11 +4,14 @@ package businesslogic;
 import java.util.ArrayList;
 
 import data.BasicMatchData;
+import data.MatchData;
 import data.PlayerData;
+import data.TeamData;
 import dataService.MatchDataService;
 import dataService.PlayerDataService;
 import dataService.TeamDataService;
 import po.MatchPO;
+import po.MatchTeam;
 import po.PlayerPO;
 import po.TeamPO;
 import vo.MatchVO;
@@ -17,6 +20,10 @@ import vo.TeamVO;
 import businesslogicService.DataBLService;
 
 public class DataBL implements DataBLService {
+	public static void main(String []args){
+	
+	}
+	
 	public PlayerVO getSinglePlayerInfo(String playerName){
 		PlayerDataService pd=new PlayerData();
 		PlayerVO result=new PlayerVO();
@@ -154,11 +161,11 @@ public class DataBL implements DataBLService {
 	}
 
 
-	public MatchVO getSingleMatchInfo(String matchDate, String team) {
+	public MatchVO getSingleMatchInfo(String matchDate, String team1) {
 		MatchVO result =new MatchVO();
-		//MatchDataService md=new MatchData();
+		MatchDataService md=new MatchData();
 		MatchPO m=new MatchPO();
-		//m=md.getSingleMatchInfo(team,matchDate);
+		m=md.getSingleMatchInfo(team1,"",matchDate);
 		result.setMatchTime(m.getMatchTime());
 		result.setTeams(m.getTeams());
 		result.setScore(m.getScore());
@@ -167,108 +174,128 @@ public class DataBL implements DataBLService {
 		result.setScore3(m.getScore3());
 		result.setScore4(m.getScore4());
 		result.setExtraScores(m.getExtraScores());
-		result.getTeam1().setTeamName(m.getTeam1().getTeamName());
+		vo.MatchTeam t1=new vo.MatchTeam();
+		vo.MatchTeam t2=new vo.MatchTeam();
+		t1.setTeamName(m.getTeam1().getTeamName());
+		t2.setTeamName(m.getTeam1().getTeamName());
 		for(int i=0;i<m.getTeam1().getPlayers().size();i++){
-			result.getTeam1().getPlayers().get(i).setPlayerName(m.getTeam1().getPlayers().get(i).getPlayerName());
-			result.getTeam1().getPlayers().get(i).setPosition(m.getTeam1().getPlayers().get(i).getPosition());
-			result.getTeam1().getPlayers().get(i).setMatchTime(m.getTeam1().getPlayers().get(i).getMatchTime());
-			result.getTeam1().getPlayers().get(i).setFieldGoal(m.getTeam1().getPlayers().get(i).getFieldGoal());
-			result.getTeam1().getPlayers().get(i).setFieldGoalAttempts(m.getTeam1().getPlayers().get(i).getFieldGoalAttempts());
-			result.getTeam1().getPlayers().get(i).setThreePointShot(m.getTeam1().getPlayers().get(i).getThreePointShot());
-			result.getTeam1().getPlayers().get(i).setThreePointAttempts(m.getTeam1().getPlayers().get(i).getThreePointAttempts());
-			result.getTeam1().getPlayers().get(i).setFreeThrowGoal(m.getTeam1().getPlayers().get(i).getFreeThrowGoal());
-			result.getTeam1().getPlayers().get(i).setFreeThrowAttempts(m.getTeam1().getPlayers().get(i).getFreeThrowAttempts());
-			result.getTeam1().getPlayers().get(i).setOffensiveRebound(m.getTeam1().getPlayers().get(i).getOffensiveRebound());
-			result.getTeam1().getPlayers().get(i).setDefensiveRebound(m.getTeam1().getPlayers().get(i).getDefensiveRebound());
-			result.getTeam1().getPlayers().get(i).setRebound(m.getTeam1().getPlayers().get(i).getRebound());
-			result.getTeam1().getPlayers().get(i).setAssist(m.getTeam1().getPlayers().get(i).getAssist());
-			result.getTeam1().getPlayers().get(i).setST(m.getTeam1().getPlayers().get(i).getST());
-			result.getTeam1().getPlayers().get(i).setBlockShot(m.getTeam1().getPlayers().get(i).getBlockShot());
-			result.getTeam1().getPlayers().get(i).setError(m.getTeam1().getPlayers().get(i).getError());
-			result.getTeam1().getPlayers().get(i).setFoul(m.getTeam1().getPlayers().get(i).getFoul());
-			result.getTeam1().getPlayers().get(i).setScore(m.getTeam1().getPlayers().get(i).getScore());
+			vo.MatchPlayer mp=new vo.MatchPlayer();
+			mp.setPlayerName(m.getTeam1().getPlayers().get(i).getPlayerName());
+			mp.setPosition(m.getTeam1().getPlayers().get(i).getPosition());
+			mp.setMatchTime(m.getTeam1().getPlayers().get(i).getMatchTime());
+			mp.setFieldGoal(m.getTeam1().getPlayers().get(i).getFieldGoal());
+			mp.setFieldGoalAttempts(m.getTeam1().getPlayers().get(i).getFieldGoalAttempts());
+			mp.setThreePointShot(m.getTeam1().getPlayers().get(i).getThreePointShot());
+			mp.setThreePointAttempts(m.getTeam1().getPlayers().get(i).getThreePointAttempts());
+			mp.setFreeThrowGoal(m.getTeam1().getPlayers().get(i).getFreeThrowGoal());
+			mp.setFreeThrowAttempts(m.getTeam1().getPlayers().get(i).getFreeThrowAttempts());
+			mp.setOffensiveRebound(m.getTeam1().getPlayers().get(i).getOffensiveRebound());
+			mp.setDefensiveRebound(m.getTeam1().getPlayers().get(i).getDefensiveRebound());
+			mp.setRebound(m.getTeam1().getPlayers().get(i).getRebound());
+			mp.setAssist(m.getTeam1().getPlayers().get(i).getAssist());
+			mp.setST(m.getTeam1().getPlayers().get(i).getST());
+			mp.setBlockShot(m.getTeam1().getPlayers().get(i).getBlockShot());
+			mp.setError(m.getTeam1().getPlayers().get(i).getError());
+			mp.setFoul(m.getTeam1().getPlayers().get(i).getFoul());
+			mp.setScore(m.getTeam1().getPlayers().get(i).getScore());
+			t1.addPlayer(mp);
 		}
-		result.getTeam2().setTeamName(m.getTeam2().getTeamName());
 		for(int i=0;i<m.getTeam2().getPlayers().size();i++){
-			result.getTeam2().getPlayers().get(i).setPlayerName(m.getTeam2().getPlayers().get(i).getPlayerName());
-			result.getTeam2().getPlayers().get(i).setPosition(m.getTeam2().getPlayers().get(i).getPosition());
-			result.getTeam2().getPlayers().get(i).setMatchTime(m.getTeam2().getPlayers().get(i).getMatchTime());
-			result.getTeam2().getPlayers().get(i).setFieldGoal(m.getTeam2().getPlayers().get(i).getFieldGoal());
-			result.getTeam2().getPlayers().get(i).setFieldGoalAttempts(m.getTeam2().getPlayers().get(i).getFieldGoalAttempts());
-			result.getTeam2().getPlayers().get(i).setThreePointShot(m.getTeam2().getPlayers().get(i).getThreePointShot());
-			result.getTeam2().getPlayers().get(i).setThreePointAttempts(m.getTeam2().getPlayers().get(i).getThreePointAttempts());
-			result.getTeam2().getPlayers().get(i).setFreeThrowGoal(m.getTeam2().getPlayers().get(i).getFreeThrowGoal());
-			result.getTeam2().getPlayers().get(i).setFreeThrowAttempts(m.getTeam2().getPlayers().get(i).getFreeThrowAttempts());
-			result.getTeam2().getPlayers().get(i).setOffensiveRebound(m.getTeam2().getPlayers().get(i).getOffensiveRebound());
-			result.getTeam2().getPlayers().get(i).setDefensiveRebound(m.getTeam2().getPlayers().get(i).getDefensiveRebound());
-			result.getTeam2().getPlayers().get(i).setRebound(m.getTeam2().getPlayers().get(i).getRebound());
-			result.getTeam2().getPlayers().get(i).setAssist(m.getTeam2().getPlayers().get(i).getAssist());
-			result.getTeam2().getPlayers().get(i).setST(m.getTeam2().getPlayers().get(i).getST());
-			result.getTeam2().getPlayers().get(i).setBlockShot(m.getTeam2().getPlayers().get(i).getBlockShot());
-			result.getTeam2().getPlayers().get(i).setError(m.getTeam2().getPlayers().get(i).getError());
-			result.getTeam2().getPlayers().get(i).setFoul(m.getTeam2().getPlayers().get(i).getFoul());
-			result.getTeam2().getPlayers().get(i).setScore(m.getTeam2().getPlayers().get(i).getScore());
+			vo.MatchPlayer mp=new vo.MatchPlayer();
+			mp.setPlayerName(m.getTeam2().getPlayers().get(i).getPlayerName());
+			mp.setPosition(m.getTeam2().getPlayers().get(i).getPosition());
+			mp.setMatchTime(m.getTeam2().getPlayers().get(i).getMatchTime());
+			mp.setFieldGoal(m.getTeam2().getPlayers().get(i).getFieldGoal());
+			mp.setFieldGoalAttempts(m.getTeam2().getPlayers().get(i).getFieldGoalAttempts());
+			mp.setThreePointShot(m.getTeam2().getPlayers().get(i).getThreePointShot());
+			mp.setThreePointAttempts(m.getTeam2().getPlayers().get(i).getThreePointAttempts());
+			mp.setFreeThrowGoal(m.getTeam2().getPlayers().get(i).getFreeThrowGoal());
+			mp.setFreeThrowAttempts(m.getTeam2().getPlayers().get(i).getFreeThrowAttempts());
+			mp.setOffensiveRebound(m.getTeam2().getPlayers().get(i).getOffensiveRebound());
+			mp.setDefensiveRebound(m.getTeam2().getPlayers().get(i).getDefensiveRebound());
+			mp.setRebound(m.getTeam2().getPlayers().get(i).getRebound());
+			mp.setAssist(m.getTeam2().getPlayers().get(i).getAssist());
+			mp.setST(m.getTeam2().getPlayers().get(i).getST());
+			mp.setBlockShot(m.getTeam2().getPlayers().get(i).getBlockShot());
+			mp.setError(m.getTeam2().getPlayers().get(i).getError());
+			mp.setFoul(m.getTeam2().getPlayers().get(i).getFoul());
+			mp.setScore(m.getTeam2().getPlayers().get(i).getScore());
+			t2.addPlayer(mp);
 		}
+		result.setTeam1(t1);
+		result.setTeam2(t2);
 		return result;
 	}
 
 
 	public ArrayList<MatchVO> findMatchByPlayer(String playerName) {
 		ArrayList<MatchVO> result=new ArrayList<MatchVO>();
-		//MatchDataService md=new MatchData();
+		MatchDataService md=new MatchData();
 		ArrayList<MatchPO> m=new ArrayList<MatchPO>();
-		//m=md.getPlayerRecentMatchInfo(5,playerName);
+		m=md.getPlayerRecentMatchInfo(5,playerName);
 		for(int j=0;j<m.size();j++){
-			result.get(j).setMatchTime(m.get(j).getMatchTime());
-			result.get(j).setTeams(m.get(j).getTeams());
-			result.get(j).setScore(m.get(j).getScore());
-			result.get(j).setScore1(m.get(j).getScore1());
-			result.get(j).setScore2(m.get(j).getScore2());
-			result.get(j).setScore3(m.get(j).getScore3());
-			result.get(j).setScore4(m.get(j).getScore4());
-			result.get(j).setExtraScores(m.get(j).getExtraScores());
-			result.get(j).getTeam1().setTeamName(m.get(j).getTeam1().getTeamName());
+			MatchVO temp=new MatchVO();
+			temp.setMatchTime(m.get(j).getMatchTime());
+			temp.setTeams(m.get(j).getTeams());
+			temp.setScore(m.get(j).getScore());
+			temp.setScore1(m.get(j).getScore1());
+			temp.setScore2(m.get(j).getScore2());
+			temp.setScore3(m.get(j).getScore3());
+			temp.setScore4(m.get(j).getScore4());
+			temp.setExtraScores(m.get(j).getExtraScores());
+			
+			vo.MatchTeam t1=new vo.MatchTeam();
+			vo.MatchTeam t2=new vo.MatchTeam();
+			t1.setTeamName(m.get(j).getTeam1().getTeamName());
+			t2.setTeamName(m.get(j).getTeam1().getTeamName());
 			for(int i=0;i<m.get(j).getTeam1().getPlayers().size();i++){
-				result.get(j).getTeam1().getPlayers().get(i).setPlayerName(m.get(j).getTeam1().getPlayers().get(i).getPlayerName());
-				result.get(j).getTeam1().getPlayers().get(i).setPosition(m.get(j).getTeam1().getPlayers().get(i).getPosition());
-				result.get(j).getTeam1().getPlayers().get(i).setMatchTime(m.get(j).getTeam1().getPlayers().get(i).getMatchTime());
-				result.get(j).getTeam1().getPlayers().get(i).setFieldGoal(m.get(j).getTeam1().getPlayers().get(i).getFieldGoal());
-				result.get(j).getTeam1().getPlayers().get(i).setFieldGoalAttempts(m.get(j).getTeam1().getPlayers().get(i).getFieldGoalAttempts());
-				result.get(j).getTeam1().getPlayers().get(i).setThreePointShot(m.get(j).getTeam1().getPlayers().get(i).getThreePointShot());
-				result.get(j).getTeam1().getPlayers().get(i).setThreePointAttempts(m.get(j).getTeam1().getPlayers().get(i).getThreePointAttempts());
-				result.get(j).getTeam1().getPlayers().get(i).setFreeThrowGoal(m.get(j).getTeam1().getPlayers().get(i).getFreeThrowGoal());
-				result.get(j).getTeam1().getPlayers().get(i).setFreeThrowAttempts(m.get(j).getTeam1().getPlayers().get(i).getFreeThrowAttempts());
-				result.get(j).getTeam1().getPlayers().get(i).setOffensiveRebound(m.get(j).getTeam1().getPlayers().get(i).getOffensiveRebound());
-				result.get(j).getTeam1().getPlayers().get(i).setDefensiveRebound(m.get(j).getTeam1().getPlayers().get(i).getDefensiveRebound());
-				result.get(j).getTeam1().getPlayers().get(i).setRebound(m.get(j).getTeam1().getPlayers().get(i).getRebound());
-				result.get(j).getTeam1().getPlayers().get(i).setAssist(m.get(j).getTeam1().getPlayers().get(i).getAssist());
-				result.get(j).getTeam1().getPlayers().get(i).setST(m.get(j).getTeam1().getPlayers().get(i).getST());
-				result.get(j).getTeam1().getPlayers().get(i).setBlockShot(m.get(j).getTeam1().getPlayers().get(i).getBlockShot());
-				result.get(j).getTeam1().getPlayers().get(i).setError(m.get(j).getTeam1().getPlayers().get(i).getError());
-				result.get(j).getTeam1().getPlayers().get(i).setFoul(m.get(j).getTeam1().getPlayers().get(i).getFoul());
-				result.get(j).getTeam1().getPlayers().get(i).setScore(m.get(j).getTeam1().getPlayers().get(i).getScore());
+				vo.MatchPlayer mp=new vo.MatchPlayer();
+				mp.setPlayerName(m.get(j).getTeam1().getPlayers().get(i).getPlayerName());
+				mp.setPosition(m.get(j).getTeam1().getPlayers().get(i).getPosition());
+				mp.setMatchTime(m.get(j).getTeam1().getPlayers().get(i).getMatchTime());
+				mp.setFieldGoal(m.get(j).getTeam1().getPlayers().get(i).getFieldGoal());
+				mp.setFieldGoalAttempts(m.get(j).getTeam1().getPlayers().get(i).getFieldGoalAttempts());
+				mp.setThreePointShot(m.get(j).getTeam1().getPlayers().get(i).getThreePointShot());
+				mp.setThreePointAttempts(m.get(j).getTeam1().getPlayers().get(i).getThreePointAttempts());
+				mp.setFreeThrowGoal(m.get(j).getTeam1().getPlayers().get(i).getFreeThrowGoal());
+				mp.setFreeThrowAttempts(m.get(j).getTeam1().getPlayers().get(i).getFreeThrowAttempts());
+				mp.setOffensiveRebound(m.get(j).getTeam1().getPlayers().get(i).getOffensiveRebound());
+				mp.setDefensiveRebound(m.get(j).getTeam1().getPlayers().get(i).getDefensiveRebound());
+				mp.setRebound(m.get(j).getTeam1().getPlayers().get(i).getRebound());
+				mp.setAssist(m.get(j).getTeam1().getPlayers().get(i).getAssist());
+				mp.setST(m.get(j).getTeam1().getPlayers().get(i).getST());
+				mp.setBlockShot(m.get(j).getTeam1().getPlayers().get(i).getBlockShot());
+				mp.setError(m.get(j).getTeam1().getPlayers().get(i).getError());
+				mp.setFoul(m.get(j).getTeam1().getPlayers().get(i).getFoul());
+				mp.setScore(m.get(j).getTeam1().getPlayers().get(i).getScore());
+				t1.addPlayer(mp);
 			}
-			result.get(j).getTeam2().setTeamName(m.get(j).getTeam2().getTeamName());
+			
 			for(int i=0;i<m.get(j).getTeam2().getPlayers().size();i++){
-				result.get(j).getTeam2().getPlayers().get(i).setPlayerName(m.get(j).getTeam2().getPlayers().get(i).getPlayerName());
-				result.get(j).getTeam2().getPlayers().get(i).setPosition(m.get(j).getTeam2().getPlayers().get(i).getPosition());
-				result.get(j).getTeam2().getPlayers().get(i).setMatchTime(m.get(j).getTeam2().getPlayers().get(i).getMatchTime());
-				result.get(j).getTeam2().getPlayers().get(i).setFieldGoal(m.get(j).getTeam2().getPlayers().get(i).getFieldGoal());
-				result.get(j).getTeam2().getPlayers().get(i).setFieldGoalAttempts(m.get(j).getTeam2().getPlayers().get(i).getFieldGoalAttempts());
-				result.get(j).getTeam2().getPlayers().get(i).setThreePointShot(m.get(j).getTeam2().getPlayers().get(i).getThreePointShot());
-				result.get(j).getTeam2().getPlayers().get(i).setThreePointAttempts(m.get(j).getTeam2().getPlayers().get(i).getThreePointAttempts());
-				result.get(j).getTeam2().getPlayers().get(i).setFreeThrowGoal(m.get(j).getTeam2().getPlayers().get(i).getFreeThrowGoal());
-				result.get(j).getTeam2().getPlayers().get(i).setFreeThrowAttempts(m.get(j).getTeam2().getPlayers().get(i).getFreeThrowAttempts());
-				result.get(j).getTeam2().getPlayers().get(i).setOffensiveRebound(m.get(j).getTeam2().getPlayers().get(i).getOffensiveRebound());
-				result.get(j).getTeam2().getPlayers().get(i).setDefensiveRebound(m.get(j).getTeam2().getPlayers().get(i).getDefensiveRebound());
-				result.get(j).getTeam2().getPlayers().get(i).setRebound(m.get(j).getTeam2().getPlayers().get(i).getRebound());
-				result.get(j).getTeam2().getPlayers().get(i).setAssist(m.get(j).getTeam2().getPlayers().get(i).getAssist());
-				result.get(j).getTeam2().getPlayers().get(i).setST(m.get(j).getTeam2().getPlayers().get(i).getST());
-				result.get(j).getTeam2().getPlayers().get(i).setBlockShot(m.get(j).getTeam2().getPlayers().get(i).getBlockShot());
-				result.get(j).getTeam2().getPlayers().get(i).setError(m.get(j).getTeam2().getPlayers().get(i).getError());
-				result.get(j).getTeam2().getPlayers().get(i).setFoul(m.get(j).getTeam2().getPlayers().get(i).getFoul());
-				result.get(j).getTeam2().getPlayers().get(i).setScore(m.get(j).getTeam2().getPlayers().get(i).getScore());
+				vo.MatchPlayer mp=new vo.MatchPlayer();
+				mp.setPlayerName(m.get(j).getTeam2().getPlayers().get(i).getPlayerName());
+				mp.setPosition(m.get(j).getTeam2().getPlayers().get(i).getPosition());
+				mp.setMatchTime(m.get(j).getTeam2().getPlayers().get(i).getMatchTime());
+				mp.setFieldGoal(m.get(j).getTeam2().getPlayers().get(i).getFieldGoal());
+				mp.setFieldGoalAttempts(m.get(j).getTeam2().getPlayers().get(i).getFieldGoalAttempts());
+				mp.setThreePointShot(m.get(j).getTeam2().getPlayers().get(i).getThreePointShot());
+				mp.setThreePointAttempts(m.get(j).getTeam2().getPlayers().get(i).getThreePointAttempts());
+				mp.setFreeThrowGoal(m.get(j).getTeam2().getPlayers().get(i).getFreeThrowGoal());
+				mp.setFreeThrowAttempts(m.get(j).getTeam2().getPlayers().get(i).getFreeThrowAttempts());
+				mp.setOffensiveRebound(m.get(j).getTeam2().getPlayers().get(i).getOffensiveRebound());
+				mp.setDefensiveRebound(m.get(j).getTeam2().getPlayers().get(i).getDefensiveRebound());
+				mp.setRebound(m.get(j).getTeam2().getPlayers().get(i).getRebound());
+				mp.setAssist(m.get(j).getTeam2().getPlayers().get(i).getAssist());
+				mp.setST(m.get(j).getTeam2().getPlayers().get(i).getST());
+				mp.setBlockShot(m.get(j).getTeam2().getPlayers().get(i).getBlockShot());
+				mp.setError(m.get(j).getTeam2().getPlayers().get(i).getError());
+				mp.setFoul(m.get(j).getTeam2().getPlayers().get(i).getFoul());
+				mp.setScore(m.get(j).getTeam2().getPlayers().get(i).getScore());
+				t2.addPlayer(mp);
 			}
+			temp.setTeam1(t1);
+			temp.setTeam2(t2);
+			result.add(temp);
 		}
 		return result;
 	}
@@ -276,60 +303,71 @@ public class DataBL implements DataBLService {
 
 	public ArrayList<MatchVO> findMatchByTeam(String teamName) {
 		ArrayList<MatchVO> result=new ArrayList<MatchVO>();
-		//MatchDataService md=new MatchData();
+		MatchDataService md=new MatchData();
 		ArrayList<MatchPO> m=new ArrayList<MatchPO>();
-		//m=md.getTeamRecentMatchInfo(5s,teamName);
+		m=md.getTeamRecentMatchInfo(5,teamName);
 		for(int j=0;j<m.size();j++){
-			result.get(j).setMatchTime(m.get(j).getMatchTime());
-			result.get(j).setTeams(m.get(j).getTeams());
-			result.get(j).setScore(m.get(j).getScore());
-			result.get(j).setScore1(m.get(j).getScore1());
-			result.get(j).setScore2(m.get(j).getScore2());
-			result.get(j).setScore3(m.get(j).getScore3());
-			result.get(j).setScore4(m.get(j).getScore4());
-			result.get(j).setExtraScores(m.get(j).getExtraScores());
-			result.get(j).getTeam1().setTeamName(m.get(j).getTeam1().getTeamName());
+			MatchVO temp=new MatchVO();
+			temp.setMatchTime(m.get(j).getMatchTime());
+			temp.setTeams(m.get(j).getTeams());
+			temp.setScore(m.get(j).getScore());
+			temp.setScore1(m.get(j).getScore1());
+			temp.setScore2(m.get(j).getScore2());
+			temp.setScore3(m.get(j).getScore3());
+			temp.setScore4(m.get(j).getScore4());
+			temp.setExtraScores(m.get(j).getExtraScores());
+			vo.MatchTeam t1=new vo.MatchTeam();
+			vo.MatchTeam t2=new vo.MatchTeam();
+			t1.setTeamName(m.get(j).getTeam1().getTeamName());
+			t2.setTeamName(m.get(j).getTeam1().getTeamName());
 			for(int i=0;i<m.get(j).getTeam1().getPlayers().size();i++){
-				result.get(j).getTeam1().getPlayers().get(i).setPlayerName(m.get(j).getTeam1().getPlayers().get(i).getPlayerName());
-				result.get(j).getTeam1().getPlayers().get(i).setPosition(m.get(j).getTeam1().getPlayers().get(i).getPosition());
-				result.get(j).getTeam1().getPlayers().get(i).setMatchTime(m.get(j).getTeam1().getPlayers().get(i).getMatchTime());
-				result.get(j).getTeam1().getPlayers().get(i).setFieldGoal(m.get(j).getTeam1().getPlayers().get(i).getFieldGoal());
-				result.get(j).getTeam1().getPlayers().get(i).setFieldGoalAttempts(m.get(j).getTeam1().getPlayers().get(i).getFieldGoalAttempts());
-				result.get(j).getTeam1().getPlayers().get(i).setThreePointShot(m.get(j).getTeam1().getPlayers().get(i).getThreePointShot());
-				result.get(j).getTeam1().getPlayers().get(i).setThreePointAttempts(m.get(j).getTeam1().getPlayers().get(i).getThreePointAttempts());
-				result.get(j).getTeam1().getPlayers().get(i).setFreeThrowGoal(m.get(j).getTeam1().getPlayers().get(i).getFreeThrowGoal());
-				result.get(j).getTeam1().getPlayers().get(i).setFreeThrowAttempts(m.get(j).getTeam1().getPlayers().get(i).getFreeThrowAttempts());
-				result.get(j).getTeam1().getPlayers().get(i).setOffensiveRebound(m.get(j).getTeam1().getPlayers().get(i).getOffensiveRebound());
-				result.get(j).getTeam1().getPlayers().get(i).setDefensiveRebound(m.get(j).getTeam1().getPlayers().get(i).getDefensiveRebound());
-				result.get(j).getTeam1().getPlayers().get(i).setRebound(m.get(j).getTeam1().getPlayers().get(i).getRebound());
-				result.get(j).getTeam1().getPlayers().get(i).setAssist(m.get(j).getTeam1().getPlayers().get(i).getAssist());
-				result.get(j).getTeam1().getPlayers().get(i).setST(m.get(j).getTeam1().getPlayers().get(i).getST());
-				result.get(j).getTeam1().getPlayers().get(i).setBlockShot(m.get(j).getTeam1().getPlayers().get(i).getBlockShot());
-				result.get(j).getTeam1().getPlayers().get(i).setError(m.get(j).getTeam1().getPlayers().get(i).getError());
-				result.get(j).getTeam1().getPlayers().get(i).setFoul(m.get(j).getTeam1().getPlayers().get(i).getFoul());
-				result.get(j).getTeam1().getPlayers().get(i).setScore(m.get(j).getTeam1().getPlayers().get(i).getScore());
+				vo.MatchPlayer mp=new vo.MatchPlayer();
+				mp.setPlayerName(m.get(j).getTeam1().getPlayers().get(i).getPlayerName());
+				mp.setPosition(m.get(j).getTeam1().getPlayers().get(i).getPosition());
+				mp.setMatchTime(m.get(j).getTeam1().getPlayers().get(i).getMatchTime());
+				mp.setFieldGoal(m.get(j).getTeam1().getPlayers().get(i).getFieldGoal());
+				mp.setFieldGoalAttempts(m.get(j).getTeam1().getPlayers().get(i).getFieldGoalAttempts());
+				mp.setThreePointShot(m.get(j).getTeam1().getPlayers().get(i).getThreePointShot());
+				mp.setThreePointAttempts(m.get(j).getTeam1().getPlayers().get(i).getThreePointAttempts());
+				mp.setFreeThrowGoal(m.get(j).getTeam1().getPlayers().get(i).getFreeThrowGoal());
+				mp.setFreeThrowAttempts(m.get(j).getTeam1().getPlayers().get(i).getFreeThrowAttempts());
+				mp.setOffensiveRebound(m.get(j).getTeam1().getPlayers().get(i).getOffensiveRebound());
+				mp.setDefensiveRebound(m.get(j).getTeam1().getPlayers().get(i).getDefensiveRebound());
+				mp.setRebound(m.get(j).getTeam1().getPlayers().get(i).getRebound());
+				mp.setAssist(m.get(j).getTeam1().getPlayers().get(i).getAssist());
+				mp.setST(m.get(j).getTeam1().getPlayers().get(i).getST());
+				mp.setBlockShot(m.get(j).getTeam1().getPlayers().get(i).getBlockShot());
+				mp.setError(m.get(j).getTeam1().getPlayers().get(i).getError());
+				mp.setFoul(m.get(j).getTeam1().getPlayers().get(i).getFoul());
+				mp.setScore(m.get(j).getTeam1().getPlayers().get(i).getScore());
+				t1.addPlayer(mp);
 			}
-			result.get(j).getTeam2().setTeamName(m.get(j).getTeam2().getTeamName());
+			
 			for(int i=0;i<m.get(j).getTeam2().getPlayers().size();i++){
-				result.get(j).getTeam2().getPlayers().get(i).setPlayerName(m.get(j).getTeam2().getPlayers().get(i).getPlayerName());
-				result.get(j).getTeam2().getPlayers().get(i).setPosition(m.get(j).getTeam2().getPlayers().get(i).getPosition());
-				result.get(j).getTeam2().getPlayers().get(i).setMatchTime(m.get(j).getTeam2().getPlayers().get(i).getMatchTime());
-				result.get(j).getTeam2().getPlayers().get(i).setFieldGoal(m.get(j).getTeam2().getPlayers().get(i).getFieldGoal());
-				result.get(j).getTeam2().getPlayers().get(i).setFieldGoalAttempts(m.get(j).getTeam2().getPlayers().get(i).getFieldGoalAttempts());
-				result.get(j).getTeam2().getPlayers().get(i).setThreePointShot(m.get(j).getTeam2().getPlayers().get(i).getThreePointShot());
-				result.get(j).getTeam2().getPlayers().get(i).setThreePointAttempts(m.get(j).getTeam2().getPlayers().get(i).getThreePointAttempts());
-				result.get(j).getTeam2().getPlayers().get(i).setFreeThrowGoal(m.get(j).getTeam2().getPlayers().get(i).getFreeThrowGoal());
-				result.get(j).getTeam2().getPlayers().get(i).setFreeThrowAttempts(m.get(j).getTeam2().getPlayers().get(i).getFreeThrowAttempts());
-				result.get(j).getTeam2().getPlayers().get(i).setOffensiveRebound(m.get(j).getTeam2().getPlayers().get(i).getOffensiveRebound());
-				result.get(j).getTeam2().getPlayers().get(i).setDefensiveRebound(m.get(j).getTeam2().getPlayers().get(i).getDefensiveRebound());
-				result.get(j).getTeam2().getPlayers().get(i).setRebound(m.get(j).getTeam2().getPlayers().get(i).getRebound());
-				result.get(j).getTeam2().getPlayers().get(i).setAssist(m.get(j).getTeam2().getPlayers().get(i).getAssist());
-				result.get(j).getTeam2().getPlayers().get(i).setST(m.get(j).getTeam2().getPlayers().get(i).getST());
-				result.get(j).getTeam2().getPlayers().get(i).setBlockShot(m.get(j).getTeam2().getPlayers().get(i).getBlockShot());
-				result.get(j).getTeam2().getPlayers().get(i).setError(m.get(j).getTeam2().getPlayers().get(i).getError());
-				result.get(j).getTeam2().getPlayers().get(i).setFoul(m.get(j).getTeam2().getPlayers().get(i).getFoul());
-				result.get(j).getTeam2().getPlayers().get(i).setScore(m.get(j).getTeam2().getPlayers().get(i).getScore());
+				vo.MatchPlayer mp=new vo.MatchPlayer();
+				mp.setPlayerName(m.get(j).getTeam2().getPlayers().get(i).getPlayerName());
+				mp.setPosition(m.get(j).getTeam2().getPlayers().get(i).getPosition());
+				mp.setMatchTime(m.get(j).getTeam2().getPlayers().get(i).getMatchTime());
+				mp.setFieldGoal(m.get(j).getTeam2().getPlayers().get(i).getFieldGoal());
+				mp.setFieldGoalAttempts(m.get(j).getTeam2().getPlayers().get(i).getFieldGoalAttempts());
+				mp.setThreePointShot(m.get(j).getTeam2().getPlayers().get(i).getThreePointShot());
+				mp.setThreePointAttempts(m.get(j).getTeam2().getPlayers().get(i).getThreePointAttempts());
+				mp.setFreeThrowGoal(m.get(j).getTeam2().getPlayers().get(i).getFreeThrowGoal());
+				mp.setFreeThrowAttempts(m.get(j).getTeam2().getPlayers().get(i).getFreeThrowAttempts());
+				mp.setOffensiveRebound(m.get(j).getTeam2().getPlayers().get(i).getOffensiveRebound());
+				mp.setDefensiveRebound(m.get(j).getTeam2().getPlayers().get(i).getDefensiveRebound());
+				mp.setRebound(m.get(j).getTeam2().getPlayers().get(i).getRebound());
+				mp.setAssist(m.get(j).getTeam2().getPlayers().get(i).getAssist());
+				mp.setST(m.get(j).getTeam2().getPlayers().get(i).getST());
+				mp.setBlockShot(m.get(j).getTeam2().getPlayers().get(i).getBlockShot());
+				mp.setError(m.get(j).getTeam2().getPlayers().get(i).getError());
+				mp.setFoul(m.get(j).getTeam2().getPlayers().get(i).getFoul());
+				mp.setScore(m.get(j).getTeam2().getPlayers().get(i).getScore());
+				t2.addPlayer(mp);
 			}
+			temp.setTeam1(t1);
+			temp.setTeam2(t2);
+			result.add(temp);
 		}
 		return result;
 	}
@@ -337,62 +375,74 @@ public class DataBL implements DataBLService {
 
 	public ArrayList<MatchVO> findMatchByDate(String matchDate) {
 		ArrayList<MatchVO> result=new ArrayList<MatchVO>();
-		//MatchDataService md=new MatchData();
+		MatchDataService md=new MatchData();
 		ArrayList<MatchPO> m=new ArrayList<MatchPO>();
-		//m=md.getAllMatchInfo();
+		m=md.getAllMatchInfo();
 		for(int j=0;j<m.size();j++){
-			result.get(j).setMatchTime(m.get(j).getMatchTime());
-			result.get(j).setTeams(m.get(j).getTeams());
-			result.get(j).setScore(m.get(j).getScore());
-			result.get(j).setScore1(m.get(j).getScore1());
-			result.get(j).setScore2(m.get(j).getScore2());
-			result.get(j).setScore3(m.get(j).getScore3());
-			result.get(j).setScore4(m.get(j).getScore4());
-			result.get(j).setExtraScores(m.get(j).getExtraScores());
-			result.get(j).getTeam1().setTeamName(m.get(j).getTeam1().getTeamName());
+			MatchVO temp=new MatchVO();
+			temp.setMatchTime(m.get(j).getMatchTime());
+			temp.setTeams(m.get(j).getTeams());
+			temp.setScore(m.get(j).getScore());
+			temp.setScore1(m.get(j).getScore1());
+			temp.setScore2(m.get(j).getScore2());
+			temp.setScore3(m.get(j).getScore3());
+			temp.setScore4(m.get(j).getScore4());
+			temp.setExtraScores(m.get(j).getExtraScores());
+			vo.MatchTeam t1=new vo.MatchTeam();
+			vo.MatchTeam t2=new vo.MatchTeam();
+			t1.setTeamName(m.get(j).getTeam1().getTeamName());
+			t2.setTeamName(m.get(j).getTeam1().getTeamName());
 			for(int i=0;i<m.get(j).getTeam1().getPlayers().size();i++){
-				result.get(j).getTeam1().getPlayers().get(i).setPlayerName(m.get(j).getTeam1().getPlayers().get(i).getPlayerName());
-				result.get(j).getTeam1().getPlayers().get(i).setPosition(m.get(j).getTeam1().getPlayers().get(i).getPosition());
-				result.get(j).getTeam1().getPlayers().get(i).setMatchTime(m.get(j).getTeam1().getPlayers().get(i).getMatchTime());
-				result.get(j).getTeam1().getPlayers().get(i).setFieldGoal(m.get(j).getTeam1().getPlayers().get(i).getFieldGoal());
-				result.get(j).getTeam1().getPlayers().get(i).setFieldGoalAttempts(m.get(j).getTeam1().getPlayers().get(i).getFieldGoalAttempts());
-				result.get(j).getTeam1().getPlayers().get(i).setThreePointShot(m.get(j).getTeam1().getPlayers().get(i).getThreePointShot());
-				result.get(j).getTeam1().getPlayers().get(i).setThreePointAttempts(m.get(j).getTeam1().getPlayers().get(i).getThreePointAttempts());
-				result.get(j).getTeam1().getPlayers().get(i).setFreeThrowGoal(m.get(j).getTeam1().getPlayers().get(i).getFreeThrowGoal());
-				result.get(j).getTeam1().getPlayers().get(i).setFreeThrowAttempts(m.get(j).getTeam1().getPlayers().get(i).getFreeThrowAttempts());
-				result.get(j).getTeam1().getPlayers().get(i).setOffensiveRebound(m.get(j).getTeam1().getPlayers().get(i).getOffensiveRebound());
-				result.get(j).getTeam1().getPlayers().get(i).setDefensiveRebound(m.get(j).getTeam1().getPlayers().get(i).getDefensiveRebound());
-				result.get(j).getTeam1().getPlayers().get(i).setRebound(m.get(j).getTeam1().getPlayers().get(i).getRebound());
-				result.get(j).getTeam1().getPlayers().get(i).setAssist(m.get(j).getTeam1().getPlayers().get(i).getAssist());
-				result.get(j).getTeam1().getPlayers().get(i).setST(m.get(j).getTeam1().getPlayers().get(i).getST());
-				result.get(j).getTeam1().getPlayers().get(i).setBlockShot(m.get(j).getTeam1().getPlayers().get(i).getBlockShot());
-				result.get(j).getTeam1().getPlayers().get(i).setError(m.get(j).getTeam1().getPlayers().get(i).getError());
-				result.get(j).getTeam1().getPlayers().get(i).setFoul(m.get(j).getTeam1().getPlayers().get(i).getFoul());
-				result.get(j).getTeam1().getPlayers().get(i).setScore(m.get(j).getTeam1().getPlayers().get(i).getScore());
+				vo.MatchPlayer mp=new vo.MatchPlayer();
+				mp.setPlayerName(m.get(j).getTeam1().getPlayers().get(i).getPlayerName());
+				mp.setPosition(m.get(j).getTeam1().getPlayers().get(i).getPosition());
+				mp.setMatchTime(m.get(j).getTeam1().getPlayers().get(i).getMatchTime());
+				mp.setFieldGoal(m.get(j).getTeam1().getPlayers().get(i).getFieldGoal());
+				mp.setFieldGoalAttempts(m.get(j).getTeam1().getPlayers().get(i).getFieldGoalAttempts());
+				mp.setThreePointShot(m.get(j).getTeam1().getPlayers().get(i).getThreePointShot());
+				mp.setThreePointAttempts(m.get(j).getTeam1().getPlayers().get(i).getThreePointAttempts());
+				mp.setFreeThrowGoal(m.get(j).getTeam1().getPlayers().get(i).getFreeThrowGoal());
+				mp.setFreeThrowAttempts(m.get(j).getTeam1().getPlayers().get(i).getFreeThrowAttempts());
+				mp.setOffensiveRebound(m.get(j).getTeam1().getPlayers().get(i).getOffensiveRebound());
+				mp.setDefensiveRebound(m.get(j).getTeam1().getPlayers().get(i).getDefensiveRebound());
+				mp.setRebound(m.get(j).getTeam1().getPlayers().get(i).getRebound());
+				mp.setAssist(m.get(j).getTeam1().getPlayers().get(i).getAssist());
+				mp.setST(m.get(j).getTeam1().getPlayers().get(i).getST());
+				mp.setBlockShot(m.get(j).getTeam1().getPlayers().get(i).getBlockShot());
+				mp.setError(m.get(j).getTeam1().getPlayers().get(i).getError());
+				mp.setFoul(m.get(j).getTeam1().getPlayers().get(i).getFoul());
+				mp.setScore(m.get(j).getTeam1().getPlayers().get(i).getScore());
+				t1.addPlayer(mp);
 			}
-			result.get(j).getTeam2().setTeamName(m.get(j).getTeam2().getTeamName());
+			
 			for(int i=0;i<m.get(j).getTeam2().getPlayers().size();i++){
-				result.get(j).getTeam2().getPlayers().get(i).setPlayerName(m.get(j).getTeam2().getPlayers().get(i).getPlayerName());
-				result.get(j).getTeam2().getPlayers().get(i).setPosition(m.get(j).getTeam2().getPlayers().get(i).getPosition());
-				result.get(j).getTeam2().getPlayers().get(i).setMatchTime(m.get(j).getTeam2().getPlayers().get(i).getMatchTime());
-				result.get(j).getTeam2().getPlayers().get(i).setFieldGoal(m.get(j).getTeam2().getPlayers().get(i).getFieldGoal());
-				result.get(j).getTeam2().getPlayers().get(i).setFieldGoalAttempts(m.get(j).getTeam2().getPlayers().get(i).getFieldGoalAttempts());
-				result.get(j).getTeam2().getPlayers().get(i).setThreePointShot(m.get(j).getTeam2().getPlayers().get(i).getThreePointShot());
-				result.get(j).getTeam2().getPlayers().get(i).setThreePointAttempts(m.get(j).getTeam2().getPlayers().get(i).getThreePointAttempts());
-				result.get(j).getTeam2().getPlayers().get(i).setFreeThrowGoal(m.get(j).getTeam2().getPlayers().get(i).getFreeThrowGoal());
-				result.get(j).getTeam2().getPlayers().get(i).setFreeThrowAttempts(m.get(j).getTeam2().getPlayers().get(i).getFreeThrowAttempts());
-				result.get(j).getTeam2().getPlayers().get(i).setOffensiveRebound(m.get(j).getTeam2().getPlayers().get(i).getOffensiveRebound());
-				result.get(j).getTeam2().getPlayers().get(i).setDefensiveRebound(m.get(j).getTeam2().getPlayers().get(i).getDefensiveRebound());
-				result.get(j).getTeam2().getPlayers().get(i).setRebound(m.get(j).getTeam2().getPlayers().get(i).getRebound());
-				result.get(j).getTeam2().getPlayers().get(i).setAssist(m.get(j).getTeam2().getPlayers().get(i).getAssist());
-				result.get(j).getTeam2().getPlayers().get(i).setST(m.get(j).getTeam2().getPlayers().get(i).getST());
-				result.get(j).getTeam2().getPlayers().get(i).setBlockShot(m.get(j).getTeam2().getPlayers().get(i).getBlockShot());
-				result.get(j).getTeam2().getPlayers().get(i).setError(m.get(j).getTeam2().getPlayers().get(i).getError());
-				result.get(j).getTeam2().getPlayers().get(i).setFoul(m.get(j).getTeam2().getPlayers().get(i).getFoul());
-				result.get(j).getTeam2().getPlayers().get(i).setScore(m.get(j).getTeam2().getPlayers().get(i).getScore());
+				vo.MatchPlayer mp=new vo.MatchPlayer();
+				mp.setPlayerName(m.get(j).getTeam2().getPlayers().get(i).getPlayerName());
+				mp.setPosition(m.get(j).getTeam2().getPlayers().get(i).getPosition());
+				mp.setMatchTime(m.get(j).getTeam2().getPlayers().get(i).getMatchTime());
+				mp.setFieldGoal(m.get(j).getTeam2().getPlayers().get(i).getFieldGoal());
+				mp.setFieldGoalAttempts(m.get(j).getTeam2().getPlayers().get(i).getFieldGoalAttempts());
+				mp.setThreePointShot(m.get(j).getTeam2().getPlayers().get(i).getThreePointShot());
+				mp.setThreePointAttempts(m.get(j).getTeam2().getPlayers().get(i).getThreePointAttempts());
+				mp.setFreeThrowGoal(m.get(j).getTeam2().getPlayers().get(i).getFreeThrowGoal());
+				mp.setFreeThrowAttempts(m.get(j).getTeam2().getPlayers().get(i).getFreeThrowAttempts());
+				mp.setOffensiveRebound(m.get(j).getTeam2().getPlayers().get(i).getOffensiveRebound());
+				mp.setDefensiveRebound(m.get(j).getTeam2().getPlayers().get(i).getDefensiveRebound());
+				mp.setRebound(m.get(j).getTeam2().getPlayers().get(i).getRebound());
+				mp.setAssist(m.get(j).getTeam2().getPlayers().get(i).getAssist());
+				mp.setST(m.get(j).getTeam2().getPlayers().get(i).getST());
+				mp.setBlockShot(m.get(j).getTeam2().getPlayers().get(i).getBlockShot());
+				mp.setError(m.get(j).getTeam2().getPlayers().get(i).getError());
+				mp.setFoul(m.get(j).getTeam2().getPlayers().get(i).getFoul());
+				mp.setScore(m.get(j).getTeam2().getPlayers().get(i).getScore());
+				t2.addPlayer(mp);
 			}
+			temp.setTeam1(t1);
+			temp.setTeam2(t2);
+			result.add(temp);
+			
 		}
-		for(int i=result.size();i>0;i--){
+		for(int i=result.size()-1;i>=0;i--){
 			if(!result.get(i).getMatchTime().equals(matchDate)){
 				result.remove(i);			
 			}
@@ -402,10 +452,10 @@ public class DataBL implements DataBLService {
 
 	
 	public TeamVO getSingleTeamInfo(String teamName) {
-		//TeamDataService td=new TeamData();
+		TeamDataService td=new TeamData();
 		TeamVO result=new TeamVO();
 		TeamPO tp=new TeamPO();
-		//tp=td.getSingleTeamInfo(teamName);
+		tp=td.getSingleTeamInfo(teamName);
 		result.setTeamName(teamName);
 		result.setGamesPlayed(tp.getGamesPlayed());
 		result.setFieldGoalsMade(tp.getFieldGoalsMade());
@@ -459,58 +509,60 @@ public class DataBL implements DataBLService {
 
 
 	public ArrayList<TeamVO> getAllTeamInfo() {
-		//TeamDataService td=new TeamData();
+		TeamDataService td=new TeamData();
 		ArrayList<TeamVO> result=new ArrayList<TeamVO>();
 		ArrayList<TeamPO> tp=new ArrayList<TeamPO>();
-		//tp=td.getAllTeamInfo();
+		tp=td.getAllTeamInfo();
 		for(int i=0;i<tp.size();i++){
-			result.get(i).setTeamName(tp.get(i).getTeamName());
-			result.get(i).setGamesPlayed(tp.get(i).getGamesPlayed());
-			result.get(i).setFieldGoalsMade(tp.get(i).getFieldGoalsMade());
-			result.get(i).setFieldGoalsAttempted(tp.get(i).getFieldGoalsAttempted());
-			result.get(i).setThreePointFieldGoalsMade(tp.get(i).getThreePointFieldGoalsMade());
-			result.get(i).setThreePointFieldGoalsAttempted(tp.get(i).getThreePointFieldGoalsAttempted());
-			result.get(i).setFreeThrowsMade(tp.get(i).getFreeThrowsMade());
-			result.get(i).setFieldGoalsAttempted(tp.get(i).getFreeThrowsAttempted());	
-			result.get(i).setOffensiveRebounds(tp.get(i).getOffensiveRebounds());
-			result.get(i).setDefensiveRebounds(tp.get(i).getDefensiveRebounds());
-			result.get(i).setRebounds(tp.get(i).getRebounds());
-			result.get(i).setAssists(tp.get(i).getAssists());
-			result.get(i).setSteals(tp.get(i).getSteals());
-			result.get(i).setBlocks(tp.get(i).getBlocks());
-			result.get(i).setTurnovers(tp.get(i).getTurnovers());
-			result.get(i).setFouls(tp.get(i).getFouls());
-			result.get(i).setPoints(tp.get(i).getPoints());
-			result.get(i).setFieldGoalPercentage(tp.get(i).getFieldGoalPercentage());
-			result.get(i).setThreePointFieldGoalPercentage(tp.get(i).getThreePointFieldGoalPercentage());
-			result.get(i).setFreeThrowPercentage(tp.get(i).getFreeThrowPercentage());
-			result.get(i).setWinPercentage(tp.get(i).getWinPercentage());
-			result.get(i).setPossessions(tp.get(i).getPossessions());
-			result.get(i).setOffensiveRating(tp.get(i).getOffensiveRating());
-			result.get(i).setDefensiveRating(tp.get(i).getDefensiveRating());
-			result.get(i).setOffensiveReboundPercentage(tp.get(i).getOffensiveReboundPercentage());
-			result.get(i).setDefensiveReboundPercentage(tp.get(i).getDefensiveReboundPercentage());
-			result.get(i).setStealPercentage(tp.get(i).getStealPercentage());
-			result.get(i).setAssistPercentage(tp.get(i).getAssistPercentage());
+			TeamVO t=new TeamVO();
+			t.setTeamName(tp.get(i).getTeamName());
+			t.setGamesPlayed(tp.get(i).getGamesPlayed());
+			t.setFieldGoalsMade(tp.get(i).getFieldGoalsMade());
+			t.setFieldGoalsAttempted(tp.get(i).getFieldGoalsAttempted());
+			t.setThreePointFieldGoalsMade(tp.get(i).getThreePointFieldGoalsMade());
+			t.setThreePointFieldGoalsAttempted(tp.get(i).getThreePointFieldGoalsAttempted());
+			t.setFreeThrowsMade(tp.get(i).getFreeThrowsMade());
+			t.setFieldGoalsAttempted(tp.get(i).getFreeThrowsAttempted());	
+			t.setOffensiveRebounds(tp.get(i).getOffensiveRebounds());
+			t.setDefensiveRebounds(tp.get(i).getDefensiveRebounds());
+			t.setRebounds(tp.get(i).getRebounds());
+			t.setAssists(tp.get(i).getAssists());
+			t.setSteals(tp.get(i).getSteals());
+			t.setBlocks(tp.get(i).getBlocks());
+			t.setTurnovers(tp.get(i).getTurnovers());
+			t.setFouls(tp.get(i).getFouls());
+			t.setPoints(tp.get(i).getPoints());
+			t.setFieldGoalPercentage(tp.get(i).getFieldGoalPercentage());
+			t.setThreePointFieldGoalPercentage(tp.get(i).getThreePointFieldGoalPercentage());
+			t.setFreeThrowPercentage(tp.get(i).getFreeThrowPercentage());
+			t.setWinPercentage(tp.get(i).getWinPercentage());
+			t.setPossessions(tp.get(i).getPossessions());
+			t.setOffensiveRating(tp.get(i).getOffensiveRating());
+			t.setDefensiveRating(tp.get(i).getDefensiveRating());
+			t.setOffensiveReboundPercentage(tp.get(i).getOffensiveReboundPercentage());
+			t.setDefensiveReboundPercentage(tp.get(i).getDefensiveReboundPercentage());
+			t.setStealPercentage(tp.get(i).getStealPercentage());
+			t.setAssistPercentage(tp.get(i).getAssistPercentage());
 			
-			result.get(i).setFullName(tp.get(i).getFullName());
-			result.get(i).setCity(tp.get(i).getCity());
-			result.get(i).setZone(tp.get(i).getZone());
-			result.get(i).setSubarea(tp.get(i).getSubarea());
-			result.get(i).setHomeCourt(tp.get(i).getHomeCourt());
-			result.get(i).setCreateTime(tp.get(i).getCreateTime());
+			t.setFullName(tp.get(i).getFullName());
+			t.setCity(tp.get(i).getCity());
+			t.setZone(tp.get(i).getZone());
+			t.setSubarea(tp.get(i).getSubarea());
+			t.setHomeCourt(tp.get(i).getHomeCourt());
+			t.setCreateTime(tp.get(i).getCreateTime());
 			
-			result.get(i).setGamesPlayedWin(tp.get(i).getGamesPlayedWin());
-			result.get(i).setOppFieldGoalsMade(tp.get(i).getOppFieldGoalsMade());
-			result.get(i).setOppFieldGoalsAttempted(tp.get(i).getOppFieldGoalsAttempted());
-			result.get(i).setOppFreeThrowsAttempted(tp.get(i).getOppFreeThrowsAttempted());
-			result.get(i).setOppTurnovers(tp.get(i).getOppTurnovers());
-			result.get(i).setOppSteals(tp.get(i).getOppSteals());
-			result.get(i).setOppAssists(tp.get(i).getOppAssists());
-			result.get(i).setOppOffensiveRebounds(tp.get(i).getOppOffensiveRebounds());
-			result.get(i).setOppDefensiveRebounds(tp.get(i).getOppDefensiveRebounds());
-			result.get(i).setOppPoints(tp.get(i).getOppPoints());
-			result.get(i).setOppPossessions(tp.get(i).getOppPossessions());
+			t.setGamesPlayedWin(tp.get(i).getGamesPlayedWin());
+			t.setOppFieldGoalsMade(tp.get(i).getOppFieldGoalsMade());
+			t.setOppFieldGoalsAttempted(tp.get(i).getOppFieldGoalsAttempted());
+			t.setOppFreeThrowsAttempted(tp.get(i).getOppFreeThrowsAttempted());
+			t.setOppTurnovers(tp.get(i).getOppTurnovers());
+			t.setOppSteals(tp.get(i).getOppSteals());
+			t.setOppAssists(tp.get(i).getOppAssists());
+			t.setOppOffensiveRebounds(tp.get(i).getOppOffensiveRebounds());
+			t.setOppDefensiveRebounds(tp.get(i).getOppDefensiveRebounds());
+			t.setOppPoints(tp.get(i).getOppPoints());
+			t.setOppPossessions(tp.get(i).getOppPossessions());
+			result.add(t);
 		}	
 		return result;
 	}
