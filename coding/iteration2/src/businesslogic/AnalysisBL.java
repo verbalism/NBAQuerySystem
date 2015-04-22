@@ -3,13 +3,19 @@ package businesslogic;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import po.MatchPO;
+import po.TodayPlayerPO;
 import data.MatchData;
+import data.PlayerData;
 import dataService.MatchDataService;
+import dataService.PlayerDataService;
+import vo.MatchVO;
 import vo.PlayerPartition;
 import vo.PlayerPosition;
 import vo.PlayerVO;
 import vo.SortType;
 import vo.TeamVO;
+import vo.TodayPlayerVO;
 import businesslogicService.AnalysisBLService;
 import businesslogicService.DataBLService;
 
@@ -1115,26 +1121,198 @@ public class AnalysisBL implements AnalysisBLService {
 		return result;
 	}
 
-	public ArrayList<PlayerVO> getTodayHotSpotPlayer(String keyword) {
+	public ArrayList<TodayPlayerVO> getTodayHotSpotPlayer(String keyword) {
+		
+		PlayerDataService pd=new PlayerData();
 		MatchDataService md=new MatchData();
-		DataBLService d=new DataBL();
-		ArrayList<PlayerVO> p=d.getAllPlayerInfo();
-
-		for(int i=p.size()-1;i>=0;i--){
-			System.out.println(p.get(i).getPlayerName());
-			System.out.println(md.getPlayerRecentMatchInfo(1,p.get(i).getPlayerName()).get(0).getMatchTime());
+		ArrayList<MatchPO> m=new ArrayList<MatchPO>();
+		m=md.getAllMatchInfo();
+		String str=m.get(m.size()-1).getMatchTime();
+		ArrayList<TodayPlayerPO> tp=pd.getTodayPlayerInfo(str);
+		ArrayList<TodayPlayerVO> result=new ArrayList<TodayPlayerVO>();
+		for(int i=0;i<tp.size();i++){
+			TodayPlayerVO temp=new TodayPlayerVO();
+			temp.setPlayerName(tp.get(i).getPlayerName());
+			temp.setPosition(tp.get(i).getPosition());
+			temp.setTeamName(tp.get(i).getTeamName());
+			temp.setOppositeTeamName(tp.get(i).getOppositeTeamName());
+			temp.setMatchTime(tp.get(i).getMatchTime());
+			temp.setRebound(tp.get(i).getRebound());
+			temp.setAssist(tp.get(i).getAssist());		
+			temp.setSt(tp.get(i).getSt());
+			temp.setBlockShot(tp.get(i).getBlockShot());
+			temp.setError(tp.get(i).getError());
+			temp.setFoul(tp.get(i).getFoul());
+			temp.setScore(tp.get(i).getScore());
+			temp.setFieldGoal(tp.get(i).getFieldGoal());
+			temp.setFieldGoalAttempts(tp.get(i).getFieldGoalAttempts());
+			temp.setThreepointShot(tp.get(i).getThreepointShot());
+			temp.setThreepointAttempts(tp.get(i).getThreepointAttempts());
+			temp.setFreeThrowAttempts(tp.get(i).getFreeThrowAttempts());
+			temp.setFreeThrowGoal(tp.get(i).getFreeThrowGoal());
+			temp.setOffensiveRebound(tp.get(i).getOffensiveRebound());
+			temp.setDefensiveRebound(tp.get(i).getDefensiveRebound());
 			
-			if(!md.getPlayerRecentMatchInfo(1,p.get(i).getPlayerName()).get(0).getMatchTime().equals("today")){
-				p.remove(i);
+			
+			result.add(temp);
+		}
+		if(keyword.equals("rebound")){
+			while(result.size()>0){
+				int i=0;
+				for(int j=i+1;j<result.size();j++){
+					if(result.get(i).getRebound()<result.get(j).getRebound())
+						i=j;
+				}
+				result.add(result.get(i));
+				result.remove(i);
+			}
+		}else if(keyword.equals("assist")){
+			while(result.size()>0){
+				int i=0;
+				for(int j=i+1;j<result.size();j++){
+					if(result.get(i).getAssist()<result.get(j).getAssist())
+						i=j;
+				}
+				result.add(result.get(i));
+				result.remove(i);
+			}
+		}else if(keyword.equals("st")){
+			while(result.size()>0){
+				int i=0;
+				for(int j=i+1;j<result.size();j++){
+					if(result.get(i).getSt()<result.get(j).getSt())
+						i=j;
+				}
+				result.add(result.get(i));
+				result.remove(i);
+			}
+		}else if(keyword.equals("blockShot")){
+			while(result.size()>0){
+				int i=0;
+				for(int j=i+1;j<result.size();j++){
+					if(result.get(i).getBlockShot()<result.get(j).getBlockShot())
+						i=j;
+				}
+				result.add(result.get(i));
+				result.remove(i);
+			}
+		}else if(keyword.equals("error")){
+			while(result.size()>0){
+				int i=0;
+				for(int j=i+1;j<result.size();j++){
+					if(result.get(i).getError()<result.get(j).getError())
+						i=j;
+				}
+				result.add(result.get(i));
+				result.remove(i);
+			}
+		}else if(keyword.equals("foul")){
+			while(result.size()>0){
+				int i=0;
+				for(int j=i+1;j<result.size();j++){
+					if(result.get(i).getFoul()<result.get(j).getFoul())
+						i=j;
+				}
+				result.add(result.get(i));
+				result.remove(i);
+			}
+		}else if(keyword.equals("score")){
+			while(result.size()>0){
+				int i=0;
+				for(int j=i+1;j<result.size();j++){
+					if(result.get(i).getScore()<result.get(j).getScore())
+						i=j;
+				}
+				result.add(result.get(i));
+				result.remove(i);
+			}
+		}else if(keyword.equals("fieldGoal")){
+			while(result.size()>0){
+				int i=0;
+				for(int j=i+1;j<result.size();j++){
+					if(result.get(i).getFieldGoal()<result.get(j).getFieldGoal())
+						i=j;
+				}
+				result.add(result.get(i));
+				result.remove(i);
+			}
+		}else if(keyword.equals("fieldGoalAttempts")){
+			while(result.size()>0){
+				int i=0;
+				for(int j=i+1;j<result.size();j++){
+					if(result.get(i).getFieldGoalAttempts()<result.get(j).getFieldGoalAttempts())
+						i=j;
+				}
+				result.add(result.get(i));
+				result.remove(i);
+			}
+		}else if(keyword.equals("threepointShot")){
+			while(result.size()>0){
+				int i=0;
+				for(int j=i+1;j<result.size();j++){
+					if(result.get(i).getThreepointShot()<result.get(j).getThreepointShot())
+						i=j;
+				}
+				result.add(result.get(i));
+				result.remove(i);
+			}
+		}else if(keyword.equals("threepointAttempts")){
+			while(result.size()>0){
+				int i=0;
+				for(int j=i+1;j<result.size();j++){
+					if(result.get(i).getThreepointAttempts()<result.get(j).getThreepointAttempts())
+						i=j;
+				}
+				result.add(result.get(i));
+				result.remove(i);
+			}
+		}else if(keyword.equals("freeThrowGoal")){
+			while(result.size()>0){
+				int i=0;
+				for(int j=i+1;j<result.size();j++){
+					if(result.get(i).getFreeThrowGoal()<result.get(j).getFreeThrowGoal())
+						i=j;
+				}
+				result.add(result.get(i));
+				result.remove(i);
+			}
+		}else if(keyword.equals("freeThrowAttempts")){
+			while(result.size()>0){
+				int i=0;
+				for(int j=i+1;j<result.size();j++){
+					if(result.get(i).getFreeThrowAttempts()<result.get(j).getFreeThrowAttempts())
+						i=j;
+				}
+				result.add(result.get(i));
+				result.remove(i);
+			}
+		}else if(keyword.equals("offensiveRebound")){
+			while(result.size()>0){
+				int i=0;
+				for(int j=i+1;j<result.size();j++){
+					if(result.get(i).getOffensiveRebound()<result.get(j).getOffensiveRebound())
+						i=j;
+				}
+				result.add(result.get(i));
+				result.remove(i);
+			}
+		}else if(keyword.equals("defensiveRebound")){
+			while(result.size()>0){
+				int i=0;
+				for(int j=i+1;j<result.size();j++){
+					if(result.get(i).getDefensiveRebound()<result.get(j).getDefensiveRebound())
+						i=j;
+				}
+				result.add(result.get(i));
+				result.remove(i);
 			}
 		}
-		p=sortPlayer(p, keyword,SortType.Descending);
-		if(p.size()>5){
-			for(int i=p.size()-1;i>=5;i--){
-				p.remove(i);
+		if(result.size()>5){
+			for(int i=result.size()-1;i>=5;i--){
+				result.remove(i);
 			}
 		}
-		return p;
+		return result;
 	}
 
 	public ArrayList<PlayerVO> getSeasonHotSpotPlayer(String keyword) {
@@ -1170,6 +1348,18 @@ public class AnalysisBL implements AnalysisBLService {
 				result.remove(i);
 			}
 		}
+		return result;
+	}
+	
+	public ArrayList<MatchVO> getTodayMatch() {
+		
+		DataBLService d=new DataBL();
+		MatchDataService md=new MatchData();
+		ArrayList<MatchPO> m=new ArrayList<MatchPO>();
+		m=md.getAllMatchInfo();
+		String str=m.get(m.size()-1).getMatchTime();
+		System.out.println(str);
+		ArrayList<MatchVO> result=d.findMatchByDate(str);
 		return result;
 	}
 

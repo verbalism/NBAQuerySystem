@@ -27,8 +27,7 @@ public class DataBLTest {
 		ArrayList<PlayerVO> pl=d.getAllPlayerInfo();
 		System.out.println(pl.size());
 		
-		/*MatchVO m=d.getSingleMatchInfo("01-01","CHA");
-		
+		/*MatchVO m=d.getSingleMatchInfo("01-01","CHA");		
 		MatchPO m2=md.getSingleMatchInfo("CHA","LAC","01-01");
 		System.out.println(m.getMatchTime());
 		System.out.println(m.getTeam1().getTeamName());
