@@ -157,7 +157,7 @@ public class TeamInfoFrame extends JFrame{
 		Image icon = kit.getImage("Img//teams//"+team.getTeamName()+".png");
 		this.setIconImage(icon);
 		this.setBounds(frameWidth/3, frameHeight/4, frameWidth+10, frameHeight+40);
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		this.setVisible(true);
 	}
 }

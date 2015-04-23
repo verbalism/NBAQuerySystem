@@ -1,9 +1,11 @@
 package presentation;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -86,7 +88,9 @@ public class PlayerListPanel extends JPanel implements ActionListener{
 		String[] columnNames = new String[]{"","球员名","位置","球衣号","球龄","身高","体重","生日","年龄","毕业学校"};
 		Object[][]data=new Object[allPlayer.size()][10];
 		for(int i=0;i<allPlayer.size();i++){
-			data[i][0] = new ImageIcon("Img//players//portrait//"+allPlayer.get(i).getPlayerName()+".png");
+			ImageIcon img = new ImageIcon("Img//players//portrait//"+allPlayer.get(i).getPlayerName()+".png");
+			img.setImage(img.getImage().getScaledInstance(74,60,Image.SCALE_DEFAULT));
+			data[i][0] = img;
 			data[i][1] = allPlayer.get(i).getPlayerName();
 			data[i][2] = allPlayer.get(i).getPosition();
 			data[i][3] = allPlayer.get(i).getNumber();
@@ -98,7 +102,6 @@ public class PlayerListPanel extends JPanel implements ActionListener{
 			data[i][9] = allPlayer.get(i).getSchool();
 		}
 		
-		
 		DefaultTableModel model = new DefaultTableModel(data,columnNames);
 		final InfoListTable table=new InfoListTable(model){
             public boolean isCellEditable(int row, int column)
@@ -107,7 +110,7 @@ public class PlayerListPanel extends JPanel implements ActionListener{
                  }; 
         table.setRowHeight(60);
         table.getColumnModel().getColumn(0).setCellRenderer(new ImageRenderer());
-        table.addMouseListener(new MouseAdapter() {
+		 table.addMouseListener(new MouseAdapter() {
         	public void mouseClicked(MouseEvent e) {
         		 if (e.getButton() == MouseEvent.BUTTON1) {// 单击鼠标左键
         		     if (e.getClickCount() == 2) {
@@ -123,6 +126,24 @@ public class PlayerListPanel extends JPanel implements ActionListener{
         firsetColumn.setPreferredWidth(74);
         firsetColumn.setMaxWidth(74);
         firsetColumn.setMinWidth(74);
+        TableColumn nameColumn = table.getColumnModel().getColumn(1);
+        nameColumn.setPreferredWidth(170);
+        nameColumn.setMaxWidth(170);
+        nameColumn.setMinWidth(170);
+        for(int k=2;k<7;k++){
+        	TableColumn Column = table.getColumnModel().getColumn(k);
+        	Column.setPreferredWidth(70);
+        	Column.setMaxWidth(70);
+        	Column.setMinWidth(70);
+        }
+        TableColumn ageColumn = table.getColumnModel().getColumn(8);
+        ageColumn.setPreferredWidth(70);
+        ageColumn.setMaxWidth(70);
+        ageColumn.setMinWidth(70);
+        TableColumn birthColumn = table.getColumnModel().getColumn(7);
+        birthColumn.setPreferredWidth(120);
+        birthColumn.setMaxWidth(120);
+        birthColumn.setMinWidth(120);
 		JScrollPane scrollPane = new JScrollPane(table);
 		scrollPane.setBounds(0, 70, panelWidth, panelHeight-100);
 		scrollPane.setOpaque(false);

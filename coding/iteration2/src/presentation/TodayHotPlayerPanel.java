@@ -13,11 +13,10 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import vo.PlayerVO;
 import vo.TodayPlayerVO;
 
-public class HotPlayerPanel extends JPanel{
-	public HotPlayerPanel(ArrayList<PlayerVO> players,String keyword){
+public class TodayHotPlayerPanel extends JPanel{
+	public TodayHotPlayerPanel(ArrayList<TodayPlayerVO> players,String keyword){
 		Toolkit kit = Toolkit.getDefaultToolkit();
 		Dimension screenSize = kit.getScreenSize();
 		int panelHeight = screenSize.height-160;
@@ -193,62 +192,42 @@ public class HotPlayerPanel extends JPanel{
 		NumberFormat nf = NumberFormat.getPercentInstance();
         nf.setMaximumFractionDigits(2);
 		switch (keyword){
-		case "allScore":
-			playerScoreLabel1.setText(df.format(players.get(0).getPoints()/players.get(0).getGamesPlayed()));
-			playerScoreLabel2.setText(df.format(players.get(1).getPoints()/players.get(1).getGamesPlayed()));
-			playerScoreLabel3.setText(df.format(players.get(2).getPoints()/players.get(2).getGamesPlayed()));
-			playerScoreLabel4.setText(df.format(players.get(3).getPoints()/players.get(3).getGamesPlayed()));
-			playerScoreLabel5.setText(df.format(players.get(4).getPoints()/players.get(4).getGamesPlayed()));
+		case "tdScore":
+			playerScoreLabel1.setText(df.format(players.get(0).getScore()));
+			playerScoreLabel2.setText(df.format(players.get(1).getScore()));
+			playerScoreLabel3.setText(df.format(players.get(2).getScore()));
+			playerScoreLabel4.setText(df.format(players.get(3).getScore()));
+			playerScoreLabel5.setText(df.format(players.get(4).getScore()));
 			break;
-		case "allBackBord":
-			playerScoreLabel1.setText(df.format(players.get(0).getRebounds()/players.get(0).getGamesPlayed()));
-			playerScoreLabel2.setText(df.format(players.get(1).getRebounds()/players.get(1).getGamesPlayed()));
-			playerScoreLabel3.setText(df.format(players.get(2).getRebounds()/players.get(2).getGamesPlayed()));
-			playerScoreLabel4.setText(df.format(players.get(3).getRebounds()/players.get(3).getGamesPlayed()));
-			playerScoreLabel5.setText(df.format(players.get(4).getRebounds()/players.get(4).getGamesPlayed()));
+		case "tdBackBord":
+			playerScoreLabel1.setText(df.format(players.get(0).getRebound()));
+			playerScoreLabel2.setText(df.format(players.get(1).getRebound()));
+			playerScoreLabel3.setText(df.format(players.get(2).getRebound()));
+			playerScoreLabel4.setText(df.format(players.get(3).getRebound()));
+			playerScoreLabel5.setText(df.format(players.get(4).getRebound()));
 			break;
-		case "allAssist":
-			playerScoreLabel1.setText(df.format(players.get(0).getAssists()/players.get(0).getGamesPlayed()));
-			playerScoreLabel2.setText(df.format(players.get(1).getAssists()/players.get(1).getGamesPlayed()));
-			playerScoreLabel3.setText(df.format(players.get(2).getAssists()/players.get(2).getGamesPlayed()));
-			playerScoreLabel4.setText(df.format(players.get(3).getAssists()/players.get(3).getGamesPlayed()));
-			playerScoreLabel5.setText(df.format(players.get(4).getAssists()/players.get(4).getGamesPlayed()));
+		case "tdAssist":
+			playerScoreLabel1.setText(df.format(players.get(0).getAssist()));
+			playerScoreLabel2.setText(df.format(players.get(1).getAssist()));
+			playerScoreLabel3.setText(df.format(players.get(2).getAssist()));
+			playerScoreLabel4.setText(df.format(players.get(3).getAssist()));
+			playerScoreLabel5.setText(df.format(players.get(4).getAssist()));
 			break;
-		case "allBlockShot":
-			playerScoreLabel1.setText(df.format(players.get(0).getBlocks()/players.get(0).getGamesPlayed()));
-			playerScoreLabel2.setText(df.format(players.get(1).getBlocks()/players.get(1).getGamesPlayed()));
-			playerScoreLabel3.setText(df.format(players.get(2).getBlocks()/players.get(2).getGamesPlayed()));
-			playerScoreLabel4.setText(df.format(players.get(3).getBlocks()/players.get(3).getGamesPlayed()));
-			playerScoreLabel5.setText(df.format(players.get(4).getBlocks()/players.get(4).getGamesPlayed()));
+		case "tdBlockShot":
+			playerScoreLabel1.setText(df.format(players.get(0).getBlockShot()));
+			playerScoreLabel2.setText(df.format(players.get(1).getBlockShot()));
+			playerScoreLabel3.setText(df.format(players.get(2).getBlockShot()));
+			playerScoreLabel4.setText(df.format(players.get(3).getBlockShot()));
+			playerScoreLabel5.setText(df.format(players.get(4).getBlockShot()));
 			break;
-		case "allST":
-			playerScoreLabel1.setText(df.format(players.get(0).getSteals()/players.get(0).getGamesPlayed()));
-			playerScoreLabel2.setText(df.format(players.get(1).getSteals()/players.get(1).getGamesPlayed()));
-			playerScoreLabel3.setText(df.format(players.get(2).getSteals()/players.get(2).getGamesPlayed()));
-			playerScoreLabel4.setText(df.format(players.get(3).getSteals()/players.get(3).getGamesPlayed()));
-			playerScoreLabel5.setText(df.format(players.get(4).getSteals()/players.get(4).getGamesPlayed()));
+		case "tdST":
+			playerScoreLabel1.setText(df.format(players.get(0).getSt()));
+			playerScoreLabel2.setText(df.format(players.get(1).getSt()));
+			playerScoreLabel3.setText(df.format(players.get(2).getSt()));
+			playerScoreLabel4.setText(df.format(players.get(3).getSt()));
+			playerScoreLabel5.setText(df.format(players.get(4).getSt()));
 			break;
-		case "all3":
-			playerScoreLabel1.setText(nf.format(players.get(0).getThreePointFieldGoalsPercentage()/players.get(0).getGamesPlayed()));
-			playerScoreLabel2.setText(nf.format(players.get(1).getThreePointFieldGoalsPercentage()/players.get(1).getGamesPlayed()));
-			playerScoreLabel3.setText(nf.format(players.get(2).getThreePointFieldGoalsPercentage()/players.get(2).getGamesPlayed()));
-			playerScoreLabel4.setText(nf.format(players.get(3).getThreePointFieldGoalsPercentage()/players.get(3).getGamesPlayed()));
-			playerScoreLabel5.setText(nf.format(players.get(4).getThreePointFieldGoalsPercentage()/players.get(4).getGamesPlayed()));
-			break;
-		case "allShot":
-			playerScoreLabel1.setText(nf.format(players.get(0).getFieldGoalsPercentage()/players.get(0).getGamesPlayed()));
-			playerScoreLabel2.setText(nf.format(players.get(1).getFieldGoalsPercentage()/players.get(1).getGamesPlayed()));
-			playerScoreLabel3.setText(nf.format(players.get(2).getFieldGoalsPercentage()/players.get(2).getGamesPlayed()));
-			playerScoreLabel4.setText(nf.format(players.get(3).getFieldGoalsPercentage()/players.get(3).getGamesPlayed()));
-			playerScoreLabel5.setText(nf.format(players.get(4).getFieldGoalsPercentage()/players.get(4).getGamesPlayed()));
-			break;
-		case "allPenalty":
-			playerScoreLabel1.setText(nf.format(players.get(0).getFreeThrowsPercentage()/players.get(0).getGamesPlayed()));
-			playerScoreLabel2.setText(nf.format(players.get(1).getFreeThrowsPercentage()/players.get(1).getGamesPlayed()));
-			playerScoreLabel3.setText(nf.format(players.get(2).getFreeThrowsPercentage()/players.get(2).getGamesPlayed()));
-			playerScoreLabel4.setText(nf.format(players.get(3).getFreeThrowsPercentage()/players.get(3).getGamesPlayed()));
-			playerScoreLabel5.setText(nf.format(players.get(4).getFreeThrowsPercentage()/players.get(4).getGamesPlayed()));
-			break;
+		
 		default:
 			break;
 		}
@@ -269,5 +248,4 @@ public class HotPlayerPanel extends JPanel{
 		this.add(otherPanel);
 		
 	}
-
 }

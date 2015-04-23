@@ -21,6 +21,7 @@ import javax.swing.border.LineBorder;
 
 import vo.PlayerVO;
 import vo.TeamVO;
+import vo.TodayPlayerVO;
 import businesslogic.AnalysisBL;
 import businesslogicService.AnalysisBLService;
 
@@ -34,6 +35,7 @@ public class HotPanel extends JPanel implements ActionListener{
 	boolean sortTeam = false;
 	JLabel title;
 	JPanel todayPlayerSortPanel,advanceSortPanel,allSortPanel;
+	TodayHotPlayerPanel tdplayerResultPanel;
 	HotPlayerPanel playerResultPanel;
 	HotTeamPanel teamResultPanel;
 	AnalysisBLService abl = new AnalysisBL();
@@ -429,10 +431,12 @@ public class HotPanel extends JPanel implements ActionListener{
 		searchPanel.add(advanceBtn);
 		searchPanel.add(teamBtn);
 		
-		ArrayList<PlayerVO> players = abl.getTodayHotSpotPlayer("points");
-		playerResultPanel = new HotPlayerPanel(players,"tdScore");
+		ArrayList<TodayPlayerVO> players = abl.getTodayHotSpotPlayer("score");
+		tdplayerResultPanel = new TodayHotPlayerPanel(players,"tdScore");
 		ArrayList<TeamVO> teams = abl.getSeasonHotSpotTeam("points");
 		teamResultPanel = new HotTeamPanel(teams,"allScore");
+		ArrayList<PlayerVO> players2 = abl.getSeasonHotSpotPlayer("points");
+		playerResultPanel = new HotPlayerPanel(players2,"allScore");
 		
 		this.setBounds(10, 100, panelWidth, panelHeight);
 		this.setBackground(Color.white);
@@ -458,6 +462,7 @@ public class HotPanel extends JPanel implements ActionListener{
 			this.add(allSortPanel);
 			this.remove(playerResultPanel);
 			this.remove(teamResultPanel);
+			this.remove(tdplayerResultPanel);
 			if(e.getSource()==allBtn){
 				ArrayList<PlayerVO> players = abl.getSeasonHotSpotPlayer("points");
 				playerResultPanel = new HotPlayerPanel(players,"allScore");
@@ -479,10 +484,11 @@ public class HotPanel extends JPanel implements ActionListener{
 			this.remove(allSortPanel);
 			this.remove(advanceSortPanel);
 			this.add(todayPlayerSortPanel);
+			this.remove(tdplayerResultPanel);
 			this.remove(playerResultPanel);
 			this.remove(teamResultPanel);
-			ArrayList<PlayerVO> players = abl.getTodayHotSpotPlayer("points");
-			playerResultPanel = new HotPlayerPanel(players,"tdScore");
+			ArrayList<TodayPlayerVO> players = abl.getTodayHotSpotPlayer("score");
+			tdplayerResultPanel = new TodayHotPlayerPanel(players,"tdScore");
 			this.add(playerResultPanel);
 			this.repaint();
 		}
@@ -493,6 +499,7 @@ public class HotPanel extends JPanel implements ActionListener{
 			this.remove(allSortPanel);
 			this.remove(todayPlayerSortPanel);
 			this.add(advanceSortPanel);
+			this.remove(tdplayerResultPanel);
 			this.remove(playerResultPanel);
 			this.remove(teamResultPanel);
 			ArrayList<PlayerVO> players = abl.getProgressivePlayer("points");
@@ -502,37 +509,37 @@ public class HotPanel extends JPanel implements ActionListener{
 		}
 		
 		if(e.getSource()==tdScoreBtn){
-			this.remove(playerResultPanel);
-			ArrayList<PlayerVO> players = abl.getTodayHotSpotPlayer("points");
-			playerResultPanel = new HotPlayerPanel(players,"");
+			this.remove(tdplayerResultPanel);
+			ArrayList<TodayPlayerVO> players = abl.getTodayHotSpotPlayer("score");
+			tdplayerResultPanel = new TodayHotPlayerPanel(players,"tdScore");
 			this.add(playerResultPanel);
 			this.repaint();
 		}
 		if(e.getSource()==tdBackBordBtn){
-			this.remove(playerResultPanel);
-			ArrayList<PlayerVO> players = abl.getTodayHotSpotPlayer("rebounds");
-			playerResultPanel = new HotPlayerPanel(players,"");
+			this.remove(tdplayerResultPanel);
+			ArrayList<TodayPlayerVO> players = abl.getTodayHotSpotPlayer("rebound");
+			tdplayerResultPanel = new TodayHotPlayerPanel(players,"tdBackBord");
 			this.add(playerResultPanel);
 			this.repaint();
 		}
 		if(e.getSource()==tdAssistBtn){
-			this.remove(playerResultPanel);
-			ArrayList<PlayerVO> players = abl.getTodayHotSpotPlayer("assists");
-			playerResultPanel = new HotPlayerPanel(players,"");
+			this.remove(tdplayerResultPanel);
+			ArrayList<TodayPlayerVO> players = abl.getTodayHotSpotPlayer("assist");
+			tdplayerResultPanel = new TodayHotPlayerPanel(players,"tdAssist");
 			this.add(playerResultPanel);
 			this.repaint();
 		}
 		if(e.getSource()==tdBlockShotBtn){
-			this.remove(playerResultPanel);
-			ArrayList<PlayerVO> players = abl.getTodayHotSpotPlayer("blocks");
-			playerResultPanel = new HotPlayerPanel(players,"");
+			this.remove(tdplayerResultPanel);
+			ArrayList<TodayPlayerVO> players = abl.getTodayHotSpotPlayer("blockShot");
+			tdplayerResultPanel = new TodayHotPlayerPanel(players,"tdBlockShot");
 			this.add(playerResultPanel);
 			this.repaint();
 		}
 		if(e.getSource()==tdSTBtn){
-			this.remove(playerResultPanel);
-			ArrayList<PlayerVO> players = abl.getTodayHotSpotPlayer("steals");
-			playerResultPanel = new HotPlayerPanel(players,"");
+			this.remove(tdplayerResultPanel);
+			ArrayList<TodayPlayerVO> players = abl.getTodayHotSpotPlayer("st");
+			tdplayerResultPanel = new TodayHotPlayerPanel(players,"tdST");
 			this.add(playerResultPanel);
 			this.repaint();
 		}
@@ -546,7 +553,7 @@ public class HotPanel extends JPanel implements ActionListener{
 			}
 			else{
 				this.remove(playerResultPanel);
-				ArrayList<PlayerVO> players = abl.getTodayHotSpotPlayer("points");
+				ArrayList<PlayerVO> players = abl.getSeasonHotSpotPlayer("points");
 				playerResultPanel = new HotPlayerPanel(players,"allScore");
 				this.add(playerResultPanel);
 			}
@@ -562,7 +569,7 @@ public class HotPanel extends JPanel implements ActionListener{
 			}
 			else{
 				this.remove(playerResultPanel);
-				ArrayList<PlayerVO> players = abl.getTodayHotSpotPlayer("rebounds");
+				ArrayList<PlayerVO> players = abl.getSeasonHotSpotPlayer("rebounds");
 				playerResultPanel = new HotPlayerPanel(players,"allBackBord");
 				this.add(playerResultPanel);
 			}
@@ -577,7 +584,7 @@ public class HotPanel extends JPanel implements ActionListener{
 			}
 			else{
 				this.remove(playerResultPanel);
-				ArrayList<PlayerVO> players = abl.getTodayHotSpotPlayer("assists");
+				ArrayList<PlayerVO> players = abl.getSeasonHotSpotPlayer("assists");
 				playerResultPanel = new HotPlayerPanel(players,"allAssist");
 				this.add(playerResultPanel);
 			}
@@ -592,7 +599,7 @@ public class HotPanel extends JPanel implements ActionListener{
 			}
 			else{
 				this.remove(playerResultPanel);
-				ArrayList<PlayerVO> players = abl.getTodayHotSpotPlayer("blocks");
+				ArrayList<PlayerVO> players = abl.getSeasonHotSpotPlayer("blocks");
 				playerResultPanel = new HotPlayerPanel(players,"allBlockShot");
 				this.add(playerResultPanel);
 			}
@@ -607,7 +614,7 @@ public class HotPanel extends JPanel implements ActionListener{
 			}
 			else{
 				this.remove(playerResultPanel);
-				ArrayList<PlayerVO> players = abl.getTodayHotSpotPlayer("steals");
+				ArrayList<PlayerVO> players = abl.getSeasonHotSpotPlayer("steals");
 				playerResultPanel = new HotPlayerPanel(players,"allST");
 				this.add(playerResultPanel);
 			}
@@ -622,7 +629,7 @@ public class HotPanel extends JPanel implements ActionListener{
 			}
 			else{
 				this.remove(playerResultPanel);
-				ArrayList<PlayerVO> players = abl.getTodayHotSpotPlayer("threePointFieldGoalsPercentage");
+				ArrayList<PlayerVO> players = abl.getSeasonHotSpotPlayer("threePointFieldGoalsPercentage");
 				playerResultPanel = new HotPlayerPanel(players,"all3");
 				this.add(playerResultPanel);
 			}
@@ -637,7 +644,7 @@ public class HotPanel extends JPanel implements ActionListener{
 			}
 			else{
 				this.remove(playerResultPanel);
-				ArrayList<PlayerVO> players = abl.getTodayHotSpotPlayer("fieldGoalsPercentage");
+				ArrayList<PlayerVO> players = abl.getSeasonHotSpotPlayer("fieldGoalsPercentage");
 				playerResultPanel = new HotPlayerPanel(players,"allShot");
 				this.add(playerResultPanel);
 			}
@@ -652,7 +659,7 @@ public class HotPanel extends JPanel implements ActionListener{
 			}
 			else{
 				this.remove(playerResultPanel);
-				ArrayList<PlayerVO> players = abl.getTodayHotSpotPlayer("freeThrowsPercentage");
+				ArrayList<PlayerVO> players = abl.getSeasonHotSpotPlayer("freeThrowsPercentage");
 				playerResultPanel = new HotPlayerPanel(players,"allPenalty");
 				this.add(playerResultPanel);
 			}

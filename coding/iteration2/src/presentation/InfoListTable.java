@@ -54,6 +54,7 @@ public class InfoListTable extends JTable{
 		       Object value, boolean isSelected, boolean hasFocus,
 		       int row, int column) {
 		    	 setHorizontalAlignment(SwingConstants.CENTER);
+		    	 setForeground(new Color(51,51,51));
 		      if (row % 2 == 0)
 		       setBackground(Color.white); // ���������е�ɫ
 		      else if (row % 2 == 1){

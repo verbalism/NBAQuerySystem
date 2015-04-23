@@ -161,7 +161,7 @@ public class PlayerInfoFrame extends JFrame{
 		Image icon = kit.getImage("Img//players//portrait//"+player.getPlayerName()+".png");
 		this.setIconImage(icon);
 		this.setBounds(frameWidth/4, frameHeight/4, frameWidth+10, frameHeight+40);
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		this.setVisible(true);
 	}
 	
