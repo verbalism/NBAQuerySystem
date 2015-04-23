@@ -95,6 +95,9 @@ public class PlayerData implements PlayerDataService{
 				result.setIncreaseOfRebounds(rs.getDouble("increaseOfRebounds"));
 				result.setIncreaseOfAssists(rs.getDouble("increaseOfAssists"));
 			}
+			rs.close();
+			pstmt.close();
+			conn.close();
 		}catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -184,6 +187,9 @@ public class PlayerData implements PlayerDataService{
 				result.setIncreaseOfAssists(rs.getDouble("increaseOfAssists"));
 				pp.add(result);
 	        }
+	        rs.close();
+			pstmt.close();
+			conn.close();
 		}catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -200,18 +206,11 @@ public class PlayerData implements PlayerDataService{
 			Connection conn = DriverManager.getConnection(dbur1, "username", "password"); 
 			
 			Statement stmt=conn.createStatement();
-			String sql = "select * from generalMatchInfo where matchTime='"+date+"'";
+	        
+	        String sql ="select * from playerMatchInfo where generalMatch in (select ID from generalMatchInfo where matchTime='"+date+"')";
 	        ResultSet rs = stmt.executeQuery(sql);
 	        
-	        ArrayList<Integer> matchID=new ArrayList<Integer>();
 	        while(rs.next()){
-	        	matchID.add(rs.getInt("ID"));
-	        }
-	        
-	        String sql2 = "select * from playerMatchInfo where matchTime='"+date+"'";
-	        ResultSet rs2 = stmt.executeQuery(sql2);
-	        
-	        while(rs2.next()){
 	        	TodayPlayerPO tpp=new TodayPlayerPO();
 	        	tpp.setTeamName(rs.getString("teamName"));
 	        	tpp.setOppositeTeamName(rs.getString("oppositeTeamName"));
@@ -235,10 +234,24 @@ public class PlayerData implements PlayerDataService{
 	        	tpp.setScore(rs.getDouble("score"));
 	        	result.add(tpp);
 	        }
-	        
+	        rs.close();
+			stmt.close();
+			conn.close();
 		}catch (Exception e) {
 			e.printStackTrace();
 		}
 		return result;
+	}
+	
+	public static void main(String []args){
+		PlayerData pd=new PlayerData();
+		
+		PlayerPO pp=pd.getSinglePlayerInfo("LeBron James");
+		System.out.println(pp.getAge());
+		
+		ArrayList<TodayPlayerPO> tpp=pd.getTodayPlayerInfo("01-01");
+		for(int i=0;i<tpp.size();i++){
+			System.out.println(tpp.get(i).getPlayerName());
+		}
 	}
 }
