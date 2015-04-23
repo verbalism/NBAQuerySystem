@@ -5,9 +5,13 @@ import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -16,11 +20,17 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
 
-public class PlayerListPanel extends JPanel{
+import vo.PlayerVO;
+import businesslogic.DataBL;
+import businesslogicService.DataBLService;
+
+public class PlayerListPanel extends JPanel implements ActionListener{
 	int panelWidth,panelHeight;
 	JTextField searchField;
 	JButton searchBtn;
+	DataBLService db = new DataBL();
 	public PlayerListPanel(){
 		Toolkit kit = Toolkit.getDefaultToolkit();
 		Dimension screenSize = kit.getScreenSize();
@@ -71,14 +81,48 @@ public class PlayerListPanel extends JPanel{
 		searchPanel.add(searchBtn);
 		
 		
-		String[] columnNames = new String[]{"球员名","位置","球衣号","球龄","身高","体重","生日","年龄","毕业学校"};
-		String[][]data=new String[][]{{"abc","3","4","","","","","",""},{"kkk","2","3","4","","","","",""}};
+		
+		ArrayList<PlayerVO> allPlayer = db.getAllPlayerInfo();
+		String[] columnNames = new String[]{"","球员名","位置","球衣号","球龄","身高","体重","生日","年龄","毕业学校"};
+		Object[][]data=new Object[allPlayer.size()][10];
+		for(int i=0;i<allPlayer.size();i++){
+			data[i][0] = new ImageIcon("Img//players//portrait//"+allPlayer.get(i).getPlayerName()+".png");
+			data[i][1] = allPlayer.get(i).getPlayerName();
+			data[i][2] = allPlayer.get(i).getPosition();
+			data[i][3] = allPlayer.get(i).getNumber();
+			data[i][4] = allPlayer.get(i).getExp();
+			data[i][5] = allPlayer.get(i).getHeight();
+			data[i][6] = allPlayer.get(i).getWeight();
+			data[i][7] = allPlayer.get(i).getBirth();
+			data[i][8] = allPlayer.get(i).getAge();
+			data[i][9] = allPlayer.get(i).getSchool();
+		}
+		
+		
 		DefaultTableModel model = new DefaultTableModel(data,columnNames);
-		InfoListTable table=new InfoListTable(model){
+		final InfoListTable table=new InfoListTable(model){
             public boolean isCellEditable(int row, int column)
                  {
                      return false;}
                  }; 
+        table.setRowHeight(60);
+        table.getColumnModel().getColumn(0).setCellRenderer(new ImageRenderer());
+        table.addMouseListener(new MouseAdapter() {
+        	public void mouseClicked(MouseEvent e) {
+        		 if (e.getButton() == MouseEvent.BUTTON1) {// 单击鼠标左键
+        		     if (e.getClickCount() == 2) {
+        		    	 String name = (String) table.getValueAt(table.getSelectedRow(), 1);
+        		    	 PlayerVO player = db.getSinglePlayerInfo(name);
+        		    	 new PlayerInfoFrame(player);
+        		     }
+        		    	 
+        		 }
+        	}});
+        
+        TableColumn firsetColumn = table.getColumnModel().getColumn(0);
+        firsetColumn.setPreferredWidth(74);
+        firsetColumn.setMaxWidth(74);
+        firsetColumn.setMinWidth(74);
 		JScrollPane scrollPane = new JScrollPane(table);
 		scrollPane.setBounds(0, 70, panelWidth, panelHeight-100);
 		scrollPane.setOpaque(false);
@@ -88,5 +132,18 @@ public class PlayerListPanel extends JPanel{
 		this.setLayout(null);
 		this.add(searchPanel);
 		this.add(scrollPane);
+	}
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if(e.getSource()==searchBtn){
+			PlayerVO findPlayer = db.getSinglePlayerInfo(searchField.getText());
+			if(findPlayer == null){
+				new ActionDialog("未查找到相关球员，请重新输入");
+			}
+			else{
+				new PlayerInfoFrame(findPlayer);
+			}
+		}
+		
 	}
 }

@@ -37,7 +37,7 @@ public class InfoListTable extends JTable{
 		this.setShowVerticalLines(false);
 		this.setShowGrid(false);
 		this.setFont(new Font("微软雅黑",0,14));
-	    this.setRowHeight(20);
+	    this.setRowHeight(30);
 	    
 	    
 	    final TableRowSorter sorter = new TableRowSorter(mode); 

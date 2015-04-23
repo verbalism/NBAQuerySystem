@@ -5,6 +5,9 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -16,11 +19,18 @@ import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
+import businesslogic.DataBL;
+import businesslogicService.DataBLService;
+import vo.MatchVO;
+import vo.TeamVO;
+
 public class TeamInfoFrame extends JFrame{
 	public static void main(String args[]){
-		TeamInfoFrame tf = new TeamInfoFrame();
+		DataBLService db = new DataBL();
+		TeamVO vo = db.getSingleTeamInfo("BOS");
+		TeamInfoFrame tf = new TeamInfoFrame(vo);
 	}
-	public TeamInfoFrame(){
+	public TeamInfoFrame(TeamVO team){
 		Toolkit kit = Toolkit.getDefaultToolkit();
 		Dimension screenSize = kit.getScreenSize();
 		int frameHeight = screenSize.height*2/3;
@@ -34,17 +44,17 @@ public class TeamInfoFrame extends JFrame{
 		JLabel teamImgLabel = new JLabel();
 		teamImgLabel.setBounds(20, 0, 150, 150);
 		teamImgLabel.setBackground(null);
-		ImageIcon img = new ImageIcon("Img//teams//ATL.png");
+		ImageIcon img = new ImageIcon("Img//teams//"+team.getTeamName()+".png");
 		img.setImage(img.getImage().getScaledInstance(150,150,Image.SCALE_DEFAULT));
 		teamImgLabel.setIcon(img);
 		JPanel basicInfoPanel = new JPanel();
 		basicInfoPanel.setBackground(null);
 		basicInfoPanel.setBounds(0, 0, frameWidth, 180);
-		JLabel teamNameLabel = new JLabel("Hawks");
+		JLabel teamNameLabel = new JLabel(team.getFullName());
 		teamNameLabel.setFont(new Font("Arial Black",0,30));
 		teamNameLabel.setBounds(200, 40, 200, 35);
 		teamNameLabel.setForeground(new Color(0,103,175));
-		JLabel teamCityLabel = new JLabel("Atlanta/Southeast");
+		JLabel teamCityLabel = new JLabel(team.getCity()+"/"+team.getSubarea());
 		teamCityLabel.setFont(new Font("Arial",0,20));
 		teamCityLabel.setBounds(200, 75, 200, 50);
 		teamCityLabel.setForeground(new Color(122,122,122));
@@ -52,16 +62,23 @@ public class TeamInfoFrame extends JFrame{
 		infoLabel.setFont(new Font("微软雅黑",0,15));
 		infoLabel.setBounds(450, 30, 400, 100);
 		infoLabel.setForeground(new Color(122,122,122));
-		infoLabel.setText("<html>东部联盟<br>主场：<br>建立时间：</html>");
+		String zone;
+		if(team.getZone()=="E")
+			zone = "东部联盟";
+		else
+			zone = "西部联盟";
+		infoLabel.setText("<html>"+zone+"<br>主场："+team.getHomeCourt()+"<br>建立时间："+team.getCreateTime()+"</html>");
 		basicInfoPanel.setLayout(null);
 		basicInfoPanel.add(teamImgLabel);
 		basicInfoPanel.add(teamNameLabel);
 		basicInfoPanel.add(teamCityLabel);
 		basicInfoPanel.add(infoLabel);
 		
-		
+		DecimalFormat df=new DecimalFormat(".##");
+		NumberFormat nf = NumberFormat.getPercentInstance();
+        nf.setMaximumFractionDigits(2);
 		String[] column = new String[]{"1","2","3","4","5","6","7","8"};
-		String[][]data=new String[][]{{"场均得分","场均篮板","场均助攻","场均抢断","场均盖帽","三分%","投篮%","罚球%"},{"1","2","3","4","5","6","7","8"}};
+		String[][]data=new String[][]{{"场均得分","场均篮板","场均助攻","场均抢断","场均盖帽","三分%","投篮%","罚球%"},{df.format(team.getPoints()/team.getGamesPlayed()),df.format(team.getRebounds()/team.getGamesPlayed()),df.format(team.getAssists()/team.getGamesPlayed()),df.format(team.getSteals()/team.getGamesPlayed()),df.format(team.getBlocks()/team.getGamesPlayed()),nf.format(team.getThreePointFieldGoalPercentage()),nf.format(team.getFieldGoalPercentage()),nf.format(team.getFreeThrowPercentage())}};
 		DefaultTableModel model = new DefaultTableModel(data,column);
 		JTable dataTable=new JTable(model){
             public boolean isCellEditable(int row, int column)
@@ -93,10 +110,20 @@ public class TeamInfoFrame extends JFrame{
 		
 		
 		JPanel matchPanel = new JPanel();
-		matchPanel.setBounds(20, 260, frameWidth-40, 200);
+		matchPanel.setBounds(20, 260, frameWidth-40, 220);
 		matchPanel.setBackground(null);
 		String[] columnNames = new String[]{"对阵队伍","比分","第一节比分","第二节比分","第三节比分","第四节比分"};
-		String[][]matchData=new String[][]{{"abc","3","4","","",""},{"kkk","2","3","4","",""},{},{},{}};
+		String[][]matchData=new String[5][6];
+		DataBLService dbl = new DataBL();
+		ArrayList<MatchVO> matches = dbl.findMatchByTeam(team.getTeamName());
+		for(int i=0;i<5;i++){
+			matchData[i][0] = matches.get(i).getTeams();
+			matchData[i][1] = matches.get(i).getScore();
+			matchData[i][2] = matches.get(i).getScore1();
+			matchData[i][3] = matches.get(i).getScore2();
+			matchData[i][4] = matches.get(i).getScore3();
+			matchData[i][5] = matches.get(i).getScore4();
+		}
 		DefaultTableModel matchModel = new DefaultTableModel(matchData,columnNames);
 		InfoListTable table=new InfoListTable(matchModel){
             public boolean isCellEditable(int row, int column)
@@ -104,7 +131,7 @@ public class TeamInfoFrame extends JFrame{
                      return false;}
                  }; 
 		JScrollPane scrollPane = new JScrollPane(table);
-		scrollPane.setBounds(0, 35, frameWidth-40, 130);
+		scrollPane.setBounds(0, 35, frameWidth-40, 180);
 		scrollPane.setOpaque(false);
 		scrollPane.getViewport().setOpaque(false);
 		scrollPane.setBorder(null);
@@ -126,7 +153,9 @@ public class TeamInfoFrame extends JFrame{
 		this.setLayout(null);
 		this.add(backgroundPanel);
 		
-		this.setTitle("ATL");
+		this.setTitle(team.getFullName());
+		Image icon = kit.getImage("Img//teams//"+team.getTeamName()+".png");
+		this.setIconImage(icon);
 		this.setBounds(frameWidth/3, frameHeight/4, frameWidth+10, frameHeight+40);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setVisible(true);

@@ -26,6 +26,7 @@ public class MainFrame extends JFrame implements ActionListener{
 	MatchListPanel matchListPanel = new MatchListPanel();
 	HotPanel hotPanel = new HotPanel();
 	public static void main(String args[]){
+		
 		MainFrame mf = new MainFrame();
 	}
 	

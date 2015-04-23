@@ -10,6 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -17,6 +18,11 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
+
+import vo.PlayerVO;
+import vo.TeamVO;
+import businesslogic.AnalysisBL;
+import businesslogicService.AnalysisBLService;
 
 public class HotPanel extends JPanel implements ActionListener{
 	int panelWidth,panelHeight;
@@ -30,6 +36,7 @@ public class HotPanel extends JPanel implements ActionListener{
 	JPanel todayPlayerSortPanel,advanceSortPanel,allSortPanel;
 	HotPlayerPanel playerResultPanel;
 	HotTeamPanel teamResultPanel;
+	AnalysisBLService abl = new AnalysisBL();
 	public HotPanel(){
 		Toolkit kit = Toolkit.getDefaultToolkit();
 		Dimension screenSize = kit.getScreenSize();
@@ -422,8 +429,10 @@ public class HotPanel extends JPanel implements ActionListener{
 		searchPanel.add(advanceBtn);
 		searchPanel.add(teamBtn);
 		
-		playerResultPanel = new HotPlayerPanel();
-		teamResultPanel = new HotTeamPanel();
+		ArrayList<PlayerVO> players = abl.getTodayHotSpotPlayer("points");
+		playerResultPanel = new HotPlayerPanel(players,"tdScore");
+		ArrayList<TeamVO> teams = abl.getSeasonHotSpotTeam("points");
+		teamResultPanel = new HotTeamPanel(teams,"allScore");
 		
 		this.setBounds(10, 100, panelWidth, panelHeight);
 		this.setBackground(Color.white);
@@ -436,41 +445,240 @@ public class HotPanel extends JPanel implements ActionListener{
 	
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource()==allBtn||e.getSource()==teamBtn){
+			allScoreBtn.setBackground(new Color(200,200,200));
+			allBackBordBtn.setBackground(null);
+			allAssistBtn.setBackground(null);
+			allBlockShotBtn.setBackground(null);
+			allSTBtn.setBackground(null);
+			all3Btn.setBackground(null);
+			allShotBtn.setBackground(null);
+			allPenaltyBtn.setBackground(null);
 			this.remove(todayPlayerSortPanel);
 			this.remove(advanceSortPanel);
 			this.add(allSortPanel);
 			this.remove(playerResultPanel);
 			this.remove(teamResultPanel);
 			if(e.getSource()==allBtn){
-				playerResultPanel = new HotPlayerPanel();
+				ArrayList<PlayerVO> players = abl.getSeasonHotSpotPlayer("points");
+				playerResultPanel = new HotPlayerPanel(players,"allScore");
 				this.add(playerResultPanel);
 			}
 			else{
-				teamResultPanel = new HotTeamPanel();
+				ArrayList<TeamVO> teams = abl.getSeasonHotSpotTeam("points");
+				teamResultPanel = new HotTeamPanel(teams,"allScore");
 				this.add(teamResultPanel);
 			}
 			this.repaint();
 		}
 		if(e.getSource()==todayBtn){
+			tdScoreBtn.setBackground(new Color(200,200,200));
+			tdBackBordBtn.setBackground(null);
+			tdAssistBtn.setBackground(null);
+			tdBlockShotBtn.setBackground(null);
+			tdSTBtn.setBackground(null);
 			this.remove(allSortPanel);
 			this.remove(advanceSortPanel);
 			this.add(todayPlayerSortPanel);
 			this.remove(playerResultPanel);
 			this.remove(teamResultPanel);
-			playerResultPanel = new HotPlayerPanel();
+			ArrayList<PlayerVO> players = abl.getTodayHotSpotPlayer("points");
+			playerResultPanel = new HotPlayerPanel(players,"tdScore");
 			this.add(playerResultPanel);
 			this.repaint();
 		}
 		if(e.getSource()==advanceBtn){
+			adScoreBtn.setBackground(new Color(200,200,200));
+			adBackBordBtn.setBackground(null);
+			adAssistBtn.setBackground(null);
 			this.remove(allSortPanel);
 			this.remove(todayPlayerSortPanel);
 			this.add(advanceSortPanel);
 			this.remove(playerResultPanel);
 			this.remove(teamResultPanel);
-			playerResultPanel = new HotPlayerPanel();
+			ArrayList<PlayerVO> players = abl.getProgressivePlayer("points");
+			playerResultPanel = new HotPlayerPanel(players,"adScore");
 			this.add(playerResultPanel);
 			this.repaint();
 		}
 		
+		if(e.getSource()==tdScoreBtn){
+			this.remove(playerResultPanel);
+			ArrayList<PlayerVO> players = abl.getTodayHotSpotPlayer("points");
+			playerResultPanel = new HotPlayerPanel(players,"");
+			this.add(playerResultPanel);
+			this.repaint();
+		}
+		if(e.getSource()==tdBackBordBtn){
+			this.remove(playerResultPanel);
+			ArrayList<PlayerVO> players = abl.getTodayHotSpotPlayer("rebounds");
+			playerResultPanel = new HotPlayerPanel(players,"");
+			this.add(playerResultPanel);
+			this.repaint();
+		}
+		if(e.getSource()==tdAssistBtn){
+			this.remove(playerResultPanel);
+			ArrayList<PlayerVO> players = abl.getTodayHotSpotPlayer("assists");
+			playerResultPanel = new HotPlayerPanel(players,"");
+			this.add(playerResultPanel);
+			this.repaint();
+		}
+		if(e.getSource()==tdBlockShotBtn){
+			this.remove(playerResultPanel);
+			ArrayList<PlayerVO> players = abl.getTodayHotSpotPlayer("blocks");
+			playerResultPanel = new HotPlayerPanel(players,"");
+			this.add(playerResultPanel);
+			this.repaint();
+		}
+		if(e.getSource()==tdSTBtn){
+			this.remove(playerResultPanel);
+			ArrayList<PlayerVO> players = abl.getTodayHotSpotPlayer("steals");
+			playerResultPanel = new HotPlayerPanel(players,"");
+			this.add(playerResultPanel);
+			this.repaint();
+		}
+		
+		if(e.getSource()==allScoreBtn){
+			if(sortTeam){
+				this.remove(teamResultPanel);
+				ArrayList<TeamVO> teams = abl.getSeasonHotSpotTeam("points");
+				teamResultPanel = new HotTeamPanel(teams,"allScore");
+				this.add(teamResultPanel);
+			}
+			else{
+				this.remove(playerResultPanel);
+				ArrayList<PlayerVO> players = abl.getTodayHotSpotPlayer("points");
+				playerResultPanel = new HotPlayerPanel(players,"allScore");
+				this.add(playerResultPanel);
+			}
+			this.repaint();
+		} 
+		
+		if(e.getSource()==allBackBordBtn){
+			if(sortTeam){
+				this.remove(teamResultPanel);
+				ArrayList<TeamVO> teams = abl.getSeasonHotSpotTeam("rebounds");
+				teamResultPanel = new HotTeamPanel(teams,"allBackBord");
+				this.add(teamResultPanel);
+			}
+			else{
+				this.remove(playerResultPanel);
+				ArrayList<PlayerVO> players = abl.getTodayHotSpotPlayer("rebounds");
+				playerResultPanel = new HotPlayerPanel(players,"allBackBord");
+				this.add(playerResultPanel);
+			}
+			this.repaint();
+		}
+		if(e.getSource()==allAssistBtn){
+			if(sortTeam){
+				this.remove(teamResultPanel);
+				ArrayList<TeamVO> teams = abl.getSeasonHotSpotTeam("assists");
+				teamResultPanel = new HotTeamPanel(teams,"allAssist");
+				this.add(teamResultPanel);
+			}
+			else{
+				this.remove(playerResultPanel);
+				ArrayList<PlayerVO> players = abl.getTodayHotSpotPlayer("assists");
+				playerResultPanel = new HotPlayerPanel(players,"allAssist");
+				this.add(playerResultPanel);
+			}
+			this.repaint();
+		}
+		if(e.getSource()==allBlockShotBtn){
+			if(sortTeam){
+				this.remove(teamResultPanel);
+				ArrayList<TeamVO> teams = abl.getSeasonHotSpotTeam("blocks");
+				teamResultPanel = new HotTeamPanel(teams,"allBlockShot");
+				this.add(teamResultPanel);
+			}
+			else{
+				this.remove(playerResultPanel);
+				ArrayList<PlayerVO> players = abl.getTodayHotSpotPlayer("blocks");
+				playerResultPanel = new HotPlayerPanel(players,"allBlockShot");
+				this.add(playerResultPanel);
+			}
+			this.repaint();
+		}
+		if(e.getSource()==allSTBtn){
+			if(sortTeam){
+				this.remove(teamResultPanel);
+				ArrayList<TeamVO> teams = abl.getSeasonHotSpotTeam("steals");
+				teamResultPanel = new HotTeamPanel(teams,"allST");
+				this.add(teamResultPanel);
+			}
+			else{
+				this.remove(playerResultPanel);
+				ArrayList<PlayerVO> players = abl.getTodayHotSpotPlayer("steals");
+				playerResultPanel = new HotPlayerPanel(players,"allST");
+				this.add(playerResultPanel);
+			}
+			this.repaint();
+		}
+		if(e.getSource()==all3Btn){
+			if(sortTeam){
+				this.remove(teamResultPanel);
+				ArrayList<TeamVO> teams = abl.getSeasonHotSpotTeam("threePointFieldGoalPercentage");
+				teamResultPanel = new HotTeamPanel(teams,"all3");
+				this.add(teamResultPanel);
+			}
+			else{
+				this.remove(playerResultPanel);
+				ArrayList<PlayerVO> players = abl.getTodayHotSpotPlayer("threePointFieldGoalsPercentage");
+				playerResultPanel = new HotPlayerPanel(players,"all3");
+				this.add(playerResultPanel);
+			}
+			this.repaint();
+		}
+		if(e.getSource()==allShotBtn){
+			if(sortTeam){
+				this.remove(teamResultPanel);
+				ArrayList<TeamVO> teams = abl.getSeasonHotSpotTeam("fieldGoalPercentage");
+				teamResultPanel = new HotTeamPanel(teams,"allShot");
+				this.add(teamResultPanel);
+			}
+			else{
+				this.remove(playerResultPanel);
+				ArrayList<PlayerVO> players = abl.getTodayHotSpotPlayer("fieldGoalsPercentage");
+				playerResultPanel = new HotPlayerPanel(players,"allShot");
+				this.add(playerResultPanel);
+			}
+			this.repaint();
+		}
+		if(e.getSource()==allPenaltyBtn){
+			if(sortTeam){
+				this.remove(teamResultPanel);
+				ArrayList<TeamVO> teams = abl.getSeasonHotSpotTeam("freeThrowPercentage");
+				teamResultPanel = new HotTeamPanel(teams,"allPenalty");
+				this.add(teamResultPanel);
+			}
+			else{
+				this.remove(playerResultPanel);
+				ArrayList<PlayerVO> players = abl.getTodayHotSpotPlayer("freeThrowsPercentage");
+				playerResultPanel = new HotPlayerPanel(players,"allPenalty");
+				this.add(playerResultPanel);
+			}
+			this.repaint();
+		}
+		
+		if(e.getSource()==adScoreBtn){
+			this.remove(playerResultPanel);
+			ArrayList<PlayerVO> players = abl.getProgressivePlayer("points");
+			playerResultPanel = new HotPlayerPanel(players,"");
+			this.add(playerResultPanel);
+			this.repaint();
+		}
+		if(e.getSource()==adBackBordBtn){
+			this.remove(playerResultPanel);
+			ArrayList<PlayerVO> players = abl.getProgressivePlayer("rebounds");
+			playerResultPanel = new HotPlayerPanel(players,"");
+			this.add(playerResultPanel);
+			this.repaint();
+		}
+		if(e.getSource()==adAssistBtn){
+			this.remove(playerResultPanel);
+			ArrayList<PlayerVO> players = abl.getProgressivePlayer("assists");
+			playerResultPanel = new HotPlayerPanel(players,"");
+			this.add(playerResultPanel);
+			this.repaint();
+		}
 	}
 }
