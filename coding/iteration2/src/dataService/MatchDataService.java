@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import po.MatchPO;
 
 public interface MatchDataService {
-	public MatchPO getSingleMatchInfo(String teamName1,String teamName2,String date);
+	public MatchPO getSingleMatchInfo(String teamName,String date);
 	
 	public ArrayList<MatchPO> getAllMatchInfo();
 	

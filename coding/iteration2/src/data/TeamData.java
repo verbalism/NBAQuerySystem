@@ -70,6 +70,9 @@ public class TeamData implements TeamDataService{
 		    	 tp.setOppPoints(rs.getDouble("oppPoints"));
 		    	 tp.setOppPossessions(rs.getDouble("oppPossessions"));
 		     }
+		     rs.close();
+		     stmt.close();
+		     conn.close();
         
 		 } catch (Exception e) {
 				// TODO Auto-generated catch block
@@ -94,6 +97,9 @@ public class TeamData implements TeamDataService{
 				TeamPO tp=td.getSingleTeamInfo(rs.getString("teamName"));
 				result.add(tp);
 			}
+			rs.close();
+			stmt.close();
+			conn.close();
 			
 		 } catch (Exception e) {
 				// TODO Auto-generated catch block
@@ -101,4 +107,10 @@ public class TeamData implements TeamDataService{
 		 }
 		return result;
 	}
+	
+	/*public static void main(String[]args){
+		TeamData td=new TeamData();
+		TeamPO tp=td.getSingleTeamInfo("BOS");
+		System.out.println(tp.getFreeThrowsAttempted());
+	}*/
 }
