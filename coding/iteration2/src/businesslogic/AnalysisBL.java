@@ -526,6 +526,17 @@ public class AnalysisBL implements AnalysisBLService {
 				result.add(pl.get(i));
 				pl.remove(i);
 			}
+		}else if(keyword.equals("pointsReboundsAssists")){
+			while(pl.size()>0){
+				int i=0;
+				for(int j=i+1;j<pl.size();j++){
+					if(pl.get(i).getPoints()+pl.get(i).getRebounds()+pl.get(i).getAssists()
+							<pl.get(j).getPoints()+pl.get(j).getRebounds()+pl.get(j).getAssists())
+						i=j;
+				}
+				result.add(pl.get(i));
+				pl.remove(i);
+			}
 		}
 		
 		if(type.equals(SortType.Descending)){
@@ -995,6 +1006,17 @@ public class AnalysisBL implements AnalysisBLService {
 				result.add(teamlist.get(max));
 				teamlist.remove(max);
 			}
+		}else if(keyword.equals("pointsReboundsAssists")){
+			while(teamlist.size()>0){
+				int i=0;
+				for(int j=i+1;j<teamlist.size();j++){
+					if(teamlist.get(i).getPoints()+teamlist.get(i).getRebounds()+teamlist.get(i).getAssists()
+							<teamlist.get(j).getPoints()+teamlist.get(j).getRebounds()+teamlist.get(j).getAssists())
+						i=j;
+				}
+				result.add(teamlist.get(i));
+				teamlist.remove(i);
+			}
 		}
 		if(type.equals(SortType.Descending)){
 			return result;
@@ -1318,11 +1340,37 @@ public class AnalysisBL implements AnalysisBLService {
 	public ArrayList<PlayerVO> getSeasonHotSpotPlayer(String keyword) {
 		DataBLService d=new DataBL();
 		ArrayList<PlayerVO> p=d.getAllPlayerInfo();
+		for(int i=0;i<p.size();i++){
+			p.get(i).setEfficiency(p.get(i).getEfficiency()/p.get(i).getGamesPlayed());
+			p.get(i).setGmSc(p.get(i).getGmSc()/p.get(i).getGamesPlayed());
+			p.get(i).setRebounds(p.get(i).getRebounds()/p.get(i).getGamesPlayed());
+			p.get(i).setAssists(p.get(i).getAssists()/p.get(i).getGamesPlayed());
+			p.get(i).setOffensiveRebounds(p.get(i).getOffensiveRebounds()/p.get(i).getGamesPlayed());
+			p.get(i).setDefensiveRebounds(p.get(i).getDefensiveRebounds()/p.get(i).getGamesPlayed());
+			p.get(i).setSteals(p.get(i).getSteals()/p.get(i).getGamesPlayed());
+			p.get(i).setBlocks(p.get(i).getBlocks()/p.get(i).getGamesPlayed());
+			p.get(i).setTurnovers(p.get(i).getTurnovers()/p.get(i).getGamesPlayed());
+			p.get(i).setFouls(p.get(i).getFouls()/p.get(i).getGamesPlayed());
+			p.get(i).setPoints(p.get(i).getPoints()/p.get(i).getGamesPlayed());
+		}
 		p=sortPlayer(p, keyword,SortType.Descending);
 		if(p.size()>5){
 			for(int i=p.size()-1;i>=5;i--){
 				p.remove(i);
 			}
+		}
+		for(int i=0;i<p.size();i++){
+			p.get(i).setEfficiency(p.get(i).getEfficiency()*p.get(i).getGamesPlayed());
+			p.get(i).setGmSc(p.get(i).getGmSc()*p.get(i).getGamesPlayed());
+			p.get(i).setRebounds(p.get(i).getRebounds()*p.get(i).getGamesPlayed());
+			p.get(i).setAssists(p.get(i).getAssists()*p.get(i).getGamesPlayed());
+			p.get(i).setOffensiveRebounds(p.get(i).getOffensiveRebounds()*p.get(i).getGamesPlayed());
+			p.get(i).setDefensiveRebounds(p.get(i).getDefensiveRebounds()*p.get(i).getGamesPlayed());
+			p.get(i).setSteals(p.get(i).getSteals()*p.get(i).getGamesPlayed());
+			p.get(i).setBlocks(p.get(i).getBlocks()*p.get(i).getGamesPlayed());
+			p.get(i).setTurnovers(p.get(i).getTurnovers()*p.get(i).getGamesPlayed());
+			p.get(i).setFouls(p.get(i).getFouls()*p.get(i).getGamesPlayed());
+			p.get(i).setPoints(p.get(i).getPoints()*p.get(i).getGamesPlayed());
 		}
 		return p;
 	}
@@ -1331,10 +1379,46 @@ public class AnalysisBL implements AnalysisBLService {
 		DataBLService d=new DataBL();
 		ArrayList<TeamVO> t=d.getAllTeamInfo();
 		t=sortTeam(t, keyword,SortType.Descending);
+		for(int i=0;i<t.size();i++){		
+			t.get(i).setFreeThrowsAttempted(t.get(i).getFreeThrowsAttempted()/t.get(i).getGamesPlayed());
+			t.get(i).setFieldGoalsMade(t.get(i).getFieldGoalsMade()/t.get(i).getGamesPlayed());
+			t.get(i).setFieldGoalsAttempted(t.get(i).getFieldGoalsAttempted()/t.get(i).getGamesPlayed());
+			t.get(i).setThreePointFieldGoalsMade(t.get(i).getThreePointFieldGoalsMade()/t.get(i).getGamesPlayed());
+			t.get(i).setThreePointFieldGoalsAttempted(t.get(i).getThreePointFieldGoalsAttempted()/t.get(i).getGamesPlayed());
+			t.get(i).setFreeThrowsMade(t.get(i).getFreeThrowsMade()/t.get(i).getGamesPlayed());
+			t.get(i).setOffensiveRebounds(t.get(i).getOffensiveRebounds()/t.get(i).getGamesPlayed());
+			t.get(i).setDefensiveRebounds(t.get(i).getDefensiveRebounds()/t.get(i).getGamesPlayed());				
+			t.get(i).setRebounds(t.get(i).getRebounds()/t.get(i).getGamesPlayed());
+			t.get(i).setAssists(t.get(i).getAssists()/t.get(i).getGamesPlayed());
+			t.get(i).setSteals(t.get(i).getSteals()/t.get(i).getGamesPlayed());
+			t.get(i).setBlocks(t.get(i).getBlocks()/t.get(i).getGamesPlayed());
+			t.get(i).setTurnovers(t.get(i).getTurnovers()/t.get(i).getGamesPlayed());
+			t.get(i).setFouls(t.get(i).getFouls()/t.get(i).getGamesPlayed());
+			t.get(i).setPoints(t.get(i).getPoints()/t.get(i).getGamesPlayed());
+			t.get(i).setPossessions(t.get(i).getPossessions()/t.get(i).getGamesPlayed());
+		}
 		if(t.size()>5){
 			for(int i=t.size()-1;i>=5;i--){
 				t.remove(i);
 			}
+		}
+		for(int i=0;i<t.size();i++){		
+			t.get(i).setFreeThrowsAttempted(t.get(i).getFreeThrowsAttempted()*t.get(i).getGamesPlayed());
+			t.get(i).setFieldGoalsMade(t.get(i).getFieldGoalsMade()*t.get(i).getGamesPlayed());
+			t.get(i).setFieldGoalsAttempted(t.get(i).getFieldGoalsAttempted()*t.get(i).getGamesPlayed());
+			t.get(i).setThreePointFieldGoalsMade(t.get(i).getThreePointFieldGoalsMade()*t.get(i).getGamesPlayed());
+			t.get(i).setThreePointFieldGoalsAttempted(t.get(i).getThreePointFieldGoalsAttempted()*t.get(i).getGamesPlayed());
+			t.get(i).setFreeThrowsMade(t.get(i).getFreeThrowsMade()*t.get(i).getGamesPlayed());
+			t.get(i).setOffensiveRebounds(t.get(i).getOffensiveRebounds()*t.get(i).getGamesPlayed());
+			t.get(i).setDefensiveRebounds(t.get(i).getDefensiveRebounds()*t.get(i).getGamesPlayed());				
+			t.get(i).setRebounds(t.get(i).getRebounds()*t.get(i).getGamesPlayed());
+			t.get(i).setAssists(t.get(i).getAssists()*t.get(i).getGamesPlayed());
+			t.get(i).setSteals(t.get(i).getSteals()*t.get(i).getGamesPlayed());
+			t.get(i).setBlocks(t.get(i).getBlocks()*t.get(i).getGamesPlayed());
+			t.get(i).setTurnovers(t.get(i).getTurnovers()*t.get(i).getGamesPlayed());
+			t.get(i).setFouls(t.get(i).getFouls()*t.get(i).getGamesPlayed());
+			t.get(i).setPoints(t.get(i).getPoints()*t.get(i).getGamesPlayed());
+			t.get(i).setPossessions(t.get(i).getPossessions()*t.get(i).getGamesPlayed());
 		}
 		return t;
 	}

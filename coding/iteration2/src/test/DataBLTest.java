@@ -21,11 +21,11 @@ public class DataBLTest {
 		DataBLService d=new DataBL();
 		MatchDataService md=new MatchData();
 		
-		PlayerVO p=d.getSinglePlayerInfo("Aaron Brooks");
+		/*PlayerVO p=d.getSinglePlayerInfo("Aaron Brooks");
 		System.out.println(p.getTeamName());
 		
 		ArrayList<PlayerVO> pl=d.getAllPlayerInfo();
-		System.out.println(pl.size());
+		System.out.println(pl.size());*/
 		
 		/*MatchVO m=d.getSingleMatchInfo("01-01","CHA");		
 		MatchPO m2=md.getSingleMatchInfo("CHA","LAC","01-01");

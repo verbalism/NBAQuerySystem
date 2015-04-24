@@ -464,7 +464,7 @@ public class DataBL implements DataBLService {
 		result.setThreePointFieldGoalsMade(tp.getThreePointFieldGoalsMade());
 		result.setThreePointFieldGoalsAttempted(tp.getThreePointFieldGoalsAttempted());
 		result.setFreeThrowsMade(tp.getFreeThrowsMade());
-		result.setFieldGoalsAttempted(tp.getFreeThrowsAttempted());	
+		result.setFreeThrowsAttempted(tp.getFreeThrowsAttempted());	
 		result.setOffensiveRebounds(tp.getOffensiveRebounds());
 		result.setDefensiveRebounds(tp.getDefensiveRebounds());
 		result.setRebounds(tp.getRebounds());
@@ -523,7 +523,7 @@ public class DataBL implements DataBLService {
 			t.setThreePointFieldGoalsMade(tp.get(i).getThreePointFieldGoalsMade());
 			t.setThreePointFieldGoalsAttempted(tp.get(i).getThreePointFieldGoalsAttempted());
 			t.setFreeThrowsMade(tp.get(i).getFreeThrowsMade());
-			t.setFieldGoalsAttempted(tp.get(i).getFreeThrowsAttempted());	
+			t.setFreeThrowsAttempted(tp.get(i).getFreeThrowsAttempted());
 			t.setOffensiveRebounds(tp.get(i).getOffensiveRebounds());
 			t.setDefensiveRebounds(tp.get(i).getDefensiveRebounds());
 			t.setRebounds(tp.get(i).getRebounds());
