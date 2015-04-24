@@ -165,7 +165,7 @@ public class DataBL implements DataBLService {
 		MatchVO result =new MatchVO();
 		MatchDataService md=new MatchData();
 		MatchPO m=new MatchPO();
-		m=md.getSingleMatchInfo(team1,"",matchDate);
+		m=md.getSingleMatchInfo(team1,matchDate);
 		result.setMatchTime(m.getMatchTime());
 		result.setTeams(m.getTeams());
 		result.setScore(m.getScore());
