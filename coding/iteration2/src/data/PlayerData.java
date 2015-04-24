@@ -243,15 +243,39 @@ public class PlayerData implements PlayerDataService{
 		return result;
 	}
 	
+	public void updatePlayerInfo(){
+		try{
+			File directory = new File("");
+			String courseFile = directory.getCanonicalPath() ;
+			Class.forName("sun.jdbc.odbc.JdbcOdbcDriver"); 
+			String dbur1 = "jdbc:odbc:driver={Microsoft Access Driver (*.mdb, *.accdb)};DBQ="+courseFile+"//NBAIteration2";  
+			Connection conn = DriverManager.getConnection(dbur1, "username", "password"); 
+			
+			String sql = "delete * from playerInfo";
+	        PreparedStatement pstmt;
+	        pstmt = (PreparedStatement) conn.prepareStatement(sql);
+	    	pstmt.executeUpdate();
+	    	pstmt.close();
+	    	conn.close();
+	        
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		PlayerDataCalculate pdc=new PlayerDataCalculate();
+		pdc.update();
+	}
+	
+	
 	public static void main(String []args){
 		PlayerData pd=new PlayerData();
 		
-		PlayerPO pp=pd.getSinglePlayerInfo("LeBron James");
+		/*PlayerPO pp=pd.getSinglePlayerInfo("LeBron James");
 		System.out.println(pp.getAge());
 		
 		ArrayList<TodayPlayerPO> tpp=pd.getTodayPlayerInfo("01-01");
 		for(int i=0;i<tpp.size();i++){
 			System.out.println(tpp.get(i).getPlayerName());
-		}
+		}*/
+		pd.updatePlayerInfo();
 	}
 }

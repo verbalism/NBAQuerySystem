@@ -1,7 +1,5 @@
 package data;
-import java.util.Date; 
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.io.File;
 import java.sql.*;
@@ -470,7 +468,6 @@ public class PlayerDataCalculate {
        
     	Statement stmt=conn.createStatement();
         for(int i=0;i<playerName.size();i++){
-        	System.out.println(i);
         	String tn="";
     		double gp=0;
     		String position;
@@ -998,34 +995,17 @@ public class PlayerDataCalculate {
         return result;
 	}//在playerInfo中查找数字
 	
-	public static void main(String[] args){
+	public void update(){
 		PlayerDataCalculate pdc=new PlayerDataCalculate();
 		try {
-			Date date = new Date();
-			String str = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date);
-			System.out.println(str);
 			pdc.saveBasicInfo();
-			
-			Date date1 = new Date();
-			String str1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date1);
-			System.out.println(str1);
 			
 			pdc.calSimpleData();
 			
-			Date date2 = new Date();
-			String str2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date2);
-			System.out.println(str2);
-			
 			pdc.calComplexData();
 
-			Date date3 = new Date();
-			String str3 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date3);
-			System.out.println(str3);
-			
 			pdc.calIncreaseOf5();
-			Date date4 = new Date();
-			String str4 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date4);
-			System.out.println(str4);
+
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

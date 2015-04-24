@@ -12,4 +12,5 @@ public interface PlayerDataService {
 	
 	public ArrayList<TodayPlayerPO> getTodayPlayerInfo(String date);//查询当天球员信息
 	
+	public void updatePlayerInfo();//更新信息
 }
