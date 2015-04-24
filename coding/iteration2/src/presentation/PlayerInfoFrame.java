@@ -6,6 +6,8 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
@@ -115,24 +117,35 @@ public class PlayerInfoFrame extends JFrame{
 		JPanel matchPanel = new JPanel();
 		matchPanel.setBounds(20, 280, frameWidth-300, 230);
 		matchPanel.setBackground(null);
-		String[] columnNames = new String[]{"对阵队伍","比分","第一节比分","第二节比分","第三节比分","第四节比分"};
-		String[][]matchData=new String[5][6];
-		DataBLService dbl = new DataBL();
+		String[] columnNames = new String[]{"比赛日期","对阵队伍","比分","第一节比分","第二节比分","第三节比分","第四节比分"};
+		String[][]matchData=new String[5][7];
+		final DataBLService dbl = new DataBL();
 		ArrayList<MatchVO> matches = dbl.findMatchByPlayer(player.getPlayerName());
 		for(int i=0;i<5;i++){
-			matchData[i][0] = matches.get(i).getTeams();
-			matchData[i][1] = matches.get(i).getScore();
-			matchData[i][2] = matches.get(i).getScore1();
-			matchData[i][3] = matches.get(i).getScore2();
-			matchData[i][4] = matches.get(i).getScore3();
-			matchData[i][5] = matches.get(i).getScore4();
+			matchData[i][0] = matches.get(i).getMatchTime();
+			matchData[i][1] = matches.get(i).getTeams();
+			matchData[i][2] = matches.get(i).getScore();
+			matchData[i][3] = matches.get(i).getScore1();
+			matchData[i][4] = matches.get(i).getScore2();
+			matchData[i][5] = matches.get(i).getScore3();
+			matchData[i][6] = matches.get(i).getScore4();
 		}
 		DefaultTableModel matchModel = new DefaultTableModel(matchData,columnNames);
-		InfoListTable table=new InfoListTable(matchModel){
+		final InfoListTable table=new InfoListTable(matchModel){
             public boolean isCellEditable(int row, int column)
                  {
                      return false;}
                  }; 
+                 table.addMouseListener(new MouseAdapter() {     	
+                 	public void mouseClicked(MouseEvent e) {
+                          if (e.getButton() == MouseEvent.BUTTON1) {// 单击鼠标左键
+                         	 if (e.getClickCount() == 2) {
+                         		 	String matchDate = (String) table.getValueAt(table.getSelectedRow(), 0);
+                          		    String team = ((String) table.getValueAt(table.getSelectedRow(), 1)).split("-")[0];
+                          			MatchVO match = dbl.getSingleMatchInfo(matchDate, team);
+                          		    new MatchInfoFrame(match);
+                          	 }	    	 
+                       }}});
 		JScrollPane scrollPane = new JScrollPane(table);
 		scrollPane.setBounds(0, 35, frameWidth-340, 180);
 		scrollPane.setOpaque(false);

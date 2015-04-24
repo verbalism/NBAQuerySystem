@@ -21,6 +21,7 @@ import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 
 import vo.MatchVO;
+import vo.PlayerVO;
 import businesslogic.DataBL;
 import businesslogicService.DataBLService;
 
@@ -78,26 +79,33 @@ public class MatchListPanel extends JPanel implements ActionListener{
 		searchPanel.add(searchBtn);
 		
 		
-		String[] columnNames = new String[]{"对阵队伍","比分","第一节比分","第二节比分","第三节比分","第四节比分"};
+		String[] columnNames = new String[]{"比赛日期","对阵队伍","比分","第一节比分","第二节比分","第三节比分","第四节比分"};
 		ArrayList<MatchVO> matches = dbl.findMatchByDate("today");
-		String[][]data=new String[matches.size()][6];
+		String[][]data=new String[matches.size()][7];
 		for(int i=0;i<matches.size();i++){
-			data[i][0] = matches.get(i).getTeams();
-			data[i][1] = matches.get(i).getScore();
-			data[i][2] = matches.get(i).getScore1();
-			data[i][3] = matches.get(i).getScore2();
-			data[i][4] = matches.get(i).getScore3();
-			data[i][5] = matches.get(i).getScore4();
+			data[i][0] = matches.get(i).getMatchTime();
+			data[i][1] = matches.get(i).getTeams();
+			data[i][2] = matches.get(i).getScore();
+			data[i][3] = matches.get(i).getScore1();
+			data[i][4] = matches.get(i).getScore2();
+			data[i][5] = matches.get(i).getScore3();
+			data[i][6] = matches.get(i).getScore4();
 		}
-		
-		
-		
 		DefaultTableModel model = new DefaultTableModel(data,columnNames);
-		InfoListTable table=new InfoListTable(model){
+		final InfoListTable table=new InfoListTable(model){
             public boolean isCellEditable(int row, int column)
                  {
-                     return false;}
-                 }; 
+                     return false;}}; 
+        table.addMouseListener(new MouseAdapter() {     	
+        	public void mouseClicked(MouseEvent e) {
+                 if (e.getButton() == MouseEvent.BUTTON1) {// 单击鼠标左键
+                	 if (e.getClickCount() == 2) {
+                		 	String matchDate = (String) table.getValueAt(table.getSelectedRow(), 0);
+                 		    String team = ((String) table.getValueAt(table.getSelectedRow(), 1)).split("-")[0];
+                 			MatchVO match = dbl.getSingleMatchInfo(matchDate, team);
+                 		    new MatchInfoFrame(match);
+                 	 }	    	 
+              }}});
 		scrollPane = new JScrollPane(table);
 		scrollPane.setBounds(0, 70, panelWidth, panelHeight-100);
 		scrollPane.setOpaque(false);
@@ -126,7 +134,7 @@ public class MatchListPanel extends JPanel implements ActionListener{
 	public void refresh(ArrayList<MatchVO> matches){
 		this.remove(scrollPane);
 		String[] columnNames = new String[]{"对阵队伍","比分","第一节比分","第二节比分","第三节比分","第四节比分"};
-		String[][]data=new String[matches.size()][6];
+		String[][]data=new String[matches.size()][7];
 		for(int i=0;i<matches.size();i++){
 			data[i][0] = matches.get(i).getTeams();
 			data[i][1] = matches.get(i).getScore();
@@ -137,11 +145,20 @@ public class MatchListPanel extends JPanel implements ActionListener{
 		}
 		
 		DefaultTableModel model = new DefaultTableModel(data,columnNames);
-		InfoListTable table=new InfoListTable(model){
+		final InfoListTable table=new InfoListTable(model){
             public boolean isCellEditable(int row, int column)
                  {
-                     return false;}
-                 }; 
+                     return false;}};
+                     table.addMouseListener(new MouseAdapter() {     	
+                     	public void mouseClicked(MouseEvent e) {
+                              if (e.getButton() == MouseEvent.BUTTON1) {// 单击鼠标左键
+                             	 if (e.getClickCount() == 2) {
+                             		 	String matchDate = (String) table.getValueAt(table.getSelectedRow(), 0);
+                              		    String team = ((String) table.getValueAt(table.getSelectedRow(), 1)).split("-")[0];
+                              			MatchVO match = dbl.getSingleMatchInfo(matchDate, team);
+                              		    new MatchInfoFrame(match);
+                              	 }	    	 
+                           }}});
 		scrollPane = new JScrollPane(table);
 		scrollPane.setBounds(0, 70, panelWidth, panelHeight-100);
 		scrollPane.setOpaque(false);

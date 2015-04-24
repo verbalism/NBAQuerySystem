@@ -75,8 +75,10 @@ public class MatchInfoFrame extends JFrame{
 		
 		String[] column = new String[]{"1","2","3","4","5","6"};
 		String[][]data=new String[][]{{"比分","第一节","第二节","第三节","第四节","加时"},{match.getScore(),match.getScore1(),match.getScore2(),match.getScore3(),match.getScore4(),""}};
+		if(!match.getExtreaScores().isEmpty()){
 		for(int i=0;i<match.getExtreaScores().size();i++){
 			data[1][5] = data[1][5]+match.getExtreaScores().get(i)+"  ";
+		}
 		}
 		DefaultTableModel model = new DefaultTableModel(data,column);
 		JTable dataTable=new JTable(model){

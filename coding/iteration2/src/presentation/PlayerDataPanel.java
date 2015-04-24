@@ -301,7 +301,7 @@ public class PlayerDataPanel extends JPanel implements ActionListener{
 				keyword = "freeThrowsPercentage";
 				break;
 			case 13:
-				keyword = "2";
+				keyword = "doubleDouble";
 				break;
 			default:
 				break;

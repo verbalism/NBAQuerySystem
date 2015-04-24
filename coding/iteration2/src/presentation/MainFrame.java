@@ -21,8 +21,8 @@ public class MainFrame extends JFrame implements ActionListener{
 	JPanel containPanel;
 	TeamListPanel teamListPanel = new TeamListPanel();
 	//PlayerListPanel playerListPanel = new PlayerListPanel();
-	//TeamDataPanel teamDataPanel = new TeamDataPanel();
-	//PlayerDataPanel playerDataPanel = new PlayerDataPanel();
+	TeamDataPanel teamDataPanel = new TeamDataPanel();
+	PlayerDataPanel playerDataPanel = new PlayerDataPanel();
 	//MatchListPanel matchListPanel = new MatchListPanel();
 	//HotPanel hotPanel = new HotPanel();
 	public static void main(String args[]){
@@ -186,26 +186,26 @@ public class MainFrame extends JFrame implements ActionListener{
 			containPanel.remove(teamListPanel);
 			//containPanel.remove(teamDataPanel);
 			//containPanel.remove(playerListPanel);
-			//containPanel.remove(playerDataPanel);
+			containPanel.remove(playerDataPanel);
 			//containPanel.remove(matchListPanel);
 			//containPanel.remove(hotPanel);
 			containPanel.add(teamListPanel);
 			containPanel.repaint();
 		}
-		/*if(e.getSource()==playerInfoBtn){
+		if(e.getSource()==playerInfoBtn){
 			containPanel.remove(teamListPanel);
 			containPanel.remove(teamDataPanel);
-			containPanel.remove(playerListPanel);
+			//containPanel.remove(playerListPanel);
 			containPanel.remove(playerDataPanel);
 			//containPanel.remove(matchListPanel);
 			//containPanel.remove(hotPanel);
-			containPanel.add(playerListPanel);
+			//containPanel.add(playerListPanel);
 			containPanel.repaint();
 		}
 		if(e.getSource()==matchInfoBtn){
 			containPanel.remove(teamListPanel);
 			containPanel.remove(teamDataPanel);
-			containPanel.remove(playerListPanel);
+			//containPanel.remove(playerListPanel);
 			containPanel.remove(playerDataPanel);
 			//containPanel.remove(matchListPanel);
 			//containPanel.remove(hotPanel);
@@ -215,7 +215,7 @@ public class MainFrame extends JFrame implements ActionListener{
 		if(e.getSource()==teamDataBtn){
 			containPanel.remove(teamListPanel);
 			containPanel.remove(teamDataPanel);
-			containPanel.remove(playerListPanel);
+			//containPanel.remove(playerListPanel);
 			containPanel.remove(playerDataPanel);
 			//containPanel.remove(matchListPanel);
 			//containPanel.remove(hotPanel);
@@ -225,7 +225,7 @@ public class MainFrame extends JFrame implements ActionListener{
 		if(e.getSource()==playerDataBtn){
 			containPanel.remove(teamListPanel);
 			containPanel.remove(teamDataPanel);
-			containPanel.remove(playerListPanel);
+			//containPanel.remove(playerListPanel);
 			containPanel.remove(playerDataPanel);
 			//containPanel.remove(matchListPanel);
 			//containPanel.remove(hotPanel);
@@ -235,13 +235,13 @@ public class MainFrame extends JFrame implements ActionListener{
 		if(e.getSource()==hotBtn){
 			containPanel.remove(teamListPanel);
 			containPanel.remove(teamDataPanel);
-			containPanel.remove(playerListPanel);
+			//containPanel.remove(playerListPanel);
 			containPanel.remove(playerDataPanel);
 			//containPanel.remove(matchListPanel);
 			//containPanel.remove(hotPanel);
 			//containPanel.add(hotPanel);
 			containPanel.repaint();
-		}*/
+		}
 	}
 	
 }
