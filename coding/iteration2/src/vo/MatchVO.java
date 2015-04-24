@@ -10,6 +10,10 @@ public class MatchVO {
 	private ArrayList<String> extraScores;
 	private MatchTeam team1, team2;
 	
+	public MatchVO(){
+		extraScores=null;
+	}
+	
 	public void setExtraScores(ArrayList<String> s){
 		this.extraScores = s;
 	}

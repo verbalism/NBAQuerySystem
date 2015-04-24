@@ -37,20 +37,17 @@ public class AnalysisBLTest {
 		TeamVO tt=d.getSingleTeamInfo(pp.getTeamName());
 		System.out.println(tt.getSubarea());*/
 		
-		ArrayList<PlayerVO> p2=a.getTopFiftyPlayer(PlayerPosition.All, PlayerPartition.Atlantic, "rebounds");
+		/*ArrayList<PlayerVO> p2=a.getTopFiftyPlayer(PlayerPosition.All, PlayerPartition.Atlantic, "rebounds");
 		for(int i=0;i<p2.size();i++){
 			System.out.println(p2.get(i).getPlayerName());
 			System.out.println(p2.get(i).getRebounds());
-		}
-		PlayerDataService p=new PlayerData();
-		ArrayList<TodayPlayerPO> tp=p.getTodayPlayerInfo("01-01");
-		System.out.println(tp.size());
+		}*/
 		 ArrayList<TodayPlayerVO> p3=a.getTodayHotSpotPlayer("rebound");
 		 for(int i=0;i<p3.size();i++){
 				System.out.println(p3.get(i).getRebound());
 			}
-		System.out.println("loading");
-		/* ArrayList<PlayerVO> p4=a.getSeasonHotSpotPlayer("rebounds");
+		/*
+		 ArrayList<PlayerVO> p4=a.getSeasonHotSpotPlayer("rebounds");
 		 for(int i=0;i<p4.size();i++){
 				System.out.println(p4.get(i).getRebounds());
 		}

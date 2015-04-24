@@ -1151,6 +1151,7 @@ public class AnalysisBL implements AnalysisBLService {
 		m=md.getAllMatchInfo();
 		String str=m.get(m.size()-1).getMatchTime();
 		ArrayList<TodayPlayerPO> tp=pd.getTodayPlayerInfo(str);
+		ArrayList<TodayPlayerVO> result2=new ArrayList<TodayPlayerVO>();
 		ArrayList<TodayPlayerVO> result=new ArrayList<TodayPlayerVO>();
 		for(int i=0;i<tp.size();i++){
 			TodayPlayerVO temp=new TodayPlayerVO();
@@ -1185,7 +1186,7 @@ public class AnalysisBL implements AnalysisBLService {
 					if(result.get(i).getRebound()<result.get(j).getRebound())
 						i=j;
 				}
-				result.add(result.get(i));
+				result2.add(result.get(i));
 				result.remove(i);
 			}
 		}else if(keyword.equals("assist")){
@@ -1195,7 +1196,7 @@ public class AnalysisBL implements AnalysisBLService {
 					if(result.get(i).getAssist()<result.get(j).getAssist())
 						i=j;
 				}
-				result.add(result.get(i));
+				result2.add(result.get(i));
 				result.remove(i);
 			}
 		}else if(keyword.equals("st")){
@@ -1205,7 +1206,7 @@ public class AnalysisBL implements AnalysisBLService {
 					if(result.get(i).getSt()<result.get(j).getSt())
 						i=j;
 				}
-				result.add(result.get(i));
+				result2.add(result.get(i));
 				result.remove(i);
 			}
 		}else if(keyword.equals("blockShot")){
@@ -1215,7 +1216,7 @@ public class AnalysisBL implements AnalysisBLService {
 					if(result.get(i).getBlockShot()<result.get(j).getBlockShot())
 						i=j;
 				}
-				result.add(result.get(i));
+				result2.add(result.get(i));
 				result.remove(i);
 			}
 		}else if(keyword.equals("error")){
@@ -1225,7 +1226,7 @@ public class AnalysisBL implements AnalysisBLService {
 					if(result.get(i).getError()<result.get(j).getError())
 						i=j;
 				}
-				result.add(result.get(i));
+				result2.add(result.get(i));
 				result.remove(i);
 			}
 		}else if(keyword.equals("foul")){
@@ -1235,7 +1236,7 @@ public class AnalysisBL implements AnalysisBLService {
 					if(result.get(i).getFoul()<result.get(j).getFoul())
 						i=j;
 				}
-				result.add(result.get(i));
+				result2.add(result.get(i));
 				result.remove(i);
 			}
 		}else if(keyword.equals("score")){
@@ -1245,7 +1246,7 @@ public class AnalysisBL implements AnalysisBLService {
 					if(result.get(i).getScore()<result.get(j).getScore())
 						i=j;
 				}
-				result.add(result.get(i));
+				result2.add(result.get(i));
 				result.remove(i);
 			}
 		}else if(keyword.equals("fieldGoal")){
@@ -1255,7 +1256,7 @@ public class AnalysisBL implements AnalysisBLService {
 					if(result.get(i).getFieldGoal()<result.get(j).getFieldGoal())
 						i=j;
 				}
-				result.add(result.get(i));
+				result2.add(result.get(i));
 				result.remove(i);
 			}
 		}else if(keyword.equals("fieldGoalAttempts")){
@@ -1265,7 +1266,7 @@ public class AnalysisBL implements AnalysisBLService {
 					if(result.get(i).getFieldGoalAttempts()<result.get(j).getFieldGoalAttempts())
 						i=j;
 				}
-				result.add(result.get(i));
+				result2.add(result.get(i));
 				result.remove(i);
 			}
 		}else if(keyword.equals("threepointShot")){
@@ -1275,7 +1276,7 @@ public class AnalysisBL implements AnalysisBLService {
 					if(result.get(i).getThreepointShot()<result.get(j).getThreepointShot())
 						i=j;
 				}
-				result.add(result.get(i));
+				result2.add(result.get(i));
 				result.remove(i);
 			}
 		}else if(keyword.equals("threepointAttempts")){
@@ -1285,7 +1286,7 @@ public class AnalysisBL implements AnalysisBLService {
 					if(result.get(i).getThreepointAttempts()<result.get(j).getThreepointAttempts())
 						i=j;
 				}
-				result.add(result.get(i));
+				result2.add(result.get(i));
 				result.remove(i);
 			}
 		}else if(keyword.equals("freeThrowGoal")){
@@ -1295,7 +1296,7 @@ public class AnalysisBL implements AnalysisBLService {
 					if(result.get(i).getFreeThrowGoal()<result.get(j).getFreeThrowGoal())
 						i=j;
 				}
-				result.add(result.get(i));
+				result2.add(result.get(i));
 				result.remove(i);
 			}
 		}else if(keyword.equals("freeThrowAttempts")){
@@ -1305,7 +1306,7 @@ public class AnalysisBL implements AnalysisBLService {
 					if(result.get(i).getFreeThrowAttempts()<result.get(j).getFreeThrowAttempts())
 						i=j;
 				}
-				result.add(result.get(i));
+				result2.add(result.get(i));
 				result.remove(i);
 			}
 		}else if(keyword.equals("offensiveRebound")){
@@ -1315,7 +1316,7 @@ public class AnalysisBL implements AnalysisBLService {
 					if(result.get(i).getOffensiveRebound()<result.get(j).getOffensiveRebound())
 						i=j;
 				}
-				result.add(result.get(i));
+				result2.add(result.get(i));
 				result.remove(i);
 			}
 		}else if(keyword.equals("defensiveRebound")){
@@ -1325,16 +1326,16 @@ public class AnalysisBL implements AnalysisBLService {
 					if(result.get(i).getDefensiveRebound()<result.get(j).getDefensiveRebound())
 						i=j;
 				}
-				result.add(result.get(i));
+				result2.add(result.get(i));
 				result.remove(i);
 			}
 		}
-		if(result.size()>5){
-			for(int i=result.size()-1;i>=5;i--){
-				result.remove(i);
+		if(result2.size()>5){
+			for(int i=result2.size()-1;i>=5;i--){
+				result2.remove(i);
 			}
 		}
-		return result;
+		return result2;
 	}
 
 	public ArrayList<PlayerVO> getSeasonHotSpotPlayer(String keyword) {
@@ -1442,7 +1443,6 @@ public class AnalysisBL implements AnalysisBLService {
 		ArrayList<MatchPO> m=new ArrayList<MatchPO>();
 		m=md.getAllMatchInfo();
 		String str=m.get(m.size()-1).getMatchTime();
-		System.out.println(str);
 		ArrayList<MatchVO> result=d.findMatchByDate(str);
 		return result;
 	}
