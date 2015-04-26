@@ -1,5 +1,5 @@
 package data;
-
+import java.util.Date;
 import java.util.ArrayList;
 import java.io.File;
 import java.sql.*;
@@ -66,10 +66,10 @@ public class PlayerDataCalculate {
         String dbur1 = "jdbc:odbc:driver={Microsoft Access Driver (*.mdb, *.accdb)};DBQ="+courseFile+"//NBAIteration2";  
         Connection conn = DriverManager.getConnection(dbur1, "username", "password"); 
         
+        Statement stmt=conn.createStatement();
+        
         String sql = "select * from playerMatchInfo where generalMatch=" + ID;
-        PreparedStatement pstmt;
-        pstmt = (PreparedStatement)conn.prepareStatement(sql);
-        ResultSet rs = pstmt.executeQuery();
+        ResultSet rs = stmt.executeQuery(sql);
         
         ArrayList<MatchPlayer> mp1=new ArrayList<MatchPlayer>();
         ArrayList<MatchPlayer> mp2=new ArrayList<MatchPlayer>();
@@ -105,167 +105,203 @@ public class PlayerDataCalculate {
         		mp2.add(mp);
         }
         rs.close();
-        pstmt.close();
 
         PlayerDataCalculate pdc=new PlayerDataCalculate();
         
+        
+        String name;
+        double gp=0;
+        double gs=0;
+        String t;
+        double fgm=0;
+        double fga=0;
+        double tpfgm=0;
+        double tpfga=0;
+    	double ftm=0;
+    	double fta=0;
+    	double or=0;
+    	double dr=0;
+    	double r=0;
+    	double a=0;
+    	double s=0;
+    	double b=0;
+    	double tu=0;
+    	double f=0;
+    	double p=0;
+    	String atot;
+    	double arot=0;
+    	double aorot=0;
+    	double adrot=0;
+    	double aroo=0;
+    	double aoroo=0;
+    	double adroo=0;
+    	double afgm=0;
+    	double tpfgaoo=0;
+    	double tpfg=0;
+    	double afgaot=0;
+    	double afgao=0;
+    	double ato=0;
+    	double afgaoo=0;
+    	double afga=0;
+    	double amgoo=0;
+    	double atoo=0;
+    	double dd=0;
+    	String time;
         for(int i=0;i<mp1.size();i++){
+        	name=mp1.get(i).getPlayerName();
+        	name=name.replace("'","''");
+        	
         	if(pdc.isExist(mp1.get(i).getPlayerName())){
         	}else{
 	    		String sql1 = "insert into playerInfo (playerName,position) values(?,?)";
-	    		PreparedStatement pstmt1;
-	    		pstmt1 = (PreparedStatement) conn.prepareStatement(sql1);
-	    		pstmt1.setString(1, mp1.get(i).getPlayerName());
-	    		pstmt1.setString(2, mp1.get(i).getPosition());
-	    		pstmt1.executeUpdate();
-	    		pstmt1.close();
+	    		PreparedStatement pstmt;
+	    		pstmt = (PreparedStatement) conn.prepareStatement(sql1);
+	    		pstmt.setString(1, mp1.get(i).getPlayerName());
+	    		pstmt.setString(2, mp1.get(i).getPosition());
+	    		pstmt.executeUpdate();
+	    		pstmt.close();
         	}
+
+        	ResultSet rs0=stmt.executeQuery("select * from playerInfo where playerName='"+name+"'");
+        	rs0.next();   	
+        	gp=rs0.getDouble("gamesPlayed");
+        	gs=rs0.getDouble("gamesStarting");
+        	t=rs0.getString("minutes");
+        	fgm=rs0.getDouble("fieldGoalsMade");
+        	fga=rs0.getDouble("fieldGoalsAttempts");
+        	tpfgm=rs0.getDouble("threePointFieldGoalsMade");
+        	tpfga=rs0.getDouble("threePointFieldGoalsAttempts");
+        	ftm=rs0.getDouble("freeThrowsMade");
+        	fta=rs0.getDouble("freeThrowsAttempts");
+        	or=rs0.getDouble("offensiveRebounds");
+        	dr=rs0.getDouble("defensiveRebounds");
+        	r=rs0.getDouble("rebounds");
+        	a=rs0.getDouble("assists");
+        	s=rs0.getDouble("steals");
+        	b=rs0.getDouble("blocks");
+        	tu=rs0.getDouble("turnovers");
+        	f=rs0.getDouble("fouls");
+        	p=rs0.getDouble("points");
+        	atot=rs0.getString("allTimeOfTeam");
+        	arot=rs0.getDouble("allReboundsOfTeam");
+        	aorot=rs0.getDouble("allOffensiveReboundsOfTeam");
+        	adrot=rs0.getDouble("allDefensiveReboundsOfTeam");
+        	aroo=rs0.getDouble("allReboundsOfOpposite");
+        	aoroo=rs0.getDouble("allOffensiveReboundsOfOpposite");
+        	adroo=rs0.getDouble("allDefensiveReboundsOfOpposite");
+        	afgm=rs0.getDouble("allFieldGoalsMade");
+        	tpfgaoo=rs0.getDouble("twoPointFieldGoalsAttemptsOfOpposite");
+        	tpfg=rs0.getDouble("twoPointFieldGoalsAttempts");
+        	afgaot=rs0.getDouble("allFieldGoalsAttemptsOfTeam");
+        	afgao=rs0.getDouble("allFreeGoalsAttemptsOfTeam");
+        	ato=rs0.getDouble("allturnoversOfTeam");
+        	afgaoo=rs0.getDouble("allFieldGoalsAttemptsOfOpposite");
+        	afga=rs0.getDouble("allFreeGoalsAttemptsOfOpposite");
+        	amgoo=rs0.getDouble("allMissedGoalsOfOpposite");
+        	atoo=rs0.getDouble("allturnoversOfOpposite");
+        	dd=rs0.getDouble("doubleDouble");      	
+        	rs0.close();
         	
-        	double gp=pdc.searchPlayerInfoD("gamesPlayed", mp1.get(i).getPlayerName(),conn);
-        	pdc.updatePlayerInfoD("gamesPlayed", gp+1, mp1.get(i).getPlayerName(),conn);
+        	gp=gp+1;
+        	stmt.executeUpdate("update playerInfo set gamesPlayed='"+gp+"' where playerName='" +name+ "'");
+        	
         	if(mp1.get(i).getPosition()!=null && !mp1.get(i).getPosition().equals("")){
-        		double	gs=pdc.searchPlayerInfoD("gamesStarting", mp1.get(i).getPlayerName(),conn);
-        		pdc.updatePlayerInfoD("gamesStarting", gs+1, mp1.get(i).getPlayerName(),conn);
+        		gs=gs+1;
+        		stmt.executeUpdate("update playerInfo set gamesStarting='"+gs+"' where playerName='" +name+ "'");
         	}
         	
-        	pdc.updatePlayerInfoS("teamName", temp1, mp1.get(i).getPlayerName(),conn);
+        	stmt.executeUpdate("update playerInfo set teamName='"+temp1+"' where playerName='" +name+ "'");
         	
-        	String t=pdc.searchPlayerInfoS("minutes", mp1.get(i).getPlayerName(),conn);
-        	String time=pdc.calTime(mp1.get(i).getMatchTime(), t);
-        	pdc.updatePlayerInfoS("minutes", time, mp1.get(i).getPlayerName(),conn);
+        	time=pdc.calTime(mp1.get(i).getMatchTime(), t);
+        	stmt.executeUpdate("update playerInfo set minutes='"+time+"' where playerName='" +name+ "'");
         	
-        	double fgm=pdc.searchPlayerInfoD("fieldGoalsMade", mp1.get(i).getPlayerName(),conn);
-        	pdc.updatePlayerInfoD("fieldGoalsMade", fgm+mp1.get(i).getFieldGoal(), mp1.get(i).getPlayerName(),conn);
-        	double fga=pdc.searchPlayerInfoD("fieldGoalsAttempts", mp1.get(i).getPlayerName(),conn);
-        	pdc.updatePlayerInfoD("fieldGoalsAttempts", fga+mp1.get(i).getFieldGoalAttempts(), mp1.get(i).getPlayerName(),conn);
-        	double tpfgm=pdc.searchPlayerInfoD("threePointFieldGoalsMade", mp1.get(i).getPlayerName(),conn);
-        	pdc.updatePlayerInfoD("threePointFieldGoalsMade", tpfgm+mp1.get(i).getThreePointShot(), mp1.get(i).getPlayerName(),conn);
-        	double tpfga=pdc.searchPlayerInfoD("threePointFieldGoalsAttempts", mp1.get(i).getPlayerName(),conn);
-        	pdc.updatePlayerInfoD("threePointFieldGoalsAttempts", tpfga+mp1.get(i).getThreePointAttempts(), mp1.get(i).getPlayerName(),conn);
-        	double ftm=pdc.searchPlayerInfoD("freeThrowsMade", mp1.get(i).getPlayerName(),conn);
-        	pdc.updatePlayerInfoD("freeThrowsMade", ftm+mp1.get(i).getFreeThrowGoal(), mp1.get(i).getPlayerName(),conn);
-        	double fta=pdc.searchPlayerInfoD("freeThrowsAttempts", mp1.get(i).getPlayerName(),conn);
-        	pdc.updatePlayerInfoD("freeThrowsAttempts", fta+mp1.get(i).getFreeThrowAttempts(), mp1.get(i).getPlayerName(),conn);
-        	double or=pdc.searchPlayerInfoD("offensiveRebounds", mp1.get(i).getPlayerName(),conn);
-        	pdc.updatePlayerInfoD("offensiveRebounds", or+mp1.get(i).getOffensiveRebound(), mp1.get(i).getPlayerName(),conn);
-        	double dr=pdc.searchPlayerInfoD("defensiveRebounds", mp1.get(i).getPlayerName(),conn);
-        	pdc.updatePlayerInfoD("defensiveRebounds", dr+mp1.get(i).getDefensiveRebound(), mp1.get(i).getPlayerName(),conn);
-        	double r=pdc.searchPlayerInfoD("rebounds", mp1.get(i).getPlayerName(),conn);
-        	pdc.updatePlayerInfoD("rebounds", r+mp1.get(i).getRebound(), mp1.get(i).getPlayerName(),conn);
-        	double a=pdc.searchPlayerInfoD("assists", mp1.get(i).getPlayerName(),conn);
-        	pdc.updatePlayerInfoD("assists", a+mp1.get(i).getAssist(), mp1.get(i).getPlayerName(),conn);
-        	double s=pdc.searchPlayerInfoD("steals", mp1.get(i).getPlayerName(),conn);
-        	pdc.updatePlayerInfoD("steals", s+mp1.get(i).getST(), mp1.get(i).getPlayerName(),conn);
-        	double b=pdc.searchPlayerInfoD("blocks", mp1.get(i).getPlayerName(),conn);
-        	pdc.updatePlayerInfoD("blocks", b+mp1.get(i).getBlockShot(), mp1.get(i).getPlayerName(),conn);
-        	double tu=pdc.searchPlayerInfoD("turnovers", mp1.get(i).getPlayerName(),conn);
-        	pdc.updatePlayerInfoD("turnovers", tu+mp1.get(i).getError(), mp1.get(i).getPlayerName(),conn);
-        	double f=pdc.searchPlayerInfoD("fouls", mp1.get(i).getPlayerName(),conn);
-        	pdc.updatePlayerInfoD("fouls", f+mp1.get(i).getFoul(), mp1.get(i).getPlayerName(),conn);
-        	double p=pdc.searchPlayerInfoD("points", mp1.get(i).getPlayerName(),conn);
-        	pdc.updatePlayerInfoD("points", p+mp1.get(i).getScore(), mp1.get(i).getPlayerName(),conn);
+        	fgm=fgm+mp1.get(i).getFieldGoal();
+        	stmt.executeUpdate("update playerInfo set fieldGoalsMade='"+fgm+"' where playerName='" +name+ "'");
         	
-        	String atot=pdc.searchPlayerInfoS("allTimeOfTeam", mp1.get(i).getPlayerName(),conn);
+        	fga=fga+mp1.get(i).getFieldGoalAttempts();
+        	stmt.executeUpdate("update playerInfo set fieldGoalsAttempts='"+fga+"' where playerName='" +name+ "'");
+        	
+        	tpfgm=tpfgm+mp1.get(i).getThreePointShot();
+        	stmt.executeUpdate("update playerInfo set threePointFieldGoalsMade='"+tpfgm+"' where playerName='" +name+ "'");
+        	
+        	tpfga=tpfga+mp1.get(i).getThreePointAttempts();
+        	stmt.executeUpdate("update playerInfo set threePointFieldGoalsAttempts='"+tpfga+"' where playerName='" +name+ "'");
+        	
+        	ftm=ftm+mp1.get(i).getFreeThrowGoal();
+        	stmt.executeUpdate("update playerInfo set freeThrowsMade='"+ftm+"' where playerName='" +name+ "'");
+        	
+        	fta=fta+mp1.get(i).getFreeThrowAttempts();
+        	stmt.executeUpdate("update playerInfo set freeThrowsAttempts='"+fga+"' where playerName='" +name+ "'");
+        	
+        	or=or+mp1.get(i).getOffensiveRebound();
+        	stmt.executeUpdate("update playerInfo set offensiveRebounds='"+or+"' where playerName='" +name+ "'");
+        	
+        	dr=dr+mp1.get(i).getDefensiveRebound();
+        	stmt.executeUpdate("update playerInfo set defensiveRebounds='"+dr+"' where playerName='" +name+ "'");
+        	
+        	r=r+mp1.get(i).getRebound();
+        	stmt.executeUpdate("update playerInfo set rebounds='"+r+"' where playerName='" +name+ "'");
+        	
+        	a=a+mp1.get(i).getAssist();
+        	stmt.executeUpdate("update playerInfo set assists='"+fga+"' where playerName='" +name+ "'");
+        	
+        	s=s+mp1.get(i).getST();
+        	stmt.executeUpdate("update playerInfo set steals='"+s+"' where playerName='" +name+ "'");
+        	
+        	b=b+mp1.get(i).getBlockShot();
+        	stmt.executeUpdate("update playerInfo set blocks='"+b+"' where playerName='" +name+ "'");
+        	
+        	tu=tu+mp1.get(i).getError();
+        	stmt.executeUpdate("update playerInfo set turnovers='"+tu+"' where playerName='" +name+ "'");
+        	
+        	f=f+mp1.get(i).getFoul();
+        	stmt.executeUpdate("update playerInfo set fouls='"+f+"' where playerName='" +name+ "'");
+        	
+        	p=p+mp1.get(i).getScore();
+        	stmt.executeUpdate("update playerInfo set points='"+p+"' where playerName='" +name+ "'");
+        	
+        	tpfg=tpfg+mp1.get(i).getFieldGoalAttempts()-mp1.get(i).getThreePointAttempts();
+        	stmt.executeUpdate("update playerInfo set twoPointFieldGoalsAttempts='"+tpfg+"' where playerName='" +name+ "'");
+        	
         	for(int j=0;j<mp1.size();j++){
         		atot=pdc.calTime(atot, mp1.get(j).getMatchTime());
-        	}
-        	pdc.updatePlayerInfoS("allTimeOfTeam", atot, mp1.get(i).getPlayerName(),conn);
-        	
-        	double arot=pdc.searchPlayerInfoD("allReboundsOfTeam", mp1.get(i).getPlayerName(),conn);
-        	for(int j=0;j<mp1.size();j++){
         		arot=arot+mp1.get(j).getRebound();
-        	}
-        	pdc.updatePlayerInfoD("allReboundsOfTeam", arot, mp1.get(i).getPlayerName(),conn);
-        
-        	double aorot=pdc.searchPlayerInfoD("allOffensiveReboundsOfTeam", mp1.get(i).getPlayerName(),conn);
-        	for(int j=0;j<mp1.size();j++){
         		aorot=aorot+mp1.get(j).getOffensiveRebound();
-        	}
-        	pdc.updatePlayerInfoD("allOffensiveReboundsOfTeam", aorot, mp1.get(i).getPlayerName(),conn);
-        	
-        	double adrot=pdc.searchPlayerInfoD("allDefensiveReboundsOfTeam", mp1.get(i).getPlayerName(),conn);
-        	for(int j=0;j<mp1.size();j++){
         		adrot=adrot+mp1.get(j).getDefensiveRebound();
+        		afgm=afgm+mp1.get(j).getFieldGoal();
+        		afgaot=afgaot+mp1.get(j).getFieldGoalAttempts();
+        		afgao=afgao+mp1.get(j).getFreeThrowAttempts();
+        		ato=ato+mp1.get(j).getError();
+        		
         	}
-        	pdc.updatePlayerInfoD("allDefensiveReboundsOfTeam", adrot, mp1.get(i).getPlayerName(),conn);
-        	
-        	double aroo=pdc.searchPlayerInfoD("allReboundsOfOpposite", mp1.get(i).getPlayerName(),conn);
         	for(int j=0;j<mp2.size();j++){
         		aroo=aroo+mp2.get(j).getRebound();
-        	}
-        	pdc.updatePlayerInfoD("allReboundsOfOpposite", aroo, mp1.get(i).getPlayerName(),conn);
-        	
-        	double aoroo=pdc.searchPlayerInfoD("allOffensiveReboundsOfOpposite", mp1.get(i).getPlayerName(),conn);
-        	for(int j=0;j<mp2.size();j++){
         		aoroo=aoroo+mp2.get(j).getOffensiveRebound();
-        	}
-        	pdc.updatePlayerInfoD("allOffensiveReboundsOfOpposite", aoroo, mp1.get(i).getPlayerName(),conn);
-        	
-        	double adroo=pdc.searchPlayerInfoD("allDefensiveReboundsOfOpposite", mp1.get(i).getPlayerName(),conn);
-        	for(int j=0;j<mp2.size();j++){
         		adroo=adroo+mp2.get(j).getDefensiveRebound();
-        	}
-        	pdc.updatePlayerInfoD("allDefensiveReboundsOfOpposite", adroo, mp1.get(i).getPlayerName(),conn);
-        	
-        	double afgm=pdc.searchPlayerInfoD("allFieldGoalsMade", mp1.get(i).getPlayerName(),conn);
-        	for(int j=0;j<mp1.size();j++){
-        		afgm=afgm+mp1.get(j).getFieldGoal();
-        	}
-        	pdc.updatePlayerInfoD("allFieldGoalsMade", afgm, mp1.get(i).getPlayerName(),conn);
-        	
-        	double tpfgaoo=pdc.searchPlayerInfoD("twoPointFieldGoalsAttemptsOfOpposite", mp1.get(i).getPlayerName(),conn);
-        	for(int j=0;j<mp2.size();j++){
         		tpfgaoo=tpfgaoo+mp2.get(j).getFieldGoalAttempts()-mp2.get(j).getThreePointAttempts();
-        	}
-        	pdc.updatePlayerInfoD("twoPointFieldGoalsAttemptsOfOpposite", tpfgaoo, mp1.get(i).getPlayerName(),conn);
-        	
-        	double tpfg=pdc.searchPlayerInfoD("twoPointFieldGoalsAttempts", mp1.get(i).getPlayerName(),conn);
-        	tpfg=tpfg+mp1.get(i).getFieldGoalAttempts()-mp1.get(i).getThreePointAttempts();
-        	pdc.updatePlayerInfoD("twoPointFieldGoalsAttempts", tpfg, mp1.get(i).getPlayerName(),conn);
-        	
-        	double afgaot=pdc.searchPlayerInfoD("allFieldGoalsAttemptsOfTeam", mp1.get(i).getPlayerName(),conn);
-        	for(int j=0;j<mp1.size();j++){
-        		afgaot=afgaot+mp1.get(j).getFieldGoalAttempts();
-        	}
-        	pdc.updatePlayerInfoD("allFieldGoalsAttemptsOfTeam", afgaot, mp1.get(i).getPlayerName(),conn);
-        	
-        	double afgao=pdc.searchPlayerInfoD("allFreeGoalsAttemptsOfTeam", mp1.get(i).getPlayerName(),conn);
-        	for(int j=0;j<mp1.size();j++){
-        		afgao=afgao+mp1.get(j).getFreeThrowAttempts();
-        	}
-        	pdc.updatePlayerInfoD("allFreeGoalsAttemptsOfTeam", afgao, mp1.get(i).getPlayerName(),conn);
-        	
-        	double ato=pdc.searchPlayerInfoD("allturnoversOfTeam", mp1.get(i).getPlayerName(),conn);
-        	for(int j=0;j<mp1.size();j++){
-        		ato=ato+mp1.get(j).getError();
-        	}
-        	pdc.updatePlayerInfoD("allturnoversOfTeam", ato, mp1.get(i).getPlayerName(),conn);
-        	
-        	double afgaoo=pdc.searchPlayerInfoD("allFieldGoalsAttemptsOfOpposite", mp1.get(i).getPlayerName(),conn);
-        	for(int j=0;j<mp2.size();j++){
         		afgaoo=afgaoo+mp2.get(j).getFieldGoalAttempts();
-        	}
-        	pdc.updatePlayerInfoD("allFieldGoalsAttemptsOfOpposite", afgaoo, mp1.get(i).getPlayerName(),conn);
-        	
-        	double afga=pdc.searchPlayerInfoD("allFreeGoalsAttemptsOfOpposite", mp1.get(i).getPlayerName(),conn);
-        	for(int j=0;j<mp2.size();j++){
         		afga=afga+mp2.get(j).getFreeThrowAttempts();
-        	}
-        	pdc.updatePlayerInfoD("allFreeGoalsAttemptsOfOpposite", afga, mp1.get(i).getPlayerName(),conn);
-        	
-        	double amgoo=pdc.searchPlayerInfoD("allMissedGoalsOfOpposite", mp1.get(i).getPlayerName(),conn);
-        	for(int j=0;j<mp2.size();j++){
         		amgoo=amgoo+mp2.get(j).getFieldGoalAttempts()-mp2.get(j).getFieldGoal();
-        	}
-        	pdc.updatePlayerInfoD("allMissedGoalsOfOpposite", amgoo, mp1.get(i).getPlayerName(),conn);
-        	
-        	double atoo=pdc.searchPlayerInfoD("allturnoversOfOpposite", mp1.get(i).getPlayerName(),conn);
-        	for(int j=0;j<mp2.size();j++){
         		atoo=atoo+mp2.get(j).getError();
+            	
         	}
-        	pdc.updatePlayerInfoD("allturnoversOfOpposite", atoo, mp1.get(i).getPlayerName(),conn);
+        	stmt.executeUpdate("update playerInfo set allTimeOfTeam='"+atot+"' where playerName='" +name+ "'");
+        	stmt.executeUpdate("update playerInfo set allReboundsOfTeam='"+arot+"' where playerName='" +name+ "'");
+        	stmt.executeUpdate("update playerInfo set allOffensiveReboundsOfTeam='"+aorot+"' where playerName='" +name+ "'");
+        	stmt.executeUpdate("update playerInfo set allDefensiveReboundsOfTeam='"+adrot+"' where playerName='" +name+ "'");
+        	stmt.executeUpdate("update playerInfo set allReboundsOfOpposite='"+aroo+"' where playerName='" +name+ "'");
+        	stmt.executeUpdate("update playerInfo set allOffensiveReboundsOfOpposite='"+aoroo+"' where playerName='" +name+ "'");
+        	stmt.executeUpdate("update playerInfo set allDefensiveReboundsOfOpposite='"+adroo+"' where playerName='" +name+ "'");
+        	stmt.executeUpdate("update playerInfo set allFieldGoalsMade='"+afgm+"' where playerName='" +name+ "'");
+        	stmt.executeUpdate("update playerInfo set twoPointFieldGoalsAttemptsOfOpposite='"+tpfgaoo+"' where playerName='" +name+ "'");
+        	stmt.executeUpdate("update playerInfo set allFieldGoalsAttemptsOfTeam='"+afgaot+"' where playerName='" +name+ "'");
+        	stmt.executeUpdate("update playerInfo set allFreeGoalsAttemptsOfTeam='"+afgao+"' where playerName='" +name+ "'");
+        	stmt.executeUpdate("update playerInfo set allturnoversOfTeam='"+ato+"' where playerName='" +name+ "'");
+        	stmt.executeUpdate("update playerInfo set allFieldGoalsAttemptsOfOpposite='"+afgaoo+"' where playerName='" +name+ "'");
+        	stmt.executeUpdate("update playerInfo set allFreeGoalsAttemptsOfOpposite='"+afga+"' where playerName='" +name+ "'");
+        	stmt.executeUpdate("update playerInfo set allMissedGoalsOfOpposite='"+amgoo+"' where playerName='" +name+ "'");
+        	stmt.executeUpdate("update playerInfo set allturnoversOfOpposite='"+atoo+"' where playerName='" +name+ "'");
         	
-        	double dd=pdc.searchPlayerInfoD("doubleDouble", mp1.get(i).getPlayerName(),conn);
         	if((mp1.get(i).getScore()>=10&&mp1.get(i).getAssist()>=10) || (mp1.get(i).getScore()>=10&&mp1.get(i).getRebound()>=10) 
 					|| (mp1.get(i).getScore()>=10&&mp1.get(i).getST()>=10) || (mp1.get(i).getScore()>=10&&mp1.get(i).getBlockShot()>=10) 
 					|| (mp1.get(i).getAssist()>=10&&mp1.get(i).getBlockShot()>=10) || (mp1.get(i).getAssist()>=10&&mp1.get(i).getRebound()>=10) 
@@ -273,165 +309,165 @@ public class PlayerDataCalculate {
 					|| (mp1.get(i).getST()>=10&&mp1.get(i).getRebound()>=10) || (mp1.get(i).getRebound()>=10&&mp1.get(i).getBlockShot()>=10)){
         		dd=dd+1;
         	}
-        	pdc.updatePlayerInfoD("doubleDouble", dd, mp1.get(i).getPlayerName(),conn);
+        	stmt.executeUpdate("update playerInfo set doubleDouble='"+dd+"' where playerName='" +name+ "'");
+        	
         }
 
         for(int i=0;i<mp2.size();i++){
+        	name=mp2.get(i).getPlayerName();
+        	name=name.replace("'","''");
+        	
         	if(pdc.isExist(mp2.get(i).getPlayerName())){
         	}else{
 	    		String sql1 = "insert into playerInfo (playerName,position) values(?,?)";
-	    		PreparedStatement pstmt1;
-	    		pstmt1 = (PreparedStatement) conn.prepareStatement(sql1);
-	    		pstmt1.setString(1, mp2.get(i).getPlayerName());
-	    		pstmt1.setString(2, mp2.get(i).getPosition());
-	    		pstmt1.executeUpdate();
-	    		pstmt1.close();
+	    		PreparedStatement pstmt;
+	    		pstmt = (PreparedStatement) conn.prepareStatement(sql1);
+	    		pstmt.setString(1, mp2.get(i).getPlayerName());
+	    		pstmt.setString(2, mp2.get(i).getPosition());
+	    		pstmt.executeUpdate();
+	    		pstmt.close();
         	}
-    		
-        	double gp=pdc.searchPlayerInfoD("gamesPlayed", mp2.get(i).getPlayerName(),conn);
-        	pdc.updatePlayerInfoD("gamesPlayed", gp+1, mp2.get(i).getPlayerName(),conn);
+
+        	ResultSet rs0=stmt.executeQuery("select * from playerInfo where playerName='"+name+"'");
+        	rs0.next();   	
+        	gp=rs0.getDouble("gamesPlayed");
+        	gs=rs0.getDouble("gamesStarting");
+        	t=rs0.getString("minutes");
+        	fgm=rs0.getDouble("fieldGoalsMade");
+        	fga=rs0.getDouble("fieldGoalsAttempts");
+        	tpfgm=rs0.getDouble("threePointFieldGoalsMade");
+        	tpfga=rs0.getDouble("threePointFieldGoalsAttempts");
+        	ftm=rs0.getDouble("freeThrowsMade");
+        	fta=rs0.getDouble("freeThrowsAttempts");
+        	or=rs0.getDouble("offensiveRebounds");
+        	dr=rs0.getDouble("defensiveRebounds");
+        	r=rs0.getDouble("rebounds");
+        	a=rs0.getDouble("assists");
+        	s=rs0.getDouble("steals");
+        	b=rs0.getDouble("blocks");
+        	tu=rs0.getDouble("turnovers");
+        	f=rs0.getDouble("fouls");
+        	p=rs0.getDouble("points");
+        	atot=rs0.getString("allTimeOfTeam");
+        	arot=rs0.getDouble("allReboundsOfTeam");
+        	aorot=rs0.getDouble("allOffensiveReboundsOfTeam");
+        	adrot=rs0.getDouble("allDefensiveReboundsOfTeam");
+        	aroo=rs0.getDouble("allReboundsOfOpposite");
+        	aoroo=rs0.getDouble("allOffensiveReboundsOfOpposite");
+        	adroo=rs0.getDouble("allDefensiveReboundsOfOpposite");
+        	afgm=rs0.getDouble("allFieldGoalsMade");
+        	tpfgaoo=rs0.getDouble("twoPointFieldGoalsAttemptsOfOpposite");
+        	tpfg=rs0.getDouble("twoPointFieldGoalsAttempts");
+        	afgaot=rs0.getDouble("allFieldGoalsAttemptsOfTeam");
+        	afgao=rs0.getDouble("allFreeGoalsAttemptsOfTeam");
+        	ato=rs0.getDouble("allturnoversOfTeam");
+        	afgaoo=rs0.getDouble("allFieldGoalsAttemptsOfOpposite");
+        	afga=rs0.getDouble("allFreeGoalsAttemptsOfOpposite");
+        	amgoo=rs0.getDouble("allMissedGoalsOfOpposite");
+        	atoo=rs0.getDouble("allturnoversOfOpposite");
+        	dd=rs0.getDouble("doubleDouble");      	
+        	rs0.close();
+        	
+        	gp=gp+1;
+        	stmt.executeUpdate("update playerInfo set gamesPlayed='"+gp+"' where playerName='" +name+ "'");
+        	
         	if(mp2.get(i).getPosition()!=null && !mp2.get(i).getPosition().equals("")){
-        		double	gs=pdc.searchPlayerInfoD("gamesStarting", mp2.get(i).getPlayerName(),conn);
-        		pdc.updatePlayerInfoD("gamesStarting", gs+1, mp2.get(i).getPlayerName(),conn);
+        		gs=gs+1;
+        		stmt.executeUpdate("update playerInfo set gamesStarting='"+gs+"' where playerName='" +name+ "'");
         	}
         	
-        	pdc.updatePlayerInfoS("teamName", temp2, mp2.get(i).getPlayerName(),conn);
+        	stmt.executeUpdate("update playerInfo set teamName='"+temp2+"' where playerName='" +name+ "'");
         	
-        	String t=pdc.searchPlayerInfoS("minutes", mp2.get(i).getPlayerName(),conn);
-        	String time=pdc.calTime(mp2.get(i).getMatchTime(), t);
-        	pdc.updatePlayerInfoS("minutes", time, mp2.get(i).getPlayerName(),conn);
+        	time=pdc.calTime(mp2.get(i).getMatchTime(), t);
+        	stmt.executeUpdate("update playerInfo set minutes='"+time+"' where playerName='" +name+ "'");
         	
-        	double fgm=pdc.searchPlayerInfoD("fieldGoalsMade", mp2.get(i).getPlayerName(),conn);
-        	pdc.updatePlayerInfoD("fieldGoalsMade", fgm+mp2.get(i).getFieldGoal(), mp2.get(i).getPlayerName(),conn);
-        	double fga=pdc.searchPlayerInfoD("fieldGoalsAttempts", mp2.get(i).getPlayerName(),conn);
-        	pdc.updatePlayerInfoD("fieldGoalsAttempts", fga+mp2.get(i).getFieldGoalAttempts(), mp2.get(i).getPlayerName(),conn);
-        	double tpfgm=pdc.searchPlayerInfoD("threePointFieldGoalsMade", mp2.get(i).getPlayerName(),conn);
-        	pdc.updatePlayerInfoD("threePointFieldGoalsMade", tpfgm+mp2.get(i).getThreePointShot(), mp2.get(i).getPlayerName(),conn);
-        	double tpfga=pdc.searchPlayerInfoD("threePointFieldGoalsAttempts", mp2.get(i).getPlayerName(),conn);
-        	pdc.updatePlayerInfoD("threePointFieldGoalsAttempts", tpfga+mp2.get(i).getThreePointAttempts(), mp2.get(i).getPlayerName(),conn);
-        	double ftm=pdc.searchPlayerInfoD("freeThrowsMade", mp2.get(i).getPlayerName(),conn);
-        	pdc.updatePlayerInfoD("freeThrowsMade", ftm+mp2.get(i).getFreeThrowGoal(), mp2.get(i).getPlayerName(),conn);
-        	double fta=pdc.searchPlayerInfoD("freeThrowsAttempts", mp2.get(i).getPlayerName(),conn);
-        	pdc.updatePlayerInfoD("freeThrowsAttempts", fta+mp2.get(i).getFreeThrowAttempts(), mp2.get(i).getPlayerName(),conn);
-        	double or=pdc.searchPlayerInfoD("offensiveRebounds", mp2.get(i).getPlayerName(),conn);
-        	pdc.updatePlayerInfoD("offensiveRebounds", or+mp2.get(i).getOffensiveRebound(), mp2.get(i).getPlayerName(),conn);
-        	double dr=pdc.searchPlayerInfoD("defensiveRebounds", mp2.get(i).getPlayerName(),conn);
-        	pdc.updatePlayerInfoD("defensiveRebounds", dr+mp2.get(i).getDefensiveRebound(), mp2.get(i).getPlayerName(),conn);
-        	double r=pdc.searchPlayerInfoD("rebounds", mp2.get(i).getPlayerName(),conn);
-        	pdc.updatePlayerInfoD("rebounds", r+mp2.get(i).getRebound(), mp2.get(i).getPlayerName(),conn);
-        	double a=pdc.searchPlayerInfoD("assists", mp2.get(i).getPlayerName(),conn);
-        	pdc.updatePlayerInfoD("assists", a+mp2.get(i).getAssist(), mp2.get(i).getPlayerName(),conn);
-        	double s=pdc.searchPlayerInfoD("steals", mp2.get(i).getPlayerName(),conn);
-        	pdc.updatePlayerInfoD("steals", s+mp2.get(i).getST(), mp2.get(i).getPlayerName(),conn);
-        	double b=pdc.searchPlayerInfoD("blocks", mp2.get(i).getPlayerName(),conn);
-        	pdc.updatePlayerInfoD("blocks", b+mp2.get(i).getBlockShot(), mp2.get(i).getPlayerName(),conn);
-        	double tu=pdc.searchPlayerInfoD("turnovers", mp2.get(i).getPlayerName(),conn);
-        	pdc.updatePlayerInfoD("turnovers", tu+mp2.get(i).getError(), mp2.get(i).getPlayerName(),conn);
-        	double f=pdc.searchPlayerInfoD("fouls", mp2.get(i).getPlayerName(),conn);
-        	pdc.updatePlayerInfoD("fouls", f+mp2.get(i).getFoul(), mp2.get(i).getPlayerName(),conn);
-        	double p=pdc.searchPlayerInfoD("points", mp2.get(i).getPlayerName(),conn);
-        	pdc.updatePlayerInfoD("points", p+mp2.get(i).getScore(), mp2.get(i).getPlayerName(),conn);
+        	fgm=fgm+mp2.get(i).getFieldGoal();
+        	stmt.executeUpdate("update playerInfo set fieldGoalsMade='"+fgm+"' where playerName='" +name+ "'");
         	
-        	String atot=pdc.searchPlayerInfoS("allTimeOfTeam", mp2.get(i).getPlayerName(),conn);
+        	fga=fga+mp2.get(i).getFieldGoalAttempts();
+        	stmt.executeUpdate("update playerInfo set fieldGoalsAttempts='"+fga+"' where playerName='" +name+ "'");
+        	
+        	tpfgm=tpfgm+mp2.get(i).getThreePointShot();
+        	stmt.executeUpdate("update playerInfo set threePointFieldGoalsMade='"+tpfgm+"' where playerName='" +name+ "'");
+        	
+        	tpfga=tpfga+mp2.get(i).getThreePointAttempts();
+        	stmt.executeUpdate("update playerInfo set threePointFieldGoalsAttempts='"+tpfga+"' where playerName='" +name+ "'");
+        	
+        	ftm=ftm+mp2.get(i).getFreeThrowGoal();
+        	stmt.executeUpdate("update playerInfo set freeThrowsMade='"+ftm+"' where playerName='" +name+ "'");
+        	
+        	fta=fta+mp2.get(i).getFreeThrowAttempts();
+        	stmt.executeUpdate("update playerInfo set freeThrowsAttempts='"+fga+"' where playerName='" +name+ "'");
+        	
+        	or=or+mp2.get(i).getOffensiveRebound();
+        	stmt.executeUpdate("update playerInfo set offensiveRebounds='"+or+"' where playerName='" +name+ "'");
+        	
+        	dr=dr+mp2.get(i).getDefensiveRebound();
+        	stmt.executeUpdate("update playerInfo set defensiveRebounds='"+dr+"' where playerName='" +name+ "'");
+        	
+        	r=r+mp2.get(i).getRebound();
+        	stmt.executeUpdate("update playerInfo set rebounds='"+r+"' where playerName='" +name+ "'");
+        	
+        	a=a+mp2.get(i).getAssist();
+        	stmt.executeUpdate("update playerInfo set assists='"+fga+"' where playerName='" +name+ "'");
+        	
+        	s=s+mp2.get(i).getST();
+        	stmt.executeUpdate("update playerInfo set steals='"+s+"' where playerName='" +name+ "'");
+        	
+        	b=b+mp2.get(i).getBlockShot();
+        	stmt.executeUpdate("update playerInfo set blocks='"+b+"' where playerName='" +name+ "'");
+        	
+        	tu=tu+mp2.get(i).getError();
+        	stmt.executeUpdate("update playerInfo set turnovers='"+tu+"' where playerName='" +name+ "'");
+        	
+        	f=f+mp2.get(i).getFoul();
+        	stmt.executeUpdate("update playerInfo set fouls='"+f+"' where playerName='" +name+ "'");
+        	
+        	p=p+mp2.get(i).getScore();
+        	stmt.executeUpdate("update playerInfo set points='"+p+"' where playerName='" +name+ "'");
+        	
+        	tpfg=tpfg+mp2.get(i).getFieldGoalAttempts()-mp2.get(i).getThreePointAttempts();
+        	stmt.executeUpdate("update playerInfo set twoPointFieldGoalsAttempts='"+tpfg+"' where playerName='" +name+ "'");
+        	
         	for(int j=0;j<mp2.size();j++){
         		atot=pdc.calTime(atot, mp2.get(j).getMatchTime());
-        	}
-        	pdc.updatePlayerInfoS("allTimeOfTeam", atot, mp2.get(i).getPlayerName(),conn);	
-        	double arot=pdc.searchPlayerInfoD("allReboundsOfTeam", mp2.get(i).getPlayerName(),conn);
-        	for(int j=0;j<mp2.size();j++){
         		arot=arot+mp2.get(j).getRebound();
-        	}
-        	pdc.updatePlayerInfoD("allReboundsOfTeam", arot, mp2.get(i).getPlayerName(),conn);
-        
-        	double aorot=pdc.searchPlayerInfoD("allOffensiveReboundsOfTeam", mp2.get(i).getPlayerName(),conn);
-        	for(int j=0;j<mp2.size();j++){
         		aorot=aorot+mp2.get(j).getOffensiveRebound();
-        	}
-        	pdc.updatePlayerInfoD("allOffensiveReboundsOfTeam", aorot, mp2.get(i).getPlayerName(),conn);
-        	
-        	double adrot=pdc.searchPlayerInfoD("allDefensiveReboundsOfTeam", mp2.get(i).getPlayerName(),conn);
-        	for(int j=0;j<mp2.size();j++){
         		adrot=adrot+mp2.get(j).getDefensiveRebound();
+        		afgm=afgm+mp2.get(j).getFieldGoal();
+        		afgaot=afgaot+mp2.get(j).getFieldGoalAttempts();
+        		afgao=afgao+mp2.get(j).getFreeThrowAttempts();
+        		ato=ato+mp2.get(j).getError();
+        		
         	}
-        	pdc.updatePlayerInfoD("allDefensiveReboundsOfTeam", adrot, mp2.get(i).getPlayerName(),conn);
-        	
-        	double aroo=pdc.searchPlayerInfoD("allReboundsOfOpposite", mp2.get(i).getPlayerName(),conn);
         	for(int j=0;j<mp1.size();j++){
         		aroo=aroo+mp1.get(j).getRebound();
-        	}
-        	pdc.updatePlayerInfoD("allReboundsOfOpposite", aroo, mp2.get(i).getPlayerName(),conn);
-        	
-        	double aoroo=pdc.searchPlayerInfoD("allOffensiveReboundsOfOpposite", mp2.get(i).getPlayerName(),conn);
-        	for(int j=0;j<mp1.size();j++){
         		aoroo=aoroo+mp1.get(j).getOffensiveRebound();
-        	}
-        	pdc.updatePlayerInfoD("allOffensiveReboundsOfOpposite", aoroo, mp2.get(i).getPlayerName(),conn);
-        	
-        	double adroo=pdc.searchPlayerInfoD("allDefensiveReboundsOfOpposite", mp2.get(i).getPlayerName(),conn);
-        	for(int j=0;j<mp1.size();j++){
         		adroo=adroo+mp1.get(j).getDefensiveRebound();
-        	}
-        	pdc.updatePlayerInfoD("allDefensiveReboundsOfOpposite", adroo, mp2.get(i).getPlayerName(),conn);
-        	
-        	double afgm=pdc.searchPlayerInfoD("allFieldGoalsMade", mp2.get(i).getPlayerName(),conn);
-        	for(int j=0;j<mp2.size();j++){
-        		afgm=afgm+mp2.get(j).getFieldGoal();
-        	}
-        	pdc.updatePlayerInfoD("allFieldGoalsMade", afgm, mp2.get(i).getPlayerName(),conn);
-        	
-        	double tpfgaoo=pdc.searchPlayerInfoD("twoPointFieldGoalsAttemptsOfOpposite", mp2.get(i).getPlayerName(),conn);
-        	for(int j=0;j<mp1.size();j++){
         		tpfgaoo=tpfgaoo+mp1.get(j).getFieldGoalAttempts()-mp1.get(j).getThreePointAttempts();
-        	}
-        	pdc.updatePlayerInfoD("twoPointFieldGoalsAttemptsOfOpposite", tpfgaoo, mp2.get(i).getPlayerName(),conn);
-        	
-        	double tpfg=pdc.searchPlayerInfoD("twoPointFieldGoalsAttempts", mp2.get(i).getPlayerName(),conn);
-        	tpfg=tpfg+mp2.get(i).getFieldGoalAttempts()-mp2.get(i).getThreePointAttempts();
-        	pdc.updatePlayerInfoD("twoPointFieldGoalsAttempts", tpfg, mp2.get(i).getPlayerName(),conn);
-        	
-        	double afgaot=pdc.searchPlayerInfoD("allFieldGoalsAttemptsOfTeam", mp2.get(i).getPlayerName(),conn);
-        	for(int j=0;j<mp2.size();j++){
-        		afgaot=afgaot+mp2.get(j).getFieldGoalAttempts();
-        	}
-        	pdc.updatePlayerInfoD("allFieldGoalsAttemptsOfTeam", afgaot, mp2.get(i).getPlayerName(),conn);
-        	
-        	double afgao=pdc.searchPlayerInfoD("allFreeGoalsAttemptsOfTeam", mp2.get(i).getPlayerName(),conn);
-        	for(int j=0;j<mp2.size();j++){
-        		afgao=afgao+mp2.get(j).getFreeThrowAttempts();
-        	}
-        	pdc.updatePlayerInfoD("allFreeGoalsAttemptsOfTeam", afgao, mp2.get(i).getPlayerName(),conn);
-        	
-        	double ato=pdc.searchPlayerInfoD("allturnoversOfTeam", mp2.get(i).getPlayerName(),conn);
-        	for(int j=0;j<mp2.size();j++){
-        		ato=ato+mp2.get(j).getError();
-        	}
-        	pdc.updatePlayerInfoD("allturnoversOfTeam", ato, mp2.get(i).getPlayerName(),conn);
-        	
-        	double afgaoo=pdc.searchPlayerInfoD("allFieldGoalsAttemptsOfOpposite", mp2.get(i).getPlayerName(),conn);
-        	for(int j=0;j<mp1.size();j++){
         		afgaoo=afgaoo+mp1.get(j).getFieldGoalAttempts();
-        	}
-        	pdc.updatePlayerInfoD("allFieldGoalsAttemptsOfOpposite", afgaoo, mp2.get(i).getPlayerName(),conn);
-        	
-        	double afga=pdc.searchPlayerInfoD("allFreeGoalsAttemptsOfOpposite", mp2.get(i).getPlayerName(),conn);
-        	for(int j=0;j<mp1.size();j++){
         		afga=afga+mp1.get(j).getFreeThrowAttempts();
-        	}
-        	pdc.updatePlayerInfoD("allFreeGoalsAttemptsOfOpposite", afga, mp2.get(i).getPlayerName(),conn);
-        	
-        	double amgoo=pdc.searchPlayerInfoD("allMissedGoalsOfOpposite", mp2.get(i).getPlayerName(),conn);
-        	for(int j=0;j<mp1.size();j++){
         		amgoo=amgoo+mp1.get(j).getFieldGoalAttempts()-mp1.get(j).getFieldGoal();
-        	}
-        	pdc.updatePlayerInfoD("allMissedGoalsOfOpposite", amgoo, mp2.get(i).getPlayerName(),conn);
-        	
-        	double atoo=pdc.searchPlayerInfoD("allturnoversOfOpposite", mp2.get(i).getPlayerName(),conn);
-        	for(int j=0;j<mp1.size();j++){
         		atoo=atoo+mp1.get(j).getError();
+            	
         	}
-        	pdc.updatePlayerInfoD("allturnoversOfOpposite", atoo, mp2.get(i).getPlayerName(),conn);
+        	stmt.executeUpdate("update playerInfo set allTimeOfTeam='"+atot+"' where playerName='" +name+ "'");
+        	stmt.executeUpdate("update playerInfo set allReboundsOfTeam='"+arot+"' where playerName='" +name+ "'");
+        	stmt.executeUpdate("update playerInfo set allOffensiveReboundsOfTeam='"+aorot+"' where playerName='" +name+ "'");
+        	stmt.executeUpdate("update playerInfo set allDefensiveReboundsOfTeam='"+adrot+"' where playerName='" +name+ "'");
+        	stmt.executeUpdate("update playerInfo set allReboundsOfOpposite='"+aroo+"' where playerName='" +name+ "'");
+        	stmt.executeUpdate("update playerInfo set allOffensiveReboundsOfOpposite='"+aoroo+"' where playerName='" +name+ "'");
+        	stmt.executeUpdate("update playerInfo set allDefensiveReboundsOfOpposite='"+adroo+"' where playerName='" +name+ "'");
+        	stmt.executeUpdate("update playerInfo set allFieldGoalsMade='"+afgm+"' where playerName='" +name+ "'");
+        	stmt.executeUpdate("update playerInfo set twoPointFieldGoalsAttemptsOfOpposite='"+tpfgaoo+"' where playerName='" +name+ "'");
+        	stmt.executeUpdate("update playerInfo set allFieldGoalsAttemptsOfTeam='"+afgaot+"' where playerName='" +name+ "'");
+        	stmt.executeUpdate("update playerInfo set allFreeGoalsAttemptsOfTeam='"+afgao+"' where playerName='" +name+ "'");
+        	stmt.executeUpdate("update playerInfo set allturnoversOfTeam='"+ato+"' where playerName='" +name+ "'");
+        	stmt.executeUpdate("update playerInfo set allFieldGoalsAttemptsOfOpposite='"+afgaoo+"' where playerName='" +name+ "'");
+        	stmt.executeUpdate("update playerInfo set allFreeGoalsAttemptsOfOpposite='"+afga+"' where playerName='" +name+ "'");
+        	stmt.executeUpdate("update playerInfo set allMissedGoalsOfOpposite='"+amgoo+"' where playerName='" +name+ "'");
+        	stmt.executeUpdate("update playerInfo set allturnoversOfOpposite='"+atoo+"' where playerName='" +name+ "'");
         	
-        	double dd=pdc.searchPlayerInfoD("doubleDouble", mp2.get(i).getPlayerName(),conn);
         	if((mp2.get(i).getScore()>=10&&mp2.get(i).getAssist()>=10) || (mp2.get(i).getScore()>=10&&mp2.get(i).getRebound()>=10) 
 					|| (mp2.get(i).getScore()>=10&&mp2.get(i).getST()>=10) || (mp2.get(i).getScore()>=10&&mp2.get(i).getBlockShot()>=10) 
 					|| (mp2.get(i).getAssist()>=10&&mp2.get(i).getBlockShot()>=10) || (mp2.get(i).getAssist()>=10&&mp2.get(i).getRebound()>=10) 
@@ -439,10 +475,13 @@ public class PlayerDataCalculate {
 					|| (mp2.get(i).getST()>=10&&mp2.get(i).getRebound()>=10) || (mp2.get(i).getRebound()>=10&&mp2.get(i).getBlockShot()>=10)){
         		dd=dd+1;
         	}
-        	pdc.updatePlayerInfoD("doubleDouble", dd, mp2.get(i).getPlayerName(),conn);
+        	stmt.executeUpdate("update playerInfo set doubleDouble='"+dd+"' where playerName='" +name+ "'");
+        	
         }
+        stmt.close();
         conn.close();
 	}//根据单场比赛ID添加信息
+	
 	
 	
 	public void calSimpleData() throws Exception{
@@ -641,21 +680,20 @@ public class PlayerDataCalculate {
 		
 	}//添加基本信息
 	
+	public void calComplexData(int matchID) throws Exception{
 
-	
-	public void calComplexData() throws Exception{
 		PlayerDataCalculate pdc=new PlayerDataCalculate();
 		
 		File directory = new File("");
-		String courseFile = directory.getCanonicalPath() ;
+		String courseFile = directory.getCanonicalPath();
 		Class.forName("sun.jdbc.odbc.JdbcOdbcDriver"); 
         String dbur1 = "jdbc:odbc:driver={Microsoft Access Driver (*.mdb, *.accdb)};DBQ="+courseFile+"//NBAIteration2";  
         Connection conn = DriverManager.getConnection(dbur1, "username", "password"); 
         
-        String sql = "select * from playerInfo";
-        PreparedStatement pstmt;
-        pstmt = (PreparedStatement)conn.prepareStatement(sql);
-        ResultSet rs = pstmt.executeQuery();
+        Statement stmt=conn.createStatement();
+        
+        String sql = "select * from playerInfo where playerName in (select playerName from playerMatchInfo where generalMatch="+matchID+")";
+        ResultSet rs = stmt.executeQuery(sql);
         
         ArrayList<PlayerPO> pp=new ArrayList<PlayerPO>();
         while(rs.next()){
@@ -697,125 +735,144 @@ public class PlayerDataCalculate {
         	pp.add(p);
         }
         rs.close();
-        pstmt.close();
         
+        double fgp=0;
+        double tpfgp=0;
+        double ftgp=0;
+        double e=0;
+        double GmSc=0;
+    	double tsp=0;
+    	double se=0;
+    	double time=0;
+    	double allTime=0;
+    	double rr=0;
+    	double orr=0;
+    	double drr=0;
+    	double ar=0;
+    	double adoo=0;
+    	double sr=0;
+    	double br=0;
+    	double tr=0;
+    	double ur=0;
+    	String name;
         for(int i=0;i<pp.size();i++){
-        	double fgp=0;
+        	name=pp.get(i).getPlayerName();
+        	name=name.replace("'","''");
+        	
         	if(pp.get(i).getFieldGoalsAttempts()!=0)
         		fgp=pp.get(i).getFieldGoalsMade()/pp.get(i).getFieldGoalsAttempts();
-        	pdc.updatePlayerInfoD("fieldGoalsPercentage", fgp, pp.get(i).getPlayerName(),conn);
         	//计算投篮命中率
         	
-        	double tpfgp=0;
+        	
         	if(pp.get(i).getThreePointFieldGoalsAttempts()!=0)
         		tpfgp=pp.get(i).getThreePointFieldGoalsMade()/pp.get(i).getThreePointFieldGoalsAttempts();
-        	pdc.updatePlayerInfoD("threePointFieldGoalsPercentage", tpfgp, pp.get(i).getPlayerName(),conn);
         	//计算三分命中率
         	
-        	double ftgp=0;
+        	
         	if(pp.get(i).getFreeThrowsAttempts()!=0)
         		ftgp=pp.get(i).getFreeThrowsMade()/pp.get(i).getFreeThrowsAttempts();
-        	pdc.updatePlayerInfoD("freeThrowsPercentage", ftgp, pp.get(i).getPlayerName(),conn);
         	//计算罚球命中率
         	
-        	double e=pp.get(i).getPoints()+pp.get(i).getBlocks()+pp.get(i).getAssists()+pp.get(i).getSteals()
+        	e=pp.get(i).getPoints()+pp.get(i).getBlocks()+pp.get(i).getAssists()+pp.get(i).getSteals()
         			+pp.get(i).getRebounds()-pp.get(i).getFieldGoalsAttempts()+pp.get(i).getFieldGoalsMade()
         			-pp.get(i).getFreeThrowsAttempts()+pp.get(i).getFreeThrowsMade()-pp.get(i).getTurnovers();
-        	pdc.updatePlayerInfoD("efficiency", e, pp.get(i).getPlayerName(),conn);
         	//计算效率
         	
-        	double GmSc=pp.get(i).getPoints()+0.4*pp.get(i).getFieldGoalsMade()-0.7*pp.get(i).getFieldGoalsAttempts()
+        	GmSc=pp.get(i).getPoints()+0.4*pp.get(i).getFieldGoalsMade()-0.7*pp.get(i).getFieldGoalsAttempts()
         			-0.4*(pp.get(i).getFreeThrowsAttempts()-pp.get(i).getFreeThrowsMade())+0.7*pp.get(i).getOffensiveRebounds()
         			+0.3*pp.get(i).getDefensiveRebounds()+pp.get(i).getSteals()+0.7*pp.get(i).getAssists()
         			+0.7*pp.get(i).getBlocks()-0.4*pp.get(i).getFouls()-pp.get(i).getTurnovers();
-        	pdc.updatePlayerInfoD("GmSc", GmSc, pp.get(i).getPlayerName(),conn);
         	//计算GmSc
         	
-        	double tsp=0;
+
         	if(2*(pp.get(i).getFieldGoalsAttempts()+0.44*pp.get(i).getFreeThrowsAttempts())!=0)
         		tsp=pp.get(i).getPoints()/(2*(pp.get(i).getFieldGoalsAttempts()+0.44*pp.get(i).getFreeThrowsAttempts()));
-        	pdc.updatePlayerInfoD("trueShootingPercentage", tsp, pp.get(i).getPlayerName(),conn);
         	//计算真实命中率
         	
-        	double se=0;
+        	
         	if(pp.get(i).getFieldGoalsAttempts()!=0)
         		se=(pp.get(i).getFieldGoalsMade()+0.5*pp.get(i).getThreePointFieldGoalsMade())/pp.get(i).getFieldGoalsAttempts();
-        	pdc.updatePlayerInfoD("shootingEfficiency", se, pp.get(i).getPlayerName(),conn);
         	//计算投篮效率
         	
-        	double time=pdc.getTime(pp.get(i).getMinutes());
-        	double allTime=pdc.getTime(pp.get(i).getAllTimeOfTeam())/5;
+        	time=pdc.getTime(pp.get(i).getMinutes());
+        	allTime=pdc.getTime(pp.get(i).getAllTimeOfTeam())/5;
         	
-        	double rr=0;
+        	
         	if(time!=0 && pp.get(i).getAllReboundsOfTeam()+pp.get(i).getAllReboundsOfOpposite()!=0)
         		rr=pp.get(i).getRebounds()*(allTime)/time
         			/(pp.get(i).getAllReboundsOfTeam()+pp.get(i).getAllReboundsOfOpposite());
-        	pdc.updatePlayerInfoD("reboundRating", rr, pp.get(i).getPlayerName(),conn);
         	//计算篮板率
         	
-        	double orr=0;
+        	
         	if(time!=0 && pp.get(i).getAllOffensiveReboundsOfTeam()+pp.get(i).getAllOffensiveReboundsOfOpposite()!=0)
         		orr=pp.get(i).getOffensiveRebounds()*(allTime)/time
         			/(pp.get(i).getAllOffensiveReboundsOfTeam()+pp.get(i).getAllOffensiveReboundsOfOpposite());
-        	pdc.updatePlayerInfoD("offensiveReboundRating", orr, pp.get(i).getPlayerName(),conn);
         	//计算进攻篮板率
         	
-        	double drr=0;
+        	
         	if(time!=0 && pp.get(i).getAlldefensiveReboundsOfTeam()+pp.get(i).getAlldefensiveReboundsOfOpposite()!=0)
         		drr=pp.get(i).getDefensiveRebounds()*(allTime)/time
         			/(pp.get(i).getAlldefensiveReboundsOfTeam()+pp.get(i).getAlldefensiveReboundsOfOpposite());
-        	pdc.updatePlayerInfoD("defensiveReboundRating", drr, pp.get(i).getPlayerName(),conn);
         	//计算防守篮板率
         	
-        	double ar=0;
+        	
         	if(allTime!=0)
         		if(time/allTime*pp.get(i).getAllFieldGoalsMade()-pp.get(i).getFieldGoalsMade()!=0)
         			ar=pp.get(i).getAssists()/(time/allTime*pp.get(i).getAllFieldGoalsMade()-pp.get(i).getFieldGoalsMade());
-        	pdc.updatePlayerInfoD("assisyRating", ar, pp.get(i).getPlayerName(),conn);
         	//计算助攻率
         	
-        	
-        	double adoo=0;
+        	  	
         	if(pp.get(i).getAllOffensiveReboundsOfOpposite()+pp.get(i).getAlldefensiveReboundsOfTeam()!=0)
         		adoo=pp.get(i).getAllFieldGoalsAttemptsOfOpposite()+0.4*pp.get(i).getAllFreeGoalsAttemptsOfOpposite()-1.07*
         			(pp.get(i).getAllOffensiveReboundsOfOpposite()/(pp.get(i).getAllOffensiveReboundsOfOpposite()+pp.get(i).getAlldefensiveReboundsOfTeam())*pp.get(i).getAllMissedGoalsOfOpposite())
         			+1.07*pp.get(i).getAllturnoversOfOpposite();
-        	pdc.updatePlayerInfoD("allDefenseOfOpposite", adoo, pp.get(i).getPlayerName(),conn);
         	pp.get(i).setAllDefenseOfOpposite(adoo);
         	//计算对手进攻次数
         	
-        	double sr=0;
+        	
         	if(time!=0 && pp.get(i).getAllDefenseOfOpposite()!=0)
         		sr=pp.get(i).getSteals()*allTime/time/pp.get(i).getAllDefenseOfOpposite();
-        	pdc.updatePlayerInfoD("stealRating", sr, pp.get(i).getPlayerName(),conn);
         	//计算抢断率
         	
-        	double br=0;
+        	
         	if(time!=0 && pp.get(i).getTwoPointFieldGoalsAttemptsOfOpposite()!=0)
         		br=pp.get(i).getBlocks()*allTime/time/pp.get(i).getTwoPointFieldGoalsAttemptsOfOpposite();
-        	pdc.updatePlayerInfoD("blockRating", br, pp.get(i).getPlayerName(),conn);
         	//计算盖帽率
 
-        	double tr=0;
+        	
         	if(pp.get(i).getTurnovers()!=0)
         		tr=pp.get(i).getTurnovers()/(pp.get(i).getTwoPointFieldGoalsAttempts()+0.44*pp.get(i).getFreeThrowsAttempts()+pp.get(i).getTurnovers());
-        	pdc.updatePlayerInfoD("turnoverRating", tr, pp.get(i).getPlayerName(),conn);
         	//计算失误率
         	
-        	double ur=0;
+        	
         	if(time!=0 && pp.get(i).getAllFieldGoalsAttemptsOfTeam()+0.44*pp.get(i).getAllFreeGoalsAttemptsOfTeam()+pp.get(i).getAllturnoversOfTeam()!=0)
         		ur=(pp.get(i).getFieldGoalsAttempts()+0.44*pp.get(i).getFreeThrowsAttempts()+pp.get(i).getTurnovers())*
         			allTime/time/(pp.get(i).getAllFieldGoalsAttemptsOfTeam()+0.44*pp.get(i).getAllFreeGoalsAttemptsOfTeam()+pp.get(i).getAllturnoversOfTeam());
-        	pdc.updatePlayerInfoD("utilizationRating", ur, pp.get(i).getPlayerName(),conn);
         	//计算使用率
         	
+        	stmt.executeUpdate("update playerInfo set fieldGoalsPercentage='"+fgp+"' where playerName='" +name+ "'");
+        	stmt.executeUpdate("update playerInfo set threePointFieldGoalsPercentage='"+tpfgp+"' where playerName='" +name+ "'");
+        	stmt.executeUpdate("update playerInfo set freeThrowsPercentage='"+ftgp+"' where playerName='" +name+ "'");
+        	stmt.executeUpdate("update playerInfo set efficiency='"+e+"' where playerName='" +name+ "'");
+        	stmt.executeUpdate("update playerInfo set GmSc='"+GmSc+"' where playerName='" +name+ "'");
+            stmt.executeUpdate("update playerInfo set trueShootingPercentage='"+tsp+"' where playerName='" +name+ "'");
+            stmt.executeUpdate("update playerInfo set shootingEfficiency='"+se+"' where playerName='" +name+ "'");
+            stmt.executeUpdate("update playerInfo set reboundRating='"+rr+"' where playerName='" +name+ "'");
+            stmt.executeUpdate("update playerInfo set offensiveReboundRating='"+orr+"' where playerName='" +name+ "'");
+            stmt.executeUpdate("update playerInfo set defensiveReboundRating='"+drr+"' where playerName='" +name+ "'");
+            stmt.executeUpdate("update playerInfo set assisyRating='"+ar+"' where playerName='" +name+ "'");
+            stmt.executeUpdate("update playerInfo set allDefenseOfOpposite='"+adoo+"' where playerName='" +name+ "'");
+            stmt.executeUpdate("update playerInfo set stealRating='"+sr+"' where playerName='" +name+ "'");
+            stmt.executeUpdate("update playerInfo set blockRating='"+br+"' where playerName='" +name+ "'");
+            stmt.executeUpdate("update playerInfo set turnoverRating='"+tr+"' where playerName='" +name+ "'");
+            stmt.executeUpdate("update playerInfo set utilizationRating='"+ur+"' where playerName='" +name+ "'");
         }
-		
+		stmt.close();
 		conn.close();
 	}//计算复杂数据
 	
-	public void calIncreaseOf5() throws Exception{
-		PlayerDataCalculate pdc=new PlayerDataCalculate();
+	
+	public void calIncreaseOf5(int matchID) throws Exception{
 		
 		File directory = new File("");
 		String courseFile = directory.getCanonicalPath() ;
@@ -823,10 +880,10 @@ public class PlayerDataCalculate {
         String dbur1 = "jdbc:odbc:driver={Microsoft Access Driver (*.mdb, *.accdb)};DBQ="+courseFile+"//NBAIteration2";  
         Connection conn = DriverManager.getConnection(dbur1, "username", "password"); 
         
-        String sql = "select * from playerInfo";
-        PreparedStatement pstmt;
-        pstmt = (PreparedStatement)conn.prepareStatement(sql);
-        ResultSet rs = pstmt.executeQuery();
+        Statement stmt=conn.createStatement();
+        
+        String sql = "select * from playerInfo where playerName in (select playerName from playerMatchInfo where generalMatch="+matchID+")";
+        ResultSet rs = stmt.executeQuery(sql);
         
         ArrayList<PlayerPO> pn=new ArrayList<PlayerPO>();
         while(rs.next()){
@@ -835,26 +892,26 @@ public class PlayerDataCalculate {
         	pn.add(p);
         }
         rs.close();
-        pstmt.close();
         
+        double temp=0;
         for(int i=0;i<pn.size();i++){
 	        String name=pn.get(i).getPlayerName().replace("'", "''");
 	        String sql1 = "select * from playerMatchInfo where playerName='" +name+"'";
-	        PreparedStatement pstmt1;
-	        pstmt1 = (PreparedStatement)conn.prepareStatement(sql1);
-	        ResultSet rs1 = pstmt1.executeQuery();
+	        ResultSet rs1 = stmt.executeQuery(sql1);
 	        
 	        ArrayList<Double> point=new ArrayList<Double>();
 	        ArrayList<Double> rebound=new ArrayList<Double>();
 	        ArrayList<Double> assist=new ArrayList<Double>();
+	        
 	        while(rs1.next()){
 	        	point.add(rs1.getDouble("score"));
 	        	rebound.add(rs1.getDouble("rebound"));
 	        	assist.add(rs1.getDouble("assist"));
 	        }
-	        pstmt.close();
+	        rs1.close();
+	        
 	        if(point.size()<=5)
-	        	pdc.updatePlayerInfoD("increaseOfPoints", 0, pn.get(i).getPlayerName(),conn);
+	        	stmt.executeUpdate("update playerInfo set increaseOfPoints='0' where playerName='" +name+ "'");
 	        else{
 	        	double B=0;
 	        	for(int j=point.size()-1;j>=point.size()-5;j--){
@@ -867,13 +924,15 @@ public class PlayerDataCalculate {
 	        	}
 	        	A=A/(point.size()-5);
 	        	if(A==0)
-	        		pdc.updatePlayerInfoD("increaseOfPoints", 0, pn.get(i).getPlayerName(),conn);
+	        		temp=0;
 	        	else
-	        		pdc.updatePlayerInfoD("increaseOfPoints", (B-A)/A, pn.get(i).getPlayerName(),conn);;
+	        		temp=(B-A)/A;
+	        	stmt.executeUpdate("update playerInfo set increaseOfPoints='"+temp+"' where playerName='" +name+ "'");
+	        	
 	        }
 	        
 	        if(rebound.size()<=5)
-	        	pdc.updatePlayerInfoD("increaseOfRebounds", 0, pn.get(i).getPlayerName(),conn);
+	        	stmt.executeUpdate("update playerInfo set increaseOfRebounds='0' where playerName='" +name+ "'");
 	        else{
 	        	double B=0;
 	        	for(int j=rebound.size()-1;j>=rebound.size()-5;j--){
@@ -884,15 +943,16 @@ public class PlayerDataCalculate {
 	        	for(int j=rebound.size()-6;j>=0;j--){
 	        		A=rebound.get(j)+A;
 	        	}
-	        	A=A/(point.size()-5);
+	        	A=A/(rebound.size()-5);
 	        	if(A==0)
-	        		pdc.updatePlayerInfoD("increaseOfRebounds", 0, pn.get(i).getPlayerName(),conn);
+	        		temp=0;
 	        	else
-	        		pdc.updatePlayerInfoD("increaseOfRebounds", (B-A)/A, pn.get(i).getPlayerName(),conn);;
+		        	temp=(B-A)/A;
+		        stmt.executeUpdate("update playerInfo set increaseOfRebounds='"+temp+"' where playerName='" +name+ "'");
 	        }
 	        
 	        if(assist.size()<=5)
-	        	pdc.updatePlayerInfoD("increaseOfAssists", 0, pn.get(i).getPlayerName(),conn);
+	        	 stmt.executeUpdate("update playerInfo set increaseOfAssists='0' where playerName='" +name+ "'");
 	        else{
 	        	double B=0;
 	        	for(int j=assist.size()-1;j>=assist.size()-5;j--){
@@ -903,16 +963,21 @@ public class PlayerDataCalculate {
 	        	for(int j=assist.size()-6;j>=0;j--){
 	        		A=assist.get(j)+A;
 	        	}
-	        	A=A/(point.size()-5);
+	        	A=A/(assist.size()-5);
 	        	if(A==0)
-	        		pdc.updatePlayerInfoD("increaseOfAssists", 0, pn.get(i).getPlayerName(),conn);
+	        		temp=0;
 	        	else
-	        		pdc.updatePlayerInfoD("increaseOfAssists", (B-A)/A, pn.get(i).getPlayerName(),conn);;
+	        		temp=(B-A)/A;
+	        	stmt.executeUpdate("update playerInfo set increaseOfAssists='"+temp+"' where playerName='" +name+ "'");
 	        }
 	        
         }
+        stmt.close();
         conn.close();
 	}//计算近五场的提升率
+	
+	
+	
 	
 	public double getTime(String time){
 		if(time==null)
@@ -923,6 +988,9 @@ public class PlayerDataCalculate {
 		double result=min+sec/60;
 		return result;
 	}//计算时间值
+	
+	
+	
 	
 	public String calTime(String a,String b){
 		if(a==null || a.equals(""))
@@ -944,68 +1012,80 @@ public class PlayerDataCalculate {
 		return result;
 	}//计算两时间之和
 	
-	public void updatePlayerInfoS(String p,String s,String name,Connection conn) throws Exception {
-        
-        name=name.replace("'", "''");
-        String sql = "update playerInfo set "+p+"='"+s+"' where playerName='" +name+ "'";
-        PreparedStatement pstmt;
-        pstmt = (PreparedStatement) conn.prepareStatement(sql);
-    	pstmt.executeUpdate();
-    	pstmt.close();
-	}//在playerInfo中更新字符串
 	
-	public void updatePlayerInfoD(String p,double s,String name,Connection conn) throws Exception {        
-        name=name.replace("'", "''");
-        String sql = "update playerInfo set "+p+"='"+s+"' where playerName='" +name+ "'";
-        PreparedStatement pstmt;
-        pstmt = (PreparedStatement) conn.prepareStatement(sql);
-    	pstmt.executeUpdate();
-    	pstmt.close();
-	}//在playerInfo中更新数字
 	
-	public String searchPlayerInfoS(String p,String name,Connection conn) throws Exception {
-        name=name.replace("'", "''");
-        String sql = "select * from playerInfo where playerName='" + name + "'";
-        PreparedStatement pstmt;
-        pstmt = (PreparedStatement)conn.prepareStatement(sql);
-        ResultSet rs = pstmt.executeQuery();
-        
-        String result="";
-        while(rs.next()){
-        	result=rs.getString(p);
-        }
-        rs.close();
-        pstmt.close();
-        return result;
-	}//在playerInfo中查找字符串
-	
-	public double searchPlayerInfoD(String p,String name,Connection conn) throws Exception {
-        name=name.replace("'", "''");
-        String sql = "select * from playerInfo where playerName='" + name + "'";
-        PreparedStatement pstmt;
-        pstmt = (PreparedStatement)conn.prepareStatement(sql);
-        ResultSet rs = pstmt.executeQuery();
-        
-        double result=0;
-        while(rs.next()){
-        	result=rs.getDouble(p);
-        }
-        rs.close();
-        pstmt.close();
-        return result;
-	}//在playerInfo中查找数字
-	
-	public void update(){
+		
+	public void update(ArrayList<Integer> matchID){
+		PlayerDataCalculate pdc=new PlayerDataCalculate();
+		try {
+			for(int i=0;i<matchID.size();i++){
+				pdc.updatePlayerInfoBySingleMatch(matchID.get(i));
+				pdc.calComplexData(matchID.get(i));
+				pdc.calIncreaseOf5(matchID.get(i));
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	public void updateBasic(){
 		PlayerDataCalculate pdc=new PlayerDataCalculate();
 		try {
 			pdc.saveBasicInfo();
 			
-			pdc.calSimpleData();
+			File directory = new File("");
+			String courseFile = directory.getCanonicalPath() ;
+			Class.forName("sun.jdbc.odbc.JdbcOdbcDriver"); 
+	        String dbur1 = "jdbc:odbc:driver={Microsoft Access Driver (*.mdb, *.accdb)};DBQ="+courseFile+"//NBAIteration2";  
+	        Connection conn = DriverManager.getConnection(dbur1, "username", "password"); 
+	        
+	        Statement stmt=conn.createStatement();
+	        
+	        String sql = "select * from generalMatchInfo";
+	        ResultSet rs = stmt.executeQuery(sql);
+	        
+	        ArrayList<Integer> matchID=new ArrayList<Integer>();
+	        while(rs.next()){
+	        	matchID.add(rs.getInt("ID"));
+	        }
+	        pdc.update(matchID);
 			
-			pdc.calComplexData();
-
-			pdc.calIncreaseOf5();
-
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public static void main(String []args){
+		PlayerDataCalculate pdc=new PlayerDataCalculate();
+		try {
+			Date d = new Date();  
+	        System.out.println(d);  
+	        
+			pdc.saveBasicInfo();
+			
+			Date d1 = new Date();  
+	        System.out.println(d1);
+	        
+	        for(int i=0;i<10;i++)
+	        	pdc.updatePlayerInfoBySingleMatch(i);
+	        
+	        Date d2 = new Date();  
+	        System.out.println(d2);
+	        
+	        for(int i=0;i<10;i++)
+	        	pdc.calComplexData(i);
+	        
+	        Date d3 = new Date();  
+	        System.out.println(d3);
+	        
+	        for(int i=0;i<10;i++)
+	        	pdc.calIncreaseOf5(i);
+			
+			Date d4 = new Date();  
+	        System.out.println(d4);
+			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
