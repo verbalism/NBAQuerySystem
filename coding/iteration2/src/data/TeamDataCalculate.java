@@ -842,7 +842,7 @@ public class TeamDataCalculate{
 	 }
 	
 	 public static void main(String[]args){
-		try {
+		/*try {
 			new TeamDataCalculate().BasicTeamOriginal();
 			new MatchDataCalculate().BasicMatchOriginal();
 			
@@ -850,7 +850,7 @@ public class TeamDataCalculate{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		/*for(int i=1;i<1230;i++){
+		for(int i=1;i<1230;i++){
 		 
 		 String[]m={"fieldGoalsMade","fieldGoalsAttempted","threePointFieldGoalsMade","threePointFieldGoalsAttempted"
 				 ,"freeThrowsMade","freeThrowsAttempted","offensiveRebounds","defensiveRebounds","rebounds","assists","steals","blocks","turnovers","fouls","points"};
@@ -878,9 +878,12 @@ public class TeamDataCalculate{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		}*/
+		}
 		 
-		new TeamDataCalculate().updateAllTeam();
+		new TeamDataCalculate().updateAllTeam();*/
+		 TeamDataCalculate tdc=new TeamDataCalculate();
+		 tdc.addSingleMatchTeam(1);
+		 System.out.println("Ìí¼Ó³É¹¦");
 		
 	 }
 }

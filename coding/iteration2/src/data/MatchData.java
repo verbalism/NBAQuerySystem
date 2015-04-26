@@ -32,7 +32,7 @@ public class MatchData implements MatchDataService{
 	 		 Connection conn = DriverManager.getConnection(dbur1, "username", "password");  
 	 		 Statement stmt = conn.createStatement();  
 	 		 
-	 		 ResultSet rs = stmt.executeQuery("select * from generalMatchInfo where matchTime='"+date+"' and EXISTs (select * from generalMatchInfo where teamName1='"+teamName+"' or teamName2='"+teamName+"')");	
+	 		 ResultSet rs = stmt.executeQuery("select * from generalMatchInfo where teamName1='"+teamName+"' or teamName2='"+teamName+"' and matchTime in (select matchTime from generalMatchInfo where matchTime='"+date+"')");	
 	 		 
 	 		 while(rs.next()){
 	 			 matchID=rs.getInt("ID");
@@ -441,8 +441,8 @@ public class MatchData implements MatchDataService{
 	public static void main(String[]args){
 		MatchData md=new MatchData();
 		ArrayList <MatchPO> mp=md.getTodayMatchInfo("12-11");
-		MatchPO mpo=md.getSingleMatchInfo("BOS", "12-11");
+		MatchPO mpo=md.getSingleMatchInfo("LAC", "01-01");
 		System.out.println(mp.size());
-		System.out.println(mpo.getScore());
+		System.out.println(mpo.getTeam1().getTeamName());
 	}
 }
