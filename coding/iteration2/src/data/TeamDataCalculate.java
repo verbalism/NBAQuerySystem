@@ -68,6 +68,21 @@ public class TeamDataCalculate{
 		 
 	 }
 	 
+	 public void deleteAllTeam()throws Exception{
+		 File f=new File("");
+		 	String s=f.getCanonicalPath();
+		 	Class.forName("sun.jdbc.odbc.JdbcOdbcDriver");  
+	        String dbur1 = "jdbc:odbc:driver={Microsoft Access Driver (*.mdb, *.accdb)};DBQ="+s+"//NBAIteration2";  
+	        Connection conn = DriverManager.getConnection(dbur1, "username", "password"); 
+			Statement stmt=conn.createStatement();
+			
+			stmt.executeUpdate("delete * from teamInfo");
+			
+			stmt.close();
+			conn.close();
+			
+	 }
+	 
 	 public void updateAllTeam(){
 		 //更新所有信息（从头遍历比赛）
 		 TeamDataCalculate tdc=new TeamDataCalculate();

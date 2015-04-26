@@ -7,6 +7,24 @@ import java.util.ArrayList;
 import po.MatchPO;
 
 public class MatchDataCalculate {
+	
+	public void deleteAllMatch()throws Exception{
+		File f=new File("");
+	 	String s=f.getCanonicalPath();
+	 	Class.forName("sun.jdbc.odbc.JdbcOdbcDriver");  
+        String dbur1 = "jdbc:odbc:driver={Microsoft Access Driver (*.mdb, *.accdb)};DBQ="+s+"//NBAIteration2";  
+        Connection conn = DriverManager.getConnection(dbur1, "username", "password"); 
+		Statement stmt=conn.createStatement();
+		
+		stmt.executeUpdate("delete * from generalMatchInfo");
+		stmt.executeUpdate("delete * from playerMatchInfo");
+		
+		stmt.close();
+		conn.close();
+		
+	}
+	
+	
 	public void BasicMatchOriginal() throws Exception{  
 	 	//在数据库中读入比赛基本信息
 	 

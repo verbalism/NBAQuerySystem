@@ -108,6 +108,17 @@ public class TeamData implements TeamDataService{
 		return result;
 	}
 	
+	public void updateAllTeam(){
+		TeamDataCalculate tdc=new TeamDataCalculate();
+		try {
+			tdc.deleteAllTeam();
+			tdc.updateAllTeam();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
 	/*public static void main(String[]args){
 		TeamData td=new TeamData();
 		TeamPO tp=td.getSingleTeamInfo("BOS");
