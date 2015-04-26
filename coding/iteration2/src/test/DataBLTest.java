@@ -28,9 +28,9 @@ public class DataBLTest {
 		System.out.println(pl.size());
 		
 		MatchVO m=d.getSingleMatchInfo("01-01","CHA");		
-		MatchPO m2=md.getSingleMatchInfo("CHA","01-01");
 		System.out.println(m.getMatchTime());
 		System.out.println(m.getTeam1().getTeamName());
+		System.out.println(m.getTeam2().getTeamName());
 		System.out.println(m.getTeam2().getPlayers().get(2).getFieldGoalAttempts());
 		
 		ArrayList<MatchVO> ml=d.findMatchByPlayer("Aaron Brooks");
