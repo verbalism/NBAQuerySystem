@@ -173,7 +173,7 @@ public class DataBL implements DataBLService {
 		vo.MatchTeam t1=new vo.MatchTeam();
 		vo.MatchTeam t2=new vo.MatchTeam();
 		t1.setTeamName(m.getTeam1().getTeamName());
-		t2.setTeamName(m.getTeam1().getTeamName());
+		t2.setTeamName(m.getTeam2().getTeamName());
 		for(int i=0;i<m.getTeam1().getPlayers().size();i++){
 			vo.MatchPlayer mp=new vo.MatchPlayer();
 			mp.setPlayerName(m.getTeam1().getPlayers().get(i).getPlayerName());
@@ -243,7 +243,7 @@ public class DataBL implements DataBLService {
 			vo.MatchTeam t1=new vo.MatchTeam();
 			vo.MatchTeam t2=new vo.MatchTeam();
 			t1.setTeamName(m.get(j).getTeam1().getTeamName());
-			t2.setTeamName(m.get(j).getTeam1().getTeamName());
+			t2.setTeamName(m.get(j).getTeam2().getTeamName());
 			for(int i=0;i<m.get(j).getTeam1().getPlayers().size();i++){
 				vo.MatchPlayer mp=new vo.MatchPlayer();
 				mp.setPlayerName(m.get(j).getTeam1().getPlayers().get(i).getPlayerName());
@@ -315,7 +315,7 @@ public class DataBL implements DataBLService {
 			vo.MatchTeam t1=new vo.MatchTeam();
 			vo.MatchTeam t2=new vo.MatchTeam();
 			t1.setTeamName(m.get(j).getTeam1().getTeamName());
-			t2.setTeamName(m.get(j).getTeam1().getTeamName());
+			t2.setTeamName(m.get(j).getTeam2().getTeamName());
 			for(int i=0;i<m.get(j).getTeam1().getPlayers().size();i++){
 				vo.MatchPlayer mp=new vo.MatchPlayer();
 				mp.setPlayerName(m.get(j).getTeam1().getPlayers().get(i).getPlayerName());
@@ -388,7 +388,7 @@ public class DataBL implements DataBLService {
 			vo.MatchTeam t1=new vo.MatchTeam();
 			vo.MatchTeam t2=new vo.MatchTeam();
 			t1.setTeamName(m.get(j).getTeam1().getTeamName());
-			t2.setTeamName(m.get(j).getTeam1().getTeamName());
+			t2.setTeamName(m.get(j).getTeam2().getTeamName());
 			for(int i=0;i<m.get(j).getTeam1().getPlayers().size();i++){
 				vo.MatchPlayer mp=new vo.MatchPlayer();
 				mp.setPlayerName(m.get(j).getTeam1().getPlayers().get(i).getPlayerName());
