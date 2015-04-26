@@ -243,39 +243,25 @@ public class PlayerData implements PlayerDataService{
 		return result;
 	}
 	
-	public void updatePlayerInfo(){
-		try{
-			File directory = new File("");
-			String courseFile = directory.getCanonicalPath() ;
-			Class.forName("sun.jdbc.odbc.JdbcOdbcDriver"); 
-			String dbur1 = "jdbc:odbc:driver={Microsoft Access Driver (*.mdb, *.accdb)};DBQ="+courseFile+"//NBAIteration2";  
-			Connection conn = DriverManager.getConnection(dbur1, "username", "password"); 
-			
-			String sql = "delete * from playerInfo";
-	        PreparedStatement pstmt;
-	        pstmt = (PreparedStatement) conn.prepareStatement(sql);
-	    	pstmt.executeUpdate();
-	    	pstmt.close();
-	    	conn.close();
-	        
-		}catch (Exception e) {
-			e.printStackTrace();
-		}
+	public void updatePlayerInfo(ArrayList<Integer> matchID){
 		PlayerDataCalculate pdc=new PlayerDataCalculate();
-		pdc.update();
+		pdc.update(matchID);
 	}
 	
+	public void updateBasicPlayerInfo(){
+		PlayerDataCalculate pdc=new PlayerDataCalculate();
+		pdc.updateBasic();
+	}
 	
 	public static void main(String []args){
-		PlayerData pd=new PlayerData();
+		/*PlayerData pd=new PlayerData();
 		
-		/*PlayerPO pp=pd.getSinglePlayerInfo("LeBron James");
+		PlayerPO pp=pd.getSinglePlayerInfo("LeBron James");
 		System.out.println(pp.getAge());
 		
 		ArrayList<TodayPlayerPO> tpp=pd.getTodayPlayerInfo("01-01");
 		for(int i=0;i<tpp.size();i++){
 			System.out.println(tpp.get(i).getPlayerName());
 		}*/
-		pd.updatePlayerInfo();
 	}
 }
