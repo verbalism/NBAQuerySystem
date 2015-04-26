@@ -19,11 +19,7 @@ import vo.PlayerVO;
 import vo.TeamVO;
 import businesslogicService.DataBLService;
 
-public class DataBL implements DataBLService {
-	public static void main(String []args){
-	
-	}
-	
+public class DataBL implements DataBLService {	
 	public PlayerVO getSinglePlayerInfo(String playerName){
 		PlayerDataService pd=new PlayerData();
 		PlayerVO result=new PlayerVO();

@@ -3,12 +3,16 @@ package businesslogic;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import po.MatchPO;
+
+
+
 import po.TodayPlayerPO;
 import data.MatchData;
 import data.PlayerData;
+import data.TeamData;
 import dataService.MatchDataService;
 import dataService.PlayerDataService;
+import dataService.TeamDataService;
 import vo.MatchVO;
 import vo.PlayerPartition;
 import vo.PlayerPosition;
@@ -1147,9 +1151,7 @@ public class AnalysisBL implements AnalysisBLService {
 		
 		PlayerDataService pd=new PlayerData();
 		MatchDataService md=new MatchData();
-		ArrayList<MatchPO> m=new ArrayList<MatchPO>();
-		m=md.getAllMatchInfo();
-		String str=m.get(m.size()-1).getMatchTime();
+		String str=md.getDate();
 		ArrayList<TodayPlayerPO> tp=pd.getTodayPlayerInfo(str);
 		ArrayList<TodayPlayerVO> result2=new ArrayList<TodayPlayerVO>();
 		ArrayList<TodayPlayerVO> result=new ArrayList<TodayPlayerVO>();
@@ -1179,6 +1181,7 @@ public class AnalysisBL implements AnalysisBLService {
 			
 			result.add(temp);
 		}
+		
 		if(keyword.equals("rebound")){
 			while(result.size()>0){
 				int i=0;
@@ -1440,11 +1443,21 @@ public class AnalysisBL implements AnalysisBLService {
 		
 		DataBLService d=new DataBL();
 		MatchDataService md=new MatchData();
-		ArrayList<MatchPO> m=new ArrayList<MatchPO>();
-		m=md.getAllMatchInfo();
-		String str=m.get(m.size()-1).getMatchTime();
+		String str=md.getDate();
 		ArrayList<MatchVO> result=d.findMatchByDate(str);
 		return result;
+	}
+
+	@Override
+	public void updateData() {
+		// TODO Auto-generated method stub
+		MatchDataService md=new MatchData();
+		TeamDataService td=new TeamData();
+		PlayerDataService pd=new PlayerData();
+		md.updateMatchInfo();
+		td.updateAllTeam();
+		pd.updatePlayerInfo();
+		
 	}
 
 }

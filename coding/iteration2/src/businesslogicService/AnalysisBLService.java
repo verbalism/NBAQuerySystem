@@ -19,4 +19,5 @@ public interface AnalysisBLService {
 	public ArrayList<TeamVO> getSeasonHotSpotTeam (String keyword);
 	public ArrayList<PlayerVO> getProgressivePlayer (String keyword);
 	public ArrayList<MatchVO> getTodayMatch ();
+	public void updateData();//更新数据
 }

@@ -21,22 +21,22 @@ public class DataBLTest {
 		DataBLService d=new DataBL();
 		MatchDataService md=new MatchData();
 		
-		/*PlayerVO p=d.getSinglePlayerInfo("Aaron Brooks");
+		PlayerVO p=d.getSinglePlayerInfo("Aaron Brooks");
 		System.out.println(p.getTeamName());
 		
 		ArrayList<PlayerVO> pl=d.getAllPlayerInfo();
-		System.out.println(pl.size());*/
+		System.out.println(pl.size());
 		
-		/*MatchVO m=d.getSingleMatchInfo("01-01","CHA");		
-		MatchPO m2=md.getSingleMatchInfo("CHA","LAC","01-01");
+		MatchVO m=d.getSingleMatchInfo("01-01","CHA");		
+		MatchPO m2=md.getSingleMatchInfo("CHA","01-01");
 		System.out.println(m.getMatchTime());
 		System.out.println(m.getTeam1().getTeamName());
-		System.out.println(m.getTeam2().getPlayers().get(2).getFieldGoalAttempts());*/
+		System.out.println(m.getTeam2().getPlayers().get(2).getFieldGoalAttempts());
 		
-		/*ArrayList<MatchVO> ml=d.findMatchByPlayer("Aaron Brooks");
+		ArrayList<MatchVO> ml=d.findMatchByPlayer("Aaron Brooks");
 		System.out.println(ml.size());
 		ArrayList<MatchPO> m3=md.getPlayerRecentMatchInfo(5,"Josh McRoberts");
-		System.out.println(m3.size());*/
+		System.out.println(m3.size());
 		
 		ArrayList<MatchVO> m4=d.findMatchByTeam("CHA");
 		ArrayList<MatchPO> m5=md.getTeamRecentMatchInfo(5, "CHA");

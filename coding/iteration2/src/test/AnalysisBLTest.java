@@ -22,7 +22,7 @@ public class AnalysisBLTest {
 		AnalysisBLService a=new AnalysisBL();
 		DataBLService d=new DataBL();
 		
-		/*ArrayList<PlayerVO> p=a.sortPlayer(d.getAllPlayerInfo(),"stealRating",SortType.Descending);
+		ArrayList<PlayerVO> p=a.sortPlayer(d.getAllPlayerInfo(),"stealRating",SortType.Descending);
 		for(int i=0;i<p.size();i++){
 			System.out.println(p.get(i).getStealRating());
 		}
@@ -35,18 +35,19 @@ public class AnalysisBLTest {
 		PlayerVO pp=d.getSinglePlayerInfo("Jared Sullinger");
 		System.out.println(pp.getTeamName());
 		TeamVO tt=d.getSingleTeamInfo(pp.getTeamName());
-		System.out.println(tt.getSubarea());*/
+		System.out.println(tt.getSubarea());
 		
-		/*ArrayList<PlayerVO> p2=a.getTopFiftyPlayer(PlayerPosition.All, PlayerPartition.Atlantic, "rebounds");
+		ArrayList<PlayerVO> p2=a.getTopFiftyPlayer(PlayerPosition.All, PlayerPartition.All, "rebounds");
 		for(int i=0;i<p2.size();i++){
+			System.out.println(i);
 			System.out.println(p2.get(i).getPlayerName());
 			System.out.println(p2.get(i).getRebounds());
-		}*/
+		}
 		 ArrayList<TodayPlayerVO> p3=a.getTodayHotSpotPlayer("rebound");
 		 for(int i=0;i<p3.size();i++){
 				System.out.println(p3.get(i).getRebound());
 			}
-		/*
+		
 		 ArrayList<PlayerVO> p4=a.getSeasonHotSpotPlayer("rebounds");
 		 for(int i=0;i<p4.size();i++){
 				System.out.println(p4.get(i).getRebounds());
@@ -61,7 +62,7 @@ public class AnalysisBLTest {
 		 ArrayList<PlayerVO> p5=a.getProgressivePlayer("increaseOfPoints");
 		 for(int i=0;i<p5.size();i++){
 				System.out.println(p5.get(i).getIncreaseOfPoints());
-		}*/
+		}
 		 
 		 ArrayList<MatchVO> m=a.getTodayMatch();
 		 System.out.println(m.get(0).getMatchTime());
