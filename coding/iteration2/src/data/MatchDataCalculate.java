@@ -8,6 +8,7 @@ import po.MatchPO;
 
 public class MatchDataCalculate {
 	
+	
 	public void deleteAllMatch()throws Exception{
 		File f=new File("");
 	 	String s=f.getCanonicalPath();
