@@ -15,7 +15,7 @@ import dataService.MatchDataService;
 public class MatchData implements MatchDataService{
 	public MatchPO getSingleMatchInfo(String teamName,String date){
 		MatchPO result=new MatchPO();
-		MatchPlayer mp=new MatchPlayer();
+		
 		MatchTeam t1=new MatchTeam();
 		MatchTeam t2=new MatchTeam();
 		String teamName1="";
@@ -24,6 +24,8 @@ public class MatchData implements MatchDataService{
 		String[] sescore;
 		int matchID=0;
 		ArrayList<String> temp=new ArrayList<String>();
+		ArrayList<MatchPlayer> players1=new ArrayList<MatchPlayer>();
+		ArrayList<MatchPlayer> players2=new ArrayList<MatchPlayer>();
 		 try {
 			 File f=new File("");
 			 String s=f.getCanonicalPath();
@@ -56,6 +58,7 @@ public class MatchData implements MatchDataService{
 	 		 t2.setTeamName(teamName2);
 	 		 rs = stmt.executeQuery("select * from playerMatchInfo where generalMatch="+matchID+" and teamName='"+teamName+"'");
 	 		 while(rs.next()){
+	 			MatchPlayer mp=new MatchPlayer();
 	 			 mp.setPlayerName(rs.getString("playerName"));
 	 			 mp.setPosition(rs.getString("position"));
 	 			 mp.setMatchTime(rs.getString("matchTime"));
@@ -74,10 +77,12 @@ public class MatchData implements MatchDataService{
 	 			 mp.setError(rs.getInt("error"));
 	 			 mp.setFoul(rs.getInt("foul"));
 	 			 mp.setScore(rs.getInt("score"));	
-	 			 t1.addPlayer(mp);
+	 			 players1.add(mp);
 	 		 }
+	 		 t1.setPlayers(players1);
 	 		 rs = stmt.executeQuery("select * from playerMatchInfo where generalMatch="+matchID+" and oppositeTeamName='"+teamName+"'");
 	 		 while(rs.next()){
+	 			MatchPlayer mp=new MatchPlayer();
 	 			 mp.setPlayerName(rs.getString("playerName"));
 	 			 mp.setPosition(rs.getString("position"));
 	 			 mp.setMatchTime(rs.getString("matchTime"));
@@ -96,8 +101,9 @@ public class MatchData implements MatchDataService{
 	 			 mp.setError(rs.getInt("error"));
 	 			 mp.setFoul(rs.getInt("foul"));
 	 			 mp.setScore(rs.getInt("score"));	
-	 			 t2.addPlayer(mp);
+	 			 players2.add(mp);
 	 		 }
+	 		 t2.setPlayers(players2);
 	 		 rs.close();
 	 		 stmt.close();
 	 		 conn.close();
@@ -440,9 +446,10 @@ public class MatchData implements MatchDataService{
 	
 	public static void main(String[]args){
 		MatchData md=new MatchData();
-		ArrayList <MatchPO> mp=md.getTodayMatchInfo("12-11");
+		//ArrayList <MatchPO> mp=md.getTodayMatchInfo("12-11");
 		MatchPO mpo=md.getSingleMatchInfo("CHA", "01-01");
-		System.out.println(mp.size());
+		//System.out.println(mp.size());
 		System.out.println(mpo.getTeam2().getTeamName());
+		System.out.println(mpo.getTeam2().getPlayers().get(0).getPlayerName());
 	}
 }
