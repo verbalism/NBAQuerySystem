@@ -14,5 +14,5 @@ public interface PlayerDataService {
 	
 	public void updatePlayerInfo(int matchID);//更新信息
 	
-	public void updateBasicPlayerInfo();//基本信息
+	//public void updateBasicPlayerInfo();//基本信息
 }

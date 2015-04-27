@@ -249,6 +249,27 @@ public class HotPlayerPanel extends JPanel{
 			playerScoreLabel4.setText(nf.format(players.get(3).getFreeThrowsPercentage()/players.get(3).getGamesPlayed()));
 			playerScoreLabel5.setText(nf.format(players.get(4).getFreeThrowsPercentage()/players.get(4).getGamesPlayed()));
 			break;
+		case "adScore":
+			playerScoreLabel1.setText(nf.format(players.get(0).getIncreaseOfPoints()));
+			playerScoreLabel2.setText(nf.format(players.get(1).getIncreaseOfPoints()));
+			playerScoreLabel3.setText(nf.format(players.get(2).getIncreaseOfPoints()));
+			playerScoreLabel4.setText(nf.format(players.get(3).getIncreaseOfPoints()));
+			playerScoreLabel5.setText(nf.format(players.get(4).getIncreaseOfPoints()));
+			break;
+		case "adBackBord":
+			playerScoreLabel1.setText(nf.format(players.get(0).getIncreaseOfRebounds()));
+			playerScoreLabel2.setText(nf.format(players.get(1).getIncreaseOfRebounds()));
+			playerScoreLabel3.setText(nf.format(players.get(2).getIncreaseOfRebounds()));
+			playerScoreLabel4.setText(nf.format(players.get(3).getIncreaseOfRebounds()));
+			playerScoreLabel5.setText(nf.format(players.get(4).getIncreaseOfRebounds()));
+			break;
+		case "adAssist":
+			playerScoreLabel1.setText(nf.format(players.get(0).getIncreaseOfAssists()));
+			playerScoreLabel2.setText(nf.format(players.get(1).getIncreaseOfAssists()));
+			playerScoreLabel3.setText(nf.format(players.get(2).getIncreaseOfAssists()));
+			playerScoreLabel4.setText(nf.format(players.get(3).getIncreaseOfAssists()));
+			playerScoreLabel5.setText(nf.format(players.get(4).getIncreaseOfAssists()));
+			break;
 		default:
 			break;
 		}

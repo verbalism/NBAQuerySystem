@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Frame;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -15,20 +16,61 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import businesslogic.AnalysisBL;
+import businesslogicService.AnalysisBLService;
+
 public class MainFrame extends JFrame implements ActionListener{
 	int frameHeight,frameWidth,panelWidth,panelHeight;
 	JButton teamInfoBtn,playerInfoBtn,matchInfoBtn,teamDataBtn,playerDataBtn,hotBtn;
 	JPanel containPanel;
-	TeamListPanel teamListPanel = new TeamListPanel();
-	//PlayerListPanel playerListPanel = new PlayerListPanel();
-	TeamDataPanel teamDataPanel = new TeamDataPanel();
-	PlayerDataPanel playerDataPanel = new PlayerDataPanel();
-	//MatchListPanel matchListPanel = new MatchListPanel();
-	//HotPanel hotPanel = new HotPanel();
+	TeamListPanel teamListPanel = new TeamListPanel(); boolean teamlist = true; boolean tl = false;
+	PlayerListPanel playerListPanel; boolean playerlist = false; boolean pl = true;
+	TeamDataPanel teamDataPanel; boolean teamdata = false; boolean td = true;
+	PlayerDataPanel playerDataPanel; boolean playerdata = false; boolean pd = true;
+	MatchListPanel matchListPanel; boolean matchlist = false; boolean ml = true;
+	HotPanel hotPanel; boolean hot = false; boolean h = true;
+	static ProgressBar pb; static Boolean load = true;
 	public static void main(String args[]){
+		AnalysisBLService abs = new AnalysisBL();
+		abs.updateData();
+		 final Thread line =	new Thread() {
+			    public void run() {
+			    	synchronized (this){
+			        while (load){
+			        	pb = new ProgressBar((Frame) null, null, "加载中", null,null);
+			    		pb.show();
+			            try {
+			                this.sleep(100);
+			            } catch (InterruptedException e) {
+			            	e.printStackTrace();
+			            }
+			        }
+			    	}
+			    }
+			 
+			};
+		Thread f = new Thread(){
+			public void run(){
+				synchronized (this){
+					MainFrame mf=new MainFrame();
+					while (load) {
+			            try {
+			                sleep(1000);
+			            } catch (InterruptedException e) {
+			            	e.printStackTrace();
+			            }
+			            load = false;
+			        }
+					pb.close();
+					show(mf);
+				}
+			}
+		};
+		line.start();
+		f.start();
 		
-		MainFrame mf = new MainFrame();
 	}
+	
 	
 	public MainFrame(){
 		Toolkit kit = Toolkit.getDefaultToolkit();
@@ -170,76 +212,217 @@ public class MainFrame extends JFrame implements ActionListener{
 		containPanel.setBackground(Color.WHITE);
 		containPanel.setLayout(null);
 		containPanel.add(guidePanel);
+		containPanel.add(teamListPanel);
 		
 		this.setLayout(null);
 		this.add(containPanel);
-		
 		this.setBounds(150, 0,frameWidth, frameHeight);
 		this.setTitle("NBA查询系统");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setVisible(true);
+	}
+	
+	public static void show(MainFrame mf){
+		mf.setVisible(true);
 	}
 
 	
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource()==teamInfoBtn){
-			containPanel.remove(teamListPanel);
-			//containPanel.remove(teamDataPanel);
-			//containPanel.remove(playerListPanel);
-			containPanel.remove(playerDataPanel);
-			//containPanel.remove(matchListPanel);
-			//containPanel.remove(hotPanel);
+			if(teamlist){
+				containPanel.remove(teamListPanel);
+				teamlist = false;
+			}
+			if(teamdata){
+				containPanel.remove(teamDataPanel);
+				teamdata = false;
+			}
+			if(playerlist){
+				containPanel.remove(playerListPanel);
+				playerlist = false;
+			}
+			if(playerdata){
+				containPanel.remove(playerDataPanel);
+				playerdata = false;
+			}
+			if(matchlist){
+				containPanel.remove(matchListPanel);
+				matchlist = false;
+			}
+			if(hot){
+				containPanel.remove(hotPanel);
+				hot = false;
+			}
+			if(tl){
+				teamListPanel = new TeamListPanel();
+				tl = false;
+			}
 			containPanel.add(teamListPanel);
+			teamlist = true;
 			containPanel.repaint();
 		}
 		if(e.getSource()==playerInfoBtn){
-			containPanel.remove(teamListPanel);
-			containPanel.remove(teamDataPanel);
-			//containPanel.remove(playerListPanel);
-			containPanel.remove(playerDataPanel);
-			//containPanel.remove(matchListPanel);
-			//containPanel.remove(hotPanel);
-			//containPanel.add(playerListPanel);
+			if(teamlist){
+				containPanel.remove(teamListPanel);
+				teamlist = false;
+			}
+			if(teamdata){
+				containPanel.remove(teamDataPanel);
+				teamdata = false;
+			}
+			if(playerlist){
+				containPanel.remove(playerListPanel);
+				playerlist = false;
+			}
+			if(playerdata){
+				containPanel.remove(playerDataPanel);
+				playerdata = false;
+			}
+			if(matchlist){
+				containPanel.remove(matchListPanel);
+				matchlist = false;
+			}
+			if(hot){
+				containPanel.remove(hotPanel);
+				hot = false;
+			}
+			if(pl){
+				playerListPanel = new PlayerListPanel();
+				pl = false;
+			}
+			containPanel.add(playerListPanel);
+			playerlist = true;
 			containPanel.repaint();
 		}
 		if(e.getSource()==matchInfoBtn){
-			containPanel.remove(teamListPanel);
-			containPanel.remove(teamDataPanel);
-			//containPanel.remove(playerListPanel);
-			containPanel.remove(playerDataPanel);
-			//containPanel.remove(matchListPanel);
-			//containPanel.remove(hotPanel);
-			//containPanel.add(matchListPanel);
+			if(teamlist){
+				containPanel.remove(teamListPanel);
+				teamlist = false;
+			}
+			if(teamdata){
+				containPanel.remove(teamDataPanel);
+				teamdata = false;
+			}
+			if(playerlist){
+				containPanel.remove(playerListPanel);
+				playerlist = false;
+			}
+			if(playerdata){
+				containPanel.remove(playerDataPanel);
+				playerdata = false;
+			}
+			if(matchlist){
+				containPanel.remove(matchListPanel);
+				matchlist = false;
+			}
+			if(hot){
+				containPanel.remove(hotPanel);
+				hot = false;
+			}
+			if(ml){
+				matchListPanel = new MatchListPanel();
+				ml = false;
+			}
+			containPanel.add(matchListPanel);
+			matchlist = true;
 			containPanel.repaint();
 		}
 		if(e.getSource()==teamDataBtn){
-			containPanel.remove(teamListPanel);
-			containPanel.remove(teamDataPanel);
-			//containPanel.remove(playerListPanel);
-			containPanel.remove(playerDataPanel);
-			//containPanel.remove(matchListPanel);
-			//containPanel.remove(hotPanel);
+			if(teamlist){
+				containPanel.remove(teamListPanel);
+				teamlist = false;
+			}
+			if(teamdata){
+				containPanel.remove(teamDataPanel);
+				teamdata = false;
+			}
+			if(playerlist){
+				containPanel.remove(playerListPanel);
+				playerlist = false;
+			}
+			if(playerdata){
+				containPanel.remove(playerDataPanel);
+				playerdata = false;
+			}
+			if(matchlist){
+				containPanel.remove(matchListPanel);
+				matchlist = false;
+			}
+			if(hot){
+				containPanel.remove(hotPanel);
+				hot = false;
+			}
+			if(td){
+				teamDataPanel = new TeamDataPanel();
+				td = false;
+			}
 			containPanel.add(teamDataPanel);
+			teamdata = true;
 			containPanel.repaint();
 		}
 		if(e.getSource()==playerDataBtn){
-			containPanel.remove(teamListPanel);
-			containPanel.remove(teamDataPanel);
-			//containPanel.remove(playerListPanel);
-			containPanel.remove(playerDataPanel);
-			//containPanel.remove(matchListPanel);
-			//containPanel.remove(hotPanel);
+			if(teamlist){
+				containPanel.remove(teamListPanel);
+				teamlist = false;
+			}
+			if(teamdata){
+				containPanel.remove(teamDataPanel);
+				teamdata = false;
+			}
+			if(playerlist){
+				containPanel.remove(playerListPanel);
+				playerlist = false;
+			}
+			if(playerdata){
+				containPanel.remove(playerDataPanel);
+				playerdata = false;
+			}
+			if(matchlist){
+				containPanel.remove(matchListPanel);
+				matchlist = false;
+			}
+			if(hot){
+				containPanel.remove(hotPanel);
+				hot = false;
+			}
+			if(pd){
+				playerDataPanel = new PlayerDataPanel();
+				pd = false;
+			}
 			containPanel.add(playerDataPanel);
+			playerdata = true;
 			containPanel.repaint();
 		}
 		if(e.getSource()==hotBtn){
-			containPanel.remove(teamListPanel);
-			containPanel.remove(teamDataPanel);
-			//containPanel.remove(playerListPanel);
-			containPanel.remove(playerDataPanel);
-			//containPanel.remove(matchListPanel);
-			//containPanel.remove(hotPanel);
-			//containPanel.add(hotPanel);
+			if(teamlist){
+				containPanel.remove(teamListPanel);
+				teamlist = false;
+			}
+			if(teamdata){
+				containPanel.remove(teamDataPanel);
+				teamdata = false;
+			}
+			if(playerlist){
+				containPanel.remove(playerListPanel);
+				playerlist = false;
+			}
+			if(playerdata){
+				containPanel.remove(playerDataPanel);
+				playerdata = false;
+			}
+			if(matchlist){
+				containPanel.remove(matchListPanel);
+				matchlist = false;
+			}
+			if(hot){
+				containPanel.remove(hotPanel);
+				hot = false;
+			}
+			if(h){
+				hotPanel = new HotPanel();
+				h = false;
+			}
+			containPanel.add(hotPanel);
+			hot = true;
 			containPanel.repaint();
 		}
 	}

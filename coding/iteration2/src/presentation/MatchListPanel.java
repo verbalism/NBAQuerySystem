@@ -22,10 +22,12 @@ import javax.swing.table.DefaultTableModel;
 
 import vo.MatchVO;
 import vo.PlayerVO;
+import businesslogic.AnalysisBL;
 import businesslogic.DataBL;
+import businesslogicService.AnalysisBLService;
 import businesslogicService.DataBLService;
 
-public class MatchListPanel extends JPanel implements ActionListener{
+public class MatchListPanel extends JPanel implements ActionListener {
 	int panelWidth,panelHeight;
 	JTextField searchField;
 	JButton searchBtn;
@@ -33,7 +35,10 @@ public class MatchListPanel extends JPanel implements ActionListener{
 	JScrollPane scrollPane;
 	JLabel title;
 	SimpleDateFormat sdf = new SimpleDateFormat("MM-dd");
+	AnalysisBLService abl = new AnalysisBL();
 	DataBLService dbl = new DataBL();
+	MatchListPanel matchListPanel;
+	Thread thread;
 	public MatchListPanel(){
 		Toolkit kit = Toolkit.getDefaultToolkit();
 		Dimension screenSize = kit.getScreenSize();
@@ -80,7 +85,7 @@ public class MatchListPanel extends JPanel implements ActionListener{
 		
 		
 		String[] columnNames = new String[]{"比赛日期","对阵队伍","比分","第一节比分","第二节比分","第三节比分","第四节比分"};
-		ArrayList<MatchVO> matches = dbl.findMatchByDate("today");
+		ArrayList<MatchVO> matches = abl.getTodayMatch();
 		String[][]data=new String[matches.size()][7];
 		for(int i=0;i<matches.size();i++){
 			data[i][0] = matches.get(i).getMatchTime();
@@ -115,7 +120,24 @@ public class MatchListPanel extends JPanel implements ActionListener{
 		this.setLayout(null);
 		this.add(searchPanel);
 		this.add(scrollPane);
+		
+		thread = new Thread(new Runnable(){
+            @Override
+            public void run() {
+            	 while(true){
+            		   try {   
+            			   ArrayList<MatchVO> matches = abl.getTodayMatch();
+            			   refresh(matches);
+            			   Thread.sleep(50000);
+            		   } catch (InterruptedException e) {
+            		    e.printStackTrace();
+            		   }
+            	 }
+            }
+        });
+		thread.start();
 	}
+	@SuppressWarnings("deprecation")
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource()==searchBtn){
@@ -124,6 +146,7 @@ public class MatchListPanel extends JPanel implements ActionListener{
 			if(matches.isEmpty())
 				new ActionDialog("该日无比赛");
 			else{
+				thread.stop();
 				refresh(matches);
 				title.setText(date+" 比赛");
 			}
@@ -133,15 +156,16 @@ public class MatchListPanel extends JPanel implements ActionListener{
 	}
 	public void refresh(ArrayList<MatchVO> matches){
 		this.remove(scrollPane);
-		String[] columnNames = new String[]{"对阵队伍","比分","第一节比分","第二节比分","第三节比分","第四节比分"};
+		String[] columnNames = new String[]{"比赛日期","对阵队伍","比分","第一节比分","第二节比分","第三节比分","第四节比分"};
 		String[][]data=new String[matches.size()][7];
 		for(int i=0;i<matches.size();i++){
-			data[i][0] = matches.get(i).getTeams();
-			data[i][1] = matches.get(i).getScore();
-			data[i][2] = matches.get(i).getScore1();
-			data[i][3] = matches.get(i).getScore2();
-			data[i][4] = matches.get(i).getScore3();
-			data[i][5] = matches.get(i).getScore4();
+			data[i][0] = matches.get(i).getMatchTime();
+			data[i][1] = matches.get(i).getTeams();
+			data[i][2] = matches.get(i).getScore();
+			data[i][3] = matches.get(i).getScore1();
+			data[i][4] = matches.get(i).getScore2();
+			data[i][5] = matches.get(i).getScore3();
+			data[i][6] = matches.get(i).getScore4();
 		}
 		
 		DefaultTableModel model = new DefaultTableModel(data,columnNames);

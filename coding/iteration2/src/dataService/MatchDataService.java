@@ -17,5 +17,5 @@ public interface MatchDataService {
 	
 	public ArrayList<MatchPO> getTodayMatchInfo(String date);//获取某日比赛啊时间
 	
-	public void updateMatchInfo();//更新比赛信息
+	//public void updateMatchInfo();//更新比赛信息
 }

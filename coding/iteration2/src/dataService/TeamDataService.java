@@ -9,5 +9,5 @@ public interface TeamDataService {
 	
 	public ArrayList<TeamPO> getAllTeamInfo();//获取所有球队信息。返回arraylist
 	
-	public void updateAllTeam();//更新所有球队信息
+	//public void updateAllTeam();//更新所有球队信息
 }

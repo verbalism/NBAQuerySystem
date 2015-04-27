@@ -159,7 +159,7 @@ public class MatchInfoFrame extends JFrame{
 		scrollPane1.setOpaque(false);
 		scrollPane1.getViewport().setOpaque(false);
 		scrollPane1.setBorder(null);
-		JLabel team1Title = new JLabel("    BOS");
+		JLabel team1Title = new JLabel("    "+team1NameLabel.getText());
 		team1Title.setOpaque(true);
 		team1Title.setBackground(new Color(0,103,175));
 		team1Title.setForeground(Color.WHITE);
@@ -213,7 +213,7 @@ public class MatchInfoFrame extends JFrame{
 		scrollPane2.setOpaque(false);
 		scrollPane2.getViewport().setOpaque(false);
 		scrollPane2.setBorder(null);
-		JLabel team2Title = new JLabel("    NYK");
+		JLabel team2Title = new JLabel("    "+team2NameLabel.getText());
 		team2Title.setOpaque(true);
 		team2Title.setBackground(new Color(0,103,175));
 		team2Title.setForeground(Color.WHITE);

@@ -431,12 +431,21 @@ public class HotPanel extends JPanel implements ActionListener{
 		searchPanel.add(advanceBtn);
 		searchPanel.add(teamBtn);
 		
-		ArrayList<TodayPlayerVO> players = abl.getTodayHotSpotPlayer("score");
-		tdplayerResultPanel = new TodayHotPlayerPanel(players,"tdScore");
+		System.out.println("1");
+		
 		ArrayList<TeamVO> teams = abl.getSeasonHotSpotTeam("points");
+		System.out.println("3");
 		teamResultPanel = new HotTeamPanel(teams,"allScore");
+		System.out.println("4");
 		ArrayList<PlayerVO> players2 = abl.getSeasonHotSpotPlayer("points");
+		System.out.println("5");
 		playerResultPanel = new HotPlayerPanel(players2,"allScore");
+		System.out.println("6");
+		ArrayList<TodayPlayerVO> players = abl.getTodayHotSpotPlayer("score");
+		System.out.println("1");
+		tdplayerResultPanel = new TodayHotPlayerPanel(players,"tdScore");
+		System.out.println("2");
+		
 		
 		this.setBounds(10, 100, panelWidth, panelHeight);
 		this.setBackground(Color.white);
@@ -668,22 +677,22 @@ public class HotPanel extends JPanel implements ActionListener{
 		
 		if(e.getSource()==adScoreBtn){
 			this.remove(playerResultPanel);
-			ArrayList<PlayerVO> players = abl.getProgressivePlayer("points");
-			playerResultPanel = new HotPlayerPanel(players,"");
+			ArrayList<PlayerVO> players = abl.getProgressivePlayer("increaseOfPoints");
+			playerResultPanel = new HotPlayerPanel(players,"adScore");
 			this.add(playerResultPanel);
 			this.repaint();
 		}
 		if(e.getSource()==adBackBordBtn){
 			this.remove(playerResultPanel);
-			ArrayList<PlayerVO> players = abl.getProgressivePlayer("rebounds");
-			playerResultPanel = new HotPlayerPanel(players,"");
+			ArrayList<PlayerVO> players = abl.getProgressivePlayer("increaseOfRebounds");
+			playerResultPanel = new HotPlayerPanel(players,"adBackBord");
 			this.add(playerResultPanel);
 			this.repaint();
 		}
 		if(e.getSource()==adAssistBtn){
 			this.remove(playerResultPanel);
-			ArrayList<PlayerVO> players = abl.getProgressivePlayer("assists");
-			playerResultPanel = new HotPlayerPanel(players,"");
+			ArrayList<PlayerVO> players = abl.getProgressivePlayer("increaseOfAssists");
+			playerResultPanel = new HotPlayerPanel(players,"adAssist");
 			this.add(playerResultPanel);
 			this.repaint();
 		}

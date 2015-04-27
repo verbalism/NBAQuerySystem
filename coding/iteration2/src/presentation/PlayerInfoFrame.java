@@ -63,7 +63,7 @@ public class PlayerInfoFrame extends JFrame{
 		playerNumLabel.setForeground(new Color(0,103,175));
 		JLabel playerNameLabel = new JLabel(player.getPlayerName());
 		playerNameLabel.setFont(new Font("Arial Black",0,30));
-		playerNameLabel.setBounds(120, 40, 200, 35);
+		playerNameLabel.setBounds(120, 40, 300, 35);
 		playerNameLabel.setForeground(new Color(0,103,175));
 		JLabel playerTeamLabel = new JLabel(player.getPosition()+"/"+player.getTeamName());
 		playerTeamLabel.setFont(new Font("Arial",0,20));

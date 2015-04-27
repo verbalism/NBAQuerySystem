@@ -8,8 +8,8 @@ import java.nio.file.WatchKey;
 import java.nio.file.WatchService;  
 import data.DataUpdate;
 
-public class Test {  
-    public static void main(String[] args) throws Exception  {  
+public class Update {  
+    public void AutoUpdate() throws Exception  {  
         TeamDataCalculate tdc=new TeamDataCalculate();
         PlayerData pds=new PlayerData();
         int generalID=0;

@@ -20,6 +20,7 @@ import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
+import vo.MatchVO;
 import vo.PlayerVO;
 import vo.TeamVO;
 import businesslogic.DataBL;
@@ -222,5 +223,6 @@ public class TeamListPanel extends JPanel{
 		this.add(titlePanel);
 		this.add(areaPanel);
 		this.add(table);
+		
 	}
 }

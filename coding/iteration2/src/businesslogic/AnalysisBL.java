@@ -6,10 +6,14 @@ import java.util.Collections;
 
 
 
+
+
+
 import po.TodayPlayerPO;
 import data.MatchData;
 import data.PlayerData;
 import data.TeamData;
+import data.Update;
 import dataService.MatchDataService;
 import dataService.PlayerDataService;
 import dataService.TeamDataService;
@@ -1451,12 +1455,13 @@ public class AnalysisBL implements AnalysisBLService {
 	@Override
 	public void updateData() {
 		// TODO Auto-generated method stub
-		MatchDataService md=new MatchData();
-		TeamDataService td=new TeamData();
-		PlayerDataService pd=new PlayerData();
-		md.updateMatchInfo();
-		td.updateAllTeam();
-		pd.updatePlayerInfo();
+		Update up = new Update();
+		try {
+			up.AutoUpdate();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 	}
 
