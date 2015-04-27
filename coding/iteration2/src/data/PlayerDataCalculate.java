@@ -1,5 +1,4 @@
 package data;
-import java.util.Date;
 import java.util.ArrayList;
 import java.io.File;
 import java.sql.*;
@@ -37,14 +36,7 @@ public class PlayerDataCalculate {
 		conn.close();
 	}//输入基本信息
 	
-	public boolean isExist(String name) throws Exception {
-		
-		File directory = new File("");
-		String courseFile = directory.getCanonicalPath() ;
-		Class.forName("sun.jdbc.odbc.JdbcOdbcDriver"); 
-        String dbur1 = "jdbc:odbc:driver={Microsoft Access Driver (*.mdb, *.accdb)};DBQ="+courseFile+"//NBAIteration2";  
-        Connection conn = DriverManager.getConnection(dbur1, "username", "password"); 
-        
+	public boolean isExist(String name,Connection conn) throws Exception {
         name=name.replace("'","''");
         String sql = "select * from playerInfo where playerName='" + name + "'";
         PreparedStatement pstmt;
@@ -55,7 +47,6 @@ public class PlayerDataCalculate {
         	result=true;
         rs.close();
         pstmt.close();
-        conn.close();
 		return result;
 	}//判断playerInfo中是否存在该球员
 	
@@ -65,12 +56,12 @@ public class PlayerDataCalculate {
 		Class.forName("sun.jdbc.odbc.JdbcOdbcDriver"); 
         String dbur1 = "jdbc:odbc:driver={Microsoft Access Driver (*.mdb, *.accdb)};DBQ="+courseFile+"//NBAIteration2";  
         Connection conn = DriverManager.getConnection(dbur1, "username", "password"); 
-        
+      
         Statement stmt=conn.createStatement();
         
         String sql = "select * from playerMatchInfo where generalMatch=" + ID;
         ResultSet rs = stmt.executeQuery(sql);
-        
+    
         ArrayList<MatchPlayer> mp1=new ArrayList<MatchPlayer>();
         ArrayList<MatchPlayer> mp2=new ArrayList<MatchPlayer>();
         String temp1="";
@@ -107,12 +98,11 @@ public class PlayerDataCalculate {
         rs.close();
 
         PlayerDataCalculate pdc=new PlayerDataCalculate();
-        
-        
-        String name;
+      
+        String name="";
         double gp=0;
         double gs=0;
-        String t;
+        String t="";
         double fgm=0;
         double fga=0;
         double tpfgm=0;
@@ -128,7 +118,7 @@ public class PlayerDataCalculate {
     	double tu=0;
     	double f=0;
     	double p=0;
-    	String atot;
+    	String atot="";
     	double arot=0;
     	double aorot=0;
     	double adrot=0;
@@ -146,12 +136,13 @@ public class PlayerDataCalculate {
     	double amgoo=0;
     	double atoo=0;
     	double dd=0;
-    	String time;
+    	String time="";
+    	
         for(int i=0;i<mp1.size();i++){
         	name=mp1.get(i).getPlayerName();
         	name=name.replace("'","''");
         	
-        	if(pdc.isExist(mp1.get(i).getPlayerName())){
+        	if(pdc.isExist(mp1.get(i).getPlayerName(),conn)){
         	}else{
 	    		String sql1 = "insert into playerInfo (playerName,position) values(?,?)";
 	    		PreparedStatement pstmt;
@@ -163,7 +154,7 @@ public class PlayerDataCalculate {
         	}
 
         	ResultSet rs0=stmt.executeQuery("select * from playerInfo where playerName='"+name+"'");
-        	rs0.next();   	
+        	rs0.next();
         	gp=rs0.getDouble("gamesPlayed");
         	gs=rs0.getDouble("gamesStarting");
         	t=rs0.getString("minutes");
@@ -261,7 +252,7 @@ public class PlayerDataCalculate {
         	stmt.executeUpdate("update playerInfo set points='"+p+"' where playerName='" +name+ "'");
         	
         	tpfg=tpfg+mp1.get(i).getFieldGoalAttempts()-mp1.get(i).getThreePointAttempts();
-        	stmt.executeUpdate("update playerInfo set twoPointFieldGoalsAttempts='"+tpfg+"' where playerName='" +name+ "'");
+        	stmt.executeUpdate("update playerInfo set twoPointFieldGoalsAttempts='"+tpfg+"' where playerName='" +name+ "'");      	
         	
         	for(int j=0;j<mp1.size();j++){
         		atot=pdc.calTime(atot, mp1.get(j).getMatchTime());
@@ -282,9 +273,9 @@ public class PlayerDataCalculate {
         		afgaoo=afgaoo+mp2.get(j).getFieldGoalAttempts();
         		afga=afga+mp2.get(j).getFreeThrowAttempts();
         		amgoo=amgoo+mp2.get(j).getFieldGoalAttempts()-mp2.get(j).getFieldGoal();
-        		atoo=atoo+mp2.get(j).getError();
-            	
+        		atoo=atoo+mp2.get(j).getError();  	
         	}
+        	
         	stmt.executeUpdate("update playerInfo set allTimeOfTeam='"+atot+"' where playerName='" +name+ "'");
         	stmt.executeUpdate("update playerInfo set allReboundsOfTeam='"+arot+"' where playerName='" +name+ "'");
         	stmt.executeUpdate("update playerInfo set allOffensiveReboundsOfTeam='"+aorot+"' where playerName='" +name+ "'");
@@ -309,15 +300,15 @@ public class PlayerDataCalculate {
 					|| (mp1.get(i).getST()>=10&&mp1.get(i).getRebound()>=10) || (mp1.get(i).getRebound()>=10&&mp1.get(i).getBlockShot()>=10)){
         		dd=dd+1;
         	}
-        	stmt.executeUpdate("update playerInfo set doubleDouble='"+dd+"' where playerName='" +name+ "'");
-        	
+        	stmt.executeUpdate("update playerInfo set doubleDouble='"+dd+"' where playerName='" +name+ "'");       	
         }
 
+    	
         for(int i=0;i<mp2.size();i++){
         	name=mp2.get(i).getPlayerName();
         	name=name.replace("'","''");
         	
-        	if(pdc.isExist(mp2.get(i).getPlayerName())){
+        	if(pdc.isExist(mp2.get(i).getPlayerName(),conn)){
         	}else{
 	    		String sql1 = "insert into playerInfo (playerName,position) values(?,?)";
 	    		PreparedStatement pstmt;
@@ -451,6 +442,7 @@ public class PlayerDataCalculate {
         		atoo=atoo+mp1.get(j).getError();
             	
         	}
+        	
         	stmt.executeUpdate("update playerInfo set allTimeOfTeam='"+atot+"' where playerName='" +name+ "'");
         	stmt.executeUpdate("update playerInfo set allReboundsOfTeam='"+arot+"' where playerName='" +name+ "'");
         	stmt.executeUpdate("update playerInfo set allOffensiveReboundsOfTeam='"+aorot+"' where playerName='" +name+ "'");
@@ -481,8 +473,6 @@ public class PlayerDataCalculate {
         stmt.close();
         conn.close();
 	}//根据单场比赛ID添加信息
-	
-	
 	
 	public void calSimpleData() throws Exception{
 		PlayerDataCalculate pdc=new PlayerDataCalculate();
@@ -871,7 +861,6 @@ public class PlayerDataCalculate {
 		conn.close();
 	}//计算复杂数据
 	
-	
 	public void calIncreaseOf5(int matchID) throws Exception{
 		
 		File directory = new File("");
@@ -976,21 +965,15 @@ public class PlayerDataCalculate {
         conn.close();
 	}//计算近五场的提升率
 	
-	
-	
-	
 	public double getTime(String time){
-		if(time==null)
+		if(time==null || time.equals(""))
 			time="0:0";
 		String []t=time.split(":");
 		double min=Double.valueOf(t[0]);
-		double sec=Double.valueOf(t[0]);
+		double sec=Double.valueOf(t[1]);
 		double result=min+sec/60;
 		return result;
 	}//计算时间值
-	
-	
-	
 	
 	public String calTime(String a,String b){
 		if(a==null || a.equals(""))
@@ -1012,9 +995,6 @@ public class PlayerDataCalculate {
 		return result;
 	}//计算两时间之和
 	
-	
-	
-		
 	public void update(ArrayList<Integer> matchID){
 		PlayerDataCalculate pdc=new PlayerDataCalculate();
 		try {
@@ -1060,32 +1040,19 @@ public class PlayerDataCalculate {
 	public static void main(String []args){
 		PlayerDataCalculate pdc=new PlayerDataCalculate();
 		try {
-			Date d = new Date();  
-	        System.out.println(d);  
+			long time0=System.nanoTime(); 
 	        
 			pdc.saveBasicInfo();
 			
-			Date d1 = new Date();  
-	        System.out.println(d1);
-	        
-	        for(int i=0;i<10;i++)
-	        	pdc.updatePlayerInfoBySingleMatch(i);
-	        
-	        Date d2 = new Date();  
-	        System.out.println(d2);
-	        
-	        for(int i=0;i<10;i++)
-	        	pdc.calComplexData(i);
-	        
-	        Date d3 = new Date();  
-	        System.out.println(d3);
-	        
-	        for(int i=0;i<10;i++)
-	        	pdc.calIncreaseOf5(i);
+			long time1=System.nanoTime(); 
 			
-			Date d4 = new Date();  
-	        System.out.println(d4);
+	        	pdc.updatePlayerInfoBySingleMatch(1);     
+	        	pdc.calComplexData(1);
+	        	pdc.calIncreaseOf5(1);
 			
+	       long time4=System.nanoTime(); 
+	       System.out.println(time1-time0);
+	       System.out.println(time4-time1);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
