@@ -1067,7 +1067,7 @@ public class PlayerDataCalculate {
 		return result;
 	}//计算两时间之和
 	
-	public void update(ArrayList<Integer> matchID){
+	public void update(int matchID){
 		PlayerDataCalculate pdc=new PlayerDataCalculate();
 		try {
 			File directory = new File("");
@@ -1076,11 +1076,10 @@ public class PlayerDataCalculate {
 	        String dbur1 = "jdbc:odbc:driver={Microsoft Access Driver (*.mdb, *.accdb)};DBQ="+courseFile+"//NBAIteration2";  
 	        Connection conn = DriverManager.getConnection(dbur1, "username", "password"); 
 	        
-			for(int i=0;i<matchID.size();i++){
-				pdc.updatePlayerInfoBySingleMatch(matchID.get(i),conn);
-				pdc.calComplexData(matchID.get(i),conn);
-				pdc.calIncreaseOf5(matchID.get(i),conn);	
-			}
+			pdc.updatePlayerInfoBySingleMatch(matchID,conn);
+			pdc.calComplexData(matchID,conn);
+			pdc.calIncreaseOf5(matchID,conn);
+			
 			conn.close();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1113,12 +1112,7 @@ public class PlayerDataCalculate {
 			
 			//pdc.updatePlayerInfoBySingleMatch(1, conn);
 			
-			ArrayList<Integer> matchID=new  ArrayList<Integer>();
-			
-			for(int i=1;i<=15;i++)
-				matchID.add(i);
-			
-			pdc.update(matchID);
+			pdc.update(1);
 	        long time4=System.nanoTime(); 
 
 	       	System.out.println((time1-time0)/1000000);

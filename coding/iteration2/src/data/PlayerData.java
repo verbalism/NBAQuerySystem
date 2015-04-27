@@ -243,7 +243,7 @@ public class PlayerData implements PlayerDataService{
 		return result;
 	}
 	
-	public void updatePlayerInfo(ArrayList<Integer> matchID){
+	public void updatePlayerInfo(int matchID){
 		PlayerDataCalculate pdc=new PlayerDataCalculate();
 		pdc.update(matchID);
 	}
