@@ -45,22 +45,14 @@ public class TeamDataCalculate{
 		 
 		 
 		 try {
-			 for(int i=0;i<m.length;i++){
-				 tdc.updateKnown(MatchID,m[i]);
-			 }
-			 for(int j=0;j<oppm.length;j++){
-				 tdc.updateOppKnown(MatchID,oppm[j]);
-			 }
+			 tdc.updateKnown(MatchID);
 			 tdc.updateGamesPlayed(MatchID);
-			 tdc.updateGamesPlayedWin(MatchID);
-			 tdc.updateFGP(MatchID);
-			 tdc.updateTFGP(MatchID);
-			 tdc.updateFTP(MatchID);
-			 tdc.updateWP(MatchID);
-			 tdc.updatePossessions(MatchID);
-			 tdc.updateRating(MatchID);
-			 tdc.updateRP(MatchID);
-			 tdc.updateSA(MatchID);
+			 String team1=new TeamDataCalculate().SearchTeamNameByMatchID(MatchID).get(0);
+			 String team2=new TeamDataCalculate().SearchTeamNameByMatchID(MatchID).get(1);
+			
+			 tdc.updateAllPercentage(team1);
+			 tdc.updateAllPercentage(team2);
+			 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -185,7 +177,9 @@ public class TeamDataCalculate{
 	     conn.close();
 	 }
 	 
-	 public int getMaxMatchID()throws Exception{
+	 
+	 
+	/* public int getMaxMatchID()throws Exception{
 		 //获得最大的比赛ID
 		 int result=0;
 		 
@@ -204,12 +198,15 @@ public class TeamDataCalculate{
 	     stmt.close();
 	     conn.close();
 	     return result;
-	 }
+	 }*/
 	 
 	 public void updateGamesPlayed(int MatchID)throws Exception{
 		 //根据比赛ID修改参赛球队的gamesPlayed（比赛场数）
 		 String team1=new TeamDataCalculate().SearchTeamNameByMatchID(MatchID).get(0);
 		 String team2=new TeamDataCalculate().SearchTeamNameByMatchID(MatchID).get(1);
+		 
+		 int gp1=0,gp2=0,gpw1=0,gpw2=0;
+	     String score="";
 		 
 		 File f=new File("");
 		 String s=f.getCanonicalPath();
@@ -219,64 +216,39 @@ public class TeamDataCalculate{
 	     Statement stmt = conn.createStatement();  
 	     
 	     ResultSet rs = stmt.executeQuery("select * from teamInfo where teamName='"+team1+"'");
-	     int gp1=0,gp2=0;
 	     while(rs.next()){
 	    	 gp1=rs.getInt("gamesPlayed");
+	    	 gpw1=rs.getInt("gamesPlayedWin");
 	     }
 	     gp1=gp1+1;
 	     rs=stmt.executeQuery("select * from teamInfo where teamName='"+team2+"'");  
 	     while(rs.next()){
 	    	 gp2=rs.getInt("gamesPlayed");
+	    	 gpw2=rs.getInt("gamesPlayedWin");
 	     }
 	     gp2=gp2+1;
-	     rs.close();
-	     stmt.executeUpdate("update teamInfo set gamesPlayed="+gp1+" where teamName='"+team1+"'");
-	     stmt.executeUpdate("update teamInfo set gamesPlayed="+gp2+" where teamName='"+team2+"'");
-	     stmt.close();
-	     conn.close();
-	 }
-	 
-	 public void updateGamesPlayedWin(int MatchID)throws Exception{
-		 //添加胜场信息根据一场比赛的ID
-		 String team1=new TeamDataCalculate().SearchTeamNameByMatchID(MatchID).get(0);
-		 String team2=new TeamDataCalculate().SearchTeamNameByMatchID(MatchID).get(1);
-		 
-		 File f=new File("");
-		 String s=f.getCanonicalPath();
-		 Class.forName("sun.jdbc.odbc.JdbcOdbcDriver");  
-	     String dbur1 = "jdbc:odbc:driver={Microsoft Access Driver (*.mdb, *.accdb)};DBQ="+s+"//NBAIteration2";  
-	     Connection conn = DriverManager.getConnection(dbur1, "username", "password");  
-	     Statement stmt = conn.createStatement();  
-	     
-	     double fgm1=0,fgm2=0;
-	     String score="";
-	     ResultSet rs = stmt.executeQuery("select * from teamInfo where teamName='"+team1+"'");  
-	     while(rs.next()){
-	    	 fgm1=rs.getInt("gamesPlayedWin");
-	     }
-	     rs=stmt.executeQuery("select * from teamInfo where teamName='"+team2+"'");  
-	     while(rs.next()){
-	    	 fgm2=rs.getInt("gamesPlayedWin");
-	     }
 	     rs=stmt.executeQuery("select * from generalMatchInfo where ID="+MatchID);
 	     while(rs.next()){
 	    	 score=rs.getString("score");
 	     }
 	     String[] aaa=score.split("-");
 	     if(Integer.parseInt(aaa[0])>Integer.parseInt(aaa[1])){
-	    	 fgm1=fgm1+1;
+	    	 gpw1=gpw1+1;
 	     }
 	     else{
-	    	 fgm2=fgm2+1;
+	    	 gpw2=gpw2+1;
 	     }
 	     
 	     rs.close();
-	     stmt.executeUpdate("update teamInfo set gamesPlayedWin="+fgm1+" where teamName='"+team1+"'");
-	     stmt.executeUpdate("update teamInfo set gamesPlayedWin="+fgm2+" where teamName='"+team2+"'");
+	     stmt.executeUpdate("update teamInfo set gamesPlayedWin="+gpw1+" where teamName='"+team1+"'");
+	     stmt.executeUpdate("update teamInfo set gamesPlayedWin="+gpw2+" where teamName='"+team2+"'");
+	     stmt.executeUpdate("update teamInfo set gamesPlayed="+gp1+" where teamName='"+team1+"'");
+	     stmt.executeUpdate("update teamInfo set gamesPlayed="+gp2+" where teamName='"+team2+"'");
 	     stmt.close();
 	     conn.close();
 	 }
 	 
+	
 	 public void updateGamesPlayed(String teamName)throws Exception{
 		 
 		 //根据球队名称更新比赛场数和胜场数
@@ -317,7 +289,7 @@ public class TeamDataCalculate{
 	 }
 	 
 	 
-	 public void updateFGP(int MatchID)throws Exception{
+	 /*public void updateFGP(int MatchID)throws Exception{
 		 //根据比赛ID更新投篮命中率
 		 String team1=new TeamDataCalculate().SearchTeamNameByMatchID(MatchID).get(0);
 		 String team2=new TeamDataCalculate().SearchTeamNameByMatchID(MatchID).get(1);
@@ -628,7 +600,7 @@ public class TeamDataCalculate{
 	     stmt.close();
 	     conn.close();
 	 }
-	 
+	 */
 	 public void updateAllPercentage(String teamName)throws Exception{
 		 
 		 //根据球队名称更新所有比率
@@ -698,42 +670,13 @@ public class TeamDataCalculate{
 	     conn.close();
 	 }
 	 
-	 public void updateKnown(int MatchID,String type)throws Exception{
+	 public void updateKnown(int MatchID)throws Exception{
+		 double fieldGoalsMade=0,fieldGoalsAttempted=0,threePointFieldGoalsMade=0,threePointFieldGoalsAttempted=0,freeThrowsMade=0,freeThrowsAttempted=0,offensiveRebounds=0,defensiveRebounds=0,rebounds=0,assists=0,steals=0,blocks=0,turnovers=0,fouls=0,points=0;
+		 double oppFieldGoalsMade=0,oppFieldGoalsAttempted=0,oppFreeThrowsAttempted=0,oppTurnovers=0,oppSteals=0,oppAssists=0,oppOffensiveRebounds=0,oppDefensiveRebounds=0,oppPoints=0;
 		 
 		 //根据比赛ID更新比赛中已知己方数据
-		 String team1=new TeamDataCalculate().SearchTeamNameByMatchID(MatchID).get(0);
-		 String team2=new TeamDataCalculate().SearchTeamNameByMatchID(MatchID).get(1);
-		 
-		 File f=new File("");
-		 String s=f.getCanonicalPath();
-		 Class.forName("sun.jdbc.odbc.JdbcOdbcDriver");  
-	     String dbur1 = "jdbc:odbc:driver={Microsoft Access Driver (*.mdb, *.accdb)};DBQ="+s+"//NBAIteration2";  
-	     Connection conn = DriverManager.getConnection(dbur1, "username", "password");  
-	     Statement stmt = conn.createStatement();  
-	     
-	     double fgm1=0,fgm2=0;
-	     ResultSet rs = stmt.executeQuery("select * from teamInfo where teamName='"+team1+"'");  
-	     while(rs.next()){
-	    	 fgm1=rs.getDouble(type);
-	     }
-	     fgm1=fgm1+new MatchDataCalculate().Cal_Known(MatchID,team1,type);
-	     rs=stmt.executeQuery("select * from teamInfo where teamName='"+team2+"'");  
-	     while(rs.next()){
-	    	 fgm2=rs.getDouble(type);
-	     }
-	     fgm2=fgm2+new MatchDataCalculate().Cal_Known(MatchID,team2,type);
-	     rs.close();
-	     stmt.executeUpdate("update teamInfo set "+type+"="+fgm1+" where teamName='"+team1+"'");
-	     stmt.executeUpdate("update teamInfo set "+type+"="+fgm2+" where teamName='"+team2+"'");		 
-	     stmt.close();
-	     conn.close();
-	     
-	 }
-	 
-	 public void updateOppKnown(int MatchID,String type)throws Exception{
-		 //更新比赛中对知己方数据
-		 String team1=new TeamDataCalculate().SearchTeamNameByMatchID(MatchID).get(0);
-		 String team2=new TeamDataCalculate().SearchTeamNameByMatchID(MatchID).get(1);
+		 String teamName1=new TeamDataCalculate().SearchTeamNameByMatchID(MatchID).get(0);
+		 String teamName2=new TeamDataCalculate().SearchTeamNameByMatchID(MatchID).get(1);
 		 
 		 File f=new File("");
 		 String s=f.getCanonicalPath();
@@ -742,58 +685,183 @@ public class TeamDataCalculate{
 	     Connection conn = DriverManager.getConnection(dbur1, "username", "password");  
 	     Statement stmt = conn.createStatement(); 
 	     
-	     double fgm1=0,fgm2=0;
-	     ResultSet rs = stmt.executeQuery("select * from teamInfo where teamName='"+team1+"'");  
+	     
+	     ResultSet rs = stmt.executeQuery("select * from teamInfo where teamName='"+teamName1+"'");
 	     while(rs.next()){
-	    	 fgm1=rs.getDouble(type);
+	    	 fieldGoalsMade=rs.getDouble("fieldGoalsMade");
+	    	 fieldGoalsAttempted=rs.getDouble("fieldGoalsAttempted");
+	    	 threePointFieldGoalsMade=rs.getDouble("threePointFieldGoalsMade");
+	    	 threePointFieldGoalsAttempted=rs.getDouble("threePointFieldGoalsAttempted");
+	    	 freeThrowsMade=rs.getDouble("freeThrowsMade");
+	    	 freeThrowsAttempted=rs.getDouble("freeThrowsAttempted");
+	    	 offensiveRebounds=rs.getDouble("offensiveRebounds");
+	    	 defensiveRebounds= rs.getDouble("defensiveRebounds");
+	    	 rebounds=rs.getDouble("rebounds");
+	    	 assists=rs.getDouble("assists");
+	    	 steals=rs.getDouble("steals");
+	    	 blocks=rs.getDouble("blocks");
+	    	 turnovers=rs.getDouble("turnovers");
+	    	 fouls=rs.getDouble("fouls");
+	    	 points=rs.getDouble("points");
+	    	 oppFieldGoalsMade= rs.getDouble("oppFieldGoalsMade");
+	    	 oppFieldGoalsAttempted= rs.getDouble("oppFieldGoalsAttempted");
+	    	 oppFreeThrowsAttempted=rs.getDouble("oppFreeThrowsAttempted");
+	    	 oppTurnovers=rs.getDouble("oppTurnovers");
+	    	 oppSteals= rs.getDouble("oppSteals");
+	    	 oppAssists=rs.getDouble("oppAssists");
+	    	 oppOffensiveRebounds=rs.getDouble("oppOffensiveRebounds");
+	    	 oppDefensiveRebounds=rs.getDouble("oppDefensiveRebounds");
+	    	 oppPoints=rs.getDouble("oppPoints");
 	     }
-	     rs=stmt.executeQuery("select * from teamInfo where teamName='"+team2+"'");  
+	     
+	     rs = stmt.executeQuery("select * from playerMatchInfo where generalMatch="+MatchID+" and teamName='"+teamName1+"'");
 	     while(rs.next()){
-	    	 fgm2=rs.getDouble(type);
+	    	 fieldGoalsMade=fieldGoalsMade+rs.getDouble("fieldGoal");
+	    	 fieldGoalsAttempted=fieldGoalsAttempted+rs.getDouble("fieldGoalAttempts");
+	    	 threePointFieldGoalsMade=threePointFieldGoalsMade+rs.getDouble("threepointShot");
+	    	 threePointFieldGoalsAttempted=threePointFieldGoalsAttempted+rs.getDouble("threepointAttempts");
+	    	 freeThrowsMade=freeThrowsMade+rs.getDouble("freeThrowGoal");
+	    	 freeThrowsAttempted=freeThrowsAttempted+rs.getDouble("freeThrowAttempts");
+	    	 offensiveRebounds=offensiveRebounds+rs.getDouble("offensiveRebound");
+	    	 defensiveRebounds=defensiveRebounds+rs.getDouble("defensiveRebound");
+	    	 rebounds=rebounds+rs.getDouble("rebound");
+	    	 assists=assists+rs.getDouble("assist");
+	    	 steals=steals+rs.getDouble("st");
+	    	 blocks=blocks+rs.getDouble("blockShot");
+	    	 turnovers=turnovers+rs.getDouble("error");
+	    	 fouls=fouls+rs.getDouble("foul");
+	    	 points=points+rs.getDouble("score");
 	     }
-	     if(type.equals("oppFieldGoalsMade")){
-	    	 fgm1=fgm1+new MatchDataCalculate().Cal_Known(MatchID,team2,"fieldGoalsMade");
-	    	 fgm2=fgm2+new MatchDataCalculate().Cal_Known(MatchID,team1,"fieldGoalsMade");
+	     rs = stmt.executeQuery("select * from playerMatchInfo where oppositeTeamName='"+teamName1+"'");
+	     while(rs.next()){
+	    	 oppFieldGoalsMade=oppFieldGoalsMade+rs.getDouble("fieldGoal");
+	    	 oppFieldGoalsAttempted=oppFieldGoalsAttempted+rs.getDouble("fieldGoalAttempts");
+	    	 oppFreeThrowsAttempted=oppFreeThrowsAttempted+rs.getDouble("freeThrowAttempts");
+	    	 oppTurnovers=oppTurnovers+rs.getDouble("error");
+	    	 oppSteals=oppSteals+rs.getDouble("st");
+	    	 oppAssists=oppAssists+rs.getDouble("assist");
+	    	 oppOffensiveRebounds=oppOffensiveRebounds+rs.getDouble("offensiveRebound");
+	    	 oppDefensiveRebounds=oppDefensiveRebounds+rs.getDouble("defensiveRebound");
+	    	 oppPoints=oppPoints+rs.getDouble("score");
 	     }
-	     else if(type.equals("oppFieldGoalsAttempted")){
-	    	 fgm1=fgm1+new MatchDataCalculate().Cal_Known(MatchID,team2,"fieldGoalsAttempted");
-	    	 fgm2=fgm2+new MatchDataCalculate().Cal_Known(MatchID,team1,"fieldGoalsAttempted");
+	     stmt.executeUpdate("update teamInfo set fieldGoalsMade="+fieldGoalsMade+" where teamName='"+teamName1+"'");
+	     stmt.executeUpdate("update teamInfo set fieldGoalsAttempted="+fieldGoalsAttempted+" where teamName='"+teamName1+"'");
+	     stmt.executeUpdate("update teamInfo set threePointFieldGoalsMade="+threePointFieldGoalsMade+" where teamName='"+teamName1+"'");
+	     stmt.executeUpdate("update teamInfo set threePointFieldGoalsAttempted="+threePointFieldGoalsAttempted+" where teamName='"+teamName1+"'");
+	     stmt.executeUpdate("update teamInfo set freeThrowsMade="+freeThrowsMade+" where teamName='"+teamName1+"'");
+	     stmt.executeUpdate("update teamInfo set freeThrowsAttempted="+freeThrowsAttempted+" where teamName='"+teamName1+"'");
+	     stmt.executeUpdate("update teamInfo set offensiveRebounds="+offensiveRebounds+" where teamName='"+teamName1+"'");
+	     stmt.executeUpdate("update teamInfo set defensiveRebounds="+defensiveRebounds+" where teamName='"+teamName1+"'");
+	     stmt.executeUpdate("update teamInfo set rebounds="+rebounds+" where teamName='"+teamName1+"'");
+	     stmt.executeUpdate("update teamInfo set assists="+assists+" where teamName='"+teamName1+"'");
+	     stmt.executeUpdate("update teamInfo set steals="+steals+" where teamName='"+teamName1+"'");
+	     stmt.executeUpdate("update teamInfo set blocks="+blocks+" where teamName='"+teamName1+"'");
+	     stmt.executeUpdate("update teamInfo set turnovers="+turnovers+" where teamName='"+teamName1+"'");
+	     stmt.executeUpdate("update teamInfo set fouls="+fouls+" where teamName='"+teamName1+"'");
+	     stmt.executeUpdate("update teamInfo set points="+points+" where teamName='"+teamName1+"'");     
+	     stmt.executeUpdate("update teamInfo set oppFieldGoalsMade="+oppFieldGoalsMade+" where teamName='"+teamName1+"'");
+	     stmt.executeUpdate("update teamInfo set oppFieldGoalsAttempted="+oppFieldGoalsAttempted+" where teamName='"+teamName1+"'");
+	     stmt.executeUpdate("update teamInfo set oppFreeThrowsAttempted="+oppFreeThrowsAttempted+" where teamName='"+teamName1+"'");
+	     stmt.executeUpdate("update teamInfo set oppTurnovers="+oppTurnovers+" where teamName='"+teamName1+"'");
+	     stmt.executeUpdate("update teamInfo set oppSteals="+oppSteals+" where teamName='"+teamName1+"'");
+	     stmt.executeUpdate("update teamInfo set oppAssists="+oppAssists+" where teamName='"+teamName1+"'");
+	     stmt.executeUpdate("update teamInfo set oppOffensiveRebounds="+oppOffensiveRebounds+" where teamName='"+teamName1+"'");
+	     stmt.executeUpdate("update teamInfo set oppDefensiveRebounds="+oppDefensiveRebounds+" where teamName='"+teamName1+"'");	     
+	     stmt.executeUpdate("update teamInfo set oppPoints="+oppPoints+" where teamName='"+teamName1+"'");	 
+	     
+	     
+	     
+	     
+	     rs = stmt.executeQuery("select * from teamInfo where teamName='"+teamName2+"'");
+	     while(rs.next()){
+	    	 fieldGoalsMade=rs.getDouble("fieldGoalsMade");
+	    	 fieldGoalsAttempted=rs.getDouble("fieldGoalsAttempted");
+	    	 threePointFieldGoalsMade=rs.getDouble("threePointFieldGoalsMade");
+	    	 threePointFieldGoalsAttempted=rs.getDouble("threePointFieldGoalsAttempted");
+	    	 freeThrowsMade=rs.getDouble("freeThrowsMade");
+	    	 freeThrowsAttempted=rs.getDouble("freeThrowsAttempted");
+	    	 offensiveRebounds=rs.getDouble("offensiveRebounds");
+	    	 defensiveRebounds= rs.getDouble("defensiveRebounds");
+	    	 rebounds=rs.getDouble("rebounds");
+	    	 assists=rs.getDouble("assists");
+	    	 steals=rs.getDouble("steals");
+	    	 blocks=rs.getDouble("blocks");
+	    	 turnovers=rs.getDouble("turnovers");
+	    	 fouls=rs.getDouble("fouls");
+	    	 points=rs.getDouble("points");
+	    	 oppFieldGoalsMade= rs.getDouble("oppFieldGoalsMade");
+	    	 oppFieldGoalsAttempted= rs.getDouble("oppFieldGoalsAttempted");
+	    	 oppFreeThrowsAttempted=rs.getDouble("oppFreeThrowsAttempted");
+	    	 oppTurnovers=rs.getDouble("oppTurnovers");
+	    	 oppSteals= rs.getDouble("oppSteals");
+	    	 oppAssists=rs.getDouble("oppAssists");
+	    	 oppOffensiveRebounds=rs.getDouble("oppOffensiveRebounds");
+	    	 oppDefensiveRebounds=rs.getDouble("oppDefensiveRebounds");
+	    	 oppPoints=rs.getDouble("oppPoints");
 	     }
-	     else if(type.equals("oppFreeThrowsAttempted")){
-	    	 fgm1=fgm1+new MatchDataCalculate().Cal_Known(MatchID,team2,"freeThrowsAttempted");
-	    	 fgm2=fgm2+new MatchDataCalculate().Cal_Known(MatchID,team1,"freeThrowsAttempted");
+	     
+	     rs = stmt.executeQuery("select * from playerMatchInfo where generalMatch="+MatchID+" and teamName='"+teamName2+"'");
+	     while(rs.next()){
+	    	 fieldGoalsMade=fieldGoalsMade+rs.getDouble("fieldGoal");
+	    	 fieldGoalsAttempted=fieldGoalsAttempted+rs.getDouble("fieldGoalAttempts");
+	    	 threePointFieldGoalsMade=threePointFieldGoalsMade+rs.getDouble("threepointShot");
+	    	 threePointFieldGoalsAttempted=threePointFieldGoalsAttempted+rs.getDouble("threepointAttempts");
+	    	 freeThrowsMade=freeThrowsMade+rs.getDouble("freeThrowGoal");
+	    	 freeThrowsAttempted=freeThrowsAttempted+rs.getDouble("freeThrowAttempts");
+	    	 offensiveRebounds=offensiveRebounds+rs.getDouble("offensiveRebound");
+	    	 defensiveRebounds=defensiveRebounds+rs.getDouble("defensiveRebound");
+	    	 rebounds=rebounds+rs.getDouble("rebound");
+	    	 assists=assists+rs.getDouble("assist");
+	    	 steals=steals+rs.getDouble("st");
+	    	 blocks=blocks+rs.getDouble("blockShot");
+	    	 turnovers=turnovers+rs.getDouble("error");
+	    	 fouls=fouls+rs.getDouble("foul");
+	    	 points=points+rs.getDouble("score");
 	     }
-	     else if(type.equals("oppTurnovers")){
-	    	 fgm1=fgm1+new MatchDataCalculate().Cal_Known(MatchID,team2,"turnovers");
-	    	 fgm2=fgm2+new MatchDataCalculate().Cal_Known(MatchID,team1,"turnovers");
-	     }
-	     else if(type.equals("oppSteals")){
-	    	 fgm1=fgm1+new MatchDataCalculate().Cal_Known(MatchID,team2,"steals");
-	    	 fgm2=fgm2+new MatchDataCalculate().Cal_Known(MatchID,team1,"steals");
-	     }
-	     else if(type.equals("oppAssists")){
-	    	 fgm1=fgm1+new MatchDataCalculate().Cal_Known(MatchID,team2,"assists");
-	    	 fgm2=fgm2+new MatchDataCalculate().Cal_Known(MatchID,team1,"assists");
-	     }
-	     else if(type.equals("oppOffensiveRebounds")){
-	    	 fgm1=fgm1+new MatchDataCalculate().Cal_Known(MatchID,team2,"offensiveRebounds");
-	    	 fgm2=fgm2+new MatchDataCalculate().Cal_Known(MatchID,team1,"offensiveRebounds");
-	     }
-	     else if(type.equals("oppDefensiveRebounds")){
-	    	 fgm1=fgm1+new MatchDataCalculate().Cal_Known(MatchID,team2,"defensiveRebounds");
-	    	 fgm2=fgm2+new MatchDataCalculate().Cal_Known(MatchID,team1,"defensiveRebounds");
-	     }
-	     else if(type.equals("oppPoints")){
-	    	 fgm1=fgm1+new MatchDataCalculate().Cal_Known(MatchID,team2,"points");
-	    	 fgm2=fgm2+new MatchDataCalculate().Cal_Known(MatchID,team1,"points");
+	     rs = stmt.executeQuery("select * from playerMatchInfo where oppositeTeamName='"+teamName2+"'");
+	     while(rs.next()){
+	    	 oppFieldGoalsMade=oppFieldGoalsMade+rs.getDouble("fieldGoal");
+	    	 oppFieldGoalsAttempted=oppFieldGoalsAttempted+rs.getDouble("fieldGoalAttempts");
+	    	 oppFreeThrowsAttempted=oppFreeThrowsAttempted+rs.getDouble("freeThrowAttempts");
+	    	 oppTurnovers=oppTurnovers+rs.getDouble("error");
+	    	 oppSteals=oppSteals+rs.getDouble("st");
+	    	 oppAssists=oppAssists+rs.getDouble("assist");
+	    	 oppOffensiveRebounds=oppOffensiveRebounds+rs.getDouble("offensiveRebound");
+	    	 oppDefensiveRebounds=oppDefensiveRebounds+rs.getDouble("defensiveRebound");
+	    	 oppPoints=oppPoints+rs.getDouble("score");
 	     }
 	     rs.close();
-
-	     stmt.executeUpdate("update teamInfo set "+type+"="+fgm1+" where teamName='"+team1+"'");
-	     stmt.executeUpdate("update teamInfo set "+type+"="+fgm2+" where teamName='"+team2+"'");		 
+	     stmt.executeUpdate("update teamInfo set fieldGoalsMade="+fieldGoalsMade+" where teamName='"+teamName2+"'");
+	     stmt.executeUpdate("update teamInfo set fieldGoalsAttempted="+fieldGoalsAttempted+" where teamName='"+teamName2+"'");
+	     stmt.executeUpdate("update teamInfo set threePointFieldGoalsMade="+threePointFieldGoalsMade+" where teamName='"+teamName2+"'");
+	     stmt.executeUpdate("update teamInfo set threePointFieldGoalsAttempted="+threePointFieldGoalsAttempted+" where teamName='"+teamName2+"'");
+	     stmt.executeUpdate("update teamInfo set freeThrowsMade="+freeThrowsMade+" where teamName='"+teamName2+"'");
+	     stmt.executeUpdate("update teamInfo set freeThrowsAttempted="+freeThrowsAttempted+" where teamName='"+teamName2+"'");
+	     stmt.executeUpdate("update teamInfo set offensiveRebounds="+offensiveRebounds+" where teamName='"+teamName2+"'");
+	     stmt.executeUpdate("update teamInfo set defensiveRebounds="+defensiveRebounds+" where teamName='"+teamName2+"'");
+	     stmt.executeUpdate("update teamInfo set rebounds="+rebounds+" where teamName='"+teamName2+"'");
+	     stmt.executeUpdate("update teamInfo set assists="+assists+" where teamName='"+teamName2+"'");
+	     stmt.executeUpdate("update teamInfo set steals="+steals+" where teamName='"+teamName2+"'");
+	     stmt.executeUpdate("update teamInfo set blocks="+blocks+" where teamName='"+teamName2+"'");
+	     stmt.executeUpdate("update teamInfo set turnovers="+turnovers+" where teamName='"+teamName2+"'");
+	     stmt.executeUpdate("update teamInfo set fouls="+fouls+" where teamName='"+teamName2+"'");
+	     stmt.executeUpdate("update teamInfo set points="+points+" where teamName='"+teamName2+"'");     
+	     stmt.executeUpdate("update teamInfo set oppFieldGoalsMade="+oppFieldGoalsMade+" where teamName='"+teamName2+"'");
+	     stmt.executeUpdate("update teamInfo set oppFieldGoalsAttempted="+oppFieldGoalsAttempted+" where teamName='"+teamName2+"'");
+	     stmt.executeUpdate("update teamInfo set oppFreeThrowsAttempted="+oppFreeThrowsAttempted+" where teamName='"+teamName2+"'");
+	     stmt.executeUpdate("update teamInfo set oppTurnovers="+oppTurnovers+" where teamName='"+teamName2+"'");
+	     stmt.executeUpdate("update teamInfo set oppSteals="+oppSteals+" where teamName='"+teamName2+"'");
+	     stmt.executeUpdate("update teamInfo set oppAssists="+oppAssists+" where teamName='"+teamName2+"'");
+	     stmt.executeUpdate("update teamInfo set oppOffensiveRebounds="+oppOffensiveRebounds+" where teamName='"+teamName2+"'");
+	     stmt.executeUpdate("update teamInfo set oppDefensiveRebounds="+oppDefensiveRebounds+" where teamName='"+teamName2+"'");	     
+	     stmt.executeUpdate("update teamInfo set oppPoints="+oppPoints+" where teamName='"+teamName2+"'");	
+	     
 	     stmt.close();
 	     conn.close();
+	     
 	 }
+	 
+	 
 	 
 	 public ArrayList<String> SearchTeamNameByMatchID(int MatchID)throws Exception{
 		 
@@ -842,7 +910,7 @@ public class TeamDataCalculate{
 	 }
 	
 	 public static void main(String[]args){
-		/*try {
+		try {
 			new TeamDataCalculate().BasicTeamOriginal();
 			new MatchDataCalculate().BasicMatchOriginal();
 			
@@ -850,7 +918,7 @@ public class TeamDataCalculate{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		for(int i=1;i<1230;i++){
+		/*for(int i=1;i<1230;i++){
 		 
 		 String[]m={"fieldGoalsMade","fieldGoalsAttempted","threePointFieldGoalsMade","threePointFieldGoalsAttempted"
 				 ,"freeThrowsMade","freeThrowsAttempted","offensiveRebounds","defensiveRebounds","rebounds","assists","steals","blocks","turnovers","fouls","points"};
@@ -879,11 +947,11 @@ public class TeamDataCalculate{
 			e.printStackTrace();
 		}
 		}
-		 
-		new TeamDataCalculate().updateAllTeam();*/
-		 TeamDataCalculate tdc=new TeamDataCalculate();
+		 */
+		new TeamDataCalculate().updateAllTeam();
+		 /*TeamDataCalculate tdc=new TeamDataCalculate();
 		 tdc.addSingleMatchTeam(1);
-		 System.out.println("添加成功");
+		 System.out.println("添加成功");*/
 		
 	 }
 }

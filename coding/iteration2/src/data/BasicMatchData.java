@@ -69,6 +69,55 @@ public class BasicMatchData {
 		return allMatches;
 	}
 	
+	public MatchPO getOneMatchOriginal(String path) {
+		
+			MatchPO oneMatch = new MatchPO();
+			File readfile = new File(path);
+			try {
+				ArrayList<String> wtf = new ArrayList<String>();
+				InputStreamReader read = new InputStreamReader(new FileInputStream(readfile),"UTF-8");
+				BufferedReader br = new BufferedReader( read);
+				for(String s = br.readLine();s != null; s = br.readLine()){
+					wtf.add(s);
+				}
+				br.close();
+			
+				oneMatch.setMatchTime(wtf.get(0).split(";")[0]);
+				oneMatch.setTeams(wtf.get(0).split(";")[1]);
+				oneMatch.setScore(wtf.get(0).split(";")[2]);
+				oneMatch.setScore1(wtf.get(1).split(";")[0]);oneMatch.setScore2(wtf.get(1).split(";")[1]);oneMatch.setScore3(wtf.get(1).split(";")[2]);oneMatch.setScore4(wtf.get(1).split(";")[3]);
+				ArrayList<String> temp = new ArrayList();
+				for(int j=4;j<wtf.get(1).split(";").length;j++){
+					temp.add(wtf.get(1).split(";")[j]);
+				}
+				oneMatch.setExtraScores(temp);
+				int index=3;
+				while(wtf.get(index).split(";").length>1)
+					index++;
+				int extra = 0;
+				if(!(temp==null))
+					extra = temp.size();
+				
+				MatchTeam team1 = getTeamInfo(wtf,2,index-1);
+				checkScore(team1,Integer.parseInt(oneMatch.getScore().split("-")[0]));
+				checkTime(team1,extra);
+				MatchTeam team2 = getTeamInfo(wtf,index,wtf.size()-1);
+				checkScore(team2,Integer.parseInt(oneMatch.getScore().split("-")[1]));
+				checkTime(team2,extra);
+				
+				oneMatch.setTeam1(team1);
+				oneMatch.setTeam2(team2);
+				
+				
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		
+		return oneMatch;
+	}
+	
 	public static void checkTime(MatchTeam team,int extraTimes){
 		int n=0;
 		for(;n<team.getPlayers().size();n++){

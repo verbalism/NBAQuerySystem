@@ -15,6 +15,7 @@ public ArrayList<BasicTeamPO> getTeamOriginal() {
 		
 		File readfile = new File("Data\\teams\\teams");
 		ArrayList<BasicTeamPO> allTeams = new ArrayList<BasicTeamPO>();
+		String tname="";
 		try {
 			ArrayList<String> wtf = new ArrayList<String>();
 			InputStreamReader read = new InputStreamReader(new FileInputStream(readfile),"UTF-8");
@@ -28,7 +29,13 @@ public ArrayList<BasicTeamPO> getTeamOriginal() {
 				BasicTeamPO team = new BasicTeamPO();
 				String[] temp = infos.split("©¦");
 				team.setFullName(removeBlankSpace(temp[0]));
-				team.setAbbreviation(removeBlankSpace(temp[1]));
+				if(removeBlankSpace(temp[1]).equals("NOP")){
+					tname="NOH";
+				}
+				else{
+					tname=removeBlankSpace(temp[1]);
+				}
+				team.setAbbreviation(tname);
 				team.setCity(removeBlankSpace(temp[2]));
 				if(i==3)
 					team.setZone("E");

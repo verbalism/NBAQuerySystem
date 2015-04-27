@@ -6,6 +6,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Timer;
 
 import dataService.TeamDataService;
 import po.BasicTeamPO;
@@ -60,7 +61,7 @@ public class TeamData implements TeamDataService{
 		    	 tp.setCreateTime(rs.getString("createTime"));
 		    	 tp.setGamesPlayedWin(rs.getInt("gamesPlayedWin"));
 		    	 tp.setOppFieldGoalsMade(rs.getDouble("oppFieldGoalsMade"));
-		    	 tp.setOppFieldGoalsAttempted(rs.getInt("oppFieldGoalsAttempted"));
+		    	 tp.setOppFieldGoalsAttempted(rs.getDouble("oppFieldGoalsAttempted"));
 		    	 tp.setOppFreeThrowsAttempted(rs.getDouble("oppFreeThrowsAttempted"));
 		    	 tp.setOppTurnovers(rs.getDouble("oppTurnovers"));
 		    	 tp.setOppSteals(rs.getDouble("oppSteals"));

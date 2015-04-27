@@ -67,6 +67,45 @@ public class MatchDataCalculate {
         System.out.println("比赛基本信息已读入");
 	}
 	
+	public int BasicOneMatchOriginal(MatchPO mp) throws Exception{  
+	 	//在数据库中读入比赛基本信息
+		int result=0;
+	 	File f=new File("");
+	 	String s=f.getCanonicalPath();
+	 	Class.forName("sun.jdbc.odbc.JdbcOdbcDriver");  
+        String dbur1 = "jdbc:odbc:driver={Microsoft Access Driver (*.mdb, *.accdb)};DBQ="+s+"//NBAIteration2";  
+        
+        Connection conn = DriverManager.getConnection(dbur1, "username", "password"); 
+        PreparedStatement pstmt = null;  	 
+        String sql = "insert into generalMatchInfo (matchTime,score,score1,score2,score3,score4,extrascores,teamName1,teamName2) values(?,?,?,?,?,?,?,?,?)";
+        pstmt = (PreparedStatement) conn.prepareStatement(sql);
+        pstmt.setString(1, mp.getMatchTime());
+        pstmt.setString(2, mp.getScore());
+        pstmt.setString(3, mp.getScore1());
+        pstmt.setString(4, mp.getScore2());
+        pstmt.setString(5, mp.getScore3());
+        pstmt.setString(6, mp.getScore4());
+        int exs=mp.getExtraScores().size();
+        String extraScores="";
+        if(exs>0){
+           extraScores=mp.getExtraScores().get(0);
+           for(int j=1;j<exs;j++){
+        	   extraScores=extraScores+";"+mp.getExtraScores().get(j);
+           }	
+        }
+        pstmt.setString(7, extraScores);
+        pstmt.setString(8, mp.getTeam1().getTeamName());
+        pstmt.setString(9, mp.getTeam2().getTeamName());
+        pstmt.executeUpdate();
+             
+        int generalMatchID=new MatchDataCalculate().getBasicMatchID(mp.getMatchTime(),mp.getTeam1().getTeamName());
+        result=generalMatchID;
+        new MatchDataCalculate().playerMatchOriginal(generalMatchID, mp);
+        pstmt.close();
+        conn.close();
+        return result;
+	}
+	
 	
 	public int Cal_Known(int MatchID,String teamName ,String type)throws Exception{
 		//根据比赛ID和球队名称和所需数据类型呢获得新增的数据
