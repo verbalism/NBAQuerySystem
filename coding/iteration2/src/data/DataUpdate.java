@@ -16,7 +16,9 @@ public class DataUpdate {
 		MatchPO matchesAdded=bmd.getOneMatchOriginal(path);
 		try {
 			generalMatchID=mdc.BasicOneMatchOriginal(matchesAdded);
-			tdc.addSingleMatchTeam(generalMatchID);
+			if(generalMatchID!=-1){
+				tdc.addSingleMatchTeam(generalMatchID);
+			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
