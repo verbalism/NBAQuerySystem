@@ -6,15 +6,15 @@ import java.nio.file.StandardWatchEventKinds;
 import java.nio.file.WatchEvent;  
 import java.nio.file.WatchKey;  
 import java.nio.file.WatchService;  
+
 import data.DataUpdate;
 
 public class Update {  
     public void AutoUpdate() throws Exception  {  
-        TeamDataCalculate tdc=new TeamDataCalculate();
+    	TeamDataCalculate tdc=new TeamDataCalculate();
         PlayerData pds=new PlayerData();
         int generalID=0;
-        pds.updateBasicPlayerInfo();
-        tdc.BasicTeamOriginal();
+        
         WatchService watchService=FileSystems.getDefault().newWatchService();  
         DataUpdate du=new DataUpdate();
         Paths.get("C:\\data").register(watchService,   
@@ -35,4 +35,17 @@ public class Update {
             }  
         }  
     }  
+    
+    public static void main(String[]args){
+   
+    	TeamDataCalculate tdc=new TeamDataCalculate();
+        PlayerData pds=new PlayerData();
+        pds.updateBasicPlayerInfo();
+        try {
+			tdc.BasicTeamOriginal();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    }
 }  

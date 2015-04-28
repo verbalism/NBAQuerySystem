@@ -392,7 +392,10 @@ public class PlayerDataPanel extends JPanel implements ActionListener{
 		for(int i=0;i<players.size();i++){
 			if(players.get(i).getGamesPlayed()==0){
 				data[i][0]=i+1;
-				for(int j=1;j<14;j++)
+				data[i][1] = players.get(i).getPlayerName();
+				data[i][2] = players.get(i).getTeamName();
+				
+				for(int j=3;j<14;j++)
 					data[i][j]=0;
 			}
 			else{

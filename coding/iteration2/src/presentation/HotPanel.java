@@ -64,6 +64,7 @@ public class HotPanel extends JPanel implements ActionListener{
 				tdSTBtn.setBackground(null);
 			}
 		});
+		tdScoreBtn.addActionListener(this);
 		tdBackBordBtn = new JButton("蓝  板");
 		tdBackBordBtn.setFont(new Font("微软雅黑",0,14));
 		tdBackBordBtn.setBackground(null);
@@ -79,6 +80,7 @@ public class HotPanel extends JPanel implements ActionListener{
 				tdSTBtn.setBackground(null);
 			}
 		});
+		tdBackBordBtn.addActionListener(this);
 		tdAssistBtn = new JButton("助  攻");
 		tdAssistBtn.setFont(new Font("微软雅黑",0,14));
 		tdAssistBtn.setBackground(null);
@@ -94,6 +96,7 @@ public class HotPanel extends JPanel implements ActionListener{
 				tdSTBtn.setBackground(null);
 			}
 		});
+		tdAssistBtn.addActionListener(this);
 		tdBlockShotBtn = new JButton("盖  帽");
 		tdBlockShotBtn.setFont(new Font("微软雅黑",0,14));
 		tdBlockShotBtn.setBackground(null);
@@ -101,7 +104,6 @@ public class HotPanel extends JPanel implements ActionListener{
 		tdBlockShotBtn.setBorder(new LineBorder(new Color(246,246,246),1,false));
 		tdBlockShotBtn.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		tdBlockShotBtn.addMouseListener(new MouseAdapter(){
-			
 			public void mouseClicked(MouseEvent arg0) {
 				tdBlockShotBtn.setBackground(new Color(200,200,200));
 				tdBackBordBtn.setBackground(null);
@@ -110,6 +112,7 @@ public class HotPanel extends JPanel implements ActionListener{
 				tdSTBtn.setBackground(null);
 			}
 		});
+		tdBlockShotBtn.addActionListener(this);
 		tdSTBtn = new JButton("抢  断");
 		tdSTBtn.setFont(new Font("微软雅黑",0,14));
 		tdSTBtn.setBackground(null);
@@ -125,6 +128,7 @@ public class HotPanel extends JPanel implements ActionListener{
 				tdScoreBtn.setBackground(null);
 			}
 		});
+		tdSTBtn.addActionListener(this);
 		todayPlayerSortPanel.setLayout(null);
 		todayPlayerSortPanel.add(tdScoreBtn);
 		todayPlayerSortPanel.add(tdBackBordBtn);
@@ -149,6 +153,7 @@ public class HotPanel extends JPanel implements ActionListener{
 				adAssistBtn.setBackground(null);
 			}
 		});
+		adScoreBtn.addActionListener(this);
 		adBackBordBtn = new JButton("场均蓝板");
 		adBackBordBtn.setFont(new Font("微软雅黑",0,14));
 		adBackBordBtn.setBackground(null);
@@ -162,6 +167,7 @@ public class HotPanel extends JPanel implements ActionListener{
 				adAssistBtn.setBackground(null);
 			}
 		});
+		adBackBordBtn.addActionListener(this);
 		adAssistBtn = new JButton("场均助攻");
 		adAssistBtn.setFont(new Font("微软雅黑",0,14));
 		adAssistBtn.setBackground(null);
@@ -175,6 +181,7 @@ public class HotPanel extends JPanel implements ActionListener{
 				adScoreBtn.setBackground(null);
 			}
 		});
+		adAssistBtn.addActionListener(this);
 		advanceSortPanel.setLayout(null);
 		advanceSortPanel.add(adScoreBtn);
 		advanceSortPanel.add(adBackBordBtn);
@@ -204,6 +211,7 @@ public class HotPanel extends JPanel implements ActionListener{
 				allPenaltyBtn.setBackground(null);
 			}
 		});
+		allScoreBtn.addActionListener(this);
 		allBackBordBtn = new JButton("场均蓝板");
 		allBackBordBtn.setFont(new Font("微软雅黑",0,14));
 		allBackBordBtn.setBackground(null);
@@ -222,6 +230,7 @@ public class HotPanel extends JPanel implements ActionListener{
 				allPenaltyBtn.setBackground(null);
 			}
 		});
+		allBackBordBtn.addActionListener(this);
 		allAssistBtn = new JButton("场均助攻");
 		allAssistBtn.setFont(new Font("微软雅黑",0,14));
 		allAssistBtn.setBackground(null);
@@ -240,6 +249,7 @@ public class HotPanel extends JPanel implements ActionListener{
 				allPenaltyBtn.setBackground(null);
 			}
 		});
+		allAssistBtn.addActionListener(this);
 		allBlockShotBtn = new JButton("场均盖帽");
 		allBlockShotBtn.setFont(new Font("微软雅黑",0,14));
 		allBlockShotBtn.setBackground(null);
@@ -258,6 +268,7 @@ public class HotPanel extends JPanel implements ActionListener{
 				allPenaltyBtn.setBackground(null);
 			}
 		});
+		allBlockShotBtn.addActionListener(this);
 		allSTBtn = new JButton("场均抢断");
 		allSTBtn.setFont(new Font("微软雅黑",0,14));
 		allSTBtn.setBackground(null);
@@ -276,6 +287,7 @@ public class HotPanel extends JPanel implements ActionListener{
 				allPenaltyBtn.setBackground(null);
 			}
 		});
+		allSTBtn.addActionListener(this);
 		all3Btn = new JButton("三分命中率");
 		all3Btn.setFont(new Font("微软雅黑",0,14));
 		all3Btn.setBackground(null);
@@ -294,6 +306,7 @@ public class HotPanel extends JPanel implements ActionListener{
 				allPenaltyBtn.setBackground(null);
 			}
 		});
+		all3Btn.addActionListener(this);
 		allShotBtn = new JButton("投篮命中率");
 		allShotBtn.setFont(new Font("微软雅黑",0,14));
 		allShotBtn.setBackground(null);
@@ -312,6 +325,7 @@ public class HotPanel extends JPanel implements ActionListener{
 				allPenaltyBtn.setBackground(null);
 			}
 		});
+		allShotBtn.addActionListener(this);
 		allPenaltyBtn = new JButton("罚球命中率");
 		allPenaltyBtn.setFont(new Font("微软雅黑",0,14));
 		allPenaltyBtn.setBackground(null);
@@ -330,6 +344,7 @@ public class HotPanel extends JPanel implements ActionListener{
 				allSTBtn.setBackground(null);
 			}
 		});
+		allPenaltyBtn.addActionListener(this);
 		allSortPanel.setLayout(null);
 		allSortPanel.add(allScoreBtn);
 		allSortPanel.add(allBackBordBtn);
@@ -431,20 +446,13 @@ public class HotPanel extends JPanel implements ActionListener{
 		searchPanel.add(advanceBtn);
 		searchPanel.add(teamBtn);
 		
-		System.out.println("1");
 		
 		ArrayList<TeamVO> teams = abl.getSeasonHotSpotTeam("points");
-		System.out.println("3");
 		teamResultPanel = new HotTeamPanel(teams,"allScore");
-		System.out.println("4");
 		ArrayList<PlayerVO> players2 = abl.getSeasonHotSpotPlayer("points");
-		System.out.println("5");
 		playerResultPanel = new HotPlayerPanel(players2,"allScore");
-		System.out.println("6");
 		ArrayList<TodayPlayerVO> players = abl.getTodayHotSpotPlayer("score");
-		System.out.println("1");
 		tdplayerResultPanel = new TodayHotPlayerPanel(players,"tdScore");
-		System.out.println("2");
 		
 		
 		this.setBounds(10, 100, panelWidth, panelHeight);
@@ -452,7 +460,7 @@ public class HotPanel extends JPanel implements ActionListener{
 		this.setLayout(null);
 		this.add(searchPanel);
 		this.add(todayPlayerSortPanel);
-		this.add(playerResultPanel);
+		this.add(tdplayerResultPanel);
 	}
 	
 	
@@ -498,7 +506,7 @@ public class HotPanel extends JPanel implements ActionListener{
 			this.remove(teamResultPanel);
 			ArrayList<TodayPlayerVO> players = abl.getTodayHotSpotPlayer("score");
 			tdplayerResultPanel = new TodayHotPlayerPanel(players,"tdScore");
-			this.add(playerResultPanel);
+			this.add(tdplayerResultPanel);
 			this.repaint();
 		}
 		if(e.getSource()==advanceBtn){
@@ -511,7 +519,7 @@ public class HotPanel extends JPanel implements ActionListener{
 			this.remove(tdplayerResultPanel);
 			this.remove(playerResultPanel);
 			this.remove(teamResultPanel);
-			ArrayList<PlayerVO> players = abl.getProgressivePlayer("points");
+			ArrayList<PlayerVO> players = abl.getProgressivePlayer("increaseOfPoints");
 			playerResultPanel = new HotPlayerPanel(players,"adScore");
 			this.add(playerResultPanel);
 			this.repaint();
@@ -521,35 +529,35 @@ public class HotPanel extends JPanel implements ActionListener{
 			this.remove(tdplayerResultPanel);
 			ArrayList<TodayPlayerVO> players = abl.getTodayHotSpotPlayer("score");
 			tdplayerResultPanel = new TodayHotPlayerPanel(players,"tdScore");
-			this.add(playerResultPanel);
+			this.add(tdplayerResultPanel);
 			this.repaint();
 		}
 		if(e.getSource()==tdBackBordBtn){
 			this.remove(tdplayerResultPanel);
 			ArrayList<TodayPlayerVO> players = abl.getTodayHotSpotPlayer("rebound");
 			tdplayerResultPanel = new TodayHotPlayerPanel(players,"tdBackBord");
-			this.add(playerResultPanel);
+			this.add(tdplayerResultPanel);
 			this.repaint();
 		}
 		if(e.getSource()==tdAssistBtn){
 			this.remove(tdplayerResultPanel);
 			ArrayList<TodayPlayerVO> players = abl.getTodayHotSpotPlayer("assist");
 			tdplayerResultPanel = new TodayHotPlayerPanel(players,"tdAssist");
-			this.add(playerResultPanel);
+			this.add(tdplayerResultPanel);
 			this.repaint();
 		}
 		if(e.getSource()==tdBlockShotBtn){
 			this.remove(tdplayerResultPanel);
 			ArrayList<TodayPlayerVO> players = abl.getTodayHotSpotPlayer("blockShot");
 			tdplayerResultPanel = new TodayHotPlayerPanel(players,"tdBlockShot");
-			this.add(playerResultPanel);
+			this.add(tdplayerResultPanel);
 			this.repaint();
 		}
 		if(e.getSource()==tdSTBtn){
 			this.remove(tdplayerResultPanel);
 			ArrayList<TodayPlayerVO> players = abl.getTodayHotSpotPlayer("st");
 			tdplayerResultPanel = new TodayHotPlayerPanel(players,"tdST");
-			this.add(playerResultPanel);
+			this.add(tdplayerResultPanel);
 			this.repaint();
 		}
 		

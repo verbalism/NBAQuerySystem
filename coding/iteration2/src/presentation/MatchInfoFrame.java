@@ -174,7 +174,7 @@ public class MatchInfoFrame extends JFrame{
     	team2Panel.setBackground(null);
 		String[] columnNames2 = new String[]{"球员","位置","在场时间","投篮命中数","投篮出手数","三分命中数","三分出手数","罚球命中数","罚球出手数","进攻篮板数","防守篮板数","总篮板数","助攻数","抢断数","盖帽数","失误数","犯规数","个人得分"};
 		ArrayList<MatchPlayer> players2 = match.getTeam2().getPlayers();
-		Object[][]matchData2=new Object[players1.size()][18];
+		Object[][]matchData2=new Object[players2.size()][18];
 		for(int i=0;i<players2.size();i++){
 			matchData2[i][0] = players2.get(i).getPlayerName();
 			matchData2[i][1] = players2.get(i).getPosition();

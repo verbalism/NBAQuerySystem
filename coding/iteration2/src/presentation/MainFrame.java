@@ -32,7 +32,7 @@ public class MainFrame extends JFrame implements ActionListener{
 	static ProgressBar pb; static Boolean load = true;
 	public static void main(String args[]){
 		AnalysisBLService abs = new AnalysisBL();
-		abs.updateData();
+		
 		 final Thread line =	new Thread() {
 			    public void run() {
 			    	synchronized (this){
@@ -68,7 +68,7 @@ public class MainFrame extends JFrame implements ActionListener{
 		};
 		line.start();
 		f.start();
-		
+		abs.updateData();
 	}
 	
 	

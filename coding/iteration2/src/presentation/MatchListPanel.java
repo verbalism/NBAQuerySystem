@@ -128,7 +128,7 @@ public class MatchListPanel extends JPanel implements ActionListener {
             		   try {   
             			   ArrayList<MatchVO> matches = abl.getTodayMatch();
             			   refresh(matches);
-            			   Thread.sleep(50000);
+            			   Thread.sleep(10000);
             		   } catch (InterruptedException e) {
             		    e.printStackTrace();
             		   }

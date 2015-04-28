@@ -28,7 +28,6 @@ import businesslogicService.AnalysisBLService;
 import businesslogicService.DataBLService;
 
 public class AnalysisBL implements AnalysisBLService {
-
 	
 	public ArrayList<PlayerVO> sortPlayer(ArrayList<PlayerVO> pl,
 			String keyword, SortType type) {
@@ -1128,6 +1127,7 @@ public class AnalysisBL implements AnalysisBLService {
 				}
 			}
 		}else if(partition.equals(PlayerPartition.West)){
+			//System.out.println(result.size());
 			for(int i=result.size()-1;i>=0;i--){
 				if(result.get(i).getTeamName().equals("")){
 					result.remove(i);
