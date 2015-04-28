@@ -75,6 +75,8 @@ public class TeamDataCalculate{
 			
 	 }
 	 
+	 
+	 
 	 public void updateAllTeam(){
 		 //更新所有信息（从头遍历比赛）
 		 TeamDataCalculate tdc=new TeamDataCalculate();

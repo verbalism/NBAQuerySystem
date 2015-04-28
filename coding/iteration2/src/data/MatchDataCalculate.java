@@ -106,12 +106,14 @@ public class MatchDataCalculate {
         	pstmt.setString(8, mp.getTeam1().getTeamName());
         	pstmt.setString(9, mp.getTeam2().getTeamName());
         	pstmt.executeUpdate();
+        	
+        	pstmt.close();
+        	conn.close();
              
         	int generalMatchID=new MatchDataCalculate().getBasicMatchID(mp.getMatchTime(),mp.getTeam1().getTeamName());
         	result=generalMatchID;
         	new MatchDataCalculate().playerMatchOriginal(generalMatchID, mp);
-        	pstmt.close();
-        	conn.close();
+        
         }
         return result;
 	}
@@ -193,13 +195,13 @@ public class MatchDataCalculate {
         String dbur1 = "jdbc:odbc:driver={Microsoft Access Driver (*.mdb, *.accdb)};DBQ="+s+"//NBAIteration2";  
         Connection conn = DriverManager.getConnection(dbur1, "username", "password"); 
 		Statement stmt=conn.createStatement();
-		ResultSet rs=stmt.executeQuery("select ID from generalMatchInfo");
+		ResultSet rs=stmt.executeQuery("select ID from generalMatchInfo where matchTime='"+matchtime+"' and teamName1='"+team1+"'");
 		while(rs.next()){
 			result=rs.getInt("ID");
 		}
 		stmt.close();
 		conn.close();
-        return  result+1;
+        return  result;
         
 		
 	}
