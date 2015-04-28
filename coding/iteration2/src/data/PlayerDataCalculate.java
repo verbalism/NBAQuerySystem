@@ -1070,17 +1070,19 @@ public class PlayerDataCalculate {
 	public void update(int matchID){
 		PlayerDataCalculate pdc=new PlayerDataCalculate();
 		try {
-			File directory = new File("");
-			String courseFile = directory.getCanonicalPath() ;
-			Class.forName("sun.jdbc.odbc.JdbcOdbcDriver"); 
-	        String dbur1 = "jdbc:odbc:driver={Microsoft Access Driver (*.mdb, *.accdb)};DBQ="+courseFile+"//NBAIteration2";  
-	        Connection conn = DriverManager.getConnection(dbur1, "username", "password"); 
-	        
-			pdc.updatePlayerInfoBySingleMatch(matchID,conn);
-			pdc.calComplexData(matchID,conn);
-			pdc.calIncreaseOf5(matchID,conn);
-			
-			conn.close();
+			if(matchID!=-1){
+				File directory = new File("");
+				String courseFile = directory.getCanonicalPath() ;
+				Class.forName("sun.jdbc.odbc.JdbcOdbcDriver"); 
+		        String dbur1 = "jdbc:odbc:driver={Microsoft Access Driver (*.mdb, *.accdb)};DBQ="+courseFile+"//NBAIteration2";  
+		        Connection conn = DriverManager.getConnection(dbur1, "username", "password"); 
+		        
+				pdc.updatePlayerInfoBySingleMatch(matchID,conn);
+				pdc.calComplexData(matchID,conn);
+				pdc.calIncreaseOf5(matchID,conn);
+				
+				conn.close();
+			}	
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
