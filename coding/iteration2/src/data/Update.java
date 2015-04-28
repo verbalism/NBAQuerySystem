@@ -1,5 +1,6 @@
 package data;
 
+import java.io.File;
 import java.nio.file.FileSystems;  
 import java.nio.file.Paths;  
 import java.nio.file.StandardWatchEventKinds;  
@@ -26,7 +27,13 @@ public class Update {
             for(WatchEvent<?> event:key.pollEvents()){  
                 System.out.println(event.context()+"发生了"+event.kind()+"事件");  
                 if(event.kind().equals(StandardWatchEventKinds.ENTRY_MODIFY)){
-                	generalID=du.update("C:\\data\\"+event.context());
+                	File file=new File("C:\\data\\"+event.context());    
+                	if(!file.exists()){
+                		generalID=-1;
+                	}
+                	else{
+                		generalID=du.update("C:\\data\\"+event.context());
+                	}
                 	pds.updatePlayerInfo(generalID);
                 }
             }  
