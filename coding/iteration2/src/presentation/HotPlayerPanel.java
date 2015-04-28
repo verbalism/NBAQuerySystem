@@ -1,23 +1,32 @@
 package presentation;
 
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import businesslogic.DataBL;
+import businesslogicService.DataBLService;
 import vo.PlayerVO;
 import vo.TodayPlayerVO;
 
 public class HotPlayerPanel extends JPanel{
+	JButton playerNameLabel1,playerNameLabel2,playerNameLabel3,playerNameLabel4,playerNameLabel5;
+	ArrayList<PlayerVO> ps;
 	public HotPlayerPanel(ArrayList<PlayerVO> players,String keyword){
+		ps = players;
 		Toolkit kit = Toolkit.getDefaultToolkit();
 		Dimension screenSize = kit.getScreenSize();
 		int panelHeight = screenSize.height-160;
@@ -32,20 +41,33 @@ public class HotPlayerPanel extends JPanel{
 		playerImgLabel1.setIcon(img);
 		JLabel playerNumLabel1 = new JLabel("1");
 		playerNumLabel1.setFont(new Font("Modern",Font.BOLD,90));
-		playerNumLabel1.setBounds(230, 0, 50, 200);
+		playerNumLabel1.setBounds(200, 0, 50, 200);
 		playerNumLabel1.setForeground(new Color(68,68,68));
-		JLabel playerNameLabel1 = new JLabel(players.get(0).getPlayerName());
+		playerNameLabel1 = new JButton(players.get(0).getPlayerName());
 		playerNameLabel1.setFont(new Font("Arial Black",0,25));
-		playerNameLabel1.setBounds(300, 60, 200, 35);
+		playerNameLabel1.setBounds(270, 60, 300, 35);
 		playerNameLabel1.setForeground(new Color(0,103,175));
+		playerNameLabel1.setBorder(null);
+		playerNameLabel1.setBackground(null);
+		playerNameLabel1.setHorizontalAlignment(JButton.LEFT);
+		playerNameLabel1.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		playerNameLabel1.addMouseListener(new MouseAdapter(){
+			public void mouseClicked(MouseEvent arg0) {
+				playerNameLabel1.setBackground(null);
+				PlayerVO findPlayer = ps.get(0);
+				new PlayerInfoFrame(findPlayer);
+			}
+			
+		});
+		
 		JLabel playerTeamLabel1 = new JLabel(players.get(0).getPosition()+"/"+players.get(0).getTeamName());
 		playerTeamLabel1.setFont(new Font("Arial",0,20));
-		playerTeamLabel1.setBounds(300, 95, 200, 50);
+		playerTeamLabel1.setBounds(270, 95, 200, 50);
 		playerTeamLabel1.setForeground(new Color(68,68,68));
 		JLabel playerScoreLabel1 = new JLabel();
 		playerScoreLabel1.setFont(new Font("Modern",Font.BOLD,35));
 		playerScoreLabel1.setForeground(new Color(68,68,68));
-		playerScoreLabel1.setBounds(300, 160, 200, 30);
+		playerScoreLabel1.setBounds(270, 160, 200, 30);
 		
 		JPanel firstPanel = new JPanel();
 		firstPanel.setBounds(0, 0, panelWidth/2, 480);
@@ -56,6 +78,7 @@ public class HotPlayerPanel extends JPanel{
 		firstPanel.add(playerNameLabel1);
 		firstPanel.add(playerTeamLabel1);
 		firstPanel.add(playerScoreLabel1);
+		
 		
 		JLabel playerNumLabel2 = new JLabel("2",JLabel.CENTER);
 		playerNumLabel2.setBounds(0, 0, 100, 120);
@@ -68,10 +91,22 @@ public class HotPlayerPanel extends JPanel{
 		ImageIcon img2 = new ImageIcon("Img//players//portrait//"+players.get(1).getPlayerName()+".png");
 		img2.setImage(img2.getImage().getScaledInstance(100,80,Image.SCALE_DEFAULT));
 		playerImgLabel2.setIcon(img2);
-		JLabel playerNameLabel2 = new JLabel(players.get(1).getPlayerName());
+		playerNameLabel2 = new JButton(players.get(1).getPlayerName());
 		playerNameLabel2.setBounds(230, 30, 200, 30);
 		playerNameLabel2.setFont(new Font("Arial Black",0,18));
 		playerNameLabel2.setForeground(new Color(0,103,175));
+		playerNameLabel2.setBorder(null);
+		playerNameLabel2.setBackground(null);
+		playerNameLabel2.setHorizontalAlignment(JButton.LEFT);
+		playerNameLabel2.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		playerNameLabel2.addMouseListener(new MouseAdapter(){
+			public void mouseClicked(MouseEvent arg0) {
+				playerNameLabel2.setBackground(null);
+				PlayerVO findPlayer = ps.get(1);
+				new PlayerInfoFrame(findPlayer);
+			}
+			
+		});
 		JLabel playerTeamLabel2 = new JLabel(players.get(1).getPosition()+"/"+players.get(1).getTeamName());
 		playerTeamLabel2.setFont(new Font("Arial",0,15));
 		playerTeamLabel2.setBounds(230, 70, 200, 30);
@@ -101,10 +136,22 @@ public class HotPlayerPanel extends JPanel{
 		ImageIcon img3 = new ImageIcon("Img//players//portrait//"+players.get(2).getPlayerName()+".png");
 		img3.setImage(img3.getImage().getScaledInstance(100,80,Image.SCALE_DEFAULT));
 		playerImgLabel3.setIcon(img3);
-		JLabel playerNameLabel3 = new JLabel(players.get(2).getPlayerName());
+		playerNameLabel3 = new JButton(players.get(2).getPlayerName());
 		playerNameLabel3.setBounds(230, 30, 200, 30);
 		playerNameLabel3.setFont(new Font("Arial Black",0,18));
 		playerNameLabel3.setForeground(new Color(0,103,175));
+		playerNameLabel3.setBorder(null);
+		playerNameLabel3.setBackground(null);
+		playerNameLabel3.setHorizontalAlignment(JButton.LEFT);
+		playerNameLabel3.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		playerNameLabel3.addMouseListener(new MouseAdapter(){
+			public void mouseClicked(MouseEvent arg0) {
+				playerNameLabel3.setBackground(null);
+				PlayerVO findPlayer = ps.get(2);
+				new PlayerInfoFrame(findPlayer);
+			}
+			
+		});
 		JLabel playerTeamLabel3 = new JLabel(players.get(2).getPosition()+"/"+players.get(2).getTeamName());
 		playerTeamLabel3.setFont(new Font("Arial",0,15));
 		playerTeamLabel3.setBounds(230, 70, 200, 30);
@@ -134,10 +181,22 @@ public class HotPlayerPanel extends JPanel{
 		ImageIcon img4 = new ImageIcon("Img//players//portrait//"+players.get(3).getPlayerName()+".png");
 		img4.setImage(img4.getImage().getScaledInstance(100,80,Image.SCALE_DEFAULT));
 		playerImgLabel4.setIcon(img4);
-		JLabel playerNameLabel4 = new JLabel(players.get(3).getPlayerName());
+		playerNameLabel4 = new JButton(players.get(3).getPlayerName());
 		playerNameLabel4.setBounds(230, 30, 200, 30);
 		playerNameLabel4.setFont(new Font("Arial Black",0,18));
 		playerNameLabel4.setForeground(new Color(0,103,175));
+		playerNameLabel4.setBorder(null);
+		playerNameLabel4.setBackground(null);
+		playerNameLabel4.setHorizontalAlignment(JButton.LEFT);
+		playerNameLabel4.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		playerNameLabel4.addMouseListener(new MouseAdapter(){
+			public void mouseClicked(MouseEvent arg0) {
+				playerNameLabel4.setBackground(null);
+				PlayerVO findPlayer = ps.get(3);
+				new PlayerInfoFrame(findPlayer);
+			}
+			
+		});
 		JLabel playerTeamLabel4 = new JLabel(players.get(3).getPosition()+"/"+players.get(3).getTeamName());
 		playerTeamLabel4.setFont(new Font("Arial",0,15));
 		playerTeamLabel4.setBounds(230, 70, 200, 30);
@@ -167,10 +226,22 @@ public class HotPlayerPanel extends JPanel{
 		ImageIcon img5 = new ImageIcon("Img//players//portrait//"+players.get(4).getPlayerName()+".png");
 		img5.setImage(img5.getImage().getScaledInstance(100,80,Image.SCALE_DEFAULT));
 		playerImgLabel5.setIcon(img5);
-		JLabel playerNameLabel5 = new JLabel(players.get(4).getPlayerName());
+		playerNameLabel5 = new JButton(players.get(4).getPlayerName());
 		playerNameLabel5.setBounds(230, 30, 200, 30);
 		playerNameLabel5.setFont(new Font("Arial Black",0,18));
 		playerNameLabel5.setForeground(new Color(0,103,175));
+		playerNameLabel5.setBorder(null);
+		playerNameLabel5.setBackground(null);
+		playerNameLabel5.setHorizontalAlignment(JButton.LEFT);
+		playerNameLabel5.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		playerNameLabel5.addMouseListener(new MouseAdapter(){
+			public void mouseClicked(MouseEvent arg0) {
+				playerNameLabel5.setBackground(null);
+				PlayerVO findPlayer = ps.get(4);
+				new PlayerInfoFrame(findPlayer);
+			}
+			
+		});
 		JLabel playerTeamLabel5 = new JLabel(players.get(4).getPosition()+"/"+players.get(4).getTeamName());
 		playerTeamLabel5.setFont(new Font("Arial",0,15));
 		playerTeamLabel5.setBounds(230, 70, 200, 30);

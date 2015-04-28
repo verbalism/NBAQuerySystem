@@ -15,8 +15,10 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
@@ -135,6 +137,7 @@ public class TeamListPanel extends JPanel{
 		
 		String[] columnNames = new String[]{"东南分区","a","中央分区","b","大西洋分区","c","太平洋分区","d","西北分区","e","西南分区","f"};
 		Object[][]data=new Object[5][12];
+		
 		ArrayList<TeamVO> teams = dbl.getAllTeamInfo();
 		int se=0,ce=0,al=0,p=0,nw=0,sw=0;
 		for(int i=0;i<teams.size();i++){
@@ -174,7 +177,10 @@ public class TeamListPanel extends JPanel{
 				break;
 			}
 			ImageIcon img = new ImageIcon("Img//teams//"+teams.get(i).getTeamName()+".png");
+			if(teams.get(i).getTeamName().equals("NOH"))
+				img = new ImageIcon("Img//teams//NOP.png");
 			img.setImage(img.getImage().getScaledInstance((panelHeight-200)/5-30,(panelHeight-200)/5-30,Image.SCALE_DEFAULT));
+			
 			data[line][row] = img; 
 			data[line][row+1] = teams.get(i).getTeamName()+"-"+teams.get(i).getFullName();
 		}
@@ -203,12 +209,14 @@ public class TeamListPanel extends JPanel{
         		Column.setPreferredWidth((panelWidth-(panelHeight-200)*6/5+180)/6);
         		Column.setMaxWidth((panelWidth-(panelHeight-200)*6/5+180)/6);
         		Column.setMinWidth((panelWidth-(panelHeight-200)*6/5+180)/6);
+        		
         	}
         }
+        table.setSelectionBackground(null);
 		table.addMouseListener(new MouseAdapter() {
        	public void mouseClicked(MouseEvent e) {
        		 if (e.getButton() == MouseEvent.BUTTON1) {// 单击鼠标左键
-       		     if (e.getClickCount() == 2) {
+       		     if (e.getClickCount() == 1) {
        		    	 String name = (String) table.getValueAt(table.getSelectedRow(), table.getSelectedColumn());
        		    	 TeamVO team = dbl.getSingleTeamInfo(name.split("-")[0]);
        		    	 new TeamInfoFrame(team);

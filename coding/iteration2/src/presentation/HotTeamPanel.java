@@ -1,22 +1,32 @@
 package presentation;
 
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import businesslogic.DataBL;
+import businesslogicService.DataBLService;
+import vo.PlayerVO;
 import vo.TeamVO;
 
 public class HotTeamPanel extends JPanel{
+	JButton teamNameLabel1,teamNameLabel2,teamNameLabel3,teamNameLabel4,teamNameLabel5;
+	ArrayList<TeamVO> team;
 	public HotTeamPanel(ArrayList<TeamVO> teams,String keyword){
+		team = teams;
 		Toolkit kit = Toolkit.getDefaultToolkit();
 		Dimension screenSize = kit.getScreenSize();
 		int panelHeight = screenSize.height-160;
@@ -27,16 +37,30 @@ public class HotTeamPanel extends JPanel{
 		teamImgLabel1.setBounds(0, 50, 230, 230);
 		teamImgLabel1.setBackground(null);
 		ImageIcon img = new ImageIcon("Img//teams//"+teams.get(0).getTeamName()+".png");
+		if(teams.get(0).getTeamName().equals("NOH"))
+			img = new ImageIcon("Img//teams//NOP.png");
 		img.setImage(img.getImage().getScaledInstance(230,230,Image.SCALE_DEFAULT));
 		teamImgLabel1.setIcon(img);
 		JLabel teamNumLabel1 = new JLabel("1");
 		teamNumLabel1.setFont(new Font("Modern",Font.BOLD,90));
 		teamNumLabel1.setBounds(230, 0, 50, 200);
 		teamNumLabel1.setForeground(new Color(68,68,68));
-		JLabel teamNameLabel1 = new JLabel(teams.get(0).getFullName());
+		teamNameLabel1 = new JButton(teams.get(0).getFullName());
 		teamNameLabel1.setFont(new Font("Arial Black",0,25));
 		teamNameLabel1.setBounds(300, 60, 200, 35);
 		teamNameLabel1.setForeground(new Color(0,103,175));
+		teamNameLabel1.setBorder(null);
+		teamNameLabel1.setBackground(null);
+		teamNameLabel1.setHorizontalAlignment(JButton.LEFT);
+		teamNameLabel1.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		teamNameLabel1.addMouseListener(new MouseAdapter(){
+			public void mouseClicked(MouseEvent arg0) {
+				teamNameLabel1.setBackground(null);
+				TeamVO findPlayer = (team.get(0));
+				new TeamInfoFrame(findPlayer);
+			}
+			
+		});
 		JLabel teamTeamLabel1 = new JLabel(teams.get(0).getCity()+"/"+teams.get(0).getSubarea());
 		teamTeamLabel1.setFont(new Font("Arial",0,20));
 		teamTeamLabel1.setBounds(300, 95, 200, 50);
@@ -65,12 +89,26 @@ public class HotTeamPanel extends JPanel{
 		JLabel teamImgLabel2 = new JLabel();
 		teamImgLabel2.setBounds(110, 30, 80, 80);
 		ImageIcon img2 = new ImageIcon("Img//teams//"+teams.get(1).getTeamName()+".png");
+		if(teams.get(1).getTeamName().equals("NOH"))
+			img = new ImageIcon("Img//teams//NOP.png");
 		img2.setImage(img2.getImage().getScaledInstance(80,80,Image.SCALE_DEFAULT));
 		teamImgLabel2.setIcon(img2);
-		JLabel teamNameLabel2 = new JLabel(teams.get(1).getFullName());
+		teamNameLabel2 = new JButton(teams.get(1).getFullName());
 		teamNameLabel2.setBounds(210, 30, 200, 30);
 		teamNameLabel2.setFont(new Font("Arial Black",0,18));
 		teamNameLabel2.setForeground(new Color(0,103,175));
+		teamNameLabel2.setBorder(null);
+		teamNameLabel2.setBackground(null);
+		teamNameLabel2.setHorizontalAlignment(JButton.LEFT);
+		teamNameLabel2.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		teamNameLabel2.addMouseListener(new MouseAdapter(){
+			public void mouseClicked(MouseEvent arg0) {
+				teamNameLabel1.setBackground(null);
+				TeamVO findPlayer = (team.get(1));
+				new TeamInfoFrame(findPlayer);
+			}
+			
+		});
 		JLabel teamTeamLabel2 = new JLabel(teams.get(1).getCity()+"/"+teams.get(1).getSubarea());
 		teamTeamLabel2.setFont(new Font("Arial",0,15));
 		teamTeamLabel2.setBounds(210, 70, 200, 30);
@@ -98,12 +136,26 @@ public class HotTeamPanel extends JPanel{
 		JLabel teamImgLabel3 = new JLabel();
 		teamImgLabel3.setBounds(110, 30, 80, 80);
 		ImageIcon img3 = new ImageIcon("Img//teams//"+teams.get(2).getTeamName()+".png");
+		if(teams.get(2).getTeamName().equals("NOH"))
+			img = new ImageIcon("Img//teams//NOP.png");
 		img3.setImage(img3.getImage().getScaledInstance(80,80,Image.SCALE_DEFAULT));
 		teamImgLabel3.setIcon(img3);
-		JLabel teamNameLabel3 = new JLabel(teams.get(2).getFullName());
+		teamNameLabel3 = new JButton(teams.get(2).getFullName());
 		teamNameLabel3.setBounds(210, 30, 200, 30);
 		teamNameLabel3.setFont(new Font("Arial Black",0,18));
 		teamNameLabel3.setForeground(new Color(0,103,175));
+		teamNameLabel3.setBorder(null);
+		teamNameLabel3.setBackground(null);
+		teamNameLabel3.setHorizontalAlignment(JButton.LEFT);
+		teamNameLabel3.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		teamNameLabel3.addMouseListener(new MouseAdapter(){
+			public void mouseClicked(MouseEvent arg0) {
+				teamNameLabel1.setBackground(null);
+				TeamVO findPlayer = (team.get(2));
+				new TeamInfoFrame(findPlayer);
+			}
+			
+		});
 		JLabel teamTeamLabel3 = new JLabel(teams.get(2).getCity()+"/"+teams.get(2).getSubarea());
 		teamTeamLabel3.setFont(new Font("Arial",0,15));
 		teamTeamLabel3.setBounds(210, 70, 200, 30);
@@ -131,12 +183,26 @@ public class HotTeamPanel extends JPanel{
 		JLabel teamImgLabel4 = new JLabel();
 		teamImgLabel4.setBounds(110, 30, 80, 80);
 		ImageIcon img4 = new ImageIcon("Img//teams//"+teams.get(3).getTeamName()+".png");
+		if(teams.get(3).getTeamName().equals("NOH"))
+			img = new ImageIcon("Img//teams//NOP.png");
 		img4.setImage(img4.getImage().getScaledInstance(80,80,Image.SCALE_DEFAULT));
 		teamImgLabel4.setIcon(img4);
-		JLabel teamNameLabel4 = new JLabel(teams.get(3).getFullName());
+		teamNameLabel4 = new JButton(teams.get(3).getFullName());
 		teamNameLabel4.setBounds(210, 30, 200, 30);
 		teamNameLabel4.setFont(new Font("Arial Black",0,18));
 		teamNameLabel4.setForeground(new Color(0,103,175));
+		teamNameLabel4.setBorder(null);
+		teamNameLabel4.setBackground(null);
+		teamNameLabel4.setHorizontalAlignment(JButton.LEFT);
+		teamNameLabel4.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		teamNameLabel4.addMouseListener(new MouseAdapter(){
+			public void mouseClicked(MouseEvent arg0) {
+				teamNameLabel1.setBackground(null);
+				TeamVO findPlayer = (team.get(3));
+				new TeamInfoFrame(findPlayer);
+			}
+			
+		});
 		JLabel teamTeamLabel4 = new JLabel(teams.get(3).getCity()+"/"+teams.get(3).getSubarea());
 		teamTeamLabel4.setFont(new Font("Arial",0,15));
 		teamTeamLabel4.setBounds(210, 70, 200, 30);
@@ -164,12 +230,26 @@ public class HotTeamPanel extends JPanel{
 		JLabel teamImgLabel5 = new JLabel();
 		teamImgLabel5.setBounds(110, 30, 80, 80);
 		ImageIcon img5 = new ImageIcon("Img//teams//"+teams.get(4).getTeamName()+".png");
+		if(teams.get(4).getTeamName().equals("NOH"))
+			img = new ImageIcon("Img//teams//NOP.png");
 		img5.setImage(img5.getImage().getScaledInstance(80,80,Image.SCALE_DEFAULT));
 		teamImgLabel5.setIcon(img5);
-		JLabel teamNameLabel5 = new JLabel(teams.get(4).getFullName());
+		teamNameLabel5 = new JButton(teams.get(4).getFullName());
 		teamNameLabel5.setBounds(210, 30, 200, 30);
 		teamNameLabel5.setFont(new Font("Arial Black",0,18));
 		teamNameLabel5.setForeground(new Color(0,103,175));
+		teamNameLabel5.setBorder(null);
+		teamNameLabel5.setBackground(null);
+		teamNameLabel5.setHorizontalAlignment(JButton.LEFT);
+		teamNameLabel5.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		teamNameLabel5.addMouseListener(new MouseAdapter(){
+			public void mouseClicked(MouseEvent arg0) {
+				teamNameLabel1.setBackground(null);
+				TeamVO findPlayer = (team.get(4));
+				new TeamInfoFrame(findPlayer);
+			}
+			
+		});
 		JLabel teamTeamLabel5 = new JLabel(teams.get(4).getCity()+"/"+teams.get(4).getSubarea());
 		teamTeamLabel5.setFont(new Font("Arial",0,15));
 		teamTeamLabel5.setBounds(210, 70, 200, 30);

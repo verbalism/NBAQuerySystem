@@ -57,13 +57,13 @@ public class PlayerInfoFrame extends JFrame{
 		JPanel basicInfoPanel = new JPanel();
 		basicInfoPanel.setBackground(null);
 		basicInfoPanel.setBounds(0, 0, frameWidth, 150);
-		JLabel playerNumLabel = new JLabel("32");
+		JLabel playerNumLabel = new JLabel(player.getNumber());
 		playerNumLabel.setFont(new Font("Arial Narrow",Font.BOLD,50));
 		playerNumLabel.setBounds(50, 0, 50, 150);
 		playerNumLabel.setForeground(new Color(0,103,175));
 		JLabel playerNameLabel = new JLabel(player.getPlayerName());
 		playerNameLabel.setFont(new Font("Arial Black",0,30));
-		playerNameLabel.setBounds(120, 40, 300, 35);
+		playerNameLabel.setBounds(120, 40, 330, 35);
 		playerNameLabel.setForeground(new Color(0,103,175));
 		JLabel playerTeamLabel = new JLabel(player.getPosition()+"/"+player.getTeamName());
 		playerTeamLabel.setFont(new Font("Arial",0,20));
@@ -71,7 +71,7 @@ public class PlayerInfoFrame extends JFrame{
 		playerTeamLabel.setForeground(new Color(122,122,122));
 		JLabel infoLabel = new JLabel();
 		infoLabel.setFont(new Font("微软雅黑",0,15));
-		infoLabel.setBounds(370, 40, 400, 100);
+		infoLabel.setBounds(470, 40, 400, 100);
 		infoLabel.setForeground(new Color(122,122,122));
 		infoLabel.setText("<html>"+player.getHeight()+"/"+player.getWeight()+"<br>生日："+player.getBirth()+"<br>年龄："+player.getAge()+"<br>球龄："+player.getExp()+"<br>毕业院校："+player.getSchool()+"</html>");
 		basicInfoPanel.setLayout(null);
@@ -118,10 +118,11 @@ public class PlayerInfoFrame extends JFrame{
 		matchPanel.setBounds(20, 280, frameWidth-300, 230);
 		matchPanel.setBackground(null);
 		String[] columnNames = new String[]{"比赛日期","对阵队伍","比分","第一节比分","第二节比分","第三节比分","第四节比分"};
-		String[][]matchData=new String[5][7];
+		
 		final DataBLService dbl = new DataBL();
 		ArrayList<MatchVO> matches = dbl.findMatchByPlayer(player.getPlayerName());
-		for(int i=0;i<5;i++){
+		String[][]matchData=new String[matches.size()][7];
+		for(int i=0;i<matches.size();i++){
 			matchData[i][0] = matches.get(i).getMatchTime();
 			matchData[i][1] = matches.get(i).getTeams();
 			matchData[i][2] = matches.get(i).getScore();
@@ -151,7 +152,7 @@ public class PlayerInfoFrame extends JFrame{
 		scrollPane.setOpaque(false);
 		scrollPane.getViewport().setOpaque(false);
 		scrollPane.setBorder(null);
-		JLabel matchTitle = new JLabel("    最近5场比赛");
+		JLabel matchTitle = new JLabel("    最近"+matches.size()+"场比赛");
 		matchTitle.setOpaque(true);
 		matchTitle.setBackground(new Color(0,103,175));
 		matchTitle.setForeground(Color.WHITE);

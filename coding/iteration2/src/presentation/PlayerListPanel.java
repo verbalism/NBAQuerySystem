@@ -76,7 +76,7 @@ public class PlayerListPanel extends JPanel implements ActionListener{
 				searchBtn.setBackground(null);
 				}
 		});
-		
+		searchBtn.addActionListener(this);
 		searchPanel.setLayout(null);
 		searchPanel.add(title);
 		searchPanel.add(searchField);
@@ -109,18 +109,18 @@ public class PlayerListPanel extends JPanel implements ActionListener{
                      return false;}
                  }; 
         table.setRowHeight(60);
-        table.getColumnModel().getColumn(0).setCellRenderer(new ImageRenderer());
-		 table.addMouseListener(new MouseAdapter() {
+        table.getColumnModel().getColumn(0).setCellRenderer(new ImageRenderer2());
+		table.addMouseListener(new MouseAdapter() {
         	public void mouseClicked(MouseEvent e) {
         		 if (e.getButton() == MouseEvent.BUTTON1) {// 单击鼠标左键
-        		     if (e.getClickCount() == 2) {
+        		     if (e.getClickCount() == 1) {
         		    	 String name = (String) table.getValueAt(table.getSelectedRow(), 1);
         		    	 PlayerVO player = db.getSinglePlayerInfo(name);
         		    	 new PlayerInfoFrame(player);
         		     }
         		    	 
         		 }
-        	}});
+        }});
         
         TableColumn firsetColumn = table.getColumnModel().getColumn(0);
         firsetColumn.setPreferredWidth(74);
@@ -145,7 +145,7 @@ public class PlayerListPanel extends JPanel implements ActionListener{
         birthColumn.setMaxWidth(120);
         birthColumn.setMinWidth(120);
 		JScrollPane scrollPane = new JScrollPane(table);
-		scrollPane.setBounds(0, 70, panelWidth, panelHeight-100);
+		scrollPane.setBounds(-1, 70, panelWidth+18, panelHeight-100);
 		scrollPane.setOpaque(false);
 		scrollPane.getViewport().setOpaque(false);
 		scrollPane.setBorder(null);
@@ -158,7 +158,7 @@ public class PlayerListPanel extends JPanel implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource()==searchBtn){
 			PlayerVO findPlayer = db.getSinglePlayerInfo(searchField.getText());
-			if(findPlayer == null){
+			if(findPlayer.getAge() == null){
 				new ActionDialog("未查找到相关球员，请重新输入");
 			}
 			else{

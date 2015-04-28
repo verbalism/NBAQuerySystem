@@ -27,11 +27,11 @@ import vo.MatchVO;
 import vo.TeamVO;
 
 public class TeamInfoFrame extends JFrame{
-	public static void main(String args[]){
+	/*public static void main(String args[]){
 		DataBLService db = new DataBL();
 		TeamVO vo = db.getSingleTeamInfo("BOS");
 		TeamInfoFrame tf = new TeamInfoFrame(vo);
-	}
+	}*/
 	public TeamInfoFrame(TeamVO team){
 		Toolkit kit = Toolkit.getDefaultToolkit();
 		Dimension screenSize = kit.getScreenSize();
@@ -47,6 +47,8 @@ public class TeamInfoFrame extends JFrame{
 		teamImgLabel.setBounds(20, 0, 150, 150);
 		teamImgLabel.setBackground(null);
 		ImageIcon img = new ImageIcon("Img//teams//"+team.getTeamName()+".png");
+		if(team.getTeamName().equals("NOH"))
+			img = new ImageIcon("Img//teams//NOP.png");
 		img.setImage(img.getImage().getScaledInstance(150,150,Image.SCALE_DEFAULT));
 		teamImgLabel.setIcon(img);
 		JPanel basicInfoPanel = new JPanel();
@@ -54,7 +56,7 @@ public class TeamInfoFrame extends JFrame{
 		basicInfoPanel.setBounds(0, 0, frameWidth, 180);
 		JLabel teamNameLabel = new JLabel(team.getFullName());
 		teamNameLabel.setFont(new Font("Arial Black",0,30));
-		teamNameLabel.setBounds(200, 40, 200, 35);
+		teamNameLabel.setBounds(200, 40, 300, 35);
 		teamNameLabel.setForeground(new Color(0,103,175));
 		JLabel teamCityLabel = new JLabel(team.getCity()+"/"+team.getSubarea());
 		teamCityLabel.setFont(new Font("Arial",0,20));
@@ -115,10 +117,11 @@ public class TeamInfoFrame extends JFrame{
 		matchPanel.setBounds(20, 260, frameWidth-40, 220);
 		matchPanel.setBackground(null);
 		String[] columnNames = new String[]{"比赛日期","对阵队伍","比分","第一节比分","第二节比分","第三节比分","第四节比分"};
-		String[][]matchData=new String[5][7];
+		
 		final DataBLService dbl = new DataBL();
 		ArrayList<MatchVO> matches = dbl.findMatchByTeam(team.getTeamName());
-		for(int i=0;i<5;i++){
+		String[][]matchData=new String[matches.size()][7];
+		for(int i=0;i<matches.size();i++){
 			matchData[i][0] = matches.get(i).getMatchTime();
 			matchData[i][1] = matches.get(i).getTeams();
 			matchData[i][2] = matches.get(i).getScore();
@@ -148,7 +151,7 @@ public class TeamInfoFrame extends JFrame{
 		scrollPane.setOpaque(false);
 		scrollPane.getViewport().setOpaque(false);
 		scrollPane.setBorder(null);
-		JLabel matchTitle = new JLabel("    最近5场比赛");
+		JLabel matchTitle = new JLabel("    最近"+matches.size()+"场比赛");
 		matchTitle.setOpaque(true);
 		matchTitle.setBackground(new Color(0,103,175));
 		matchTitle.setForeground(Color.WHITE);

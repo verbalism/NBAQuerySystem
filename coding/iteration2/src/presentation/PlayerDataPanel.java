@@ -25,6 +25,7 @@ import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
+import vo.MatchVO;
 import vo.PlayerPartition;
 import vo.PlayerPosition;
 import vo.PlayerVO;
@@ -37,7 +38,9 @@ public class PlayerDataPanel extends JPanel implements ActionListener{
 	int panelWidth,panelHeight;
 	JButton allBtn;
 	JButton averageBtn;
+	JButton analysisBtn;
 	JButton top50Btn;
+	String state="all";
 	JComboBox positionBox,unionBox,areaBox,sortBox;
 	JPanel top50Panel;
 	DecimalFormat df=new DecimalFormat(".##");
@@ -45,6 +48,7 @@ public class PlayerDataPanel extends JPanel implements ActionListener{
 	DataBLService dbl = new DataBL();
 	AnalysisBLService abl = new AnalysisBL();
 	JScrollPane scrollPane = new JScrollPane();
+	Thread thread;
 	public PlayerDataPanel(){
 		Toolkit kit = Toolkit.getDefaultToolkit();
 		Dimension screenSize = kit.getScreenSize();
@@ -64,6 +68,7 @@ public class PlayerDataPanel extends JPanel implements ActionListener{
 		title.setForeground(Color.WHITE);
 		allBtn = new JButton("赛季");
 		averageBtn = new JButton("场均");
+		analysisBtn = new JButton("分析");
 		allBtn.setBounds(20, 65, 60, 30);
 		allBtn.setBackground(new Color(158,158,158));
 		allBtn.setBorder(new LineBorder(new Color(69,69,69),3,false));
@@ -74,6 +79,7 @@ public class PlayerDataPanel extends JPanel implements ActionListener{
 			public void mouseClicked(MouseEvent arg0) {
 				allBtn.setBackground(new Color(158,158,158));
 				averageBtn.setBackground(null);
+				analysisBtn.setBackground(null);
 			}
 			
 		});
@@ -88,9 +94,25 @@ public class PlayerDataPanel extends JPanel implements ActionListener{
 			public void mouseClicked(MouseEvent arg0) {
 				averageBtn.setBackground(new Color(158,158,158));
 				allBtn.setBackground(null);
+				analysisBtn.setBackground(null);
 			}
 		});
 		averageBtn.addActionListener(this);
+		analysisBtn.setBounds(134, 65, 60, 30);
+		analysisBtn.setBackground(null);
+		analysisBtn.setBorder(new LineBorder(new Color(69,69,69),3,false));
+		analysisBtn.setFont(new Font("微软雅黑",0,14));
+		analysisBtn.setForeground(Color.white);
+		analysisBtn.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		analysisBtn.addMouseListener(new MouseAdapter(){
+			public void mouseClicked(MouseEvent arg0) {
+				analysisBtn.setBackground(new Color(158,158,158));
+				averageBtn.setBackground(null);
+				allBtn.setBackground(null);
+			}
+			
+		});
+		analysisBtn.addActionListener(this);
 		
 		top50Panel = new JPanel();
 		top50Panel.setBounds(370, 20, panelWidth-370, 80);
@@ -182,6 +204,7 @@ public class PlayerDataPanel extends JPanel implements ActionListener{
 		searchPanel.add(title);
 		searchPanel.add(allBtn);
 		searchPanel.add(averageBtn);
+		searchPanel.add(analysisBtn);
 		searchPanel.add(top50Panel);
 		
 		
@@ -191,16 +214,50 @@ public class PlayerDataPanel extends JPanel implements ActionListener{
 		this.setLayout(null);
 		this.add(searchPanel);
 		this.add(scrollPane);
+		
+		thread = new Thread(new Runnable(){
+            @Override
+            public void run() {
+            	 while(true){
+            		   try {   
+            			   switch(state){
+            			   case "all":
+            				   all();
+            				   break;
+            			   case "avg":
+            				   avg();
+            				   break;
+            			   case "anl":
+            				   analysis();
+            				   break;
+            			   default:
+            				   break;
+            			   }
+            			   Thread.sleep(10000);
+            		   } catch (InterruptedException e) {
+            		    e.printStackTrace();
+            		   }
+            	 }
+            }
+        });
+		thread.start();
 	}
 	
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource()==allBtn){
+			state = "all";
 			all();
 		}
 		if(e.getSource()==averageBtn){
+			state = "avg";
 			avg();
 		}
+		if(e.getSource()==analysisBtn){
+			state = "anl";
+			analysis();
+		}
 		if(e.getSource()==top50Btn){
+			state="";
 			String keyword="points";
 			PlayerPosition position = PlayerPosition.All;
 			PlayerPartition partition = PlayerPartition.All;
@@ -271,7 +328,7 @@ public class PlayerDataPanel extends JPanel implements ActionListener{
 				keyword = "assists";
 				break;
 			case 3:
-				keyword = "p/r/a";
+				keyword = "pointsReboundsAssists";
 				break;
 			case 4:
 				keyword = "blocks";
@@ -311,44 +368,29 @@ public class PlayerDataPanel extends JPanel implements ActionListener{
 		}
 		
 	}
-	
-	public void all(){
+	public void analysis(){
 		this.remove(scrollPane);
-		
 		ArrayList<PlayerVO> players = dbl.getAllPlayerInfo();
-		String[] columnNames = new String[]{"","球员名称","所属球队","参赛场数","先发场数","在场时间","投篮命中率","三分命中率","罚球命中率","篮板数","助攻数","进攻数","防守数","抢断数","盖帽数","失误数","犯规数","得分","效率","GMSc效率值","真实命中率","投篮效率","篮板率","进攻篮板率","防守篮板率","助攻率","抢断率","盖帽率","失误率","使用率"};
-		Object[][]data=new Object[players.size()][30];
+		String[] columnNames = new String[]{"","球员名","投篮命中率","三分命中率","罚球命中率","效率","GMSc","真实命中率","投篮效率","篮板率","进攻篮板率","防守篮板率","助攻率","抢断率","盖帽率","失误率","使用率"};
+		Object[][]data=new Object[players.size()][17];
 		for(int i=0;i<players.size();i++){
 			data[i][0] = (i+1);
 			data[i][1] = players.get(i).getPlayerName();
-			data[i][2] = players.get(i).getTeamName();
-			data[i][3] = (players.get(i).getGamesPlayed());
-			data[i][4] = (players.get(i).getGamesStarting());
-			data[i][5] = players.get(i).getMinutes();
-			data[i][6] = nf.format(players.get(i).getFieldGoalsPercentage());
-			data[i][7] = nf.format(players.get(i).getThreePointFieldGoalsPercentage());
-			data[i][8] = nf.format(players.get(i).getFreeThrowsPercentage());
-			data[i][9] = ((int)players.get(i).getRebounds());
-			data[i][10] = ((int)players.get(i).getAssists());
-			data[i][11] = ((int)players.get(i).getOffensiveRebounds());
-			data[i][12] = ((int)players.get(i).getDefensiveRebounds());
-			data[i][13] = ((int)players.get(i).getSteals());
-			data[i][14] = ((int)players.get(i).getBlocks());
-			data[i][15] = ((int)players.get(i).getTurnovers());
-			data[i][16] = ((int)players.get(i).getFouls());
-			data[i][17] = ((int)players.get(i).getPoints());
-			data[i][18] = (players.get(i).getEfficiency());
-			data[i][19] = Double.valueOf(df.format(players.get(i).getGmSc()));
-			data[i][20] = nf.format(players.get(i).getTrueShootingPercentage());
-			data[i][21] = nf.format(players.get(i).getShootingEfficiency());
-			data[i][22] = nf.format(players.get(i).getReboundRating());
-			data[i][23] = nf.format(players.get(i).getOffensiveReboundRating());
-			data[i][24] = nf.format(players.get(i).getDefensiveReboundRating());
-			data[i][25] = nf.format(players.get(i).getAssisyRating());
-			data[i][26] = nf.format(players.get(i).getStealRating());
-			data[i][27] = nf.format(players.get(i).getBlockRating());
-			data[i][28] = nf.format(players.get(i).getTurnoverRating());
-			data[i][29] = nf.format(players.get(i).getUtilizationRating());
+			data[i][2] = nf.format(players.get(i).getFieldGoalsPercentage());
+			data[i][3] = nf.format(players.get(i).getThreePointFieldGoalsPercentage());
+			data[i][4] = nf.format(players.get(i).getFreeThrowsPercentage());
+			data[i][5] = Double.valueOf(df.format(players.get(i).getEfficiency()));
+			data[i][6] = Double.valueOf(df.format(players.get(i).getGmSc()));
+			data[i][7] = nf.format(players.get(i).getTrueShootingPercentage());
+			data[i][8] = nf.format(players.get(i).getShootingEfficiency());
+			data[i][9] = nf.format(players.get(i).getReboundRating());
+			data[i][10] = nf.format(players.get(i).getOffensiveReboundRating());
+			data[i][11] = nf.format(players.get(i).getDefensiveReboundRating());
+			data[i][12] = nf.format(players.get(i).getAssisyRating());
+			data[i][13] = nf.format(players.get(i).getStealRating());
+			data[i][14] = nf.format(players.get(i).getBlockRating());
+			data[i][15] = nf.format(players.get(i).getTurnoverRating());
+			data[i][16] = nf.format(players.get(i).getUtilizationRating());
 		}
 		
 		
@@ -361,7 +403,76 @@ public class PlayerDataPanel extends JPanel implements ActionListener{
             public boolean isCellEditable(int row, int column)
                  {
                             return false;}}; 
-        table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        //table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        table.setFont(new Font("微软雅黑",0,12));
+        TableColumn firsetColumn = table.getColumnModel().getColumn(0);
+        firsetColumn.setPreferredWidth(30);
+        firsetColumn.setMaxWidth(30);
+        firsetColumn.setMinWidth(30);
+        TableColumn nameColumn = table.getColumnModel().getColumn(1);
+        nameColumn.setPreferredWidth(130);
+        nameColumn.setMaxWidth(130);
+        nameColumn.setMinWidth(130);
+        for(int i=2;i<17;i++){
+        	if(i<5||i==7||i==10||i==11){
+        		TableColumn Column = table.getColumnModel().getColumn(i);
+        		Column.setPreferredWidth(70);
+        		Column.setMaxWidth(70);
+        		Column.setMinWidth(70);
+        	}
+        	if(i==8){
+        		TableColumn Column = table.getColumnModel().getColumn(i);
+        		Column.setPreferredWidth(60);
+        		Column.setMaxWidth(60);
+        		Column.setMinWidth(60);
+        	}
+        }
+		
+		
+		scrollPane = new JScrollPane(table);
+		scrollPane.setBounds(-1, 120, panelWidth+18, panelHeight-160);
+		scrollPane.setOpaque(false);
+		scrollPane.getViewport().setOpaque(false);
+		scrollPane.setBorder(null);
+		
+		this.add(scrollPane);
+	}
+	
+	public void all(){
+		this.remove(scrollPane);
+		
+		ArrayList<PlayerVO> players = dbl.getAllPlayerInfo();
+		String[] columnNames = new String[]{"","球员名称","所属球队","参赛场数","先发场数","在场时间","篮板","助攻","进攻","防守","抢断","盖帽","失误","犯规","得分"};
+		Object[][]data=new Object[players.size()][15];
+		for(int i=0;i<players.size();i++){
+			data[i][0] = (i+1);
+			data[i][1] = players.get(i).getPlayerName();
+			data[i][2] = players.get(i).getTeamName();
+			data[i][3] = (players.get(i).getGamesPlayed());
+			data[i][4] = (players.get(i).getGamesStarting());
+			data[i][5] = players.get(i).getMinutes();
+			data[i][6] = ((int)players.get(i).getRebounds());
+			data[i][7] = ((int)players.get(i).getAssists());
+			data[i][8] = ((int)players.get(i).getOffensiveRebounds());
+			data[i][9] = ((int)players.get(i).getDefensiveRebounds());
+			data[i][10] = ((int)players.get(i).getSteals());
+			data[i][11] = ((int)players.get(i).getBlocks());
+			data[i][12] = ((int)players.get(i).getTurnovers());
+			data[i][13] = ((int)players.get(i).getFouls());
+			data[i][14] = ((int)players.get(i).getPoints());
+		}
+		
+		
+		DefaultTableModel model = new DefaultTableModel(data,columnNames){
+		      public Class<?> getColumnClass(int column) {
+		        return getValueAt(0, column).getClass();
+		      }
+		};
+		InfoListTable table=new InfoListTable(model){
+            public boolean isCellEditable(int row, int column)
+                 {
+                            return false;}}; 
+        //table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         table.setFont(new Font("微软雅黑",0,13));
         TableColumn firsetColumn = table.getColumnModel().getColumn(0);
         firsetColumn.setPreferredWidth(30);
@@ -374,7 +485,7 @@ public class PlayerDataPanel extends JPanel implements ActionListener{
 		
 		
 		scrollPane = new JScrollPane(table);
-		scrollPane.setBounds(0, 120, panelWidth, panelHeight-150);
+		scrollPane.setBounds(-1, 120, panelWidth+18, panelHeight-160);
 		scrollPane.setOpaque(false);
 		scrollPane.getViewport().setOpaque(false);
 		scrollPane.setBorder(null);
@@ -386,7 +497,7 @@ public class PlayerDataPanel extends JPanel implements ActionListener{
 		this.remove(scrollPane);
 		
 		ArrayList<PlayerVO> players = dbl.getAllPlayerInfo();
-		String[] columnNames = new String[]{"","球员名称","所属球队","篮板数","助攻数","进攻数","防守数","抢断数","盖帽数","失误数","犯规数","得分","效率","GMSc效率值"};
+		String[] columnNames = new String[]{"","球员名","所属球队","篮板","助攻","进攻","防守","抢断","盖帽","失误","犯规","得分","效率","GMSc"};
 		Object[][]data=new Object[players.size()][14];
 		
 		for(int i=0;i<players.size();i++){
@@ -396,7 +507,7 @@ public class PlayerDataPanel extends JPanel implements ActionListener{
 				data[i][2] = players.get(i).getTeamName();
 				
 				for(int j=3;j<14;j++)
-					data[i][j]=0;
+					data[i][j]=0.0;
 			}
 			else{
 				data[i][0] = (i+1);
@@ -425,7 +536,7 @@ public class PlayerDataPanel extends JPanel implements ActionListener{
             public boolean isCellEditable(int row, int column)
                  {
                             return false;}}; 
-        table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+       // table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         table.setFont(new Font("微软雅黑",0,13));
         TableColumn firsetColumn = table.getColumnModel().getColumn(0);
         firsetColumn.setPreferredWidth(30);
@@ -438,7 +549,7 @@ public class PlayerDataPanel extends JPanel implements ActionListener{
 		
 		
 		scrollPane = new JScrollPane(table);
-		scrollPane.setBounds(0, 120, panelWidth, panelHeight-150);
+		scrollPane.setBounds(-1, 120, panelWidth+18, panelHeight-160);
 		scrollPane.setOpaque(false);
 		scrollPane.getViewport().setOpaque(false);
 		scrollPane.setBorder(null);
@@ -449,27 +560,26 @@ public class PlayerDataPanel extends JPanel implements ActionListener{
 	public void setTop50(ArrayList<PlayerVO> players){
 		this.remove(scrollPane);
 		
-		String[] columnNames = new String[]{"","球员名称","所属球队","参赛场数","先发场数","投篮命中率","三分命中率","罚球命中率","篮板数","助攻数","进攻数","防守数","抢断数","盖帽数","失误数","犯规数","得分"};
-		Object[][]data=new Object[players.size()][19];
+		String[] columnNames = new String[]{"","球员名称","球队","得分","篮板","助攻","得分/篮板/助攻","盖帽","抢断","犯规","失误","分钟","效率","投篮","三分","罚球","两双"};
+		Object[][]data=new Object[players.size()][17];
 		for(int i=0;i<players.size();i++){
 			data[i][0] = (i+1);
 			data[i][1] = players.get(i).getPlayerName();
 			data[i][2] = players.get(i).getTeamName();
-			data[i][3] = (players.get(i).getGamesPlayed());
-			data[i][4] = (players.get(i).getGamesStarting());
-			data[i][5] = players.get(i).getMinutes();
-			data[i][6] = nf.format(players.get(i).getFieldGoalsPercentage());
-			data[i][7] = nf.format(players.get(i).getThreePointFieldGoalsPercentage());
-			data[i][8] = nf.format(players.get(i).getFreeThrowsPercentage());
-			data[i][9] = ((int)players.get(i).getRebounds());
-			data[i][10] = ((int)players.get(i).getAssists());
-			data[i][11] = ((int)players.get(i).getOffensiveRebounds());
-			data[i][12] = ((int)players.get(i).getDefensiveRebounds());
-			data[i][13] = ((int)players.get(i).getSteals());
-			data[i][14] = ((int)players.get(i).getBlocks());
-			data[i][15] = ((int)players.get(i).getTurnovers());
-			data[i][16] = ((int)players.get(i).getFouls());
-			data[i][17] = ((int)players.get(i).getPoints());
+			data[i][3] = (int)(players.get(i).getPoints());
+			data[i][4] = (int)players.get(i).getRebounds();
+			data[i][5] = (int)players.get(i).getAssists();
+			data[i][6] = (int)(players.get(i).getPoints()+players.get(i).getRebounds()+players.get(i).getAssists());
+			data[i][7] = (int)players.get(i).getBlocks();
+			data[i][8] = ((int)players.get(i).getSteals());
+			data[i][9] = ((int)players.get(i).getTurnovers());
+			data[i][10] = ((int)players.get(i).getFouls());
+			data[i][11] = (players.get(i).getMinutes());
+			data[i][12] = Double.valueOf(df.format(players.get(i).getEfficiency()));
+			data[i][13] = nf.format(players.get(i).getFieldGoalsPercentage());
+			data[i][14] = nf.format(players.get(i).getThreePointFieldGoalsPercentage());
+			data[i][15] = nf.format(players.get(i).getFreeThrowsPercentage());
+			data[i][16] = (int)players.get(i).getDoubleDouble();
 		}
 		
 		DefaultTableModel model = new DefaultTableModel(data,columnNames){
@@ -481,20 +591,29 @@ public class PlayerDataPanel extends JPanel implements ActionListener{
             public boolean isCellEditable(int row, int column)
                  {
                             return false;}}; 
-        table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+       // table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         table.setFont(new Font("微软雅黑",0,13));
         TableColumn firsetColumn = table.getColumnModel().getColumn(0);
         firsetColumn.setPreferredWidth(30);
         firsetColumn.setMaxWidth(30);
         firsetColumn.setMinWidth(30);
         TableColumn nameColumn = table.getColumnModel().getColumn(1);
-        nameColumn.setPreferredWidth(170);
-        nameColumn.setMaxWidth(170);
-        nameColumn.setMinWidth(170);
-		
-		
+        nameColumn.setPreferredWidth(140);
+        nameColumn.setMaxWidth(140);
+        nameColumn.setMinWidth(140);
+        TableColumn longColumn = table.getColumnModel().getColumn(6);
+        longColumn.setPreferredWidth(100);
+        longColumn.setMaxWidth(100);
+        longColumn.setMinWidth(100);
+		for(int i=11;i<16;i++){
+			TableColumn Column = table.getColumnModel().getColumn(i);
+    		Column.setPreferredWidth(65);
+    		Column.setMaxWidth(65);
+    		Column.setMinWidth(65);
+		}
+        
 		scrollPane = new JScrollPane(table);
-		scrollPane.setBounds(0, 120, panelWidth, panelHeight-150);
+		scrollPane.setBounds(-1, 120, panelWidth+18, panelHeight-150);
 		scrollPane.setOpaque(false);
 		scrollPane.getViewport().setOpaque(false);
 		scrollPane.setBorder(null);
