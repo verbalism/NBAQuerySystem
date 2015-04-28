@@ -3,20 +3,12 @@ package businesslogic;
 import java.util.ArrayList;
 import java.util.Collections;
 
-
-
-
-
-
-
 import po.TodayPlayerPO;
 import data.MatchData;
 import data.PlayerData;
-import data.TeamData;
 import data.Update;
 import dataService.MatchDataService;
 import dataService.PlayerDataService;
-import dataService.TeamDataService;
 import vo.MatchVO;
 import vo.PlayerPartition;
 import vo.PlayerPosition;
@@ -1068,11 +1060,8 @@ public class AnalysisBL implements AnalysisBLService {
 				if(result.get(i).getTeamName().equals("")){
 					result.remove(i);
 				}else{
-					String area=d.getSingleTeamInfo(result.get(i).getTeamName()).getSubarea();
-					/*System.out.println(result.get(i).getPlayerName());
-					System.out.println(result.get(i).getTeamName());
-					System.out.println(area);*/
-					if(!area.equals("Atlantic"))
+					String t=result.get(i).getTeamName();
+					if(!(t.equals("BKN")||t.equals("BOS")||t.equals("NYK")||t.equals("PHI")||t.equals("TOR")))
 						result.remove(i);
 				}
 			}
@@ -1081,8 +1070,8 @@ public class AnalysisBL implements AnalysisBLService {
 				if(result.get(i).getTeamName().equals("")){
 					result.remove(i);
 				}else{
-					String area=d.getSingleTeamInfo(result.get(i).getTeamName()).getSubarea();
-					if(!area.equals("Central"))
+					String t=result.get(i).getTeamName();
+					if(!(t.equals("CHI")||t.equals("CLE")||t.equals("DET")||t.equals("IND")||t.equals("MIL")))
 						result.remove(i);
 				}
 			}
@@ -1091,8 +1080,10 @@ public class AnalysisBL implements AnalysisBLService {
 				if(result.get(i).getTeamName().equals("")){
 					result.remove(i);
 				}else{
-					String area=d.getSingleTeamInfo(result.get(i).getTeamName()).getZone();
-					if(!area.equals("E"))
+					String t=result.get(i).getTeamName();
+					if(!(t.equals("CHI")||t.equals("CLE")||t.equals("DET")||t.equals("IND")||t.equals("MIL")||
+							t.equals("BKN")||t.equals("BOS")||t.equals("NYK")||t.equals("PHI")||t.equals("TOR")||
+							t.equals("ALT")||t.equals("CHA")||t.equals("MIA")||t.equals("ORL")||t.equals("WAS")))
 						result.remove(i);
 				}
 			}
@@ -1101,8 +1092,8 @@ public class AnalysisBL implements AnalysisBLService {
 				if(result.get(i).getTeamName().equals("")){
 					result.remove(i);
 				}else{
-					String area=d.getSingleTeamInfo(result.get(i).getTeamName()).getSubarea();
-					if(!area.equals("Northwest"))
+					String t=result.get(i).getTeamName();
+					if(!(t.equals("DEN")||t.equals("MIN")||t.equals("OKC")||t.equals("POR")||t.equals("UTA")))
 						result.remove(i);
 				}
 			}
@@ -1111,8 +1102,8 @@ public class AnalysisBL implements AnalysisBLService {
 				if(result.get(i).getTeamName().equals("")){
 					result.remove(i);
 				}else{
-					String area=d.getSingleTeamInfo(result.get(i).getTeamName()).getSubarea();
-					if(!area.equals("Pacific"))
+					String t=result.get(i).getTeamName();
+					if(!(t.equals("GSW")||t.equals("LAC")||t.equals("LAL")||t.equals("PHX")||t.equals("SAC")))
 						result.remove(i);
 				}
 			}
@@ -1121,8 +1112,18 @@ public class AnalysisBL implements AnalysisBLService {
 				if(result.get(i).getTeamName().equals("")){
 					result.remove(i);
 				}else{
-					String area=d.getSingleTeamInfo(result.get(i).getTeamName()).getSubarea();
-					if(!area.equals("Southeast"))
+					String t=result.get(i).getTeamName();
+					if(!(t.equals("ATL")||t.equals("CHA")||t.equals("MIA")||t.equals("ORL")||t.equals("WAS")))
+						result.remove(i);
+				}
+			}
+		}else if(partition.equals(PlayerPartition.Southwest)){
+			for(int i=result.size()-1;i>=0;i--){
+				if(result.get(i).getTeamName().equals("")){
+					result.remove(i);
+				}else{
+					String t=result.get(i).getTeamName();
+					if(!(t.equals("DAL")||t.equals("HOU")||t.equals("MEM")||t.equals("NOP")||t.equals("SAS")))
 						result.remove(i);
 				}
 			}
@@ -1132,8 +1133,10 @@ public class AnalysisBL implements AnalysisBLService {
 				if(result.get(i).getTeamName().equals("")){
 					result.remove(i);
 				}else{
-					String area=d.getSingleTeamInfo(result.get(i).getTeamName()).getZone();
-					if(!area.equals("W"))
+					String t=result.get(i).getTeamName();
+					if(!(t.equals("DAL")||t.equals("HOU")||t.equals("MEM")||t.equals("NOP")||t.equals("SAS")
+							||t.equals("GSW")||t.equals("LAC")||t.equals("LAL")||t.equals("PHX")||t.equals("SAC")
+							||t.equals("DEN")||t.equals("MIN")||t.equals("OKC")||t.equals("POR")||t.equals("UTA")))
 						result.remove(i);
 				}
 			}
