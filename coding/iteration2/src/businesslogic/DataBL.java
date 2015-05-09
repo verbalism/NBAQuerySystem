@@ -518,7 +518,7 @@ public class DataBL implements DataBLService {
 		result.setHomeCourt(tp.getHomeCourt());
 		result.setCreateTime(tp.getCreateTime());
 		
-		result.setGamesPlayedWin(tp.getGamesPlayedWin());
+		/*result.setGamesPlayedWin(tp.getGamesPlayedWin());
 		result.setOppFieldGoalsMade(tp.getOppFieldGoalsMade());
 		result.setOppFieldGoalsAttempted(tp.getOppFieldGoalsAttempted());
 		result.setOppFreeThrowsAttempted(tp.getOppFreeThrowsAttempted());
@@ -528,7 +528,7 @@ public class DataBL implements DataBLService {
 		result.setOppOffensiveRebounds(tp.getOppOffensiveRebounds());
 		result.setOppDefensiveRebounds(tp.getOppDefensiveRebounds());
 		result.setOppPoints(tp.getOppPoints());
-		result.setOppPossessions(tp.getOppPossessions());
+		result.setOppPossessions(tp.getOppPossessions());*/
 		
 		return result;
 	}
@@ -577,7 +577,7 @@ public class DataBL implements DataBLService {
 			t.setHomeCourt(tp.get(i).getHomeCourt());
 			t.setCreateTime(tp.get(i).getCreateTime());
 			
-			t.setGamesPlayedWin(tp.get(i).getGamesPlayedWin());
+			/*t.setGamesPlayedWin(tp.get(i).getGamesPlayedWin());
 			t.setOppFieldGoalsMade(tp.get(i).getOppFieldGoalsMade());
 			t.setOppFieldGoalsAttempted(tp.get(i).getOppFieldGoalsAttempted());
 			t.setOppFreeThrowsAttempted(tp.get(i).getOppFreeThrowsAttempted());
@@ -587,7 +587,7 @@ public class DataBL implements DataBLService {
 			t.setOppOffensiveRebounds(tp.get(i).getOppOffensiveRebounds());
 			t.setOppDefensiveRebounds(tp.get(i).getOppDefensiveRebounds());
 			t.setOppPoints(tp.get(i).getOppPoints());
-			t.setOppPossessions(tp.get(i).getOppPossessions());
+			t.setOppPossessions(tp.get(i).getOppPossessions());*/
 			result.add(t);
 		}	
 		return result;

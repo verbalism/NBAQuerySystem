@@ -1885,12 +1885,13 @@ public class AnalysisBL implements AnalysisBLService {
 		// TODO Auto-generated method stub
 		DataBLService d=new DataBL();
 		ArrayList<TeamVO> t=d.getAllTeamInfo();
-		t=sortTeam(t,keyword,type);
-		if(t.size()>5){
+		
+		if(t.size()>n){
 			for(int i=t.size()-1;i>=n;i--){
 				t.remove(i);
 			}
 		}
+		t=sortTeam(t,keyword,type);
 		return t;
 	}
 
