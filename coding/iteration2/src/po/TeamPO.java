@@ -39,7 +39,7 @@ public class TeamPO {
 	private String createTime;		//创建时间
 	
 	
-	private int gamesPlayedWin;//赢得的比赛
+	/*private int gamesPlayedWin;//赢得的比赛
 	private double oppFieldGoalsMade;//对手投篮命中数
 	private double oppFieldGoalsAttempted;//对手投篮数
 	private double oppFreeThrowsAttempted;//对手罚球数
@@ -50,7 +50,7 @@ public class TeamPO {
 	private double oppDefensiveRebounds;//对手防守篮板数
 	private double oppPoints;//对手得分数
 	private double oppPossessions;
-	
+	*/
 	public TeamPO(){
 		
 	}
@@ -353,7 +353,7 @@ public class TeamPO {
 	}
 
 
-	public int getGamesPlayedWin() {
+	/*public int getGamesPlayedWin() {
 		return gamesPlayedWin;
 	}
 
@@ -461,7 +461,7 @@ public class TeamPO {
 	public void setOppPossessions(double oppPossessions) {
 		this.oppPossessions = oppPossessions;
 	}
-	
+	*/
 	
 	
 	

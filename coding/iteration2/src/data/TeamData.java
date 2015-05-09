@@ -8,121 +8,122 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Timer;
 
+
+
 import dataService.TeamDataService;
 import po.BasicTeamPO;
+import po.MatchPO;
 import po.TeamPO;
+
 
 public class TeamData implements TeamDataService{
 	public TeamPO getSingleTeamInfo(String teamName){
-		TeamPO tp=new TeamPO();
-		 try {
-			 File f=new File("");
-			 String s=f.getCanonicalPath();
-	   		 Class.forName("sun.jdbc.odbc.JdbcOdbcDriver");  
-	 	 	 String dbur1 = "jdbc:odbc:driver={Microsoft Access Driver (*.mdb, *.accdb)};DBQ="+s+"//NBAIteration2";  
-	 		 Connection conn = DriverManager.getConnection(dbur1, "username", "password");  
-	 		 Statement stmt = conn.createStatement();  
-		     
-		     ResultSet rs = stmt.executeQuery("select * from teamInfo where teamName='"+teamName+"'");
-		     while(rs.next()){
-		    	 tp.setTeamName(rs.getString("TeamName"));
-		    	 tp.setGamesPlayed(rs.getInt("gamesPlayed"));
-		    	 tp.setFieldGoalsMade(rs.getDouble("fieldGoalsMade"));
-		    	 tp.setFieldGoalsAttempted(rs.getDouble("fieldGoalsAttempted"));
-		    	 tp.setThreePointFieldGoalsMade(rs.getDouble("threePointFieldGoalsMade"));
-		    	 tp.setThreePointFieldGoalsAttempted(rs.getDouble("threePointFieldGoalsAttempted"));
-		    	 tp.setFreeThrowsMade(rs.getDouble("freeThrowsMade"));
-		    	 tp.setFreeThrowsAttempted(rs.getDouble("freeThrowsAttempted"));
-		    	 tp.setOffensiveRebounds(rs.getDouble("offensiveRebounds"));
-		    	 tp.setDefensiveRebounds(rs.getDouble("defensiveRebounds"));
-		    	 tp.setRebounds(rs.getDouble("rebounds"));
-		    	 tp.setAssists(rs.getDouble("assists"));
-		    	 tp.setSteals(rs.getDouble("steals"));
-		    	 tp.setBlocks(rs.getDouble("blocks"));
-		    	 tp.setTurnovers(rs.getDouble("turnovers"));
-		    	 tp.setFouls(rs.getDouble("fouls"));
-		    	 tp.setPoints(rs.getDouble("points"));
-		    	 tp.setFieldGoalPercentage(rs.getDouble("fieldGoalpercentage"));
-		    	 tp.setThreePointFieldGoalPercentage(rs.getDouble("threePointFieldGoalPercentage"));
-		    	 tp.setFreeThrowPercentage(rs.getDouble("freeThrowPercentage"));
-		    	 tp.setWinPercentage(rs.getDouble("winPercentage"));
-		    	 tp.setPossessions(rs.getDouble("possessions"));
-		    	 tp.setOffensiveRating(rs.getDouble("offensiveRating"));
-		    	 tp.setDefensiveRating(rs.getDouble("defensiveRating"));
-		    	 tp.setOffensiveReboundPercentage(rs.getDouble("offensiveReboundPercentage"));
-		    	 tp.setDefensiveReboundPercentage(rs.getDouble("defensiveReboundPercentage"));
-		    	 tp.setStealPercentage(rs.getDouble("stealPercentage"));
-		    	 tp.setAssistPercentage(rs.getDouble("assistPercentage"));
-		    	 tp.setFullName(rs.getString("fullName"));
-		    	 tp.setCity(rs.getString("city"));
-		    	 tp.setZone(rs.getString("zone"));
-		    	 tp.setSubarea(rs.getString("subarea"));
-		    	 tp.setHomeCourt(rs.getString("homeCourt"));
-		    	 tp.setCreateTime(rs.getString("createTime"));
-		    	 tp.setGamesPlayedWin(rs.getInt("gamesPlayedWin"));
-		    	 tp.setOppFieldGoalsMade(rs.getDouble("oppFieldGoalsMade"));
-		    	 tp.setOppFieldGoalsAttempted(rs.getDouble("oppFieldGoalsAttempted"));
-		    	 tp.setOppFreeThrowsAttempted(rs.getDouble("oppFreeThrowsAttempted"));
-		    	 tp.setOppTurnovers(rs.getDouble("oppTurnovers"));
-		    	 tp.setOppSteals(rs.getDouble("oppSteals"));
-		    	 tp.setOppAssists(rs.getDouble("oppAssists"));
-		    	 tp.setOppOffensiveRebounds(rs.getDouble("oppOffensiveRebounds"));
-		    	 tp.setOppDefensiveRebounds(rs.getDouble("oppDefensiveRebounds"));
-		    	 tp.setOppPoints(rs.getDouble("oppPoints"));
-		    	 tp.setOppPossessions(rs.getDouble("oppPossessions"));
-		     }
-		     rs.close();
-		     stmt.close();
-		     conn.close();
-        
-		 } catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-		 }
-		 return tp;
-	}
-	public ArrayList<TeamPO> getAllTeamInfo(){
-		ArrayList<TeamPO> result=new ArrayList<TeamPO>();
-		TeamData td=new TeamData();
-		try {
-			File f=new File("");
-			String s=f.getCanonicalPath();
-			Class.forName("sun.jdbc.odbc.JdbcOdbcDriver");  
-			String dbur1 = "jdbc:odbc:driver={Microsoft Access Driver (*.mdb, *.accdb)};DBQ="+s+"//NBAIteration2";  
-			Connection conn = DriverManager.getConnection(dbur1, "username", "password");  
-			Statement stmt = conn.createStatement();  
+		TeamDataCalculate tic=new TeamDataCalculate();
+		TeamPO result=new TeamPO();
+		if(tic.judgeEmptyFile("Data//teamInfoPO.txt")){
+		
+			BasicTeamData btd=new BasicTeamData();
+			BasicTeamPO tp=btd.getSingleTeamOriginal(teamName);
 			
-			ResultSet rs = stmt.executeQuery("select * from teamInfo");
+			result.setTeamName(tp.getAbbreviation());
+			result.setFullName(tp.getFullName());
+			result.setCity(tp.getCity());
+			result.setZone(tp.getZone());
+			result.setSubarea(tp.getSubarea());
+			result.setHomeCourt(tp.getHomeCourt());
+			result.setCreateTime(tp.getCreateTime());
+		
+		
+			MatchData md=new MatchData();
+			ArrayList<MatchPO> mp=md.getAllMatchInfo();
+			ArrayList<MatchPO> mpselected=new ArrayList<MatchPO>();
+		
+			for(int i=0;i<mp.size();i++){
+				if(mp.get(i).getTeam1().getTeamName().equals(result.getTeamName())
+						||mp.get(i).getTeam2().getTeamName().equals(result.getTeamName())){
+					mpselected.add(mp.get(i));
+				}
+			}//筛选队伍参与的比赛
 			
-			while(rs.next()){
-				TeamPO tp=td.getSingleTeamInfo(rs.getString("teamName"));
-				result.add(tp);
+			result.setGamesPlayed(mpselected.size());
+			result.setFieldGoalsMade(tic.calculateFieldGoalsMade(result.getTeamName(), mpselected));
+			result.setFieldGoalsAttempted(tic.calculateFieldGoalsAttempted(result.getTeamName(), mpselected));
+			result.setThreePointFieldGoalsMade(tic.calculateThreePointFieldGoalsMade(result.getTeamName(), mpselected));
+			result.setThreePointFieldGoalsAttempted(tic.calculateThreePointFieldGoalsAttempted(result.getTeamName(), mpselected));
+			result.setFreeThrowsMade(tic.calculateFreeThrowsMade(result.getTeamName(),mpselected));
+			result.setFreeThrowsAttempted(tic.calculateFreeThrowsAttempted(result.getTeamName(), mpselected));
+			result.setOffensiveRebounds(tic.calculateOffensiveRebounds(result.getTeamName(), mpselected));
+			result.setDefensiveRebounds(tic.calculateDefensiveRebounds(result.getTeamName(), mpselected));
+			result.setRebounds(result.getOffensiveRebounds()+result.getDefensiveRebounds());
+			result.setAssists(tic.calculateAssists(result.getTeamName(),mpselected));
+			result.setSteals(tic.calculateSteals(result.getTeamName(), mpselected));
+			result.setBlocks(tic.calculateBlocks(result.getTeamName(), mpselected));
+			result.setTurnovers(tic.calculateTurnovers(result.getTeamName(), mpselected));
+			result.setFouls(tic.calculateFouls(result.getTeamName(),mpselected));
+			result.setPoints(tic.calculatePoints(result.getTeamName(), mpselected));
+			result.setFieldGoalPercentage(result.getFieldGoalsMade()/result.getFieldGoalsAttempted());
+			result.setThreePointFieldGoalPercentage(result.getThreePointFieldGoalsMade()/result.getThreePointFieldGoalsAttempted());
+			result.setFreeThrowPercentage(result.getFreeThrowsMade()/result.getFreeThrowsAttempted());
+			result.setWinPercentage((double)tic.calculateWins(result.getTeamName(), mpselected)/(double)result.getGamesPlayed());
+			result.setOffensiveReboundPercentage(result.getOffensiveRebounds()/(result.getOffensiveRebounds()+tic.calculateOppositeDefensiveRebounds(result.getTeamName(), mpselected)));
+			result.setDefensiveReboundPercentage(result.getDefensiveRebounds()/(result.getDefensiveRebounds()+tic.calculateOppositeOffensiveRebounds(result.getTeamName(), mpselected)));
+			result.setPossessions(result.getFieldGoalsAttempted()+0.4*result.getFreeThrowsAttempted()
+					-1.07*result.getOffensiveReboundPercentage()*(result.getFieldGoalsAttempted()-result.getFieldGoalsMade())+1.07*result.getTurnovers());
+			result.setOffensiveRating(result.getPoints()/result.getPossessions()*100);
+			double oppositeOffensiveReboundPer=tic.calculateOppositeOffensiveRebounds(result.getTeamName(), mpselected)/(tic.calculateOppositeOffensiveRebounds(result.getTeamName(), mpselected)+result.getDefensiveRebounds());
+			double oppositePossessions=tic.calculateOppositeFieldGoalsAttempted(result.getTeamName(), mpselected)+0.4*tic.calculateOppositeFreeThrowsAttempted(result.getTeamName(), mpselected)
+				-1.07*oppositeOffensiveReboundPer*(tic.calculateOppositeFieldGoalsAttempted(result.getTeamName(), mpselected)-tic.calculateOppositeFieldGoalsMade(result.getTeamName(), mpselected))+1.07*tic.calculateOppositeTurnovers(result.getTeamName(), mpselected);
+			//计算对手进攻回合数
+			result.setDefensiveRating(tic.calculateOppositePoints(result.getTeamName(), mpselected)/oppositePossessions*100);
+			result.setStealPercentage(result.getSteals()/oppositePossessions*100);
+			result.setAssistPercentage(result.getAssists()/result.getPossessions()*100);
+		
+			return result;
+		}
+		else{
+			ArrayList<TeamPO> all=tic.readTeamInfo();
+			for(int i=0;i<all.size();i++){
+				if(teamName.equals(all.get(i).getFullName())){
+					result=all.get(i);
+				}
 			}
-			rs.close();
-			stmt.close();
-			conn.close();
-			
-		 } catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-		 }
-		return result;
-	}
-	
-	public void updateAllTeam(){
-		TeamDataCalculate tdc=new TeamDataCalculate();
-		try {
-			tdc.deleteAllTeam();
-			tdc.updateAllTeam();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			return result;
 		}
 	}
 	
+	
+	public ArrayList<TeamPO> getAllTeamInfo(){
+		TeamDataCalculate tic=new TeamDataCalculate();
+		ArrayList<TeamPO> result=new ArrayList<TeamPO>();
+		ArrayList<TeamPO> original=new ArrayList<TeamPO>();
+		BasicTeamData btd=new BasicTeamData();
+		TeamData td=new TeamData();
+		
+		if(tic.judgeEmptyFile("Data//teamInfoPO.txt")){
+			ArrayList<BasicTeamPO> tp=btd.getTeamOriginal();
+			for(int i=0;i<tp.size()&&i<30;i++){
+				if(tp.get(i).getFullName()!=null){
+				
+					original.add(td.getSingleTeamInfo(tp.get(i).getAbbreviation()));
+					
+				}
+			}
+			tic.writeTeamInfo(original);
+			System.out.println("未执行readTeam");
+		}
+		else{
+			original=tic.readTeamInfo();
+			System.out.println("执行了readTeam");
+		}
+		
+		
+		
+		return result;
+	}
+	
+	
 	/*public static void main(String[]args){
 		TeamData td=new TeamData();
-		TeamPO tp=td.getSingleTeamInfo("BOS");
-		System.out.println(tp.getFreeThrowsAttempted());
+		td.getAllTeamInfo();
 	}*/
 }

@@ -36,7 +36,7 @@ public class BasicMatchData {
 				oneMatch.setTeams(wtf.get(0).split(";")[1]);
 				oneMatch.setScore(wtf.get(0).split(";")[2]);
 				oneMatch.setScore1(wtf.get(1).split(";")[0]);oneMatch.setScore2(wtf.get(1).split(";")[1]);oneMatch.setScore3(wtf.get(1).split(";")[2]);oneMatch.setScore4(wtf.get(1).split(";")[3]);
-				ArrayList<String> temp = new ArrayList();
+				ArrayList<String> temp = new ArrayList<String>();
 				for(int j=4;j<wtf.get(1).split(";").length;j++){
 					temp.add(wtf.get(1).split(";")[j]);
 				}

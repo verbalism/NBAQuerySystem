@@ -69,9 +69,15 @@ public ArrayList<BasicTeamPO> getTeamOriginal() {
 			br.close();
 			for(int i=1;i<wtf.size()-1;i++){
 				String infos = wtf.get(i).split("¨U")[1];
-				if(infos.subSequence(0, length).equals(teamName)){
-					String[] temp = infos.split("©¦");
-					team.setFullName(teamName);
+				String[] temp = infos.split("©¦");
+				if(removeBlankSpace(temp[1]).equals(teamName)||teamName.equals("NOH")){
+					team.setFullName(removeBlankSpace(temp[0]));
+					if(removeBlankSpace(temp[1]).equals("NOP")){
+						team.setAbbreviation("NOH");
+					}
+					else{
+						team.setAbbreviation(removeBlankSpace(temp[1]));
+					}
 					team.setAbbreviation(removeBlankSpace(temp[1]));
 					team.setCity(removeBlankSpace(temp[2]));
 					if(i==3)
