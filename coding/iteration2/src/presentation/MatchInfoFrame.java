@@ -159,7 +159,7 @@ public class MatchInfoFrame extends JFrame{
         backbordColumn1.setMaxWidth(70);
         backbordColumn1.setMinWidth(70);
 		JScrollPane scrollPane1 = new JScrollPane(table1);
-		scrollPane1.setBounds(0, 35, frameWidth-40, 160);
+		scrollPane1.setBounds(-1, 35, frameWidth-40, 170);
 		scrollPane1.setOpaque(false);
 		scrollPane1.getViewport().setOpaque(false);
 		scrollPane1.setBorder(null);
@@ -174,7 +174,7 @@ public class MatchInfoFrame extends JFrame{
 		team1Panel.add(team1Title);
 		
 		JPanel team2Panel = new JPanel();
-    	team2Panel.setBounds(20, 470, frameWidth-60, 200);
+    	team2Panel.setBounds(20, 460, frameWidth-60, 200);
     	team2Panel.setBackground(null);
 		String[] columnNames2 = new String[]{"球员","位置","在场时间","投篮","三分","罚球","进攻/防守","篮板","助攻","抢断","盖帽","失误","犯规","得分"};
 		ArrayList<MatchPlayer> players2 = match.getTeam2().getPlayers();
@@ -217,7 +217,7 @@ public class MatchInfoFrame extends JFrame{
         backbordColumn2.setMaxWidth(70);
         backbordColumn2.setMinWidth(70);
 		JScrollPane scrollPane2 = new JScrollPane(table2);
-		scrollPane2.setBounds(0, 35, frameWidth-40, 160);
+		scrollPane2.setBounds(-1, 35, frameWidth-40, 170);
 		scrollPane2.setOpaque(false);
 		scrollPane2.getViewport().setOpaque(false);
 		scrollPane2.setBorder(null);

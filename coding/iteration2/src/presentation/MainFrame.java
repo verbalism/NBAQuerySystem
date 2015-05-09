@@ -5,6 +5,7 @@ import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Frame;
+import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -73,6 +74,8 @@ public class MainFrame extends JFrame implements ActionListener{
 	
 	public MainFrame(){
 		Toolkit kit = Toolkit.getDefaultToolkit();
+		Image icon = kit.getImage("Img//icon.png");
+		this.setIconImage(icon);
 		Dimension screenSize = kit.getScreenSize();
 		frameHeight = screenSize.height-40;
 		frameWidth = screenSize.width-285;

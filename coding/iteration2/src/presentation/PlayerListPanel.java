@@ -9,8 +9,11 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
 import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
@@ -50,17 +53,6 @@ public class PlayerListPanel extends JPanel implements ActionListener{
 		title.setBackground(null);
 		title.setFont(new Font("微软雅黑",Font.BOLD,16));
 		title.setForeground(Color.WHITE);
-		searchField = new JTextField();
-		searchField.setBounds(panelWidth-300,10,200,30);
-		searchField.setBackground(new Color(69,69,69));
-		searchField.setBorder(null);
-		searchField.setText("  输入球员名查找");
-		searchField.setForeground(Color.WHITE);
-		searchField.addMouseListener(new MouseAdapter(){
-			public void mouseClicked(MouseEvent arg0) {
-				searchField.setText(null);
-			}
-		});
 		searchBtn = new JButton("查  找");
 		searchBtn.setBounds(panelWidth-90, 10, 80, 30);
 		searchBtn.setBackground(null);
@@ -77,6 +69,26 @@ public class PlayerListPanel extends JPanel implements ActionListener{
 				}
 		});
 		searchBtn.addActionListener(this);
+		searchField = new JTextField();
+		searchField.setBounds(panelWidth-300,10,200,30);
+		searchField.setBackground(new Color(69,69,69));
+		searchField.setBorder(null);
+		searchField.setText("  输入球员名查找");
+		searchField.setForeground(Color.WHITE);
+		searchField.addMouseListener(new MouseAdapter(){
+			public void mouseClicked(MouseEvent arg0) {
+				searchField.setText(null);
+			}
+		});
+		searchField.addKeyListener(new KeyAdapter(){ 
+		      public void keyPressed(KeyEvent e)    
+		      {    
+		        if(e.getKeyChar()==KeyEvent.VK_ENTER )   //按回车键执行相应操作; 
+		        { 
+		          searchBtn.doClick();
+		        } 
+		      } 
+		    });
 		searchPanel.setLayout(null);
 		searchPanel.add(title);
 		searchPanel.add(searchField);
@@ -89,6 +101,8 @@ public class PlayerListPanel extends JPanel implements ActionListener{
 		Object[][]data=new Object[allPlayer.size()][10];
 		for(int i=0;i<allPlayer.size();i++){
 			ImageIcon img = new ImageIcon("Img//players//portrait//"+allPlayer.get(i).getPlayerName()+".png");
+			if(!new File("Img//players//portrait//"+allPlayer.get(i).getPlayerName()+".png").exists())
+				img = new ImageIcon("Img//portrait.png");
 			img.setImage(img.getImage().getScaledInstance(74,60,Image.SCALE_DEFAULT));
 			data[i][0] = img;
 			data[i][1] = allPlayer.get(i).getPlayerName();

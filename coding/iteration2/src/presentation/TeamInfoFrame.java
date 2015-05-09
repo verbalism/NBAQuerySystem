@@ -60,7 +60,7 @@ public class TeamInfoFrame extends JFrame{
 		teamNameLabel.setForeground(new Color(0,103,175));
 		JLabel teamCityLabel = new JLabel(team.getCity()+"/"+team.getSubarea());
 		teamCityLabel.setFont(new Font("Arial",0,20));
-		teamCityLabel.setBounds(200, 75, 200, 50);
+		teamCityLabel.setBounds(200, 75, 300, 50);
 		teamCityLabel.setForeground(new Color(122,122,122));
 		JLabel infoLabel = new JLabel();
 		infoLabel.setFont(new Font("微软雅黑",0,15));

@@ -2,23 +2,27 @@ package presentation;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
@@ -30,13 +34,8 @@ import vo.PlayerVO;
 import vo.TeamVO;
 
 public class PlayerInfoFrame extends JFrame{
-	public static void main(String args[]){
-		DataBLService db = new DataBL();
-		PlayerVO vo = db.getSinglePlayerInfo("Anthony Nicholson");
-		PlayerInfoFrame pf = new PlayerInfoFrame(vo);
-	}
-	
-	public PlayerInfoFrame(PlayerVO player){
+	DataBLService db = new DataBL();
+	public PlayerInfoFrame(final PlayerVO player){
 		Toolkit kit = Toolkit.getDefaultToolkit();
 		Dimension screenSize = kit.getScreenSize();
 		int frameHeight = screenSize.height*2/3;
@@ -51,12 +50,15 @@ public class PlayerInfoFrame extends JFrame{
 		playerImgLabel.setBounds(frameWidth-300, 5, 314, 500);
 		playerImgLabel.setBackground(null);
 		ImageIcon img = new ImageIcon("Img//players//action//"+player.getPlayerName()+".png");
+		if(!new File("Img//players//action//"+player.getPlayerName()+".png").exists())
+			img = new ImageIcon("Img//action.png");
 		img.setImage(img.getImage().getScaledInstance(314,500,Image.SCALE_DEFAULT));
 		playerImgLabel.setIcon(img);
 		
 		JPanel basicInfoPanel = new JPanel();
 		basicInfoPanel.setBackground(null);
 		basicInfoPanel.setBounds(0, 0, frameWidth, 150);
+		
 		JLabel playerNumLabel = new JLabel(player.getNumber());
 		playerNumLabel.setFont(new Font("Arial Narrow",Font.BOLD,50));
 		playerNumLabel.setBounds(50, 0, 50, 150);
@@ -67,8 +69,22 @@ public class PlayerInfoFrame extends JFrame{
 		playerNameLabel.setForeground(new Color(0,103,175));
 		JLabel playerTeamLabel = new JLabel(player.getPosition()+"/"+player.getTeamName());
 		playerTeamLabel.setFont(new Font("Arial",0,20));
-		playerTeamLabel.setBounds(120, 75, 200, 50);
+		playerTeamLabel.setBounds(120, 75, 150, 50);
+		playerTeamLabel.setHorizontalAlignment(JButton.LEFT);
 		playerTeamLabel.setForeground(new Color(122,122,122));
+		//playerTeamLabel.setBorder(null);
+		//playerTeamLabel.setBackground(null);
+		playerTeamLabel.setOpaque(false);
+		playerTeamLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		playerTeamLabel.addMouseListener(new MouseAdapter(){
+			public void mouseClicked(MouseEvent arg0) {
+				TeamVO findPlayer = db.getSingleTeamInfo(player.getTeamName());
+				new TeamInfoFrame(findPlayer);
+			}
+			
+		});
+		
+		
 		JLabel infoLabel = new JLabel();
 		infoLabel.setFont(new Font("微软雅黑",0,15));
 		infoLabel.setBounds(470, 40, 400, 100);
@@ -78,9 +94,10 @@ public class PlayerInfoFrame extends JFrame{
 		basicInfoPanel.add(playerNumLabel);
 		basicInfoPanel.add(playerNameLabel);
 		basicInfoPanel.add(playerTeamLabel);
+		
 		basicInfoPanel.add(infoLabel);
 		
-		DecimalFormat df=new DecimalFormat(".##");
+		DecimalFormat df=new DecimalFormat("########.##");
 		NumberFormat nf = NumberFormat.getPercentInstance();
         nf.setMaximumFractionDigits(2);
 		String[] column = new String[]{"1","2","3","4","5","6","7","8"};

@@ -56,7 +56,7 @@ public class MatchListPanel extends JPanel implements ActionListener {
 		title.setBackground(null);
 		title.setFont(new Font("微软雅黑",Font.BOLD,16));
 		title.setForeground(Color.WHITE);
-		matchDateChooser = new DateChooser("yyyy-MM-dd");
+		matchDateChooser = new DateChooser("MM-dd");
 		matchDateChooser.setBounds(panelWidth-300,10,200,30);
 		matchDateChooser.setBackground(new Color(69,69,69));
 		matchDateChooser.setBorder(null);

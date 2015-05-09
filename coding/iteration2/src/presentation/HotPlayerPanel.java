@@ -8,6 +8,7 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
@@ -37,6 +38,8 @@ public class HotPlayerPanel extends JPanel{
 		playerImgLabel1.setBounds(0, 40, 250, 400);
 		playerImgLabel1.setBackground(null);
 		ImageIcon img = new ImageIcon("Img//players//action//"+players.get(0).getPlayerName()+".png");
+		if(!new File("Img//players//action//"+players.get(0).getPlayerName()+".png").exists())
+			img = new ImageIcon("Img//action.png");
 		img.setImage(img.getImage().getScaledInstance(250,400,Image.SCALE_DEFAULT));
 		playerImgLabel1.setIcon(img);
 		JLabel playerNumLabel1 = new JLabel("1");
@@ -89,6 +92,8 @@ public class HotPlayerPanel extends JPanel{
 		JLabel playerImgLabel2 = new JLabel();
 		playerImgLabel2.setBounds(110, 30, 100, 80);
 		ImageIcon img2 = new ImageIcon("Img//players//portrait//"+players.get(1).getPlayerName()+".png");
+		if(!new File("Img//players//portrait//"+players.get(1).getPlayerName()+".png").exists())
+			img2 = new ImageIcon("Img//portrait.png");
 		img2.setImage(img2.getImage().getScaledInstance(100,80,Image.SCALE_DEFAULT));
 		playerImgLabel2.setIcon(img2);
 		playerNameLabel2 = new JButton(players.get(1).getPlayerName());
@@ -134,6 +139,8 @@ public class HotPlayerPanel extends JPanel{
 		JLabel playerImgLabel3 = new JLabel();
 		playerImgLabel3.setBounds(110, 30, 100, 80);
 		ImageIcon img3 = new ImageIcon("Img//players//portrait//"+players.get(2).getPlayerName()+".png");
+		if(!new File("Img//players//portrait//"+players.get(2).getPlayerName()+".png").exists())
+			img3 = new ImageIcon("Img//portrait.png");
 		img3.setImage(img3.getImage().getScaledInstance(100,80,Image.SCALE_DEFAULT));
 		playerImgLabel3.setIcon(img3);
 		playerNameLabel3 = new JButton(players.get(2).getPlayerName());
@@ -179,6 +186,8 @@ public class HotPlayerPanel extends JPanel{
 		JLabel playerImgLabel4 = new JLabel();
 		playerImgLabel4.setBounds(110, 30, 100, 80);
 		ImageIcon img4 = new ImageIcon("Img//players//portrait//"+players.get(3).getPlayerName()+".png");
+		if(!new File("Img//players//portrait//"+players.get(3).getPlayerName()+".png").exists())
+			img4 = new ImageIcon("Img//portrait.png");
 		img4.setImage(img4.getImage().getScaledInstance(100,80,Image.SCALE_DEFAULT));
 		playerImgLabel4.setIcon(img4);
 		playerNameLabel4 = new JButton(players.get(3).getPlayerName());
@@ -224,6 +233,8 @@ public class HotPlayerPanel extends JPanel{
 		JLabel playerImgLabel5 = new JLabel();
 		playerImgLabel5.setBounds(110, 30, 100, 80);
 		ImageIcon img5 = new ImageIcon("Img//players//portrait//"+players.get(4).getPlayerName()+".png");
+		if(!new File("Img//players//portrait//"+players.get(4).getPlayerName()+".png").exists())
+			img5 = new ImageIcon("Img//portrait.png");
 		img5.setImage(img5.getImage().getScaledInstance(100,80,Image.SCALE_DEFAULT));
 		playerImgLabel5.setIcon(img5);
 		playerNameLabel5 = new JButton(players.get(4).getPlayerName());

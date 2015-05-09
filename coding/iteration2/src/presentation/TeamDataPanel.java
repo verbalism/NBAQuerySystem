@@ -36,7 +36,7 @@ public class TeamDataPanel extends JPanel implements ActionListener{
 	String state = "all";
 	JScrollPane scrollPane = new JScrollPane();
 	DataBLService dbl = new DataBL();
-	DecimalFormat df=new DecimalFormat(".##");
+	DecimalFormat df=new DecimalFormat("#########.##");
 	NumberFormat nf = NumberFormat.getPercentInstance();
 	Thread thread;
 	public TeamDataPanel(){

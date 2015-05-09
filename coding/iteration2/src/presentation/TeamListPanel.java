@@ -6,6 +6,10 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -28,11 +32,12 @@ import vo.TeamVO;
 import businesslogic.DataBL;
 import businesslogicService.DataBLService;
 
-public class TeamListPanel extends JPanel{
+public class TeamListPanel extends JPanel implements ActionListener{
 	int panelWidth,panelHeight;
 	JTextField searchField;
 	JButton searchBtn;
 	DataBLService dbl = new DataBL();
+	ArrayList<TeamVO> teams;
 	public TeamListPanel(){
 		Toolkit kit = Toolkit.getDefaultToolkit();
 		Dimension screenSize = kit.getScreenSize();
@@ -50,17 +55,6 @@ public class TeamListPanel extends JPanel{
 		title.setBackground(null);
 		title.setFont(new Font("微软雅黑",Font.BOLD,16));
 		title.setForeground(Color.WHITE);
-		searchField = new JTextField();
-		searchField.setBounds(panelWidth-300,10,200,30);
-		searchField.setBackground(new Color(69,69,69));
-		searchField.setBorder(null);
-		searchField.setText("  输入球队名查找");
-		searchField.setForeground(Color.WHITE);
-		searchField.addMouseListener(new MouseAdapter(){
-			public void mouseClicked(MouseEvent arg0) {
-				searchField.setText(null);
-			}
-		});
 		searchBtn = new JButton("查  找");
 		searchBtn.setBounds(panelWidth-90, 10, 80, 30);
 		searchBtn.setBackground(null);
@@ -76,7 +70,27 @@ public class TeamListPanel extends JPanel{
 				searchBtn.setBackground(null);
 				}
 		});
-		
+		searchBtn.addActionListener(this);
+		searchField = new JTextField();
+		searchField.setBounds(panelWidth-300,10,200,30);
+		searchField.setBackground(new Color(69,69,69));
+		searchField.setBorder(null);
+		searchField.setText("  输入球队名查找");
+		searchField.setForeground(Color.WHITE);
+		searchField.addMouseListener(new MouseAdapter(){
+			public void mouseClicked(MouseEvent arg0) {
+				searchField.setText(null);
+			}
+		});
+		searchField.addKeyListener(new KeyAdapter(){ 
+		      public void keyPressed(KeyEvent e)    
+		      {    
+		        if(e.getKeyChar()==KeyEvent.VK_ENTER )   //按回车键执行相应操作; 
+		        { 
+		          searchBtn.doClick();
+		        } 
+		      } 
+		    });
 		searchPanel.setLayout(null);
 		searchPanel.add(title);
 		searchPanel.add(searchField);
@@ -138,7 +152,7 @@ public class TeamListPanel extends JPanel{
 		String[] columnNames = new String[]{"东南分区","a","中央分区","b","大西洋分区","c","太平洋分区","d","西北分区","e","西南分区","f"};
 		Object[][]data=new Object[5][12];
 		
-		ArrayList<TeamVO> teams = dbl.getAllTeamInfo();
+		teams = dbl.getAllTeamInfo();
 		int se=0,ce=0,al=0,p=0,nw=0,sw=0;
 		for(int i=0;i<teams.size();i++){
 			int line = 0;int row = 0;
@@ -231,6 +245,24 @@ public class TeamListPanel extends JPanel{
 		this.add(titlePanel);
 		this.add(areaPanel);
 		this.add(table);
+		
+	}
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if(e.getSource()==searchBtn){
+			String name = searchField.getText();
+		    TeamVO team = new TeamVO();
+		    for(int i=0;i<teams.size();i++){
+		    	if(teams.get(i).getTeamName().equals(name)||teams.get(i).getFullName().equals(name)){
+		    		team = teams.get(i);
+		    		break;
+		    	}
+		    }
+		    if(team.getTeamName()!= null)
+		    	new TeamInfoFrame(team);
+		    else
+		    	new ActionDialog("球队名有误请重新输入");
+		}
 		
 	}
 }

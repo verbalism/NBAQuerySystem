@@ -63,7 +63,7 @@ public class HotTeamPanel extends JPanel{
 		});
 		JLabel teamTeamLabel1 = new JLabel(teams.get(0).getCity()+"/"+teams.get(0).getSubarea());
 		teamTeamLabel1.setFont(new Font("Arial",0,20));
-		teamTeamLabel1.setBounds(300, 95, 200, 50);
+		teamTeamLabel1.setBounds(300, 95, 300, 50);
 		teamTeamLabel1.setForeground(new Color(68,68,68));
 		JLabel teamScoreLabel1 = new JLabel("");
 		teamScoreLabel1.setFont(new Font("Modern",Font.BOLD,35));
@@ -90,7 +90,7 @@ public class HotTeamPanel extends JPanel{
 		teamImgLabel2.setBounds(110, 30, 80, 80);
 		ImageIcon img2 = new ImageIcon("Img//teams//"+teams.get(1).getTeamName()+".png");
 		if(teams.get(1).getTeamName().equals("NOH"))
-			img = new ImageIcon("Img//teams//NOP.png");
+			img2 = new ImageIcon("Img//teams//NOP.png");
 		img2.setImage(img2.getImage().getScaledInstance(80,80,Image.SCALE_DEFAULT));
 		teamImgLabel2.setIcon(img2);
 		teamNameLabel2 = new JButton(teams.get(1).getFullName());
@@ -137,7 +137,7 @@ public class HotTeamPanel extends JPanel{
 		teamImgLabel3.setBounds(110, 30, 80, 80);
 		ImageIcon img3 = new ImageIcon("Img//teams//"+teams.get(2).getTeamName()+".png");
 		if(teams.get(2).getTeamName().equals("NOH"))
-			img = new ImageIcon("Img//teams//NOP.png");
+			img3 = new ImageIcon("Img//teams//NOP.png");
 		img3.setImage(img3.getImage().getScaledInstance(80,80,Image.SCALE_DEFAULT));
 		teamImgLabel3.setIcon(img3);
 		teamNameLabel3 = new JButton(teams.get(2).getFullName());
@@ -184,7 +184,7 @@ public class HotTeamPanel extends JPanel{
 		teamImgLabel4.setBounds(110, 30, 80, 80);
 		ImageIcon img4 = new ImageIcon("Img//teams//"+teams.get(3).getTeamName()+".png");
 		if(teams.get(3).getTeamName().equals("NOH"))
-			img = new ImageIcon("Img//teams//NOP.png");
+			img4 = new ImageIcon("Img//teams//NOP.png");
 		img4.setImage(img4.getImage().getScaledInstance(80,80,Image.SCALE_DEFAULT));
 		teamImgLabel4.setIcon(img4);
 		teamNameLabel4 = new JButton(teams.get(3).getFullName());
@@ -231,7 +231,7 @@ public class HotTeamPanel extends JPanel{
 		teamImgLabel5.setBounds(110, 30, 80, 80);
 		ImageIcon img5 = new ImageIcon("Img//teams//"+teams.get(4).getTeamName()+".png");
 		if(teams.get(4).getTeamName().equals("NOH"))
-			img = new ImageIcon("Img//teams//NOP.png");
+			img5 = new ImageIcon("Img//teams//NOP.png");
 		img5.setImage(img5.getImage().getScaledInstance(80,80,Image.SCALE_DEFAULT));
 		teamImgLabel5.setIcon(img5);
 		teamNameLabel5 = new JButton(teams.get(4).getFullName());

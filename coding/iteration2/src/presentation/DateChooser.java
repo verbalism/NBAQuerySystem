@@ -111,7 +111,7 @@ public class DateChooser extends JPanel{
 	        up.add(jp2=new JP2(),BorderLayout.CENTER);  
 	        monthPanel.add(jp3=new JP3(),BorderLayout.CENTER);  
 	        monthPanel.add(up,BorderLayout.NORTH);  
-	        monthPanel.add(jp4=new JP4(),BorderLayout.SOUTH);  
+	        //monthPanel.add(jp4=new JP4(),BorderLayout.SOUTH);  
 	        this.addAncestorListener(new AncestorListener(){  
 	            public void ancestorAdded(AncestorEvent event) {  
 	                  
@@ -341,7 +341,8 @@ public class DateChooser extends JPanel{
 	            });  
 	        }  
 	        private void updateDate(){  
-	            center.setText(select.get(Calendar.YEAR)+"年"+(select.get(Calendar.MONTH)+1)+"月");  
+	            //center.setText(select.get(Calendar.YEAR)+"年"+(select.get(Calendar.MONTH)+1)+"月");  
+	        	center.setText((select.get(Calendar.MONTH)+1)+"月");
 	        }  
 	    }  
 	    private class JP2 extends JPanel{  

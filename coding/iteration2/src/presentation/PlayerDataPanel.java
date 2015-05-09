@@ -468,11 +468,21 @@ public class PlayerDataPanel extends JPanel implements ActionListener{
 		        return getValueAt(0, column).getClass();
 		      }
 		};
-		InfoListTable table=new InfoListTable(model){
+		final InfoListTable table=new InfoListTable(model){
             public boolean isCellEditable(int row, int column)
                  {
                             return false;}}; 
-        //table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+                            table.addMouseListener(new MouseAdapter() {
+                            	public void mouseClicked(MouseEvent e) {
+                            		 if (e.getButton() == MouseEvent.BUTTON1) {// 单击鼠标左键
+                            		     if (e.getClickCount() == 1) {
+                            		    	 String name = (String) table.getValueAt(table.getSelectedRow(), 1);
+                            		    	 PlayerVO player = dbl.getSinglePlayerInfo(name);
+                            		    	 new PlayerInfoFrame(player);
+                            		     }
+                            		    	 
+                            		 }
+                            }});
         table.setFont(new Font("微软雅黑",0,13));
         TableColumn firsetColumn = table.getColumnModel().getColumn(0);
         firsetColumn.setPreferredWidth(30);
@@ -532,11 +542,20 @@ public class PlayerDataPanel extends JPanel implements ActionListener{
 		        return getValueAt(0, column).getClass();
 		      }
 		};
-		InfoListTable table=new InfoListTable(model){
+		final InfoListTable table=new InfoListTable(model){
             public boolean isCellEditable(int row, int column)
-                 {
-                            return false;}}; 
-       // table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+                 {return false;}}; 
+                 table.addMouseListener(new MouseAdapter() {
+                 	public void mouseClicked(MouseEvent e) {
+                 		 if (e.getButton() == MouseEvent.BUTTON1) {// 单击鼠标左键
+                 		     if (e.getClickCount() == 1) {
+                 		    	 String name = (String) table.getValueAt(table.getSelectedRow(), 1);
+                 		    	 PlayerVO player = dbl.getSinglePlayerInfo(name);
+                 		    	 new PlayerInfoFrame(player);
+                 		     }
+                 		    	 
+                 		 }
+                 }});
         table.setFont(new Font("微软雅黑",0,13));
         TableColumn firsetColumn = table.getColumnModel().getColumn(0);
         firsetColumn.setPreferredWidth(30);
@@ -587,11 +606,21 @@ public class PlayerDataPanel extends JPanel implements ActionListener{
 		        return getValueAt(0, column).getClass();
 		      }
 		};
-		InfoListTable table=new InfoListTable(model){
+		final InfoListTable table=new InfoListTable(model){
             public boolean isCellEditable(int row, int column)
                  {
                             return false;}}; 
-       // table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+                            table.addMouseListener(new MouseAdapter() {
+                            	public void mouseClicked(MouseEvent e) {
+                            		 if (e.getButton() == MouseEvent.BUTTON1) {// 单击鼠标左键
+                            		     if (e.getClickCount() == 1) {
+                            		    	 String name = (String) table.getValueAt(table.getSelectedRow(), 1);
+                            		    	 PlayerVO player = dbl.getSinglePlayerInfo(name);
+                            		    	 new PlayerInfoFrame(player);
+                            		     }
+                            		    	 
+                            		 }
+                            }});
         table.setFont(new Font("微软雅黑",0,13));
         TableColumn firsetColumn = table.getColumnModel().getColumn(0);
         firsetColumn.setPreferredWidth(30);
@@ -613,7 +642,7 @@ public class PlayerDataPanel extends JPanel implements ActionListener{
 		}
         
 		scrollPane = new JScrollPane(table);
-		scrollPane.setBounds(-1, 120, panelWidth+18, panelHeight-150);
+		scrollPane.setBounds(-1, 120, panelWidth+18, panelHeight-160);
 		scrollPane.setOpaque(false);
 		scrollPane.getViewport().setOpaque(false);
 		scrollPane.setBorder(null);
