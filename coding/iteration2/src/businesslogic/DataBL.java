@@ -24,6 +24,21 @@ public class DataBL implements DataBLService {
 		PlayerDataService pd=new PlayerData();
 		PlayerVO result=new PlayerVO();
 		PlayerPO pp=pd.getSinglePlayerInfo(playerName);
+		String t=pp.getTeamName();
+		if(t.equals("CHI")||t.equals("CLE")||t.equals("DET")||t.equals("IND")||t.equals("MIL")||
+				t.equals("BKN")||t.equals("BOS")||t.equals("NYK")||t.equals("PHI")||t.equals("TOR")||
+				t.equals("ALT")||t.equals("CHA")||t.equals("MIA")||t.equals("ORL")||t.equals("WAS")){
+			result.setLeague("East");
+		}else if(t.equals("DAL")||t.equals("HOU")||t.equals("MEM")||t.equals("NOP")||t.equals("SAS")
+				||t.equals("GSW")||t.equals("LAC")||t.equals("LAL")||t.equals("PHX")||t.equals("SAC")
+				||t.equals("DEN")||t.equals("MIN")||t.equals("OKC")||t.equals("POR")||t.equals("UTA")){
+			result.setLeague("West");
+		}else{
+			result.setLeague("δ֪");
+		}
+		String[] str=pp.getMinutes().split(":");
+		result.setMinutes2(Double.parseDouble(str[0])+Double.parseDouble("0."+str[1])*5/3);
+			
 		result.setPlayerName(playerName);
 		result.setNumber(pp.getNumber());
 		result.setPosition(pp.getPosition());
@@ -92,6 +107,20 @@ public class DataBL implements DataBLService {
 		ArrayList<PlayerPO> pp=pd.getAllPlayerInfo();
 		for(int i=0;i<pp.size();i++){
 			PlayerVO temp=new PlayerVO();
+			String t=pp.get(i).getTeamName();
+			if(t.equals("CHI")||t.equals("CLE")||t.equals("DET")||t.equals("IND")||t.equals("MIL")||
+					t.equals("BKN")||t.equals("BOS")||t.equals("NYK")||t.equals("PHI")||t.equals("TOR")||
+					t.equals("ALT")||t.equals("CHA")||t.equals("MIA")||t.equals("ORL")||t.equals("WAS")){
+				temp.setLeague("East");
+			}else if(t.equals("DAL")||t.equals("HOU")||t.equals("MEM")||t.equals("NOP")||t.equals("SAS")
+					||t.equals("GSW")||t.equals("LAC")||t.equals("LAL")||t.equals("PHX")||t.equals("SAC")
+					||t.equals("DEN")||t.equals("MIN")||t.equals("OKC")||t.equals("POR")||t.equals("UTA")){
+				temp.setLeague("West");
+			}else{
+				temp.setLeague("δ֪");
+			}
+			String[] str=pp.get(i).getMinutes().split(":");
+			temp.setMinutes2(Double.parseDouble(str[0])+Double.parseDouble("0."+str[1])*5/3);
 			temp.setPlayerName(pp.get(i).getPlayerName());
 			temp.setNumber(pp.get(i).getNumber());
 			temp.setPosition(pp.get(i).getPosition());

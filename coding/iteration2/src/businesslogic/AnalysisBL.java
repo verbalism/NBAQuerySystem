@@ -10,6 +10,7 @@ import data.Update;
 import dataService.MatchDataService;
 import dataService.PlayerDataService;
 import vo.MatchVO;
+import vo.PlayerAge;
 import vo.PlayerPartition;
 import vo.PlayerPosition;
 import vo.PlayerVO;
@@ -74,7 +75,18 @@ public class AnalysisBL implements AnalysisBLService {
 				result.add(pl.get(i));
 				pl.remove(i);
 			}
-		}else if(keyword.equals("fieldGoalsPercentage")){
+		}else if(keyword.equals("minutes2")){
+			while(pl.size()>0){
+				int i=0;
+				for(int j=i+1;j<pl.size();j++){
+					if(pl.get(i).getMinutes2()<pl.get(j).getMinutes2())
+						i=j;
+				}
+				result.add(pl.get(i));
+				pl.remove(i);
+			}
+		}
+		else if(keyword.equals("fieldGoalsPercentage")){
 			while(pl.size()>0){
 				int i=0;
 				for(int j=i+1;j<pl.size();j++){
@@ -1389,7 +1401,6 @@ public class AnalysisBL implements AnalysisBLService {
 	public ArrayList<TeamVO> getSeasonHotSpotTeam(String keyword) {
 		DataBLService d=new DataBL();
 		ArrayList<TeamVO> t=d.getAllTeamInfo();
-		t=sortTeam(t, keyword,SortType.Descending);
 		for(int i=0;i<t.size();i++){		
 			t.get(i).setFreeThrowsAttempted(t.get(i).getFreeThrowsAttempted()/t.get(i).getGamesPlayed());
 			t.get(i).setFieldGoalsMade(t.get(i).getFieldGoalsMade()/t.get(i).getGamesPlayed());
@@ -1408,6 +1419,7 @@ public class AnalysisBL implements AnalysisBLService {
 			t.get(i).setPoints(t.get(i).getPoints()/t.get(i).getGamesPlayed());
 			t.get(i).setPossessions(t.get(i).getPossessions()/t.get(i).getGamesPlayed());
 		}
+		t=sortTeam(t, keyword,SortType.Descending);
 		if(t.size()>5){
 			for(int i=t.size()-1;i>=5;i--){
 				t.remove(i);
@@ -1466,6 +1478,420 @@ public class AnalysisBL implements AnalysisBLService {
 			e.printStackTrace();
 		}
 		
+	}
+
+	@Override
+	public ArrayList<PlayerVO> getTopNPlayers(int n, PlayerPosition position,
+			PlayerPartition partition, PlayerAge age, String[] keyword,SortType[] sortType) {
+		// TODO Auto-generated method stub
+		ArrayList<PlayerVO> result=new ArrayList<PlayerVO>();
+		DataBLService d=new DataBL();
+		result=d.getAllPlayerInfo();
+		if(position.equals(PlayerPosition.All)){
+			
+		}else if(position.equals(PlayerPosition.Center)){
+			for(int i=result.size()-1;i>=0;i--){
+				if(!result.get(i).getPosition().equals("C") && !result.get(i).getPosition().equals("C-F") && !result.get(i).getPosition().equals("F-C")){	
+					result.remove(i);
+				}
+			}
+		}else if(position.equals(PlayerPosition.Guard)){
+			for(int i=result.size()-1;i>=0;i--){
+				if(!result.get(i).getPosition().equals("G") && !result.get(i).getPosition().equals("G-F") && !result.get(i).getPosition().equals("F-G")){	
+					result.remove(i);
+				}
+			}
+		}else if(position.equals(PlayerPosition.Forward)){
+			for(int i=result.size()-1;i>=0;i--){
+				if(result.get(i).getPosition().equals("C") || result.get(i).getPosition().equals("G")){	
+					result.remove(i);
+				}
+			}
+		}
+		
+		
+		if(partition.equals(PlayerPartition.All)){
+		}else if(partition.equals(PlayerPartition.East)){
+			for(int i=result.size()-1;i>=0;i--){
+				if(result.get(i).getTeamName().equals("")){
+					result.remove(i);
+				}else{
+					String t=result.get(i).getTeamName();
+					if(!(t.equals("CHI")||t.equals("CLE")||t.equals("DET")||t.equals("IND")||t.equals("MIL")||
+							t.equals("BKN")||t.equals("BOS")||t.equals("NYK")||t.equals("PHI")||t.equals("TOR")||
+							t.equals("ALT")||t.equals("CHA")||t.equals("MIA")||t.equals("ORL")||t.equals("WAS")))
+						result.remove(i);
+				}
+			}
+		}else if(partition.equals(PlayerPartition.West)){
+			//System.out.println(result.size());
+			for(int i=result.size()-1;i>=0;i--){
+				if(result.get(i).getTeamName().equals("")){
+					result.remove(i);
+				}else{
+					String t=result.get(i).getTeamName();
+					if(!(t.equals("DAL")||t.equals("HOU")||t.equals("MEM")||t.equals("NOP")||t.equals("SAS")
+							||t.equals("GSW")||t.equals("LAC")||t.equals("LAL")||t.equals("PHX")||t.equals("SAC")
+							||t.equals("DEN")||t.equals("MIN")||t.equals("OKC")||t.equals("POR")||t.equals("UTA")))
+						result.remove(i);
+				}
+			}
+		}
+		if(age.equals(PlayerAge.lessthan23)){
+			for(int i=result.size()-1;i>=0;i--){
+				
+				if(result.get(i).getAge().equals(""))
+					result.remove(i);
+				else{
+					int temp=Integer.parseInt(result.get(i).getAge());
+					if(temp>22)
+						result.remove(i);
+				}
+			}
+		}else if(age.equals(PlayerAge.from23to25)){
+			for(int i=result.size()-1;i>=0;i--){
+				
+				if(result.get(i).getAge().equals(""))
+					result.remove(i);
+				else{
+					int temp=Integer.parseInt(result.get(i).getAge());
+					if(temp<=22||temp>25)
+						result.remove(i);
+				}
+			}
+		}else if(age.equals(PlayerAge.from26to30)){
+			for(int i=result.size()-1;i>=0;i--){
+				
+				if(result.get(i).getAge().equals(""))
+					result.remove(i);
+				else{
+					int temp=Integer.parseInt(result.get(i).getAge());
+					if(temp<=26||temp>30)
+						result.remove(i);
+				}
+			}
+		}else if(age.equals(PlayerAge.morethan30)){
+			for(int i=result.size()-1;i>=0;i--){
+				
+				if(result.get(i).getAge().equals(""))
+					result.remove(i);
+				else{
+					int temp=Integer.parseInt(result.get(i).getAge());
+					if(temp<=30)
+						result.remove(i);
+				}
+			}
+		}
+
+		if(result.size()>n){
+			for(int i=result.size()-1;i>=n;i--){
+				result.remove(i);
+			}
+		}
+		result=mySort(result,keyword,sortType,0);
+		
+		return result;
+	}
+	public ArrayList<PlayerVO> mySort(ArrayList<PlayerVO> result,String[] keyword,SortType[] sortType,int t) {
+		if(keyword.length<=t){
+			return result;
+		}
+		result=sortPlayer(result,keyword[t],sortType[t]);
+		if(keyword.length>1){
+		for(int i=0;i<result.size();i++){
+			ArrayList<PlayerVO> temp=new ArrayList<PlayerVO>();
+			temp.add(result.get(i));
+			
+			if(keyword[t].equals("rebounds")){
+				for(int j=i+1;j<result.size()&&result.get(i).getRebounds()==result.get(j).getRebounds();j++){
+					temp.add(result.get(j));		
+				}
+				if(temp.size()>1){
+					temp=mySort(temp,keyword,sortType,t+1);			
+					for(int k=0;k<temp.size();k++){
+						result.remove(i+k);
+						result.add(i+k,temp.get(k));
+					}
+				}
+			}else if(keyword[t].equals("assists")){
+				for(int j=i+1;j<result.size()&&result.get(i).getAssists()==result.get(j).getAssists();j++){
+					temp.add(result.get(j));		
+				}
+				if(temp.size()>1){
+					temp=mySort(temp,keyword,sortType,t+1);		
+					for(int k=0;k<temp.size();k++){
+						result.remove(i+k);
+						result.add(i+k,temp.get(k));
+					}
+				}
+			}else if(keyword[t].equals("minutes2")){
+				for(int j=i+1;j<result.size()&&result.get(i).getMinutes2()==result.get(j).getMinutes2();j++){
+					temp.add(result.get(j));		
+				}
+				if(temp.size()>1){
+					temp=mySort(temp,keyword,sortType,t+1);		
+					for(int k=0;k<temp.size();k++){
+						result.remove(i+k);
+						result.add(i+k,temp.get(k));
+					}
+				}				
+			}else if(keyword[t].equals("fieldGoalsPercentage")){
+				for(int j=i+1;j<result.size()&&result.get(i).getFieldGoalsPercentage()==result.get(j).getFieldGoalsPercentage();j++){
+					temp.add(result.get(j));		
+				}
+				if(temp.size()>1){
+					temp=mySort(temp,keyword,sortType,t+1);		
+					for(int k=0;k<temp.size();k++){
+						result.remove(i+k);
+						result.add(i+k,temp.get(k));
+					}
+				}
+			}else if(keyword[t].equals("threePointFieldGoalsPercentage")){
+				for(int j=i+1;j<result.size()&&result.get(i).getThreePointFieldGoalsPercentage()==result.get(j).getThreePointFieldGoalsPercentage();j++){
+					temp.add(result.get(j));		
+				}
+				if(temp.size()>1){
+					temp=mySort(temp,keyword,sortType,t+1);		
+					for(int k=0;k<temp.size();k++){
+						result.remove(i+k);
+						result.add(i+k,temp.get(k));
+					}
+				}
+			}else if(keyword[t].equals("freeThrowsPercentage")){
+				for(int j=i+1;j<result.size()&&result.get(i).getFreeThrowsPercentage()==result.get(j).getFreeThrowsPercentage();j++){
+					temp.add(result.get(j));		
+				}
+				if(temp.size()>1){
+					temp=mySort(temp,keyword,sortType,t+1);		
+					for(int k=0;k<temp.size();k++){
+						result.remove(i+k);
+						result.add(i+k,temp.get(k));
+					}
+				}
+			}else if(keyword[t].equals("steals")){
+				for(int j=i+1;j<result.size()&&result.get(i).getSteals()==result.get(j).getSteals();j++){
+					temp.add(result.get(j));		
+				}
+				if(temp.size()>1){
+					temp=mySort(temp,keyword,sortType,t+1);		
+					for(int k=0;k<temp.size();k++){
+						result.remove(i+k);
+						result.add(i+k,temp.get(k));
+					}
+				}
+			}else if(keyword[t].equals("blocks")){
+				for(int j=i+1;j<result.size()&&result.get(i).getBlocks()==result.get(j).getBlocks();j++){
+					temp.add(result.get(j));		
+				}
+				if(temp.size()>1){
+					temp=mySort(temp,keyword,sortType,t+1);		
+					for(int k=0;k<temp.size();k++){
+						result.remove(i+k);
+						result.add(i+k,temp.get(k));
+					}
+				}
+			}else if(keyword[t].equals("turnovers")){
+				for(int j=i+1;j<result.size()&&result.get(i).getTurnovers()==result.get(j).getTurnovers();j++){
+					temp.add(result.get(j));		
+				}
+				if(temp.size()>1){
+					temp=mySort(temp,keyword,sortType,t+1);		
+					for(int k=0;k<temp.size();k++){
+						result.remove(i+k);
+						result.add(i+k,temp.get(k));
+					}
+				}
+			}else if(keyword[t].equals("fouls")){
+				for(int j=i+1;j<result.size()&&result.get(i).getFouls()==result.get(j).getFouls();j++){
+					temp.add(result.get(j));		
+				}
+				if(temp.size()>1){
+					temp=mySort(temp,keyword,sortType,t+1);		
+					for(int k=0;k<temp.size();k++){
+						result.remove(i+k);
+						result.add(i+k,temp.get(k));
+					}
+				}
+			}else if(keyword[t].equals("points")){
+				for(int j=i+1;j<result.size()&&result.get(i).getPoints()==result.get(j).getPoints();j++){
+					temp.add(result.get(j));		
+				}
+				if(temp.size()>1){
+					temp=mySort(temp,keyword,sortType,t+1);		
+					for(int k=0;k<temp.size();k++){
+						result.remove(i+k);
+						result.add(i+k,temp.get(k));
+					}
+				}
+			}else if(keyword[t].equals("efficiency")){
+				for(int j=i+1;j<result.size()&&result.get(i).getEfficiency()==result.get(j).getEfficiency();j++){
+					temp.add(result.get(j));		
+				}
+				if(temp.size()>1){
+					temp=mySort(temp,keyword,sortType,t+1);		
+					for(int k=0;k<temp.size();k++){
+						result.remove(i+k);
+						result.add(i+k,temp.get(k));
+					}
+				}
+			}else if(keyword[t].equals("GmSc")){
+				for(int j=i+1;j<result.size()&&result.get(i).getGmSc()==result.get(j).getGmSc();j++){
+					temp.add(result.get(j));		
+				}
+				if(temp.size()>1){
+					temp=mySort(temp,keyword,sortType,t+1);		
+					for(int k=0;k<temp.size();k++){
+						result.remove(i+k);
+						result.add(i+k,temp.get(k));
+					}
+				}
+			}else if(keyword[t].equals("trueShootingPercentage")){
+				for(int j=i+1;j<result.size()&&result.get(i).getTrueShootingPercentage()==result.get(j).getTrueShootingPercentage();j++){
+					temp.add(result.get(j));		
+				}
+				if(temp.size()>1){
+					temp=mySort(temp,keyword,sortType,t+1);		
+					for(int k=0;k<temp.size();k++){
+						result.remove(i+k);
+						result.add(i+k,temp.get(k));
+					}
+				}
+			}else if(keyword[t].equals("shootingEfficiency")){
+				for(int j=i+1;j<result.size()&&result.get(i).getShootingEfficiency()==result.get(j).getShootingEfficiency();j++){
+					temp.add(result.get(j));		
+				}
+				if(temp.size()>1){
+					temp=mySort(temp,keyword,sortType,t+1);		
+					for(int k=0;k<temp.size();k++){
+						result.remove(i+k);
+						result.add(i+k,temp.get(k));
+					}
+				}
+			}else if(keyword[t].equals("reboundRating")){
+				for(int j=i+1;j<result.size()&&result.get(i).getReboundRating()==result.get(j).getReboundRating();j++){
+					temp.add(result.get(j));		
+				}
+				if(temp.size()>1){
+					temp=mySort(temp,keyword,sortType,t+1);		
+					for(int k=0;k<temp.size();k++){
+						result.remove(i+k);
+						result.add(i+k,temp.get(k));
+					}
+				}
+			}else if(keyword[t].equals("offensiveReboundRating")){
+				for(int j=i+1;j<result.size()&&result.get(i).getOffensiveReboundRating()==result.get(j).getOffensiveReboundRating();j++){
+					temp.add(result.get(j));		
+				}
+				if(temp.size()>1){
+					temp=mySort(temp,keyword,sortType,t+1);		
+					for(int k=0;k<temp.size();k++){
+						result.remove(i+k);
+						result.add(i+k,temp.get(k));
+					}
+				}
+			}else if(keyword[t].equals("defensiveReboundRating")){
+				for(int j=i+1;j<result.size()&&result.get(i).getDefensiveReboundRating()==result.get(j).getDefensiveReboundRating();j++){
+					temp.add(result.get(j));		
+				}
+				if(temp.size()>1){
+					temp=mySort(temp,keyword,sortType,t+1);		
+					for(int k=0;k<temp.size();k++){
+						result.remove(i+k);
+						result.add(i+k,temp.get(k));
+					}
+				}
+			}else if(keyword[t].equals("assisyRating")){
+				for(int j=i+1;j<result.size()&&result.get(i).getAssisyRating()==result.get(j).getAssisyRating();j++){
+					temp.add(result.get(j));		
+				}
+				if(temp.size()>1){
+					temp=mySort(temp,keyword,sortType,t+1);		
+					for(int k=0;k<temp.size();k++){
+						result.remove(i+k);
+						result.add(i+k,temp.get(k));
+					}
+				}
+			}else if(keyword[t].equals("stealRating")){
+				for(int j=i+1;j<result.size()&&result.get(i).getStealRating()==result.get(j).getStealRating();j++){
+					temp.add(result.get(j));		
+				}
+				if(temp.size()>1){
+					temp=mySort(temp,keyword,sortType,t+1);		
+					for(int k=0;k<temp.size();k++){
+						result.remove(i+k);
+						result.add(i+k,temp.get(k));
+					}
+				}
+			}else if(keyword[t].equals("blockRating")){
+				for(int j=i+1;j<result.size()&&result.get(i).getBlockRating()==result.get(j).getBlockRating();j++){
+					temp.add(result.get(j));		
+				}
+				if(temp.size()>1){
+					temp=mySort(temp,keyword,sortType,t+1);		
+					for(int k=0;k<temp.size();k++){
+						result.remove(i+k);
+						result.add(i+k,temp.get(k));
+					}
+				}
+			}else if(keyword[t].equals("turnoverRating")){
+				for(int j=i+1;j<result.size()&&result.get(i).getTurnoverRating()==result.get(j).getTurnoverRating();j++){
+					temp.add(result.get(j));		
+				}
+				if(temp.size()>1){
+					temp=mySort(temp,keyword,sortType,t+1);		
+					for(int k=0;k<temp.size();k++){
+						result.remove(i+k);
+						result.add(i+k,temp.get(k));
+					}
+				}
+			}else if(keyword[t].equals("utilizationRating")){
+				for(int j=i+1;j<result.size()&&result.get(i).getUtilizationRating()==result.get(j).getUtilizationRating();j++){
+					temp.add(result.get(j));		
+				}
+				if(temp.size()>1){
+					temp=mySort(temp,keyword,sortType,t+1);		
+					for(int k=0;k<temp.size();k++){
+						result.remove(i+k);
+						result.add(i+k,temp.get(k));
+					}
+				}
+			}else if(keyword[t].equals("doubleDouble")){
+				for(int j=i+1;j<result.size()&&result.get(i).getDoubleDouble()==result.get(j).getDoubleDouble();j++){
+					temp.add(result.get(j));		
+				}
+				if(temp.size()>1){
+					temp=mySort(temp,keyword,sortType,t+1);		
+					for(int k=0;k<temp.size();k++){
+						result.remove(i+k);
+						result.add(i+k,temp.get(k));
+					}
+				}
+			}
+			temp.clear();
+		}
+		}
+		return result;
+		
+		
+	}
+	@Override
+	public void getData(String dataSourse) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public ArrayList<TeamVO> getTopNTeams(int n, String keyword, SortType type) {
+		// TODO Auto-generated method stub
+		DataBLService d=new DataBL();
+		ArrayList<TeamVO> t=d.getAllTeamInfo();
+		t=sortTeam(t,keyword,type);
+		if(t.size()>5){
+			for(int i=t.size()-1;i>=n;i--){
+				t.remove(i);
+			}
+		}
+		return t;
 	}
 
 }

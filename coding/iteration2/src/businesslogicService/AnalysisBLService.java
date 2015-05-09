@@ -3,6 +3,7 @@ package businesslogicService;
 import java.util.ArrayList;
 
 import vo.MatchVO;
+import vo.PlayerAge;
 import vo.PlayerPartition;
 import vo.PlayerPosition;
 import vo.PlayerVO;
@@ -20,4 +21,7 @@ public interface AnalysisBLService {
 	public ArrayList<PlayerVO> getProgressivePlayer (String keyword);
 	public ArrayList<MatchVO> getTodayMatch ();
 	public void updateData();//更新数据
+	ArrayList<PlayerVO> getTopNPlayers(int n, PlayerPosition position, PlayerPartition partition, PlayerAge age, String[] keyword,SortType[] sorttype);
+	void getData(String dataSourse);
+	ArrayList<TeamVO> getTopNTeams(int n, String keyword, SortType type);
 }

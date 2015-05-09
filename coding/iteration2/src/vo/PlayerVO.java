@@ -67,7 +67,11 @@ public class PlayerVO {
 	private double increaseOfRebounds;//近五场篮板提升率
 	private double increaseOfAssists;//近五场助攻提升率
 	
+	private String league;//所属联盟
+	private double minutes2;//上场时间分钟数
+	
 	public PlayerVO(){
+		minutes2=0;
 		gamesPlayed=0;//参赛场数
 		gamesStarting=0;//先发场数
 		rebounds=0;//篮板数
@@ -124,7 +128,22 @@ public class PlayerVO {
 		setIncreaseOfRebounds(0);//近五场篮板提升率
 		setIncreaseOfAssists(0);//近五场助攻提升率
 	}
+	public double getMinutes2() {
+		return minutes2;
+	}
 
+	public void setMinutes2(double minutes2) {
+		this.minutes2 = minutes2;
+	}
+	
+	public String getLeague() {
+		return league;
+	}
+
+	public void setLeague(String league) {
+		this.league = league;
+	}
+	
 	public String getPlayerName() {
 		return playerName;
 	}
