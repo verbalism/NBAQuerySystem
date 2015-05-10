@@ -491,8 +491,10 @@ public class PlayerDataCalculate {
 	}
 	
 	public void savePlayerInfoVO(){
+		getFullPatch gfp=new getFullPatch();
+		String s=gfp.getFullPath();
 		try{
-			File path=new File("Data");
+			File path=new File(s+"//Data");
 			File dir=new File(path,"playerInfoVO.txt");
 			if(!dir.exists()) 
 				dir.createNewFile(); 
@@ -515,7 +517,7 @@ public class PlayerDataCalculate {
 				result.remove(i);
 		}*/
 		
-		File f = new File("E://SE3//NBAQuerySystem//coding//iteration2//Data//playerInfoVO.txt");
+		File f = new File(s+"//Data//playerInfoVO.txt");
 		FileWriter fw;
 		BufferedWriter bw;
 		try{		
