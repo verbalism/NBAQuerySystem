@@ -9,6 +9,15 @@ public class BasicTeamPO {
 	private String homeCourt;		//主场
 	private String createTime;		//创建时间
 
+	public BasicTeamPO(){
+		fullName="";		
+		abbreviation="";	
+		city="";			
+		zone="";			
+		subarea="";		
+		homeCourt="";		
+		createTime="";
+	}
 	public void setFullName(String n){
 		this.fullName = n;
 	}

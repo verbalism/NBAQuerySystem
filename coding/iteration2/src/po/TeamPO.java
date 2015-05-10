@@ -52,7 +52,42 @@ public class TeamPO {
 	private double oppPossessions;
 	*/
 	public TeamPO(){
+		teamName="";
+		gamesPlayed=0;
+		fieldGoalsMade=0;
+		fieldGoalsAttempted=0;
+		threePointFieldGoalsMade=0;
+		threePointFieldGoalsAttempted=0;
+		freeThrowsMade=0;
+		freeThrowsAttempted=0;
+		offensiveRebounds=0;
+		defensiveRebounds=0;
+		rebounds=0;
+		 assists=0;
+		steals=0;
+		blocks=0;
+		turnovers=0;
+		fouls=0;
+		points=0;
+		fieldGoalPercentage=0;
+		threePointFieldGoalPercentage=0;
+		freeThrowPercentage=0;
+		winPercentage=0;
+		possessions=0;
+		offensiveRating=0;
+		defensiveRating=0;
+		offensiveReboundPercentage=0;
+		defensiveReboundPercentage=0;
+		stealPercentage=0;
+		assistPercentage=0;
+
 		
+		fullName="";		
+		city="";			
+		zone="";			
+		subarea="";			
+		homeCourt="";		
+		createTime="";		
 	}
 	
 	

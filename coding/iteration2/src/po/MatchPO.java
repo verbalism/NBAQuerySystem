@@ -9,7 +9,12 @@ public class MatchPO {
 	private String score_1,score_2, score_3, score_4;	//各小节比分
 	private ArrayList<String> extraScores;
 	private MatchTeam team1, team2;
-	
+	public MatchPO(){
+		matchTime="";			
+		teams="";			
+		score="";				
+		score_1="";score_2=""; score_3="";score_4="";
+	}
 	public void setExtraScores(ArrayList<String> s){
 		this.extraScores = s;
 	}

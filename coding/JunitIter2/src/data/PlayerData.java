@@ -180,8 +180,8 @@ public class PlayerData implements PlayerDataService{
 				ArrayList<MatchPlayer> temp2=mp.get(i).getTeam2().getPlayers();
 				for(int j=0;j<temp1.size();j++){
 					TodayPlayerPO t=new TodayPlayerPO();
-					t.setTeamName(mp.get(j).getTeam1().getTeamName());
-					t.setOppositeTeamName(mp.get(j).getTeam2().getTeamName());
+					t.setTeamName(mp.get(i).getTeam1().getTeamName());
+					t.setOppositeTeamName(mp.get(i).getTeam2().getTeamName());
 					t.setPlayerName(temp1.get(j).getPlayerName());
 					t.setPosition(temp1.get(j).getPosition());
 					t.setMatchTime(temp1.get(j).getMatchTime());
@@ -204,8 +204,8 @@ public class PlayerData implements PlayerDataService{
 				}
 				for(int j=0;j<temp2.size();j++){
 					TodayPlayerPO t=new TodayPlayerPO();
-					t.setTeamName(mp.get(j).getTeam2().getTeamName());
-					t.setOppositeTeamName(mp.get(j).getTeam1().getTeamName());
+					t.setTeamName(mp.get(i).getTeam2().getTeamName());
+					t.setOppositeTeamName(mp.get(i).getTeam1().getTeamName());
 					t.setPlayerName(temp2.get(j).getPlayerName());
 					t.setPosition(temp2.get(j).getPosition());
 					t.setMatchTime(temp2.get(j).getMatchTime());

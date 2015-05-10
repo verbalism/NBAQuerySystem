@@ -609,10 +609,10 @@ public class PlayerDataCalculate {
 		return "Unknow";
 	}//Çò¶ÓÈ«³Æ
 	
-	public static void main(String []args ){
+	/*public static void main(String []args ){
 		PlayerDataCalculate pic=new PlayerDataCalculate();
 		pic.savePlayerInfoVO();
-	}
+	}*/
 		
 }
 
