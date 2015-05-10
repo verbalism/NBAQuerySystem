@@ -327,7 +327,7 @@ public class AnalysisBL implements AnalysisBLService {
 				result.add(pl.get(i));
 				pl.remove(i);
 			}
-		}else if(keyword.equals("allTimeOfTeam")){
+		}/*else if(keyword.equals("allTimeOfTeam")){
 			while(pl.size()>0){
 				int i=0;
 				for(int j=i+1;j<pl.size();j++){
@@ -507,7 +507,7 @@ public class AnalysisBL implements AnalysisBLService {
 				result.add(pl.get(i));
 				pl.remove(i);
 			}
-		}else if(keyword.equals("increaseOfPoints")){
+		}*/else if(keyword.equals("increaseOfPoints")){
 			while(pl.size()>0){
 				int i=0;
 				for(int j=i+1;j<pl.size();j++){
