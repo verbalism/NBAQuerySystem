@@ -52,42 +52,7 @@ public class TeamPO {
 	private double oppPossessions;
 	*/
 	public TeamPO(){
-		teamName="";//球队名称
-		gamesPlayed=0;//比赛场数
-		fieldGoalsMade=0;//投篮命中数
-		fieldGoalsAttempted=0;//投篮出手数
-		threePointFieldGoalsMade=0;//三分命中数
-		threePointFieldGoalsAttempted=0;//三分出手数
-		freeThrowsMade=0;//罚球命中数
-		freeThrowsAttempted=0;//罚球出手数
-		offensiveRebounds=0;//进攻篮板数
-		defensiveRebounds=0;//防守篮板数
-		rebounds=0;//篮板数
-		 assists=0;//助攻数
-		steals=0;//抢断数
-		blocks=0;//盖帽数
-		turnovers=0;//失误数
-		fouls=0;//犯规数
-		points=0;//得分数
-		fieldGoalPercentage=0;//投篮命中率
-		threePointFieldGoalPercentage=0;//三分命中率
-		freeThrowPercentage=0;//罚球命中率
-		winPercentage=0;//胜率
-		possessions=0;//进攻回合
-		offensiveRating=0;//进攻效率
-		defensiveRating=0;//防守效率
-		offensiveReboundPercentage=0;//进攻篮板效率
-		defensiveReboundPercentage=0;//防守篮板效率
-		stealPercentage=0;//抢断效率
-		assistPercentage=0;//助攻率
-
 		
-		fullName="";		//球队全名
-		city="";			//所在地
-		zone="";			//赛区
-		subarea="";			//分区
-		homeCourt="";		//主场
-		createTime="";		//创建时间
 	}
 	
 	

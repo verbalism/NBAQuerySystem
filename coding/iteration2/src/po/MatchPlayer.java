@@ -20,26 +20,6 @@ public class MatchPlayer {
 	private int foul;			//犯规数
 	private int score;			//个人得分
 	
-	public MatchPlayer(){
-		playerName="";
-		position="";
-		matchTime="0:0";		//上场时间
-		fieldGoal=0;		//投篮命中数
-		fieldGoalAttempts=0;		//投篮出手数
-		threepointShot=0;			//三分命中数
-		threepointAttempts=0;	//三分出手数
-		freeThrowGoal=0;			//罚球命中数
-		freeThrowAttempts=0;		//罚球出手数
-		offensiveRebound=0;		//进攻篮板数
-		defensiveRebound=0;		//防守篮板数
-		rebound=0;		//篮板数
-		assist=0;			//助攻数
-		st=0;				//抢断数
-		blockShot=0;		//盖帽数
-		error=0;			//失误数
-		foul=0;			//犯规数
-		score=0;			//个人得分
-	}
 	public void setPlayerName(String n){
 		this.playerName = n;
 	}

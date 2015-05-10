@@ -5,9 +5,7 @@ import java.util.ArrayList;
 public class MatchTeam {
 	private String teamName;
 	private ArrayList<MatchPlayer> players = new ArrayList<MatchPlayer>();
-	public MatchTeam(){
-		teamName="";
-	}
+
 	public void setTeamName(String n){
 		this.teamName = n;
 	}
