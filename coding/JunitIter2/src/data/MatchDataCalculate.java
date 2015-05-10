@@ -13,9 +13,9 @@ public class MatchDataCalculate {
 		
 		int shut=0;
 		String Dpath=bmd.getPath();
-		File f = new File(Dpath);
-		
+		File f = new File(Dpath+"\\matches");
 		String[] filelist = f.list();
+		
 		String []temp=filelist[0].split("_");
 		String []temp1=temp[1].split("-");
 		if(Integer.parseInt(temp1[0])>9){
@@ -33,7 +33,7 @@ public class MatchDataCalculate {
 				}
 			}
 		}
-
+		
 		if(shut!=0){
 			for(int j=shut;j<filelist.length;j++){
 				result.add(filelist[j]);
@@ -45,4 +45,5 @@ public class MatchDataCalculate {
 		
 		return result;
 	}
+	
 }

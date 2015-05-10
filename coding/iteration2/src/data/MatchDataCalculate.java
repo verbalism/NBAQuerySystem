@@ -13,7 +13,7 @@ public class MatchDataCalculate {
 		
 		int shut=0;
 		String Dpath=bmd.getPath();
-		File f = new File(Dpath);
+		File f = new File(Dpath+"\\matches");
 		String[] filelist = f.list();
 		
 		String []temp=filelist[0].split("_");

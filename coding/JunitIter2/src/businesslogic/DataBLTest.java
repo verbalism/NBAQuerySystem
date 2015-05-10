@@ -28,7 +28,7 @@ public class DataBLTest {
 	@Test
 	public void testGetSinglePlayerInfo() {
 		PlayerVO h=new PlayerVO();
-		h=a.getSinglePlayerInfo("Lebron James");
+		h=a.getSinglePlayerInfo("LeBron James");
 		assertNotNull(h);
 	}
 
@@ -42,14 +42,14 @@ public class DataBLTest {
 	@Test
 	public void testGetSingleMatchInfo() {
 		MatchVO h=new MatchVO();
-		h=a.getSingleMatchInfo("01-01", "MIA");
+		h=a.getSingleMatchInfo("10-30", "MIA");
 		assertNotNull(h);
 	}
 
 	@Test
 	public void testFindMatchByPlayer() {
 		 ArrayList<MatchVO> h=new ArrayList<MatchVO>();
-		 h=a.findMatchByPlayer("Lebron James") ;
+		 h=a.findMatchByPlayer("LeBron James") ;
 		 assertNotNull(h);
 	}
 

@@ -43,7 +43,7 @@ public class Update {
     public static void main(String[]args){
     	Update u=new Update();
     	try {
-			u.AutoUpdate("C://Data");
+			u.AutoUpdate("C:\\Users\\Administrator\\Desktop\\NBAQuerySystem\\coding\\iteration2\\Data");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

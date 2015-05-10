@@ -20,7 +20,7 @@ public class BasicPlayerData {
 }*/
 public ArrayList<BasicPlayerPO> getPlayerOriginal()  {
 	ArrayList<BasicPlayerPO> allPlayers = new ArrayList<BasicPlayerPO>();
-	String Dpath="Data\\players\\info";
+	String Dpath=new BasicMatchData().getPath()+"\\players\\info";
 	File f = new File(Dpath);
 	String[] filelist = f.list();
 	for(int i=0; i<filelist.length; i++){
@@ -54,7 +54,7 @@ public ArrayList<BasicPlayerPO> getPlayerOriginal()  {
 }
 
 public BasicPlayerPO getSinglePlayerOriginal(String playerName) {
-	File readfile = new File("Data\\players\\info\\"+playerName);
+	File readfile = new File(new BasicMatchData().getPath()+"\\players\\info\\"+playerName);
 	BasicPlayerPO player = new BasicPlayerPO();
 	try {
 		ArrayList<String> wtf = new ArrayList<String>();

@@ -13,7 +13,7 @@ import po.BasicTeamPO;
 public class BasicTeamData {
 public ArrayList<BasicTeamPO> getTeamOriginal() {
 		
-		File readfile = new File("Data\\teams\\teams");
+		File readfile = new File(new BasicMatchData().getPath()+"\\teams\\teams");
 		ArrayList<BasicTeamPO> allTeams = new ArrayList<BasicTeamPO>();
 		String tname="";
 		try {
@@ -56,7 +56,7 @@ public ArrayList<BasicTeamPO> getTeamOriginal() {
 	}
 
 	public BasicTeamPO getSingleTeamOriginal(String teamName) {
-		File readfile = new File("Data\\teams\\teams");
+		File readfile = new File(new BasicMatchData().getPath()+"\\teams\\teams");
 		int length = teamName.length();
 		BasicTeamPO team = new BasicTeamPO();
 		try {
