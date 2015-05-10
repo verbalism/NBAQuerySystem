@@ -54,23 +54,19 @@ public class MatchData implements MatchDataService{
 	public ArrayList<MatchPO> getTeamRecentMatchInfo(int number,String teamName){
 		BasicMatchData bmd=new BasicMatchData();
 		ArrayList<MatchPO> result=new ArrayList<MatchPO>();
-		ArrayList<String> allpath=new ArrayList<String>();
+		MatchDataCalculate mdc=new MatchDataCalculate();
+		ArrayList<String> allpath=mdc.getSortedFile();
+		String []temp;
+		String[]temp1;
 		
-		String Dpath="Data\\matches";
-		File f = new File(Dpath);
-		String[] filelist = f.list();
-		int length=filelist.length;
-		for(int i=length-1;i>=0;i--){
-			String []temp1=filelist[i].split("_");
-			String []temp2=temp1[2].split("-");
-			if(temp2[0].equals(teamName)||temp2[1].equals(teamName)){
-				result.add(bmd.getOneMatchOriginal(Dpath+"\\"+filelist[i]));
-				number--;
-			}
-			if(number==0){
-				break;
+		for(int i=allpath.size()-1;i>=0;i--){
+			temp=allpath.get(i).split("_");
+			temp1=temp[2].split("-");
+			if(temp1[0].equals(teamName)||temp1[1].equals(teamName)){
+				result.add(bmd.getOneMatchOriginal(allpath.get(i)));
 			}
 		}
+		
 		
 		return result;
 	}
@@ -80,22 +76,22 @@ public class MatchData implements MatchDataService{
 		MatchPO temp=new MatchPO();
 		BasicMatchData bmd =new BasicMatchData();
 		
-		String Dpath="Data\\matches";
-		File f = new File(Dpath);
-		String[] filelist = f.list();
-		int length=filelist.length;
-		for(int i=length-1;i>=0;i--){
-			temp=bmd.getOneMatchOriginal(Dpath+"\\"+filelist[i]);
+		MatchDataCalculate mdc=new MatchDataCalculate();
+		ArrayList<String> allpath=mdc.getSortedFile();
+		
+		for(int i=allpath.size()-1;i>=0;i--){
+			temp=bmd.getOneMatchOriginal(allpath.get(i));
 			for(int j=0;j<temp.getTeam1().getPlayers().size();j++){
 				if(temp.getTeam1().getPlayers().get(j).getPlayerName().equals(playerName)){
 					result.add(temp);
-					j=temp.getTeam1().getPlayers().size();
+					break;
 				}
 			}
-			for(int p=0;p<temp.getTeam2().getPlayers().size();p++){
-				if(temp.getTeam2().getPlayers().get(p).getPlayerName().equals(playerName)){
+			
+			for(int j1=0;j1<temp.getTeam1().getPlayers().size();j1++){
+				if(temp.getTeam2().getPlayers().get(j1).getPlayerName().equals(playerName)){
 					result.add(temp);
-					p=temp.getTeam2().getPlayers().size();
+					break;
 				}
 			}
 		}
