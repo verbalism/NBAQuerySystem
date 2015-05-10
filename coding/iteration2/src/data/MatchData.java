@@ -71,14 +71,14 @@ public class MatchData implements MatchDataService{
 			for(int j=0;j<temp.getTeam1().getPlayers().size();j++){
 				if(temp.getTeam1().getPlayers().get(j).getPlayerName().equals(playerName)){
 					result.add(temp);
-					break;
+					j=temp.getTeam1().getPlayers().size();
 				}
 			}
 			
-			for(int j1=0;j1<temp.getTeam1().getPlayers().size();j1++){
+			for(int j1=0;j1<temp.getTeam2().getPlayers().size();j1++){
 				if(temp.getTeam2().getPlayers().get(j1).getPlayerName().equals(playerName)){
 					result.add(temp);
-					break;
+					j1=temp.getTeam2().getPlayers().size();
 				}
 			}
 		}
@@ -113,6 +113,8 @@ public class MatchData implements MatchDataService{
 		return result;
 	}
 	
-	
+	public static void main(String[]args){
+		new MatchData().getPlayerRecentMatchInfo(5, "LeBron James");
+	}
 	
 }
