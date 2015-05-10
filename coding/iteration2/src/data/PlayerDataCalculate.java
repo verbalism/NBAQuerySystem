@@ -491,16 +491,14 @@ public class PlayerDataCalculate {
 	}
 	
 	public void savePlayerInfoVO(){
-		getFullPatch gfp=new getFullPatch();
-		String ss=gfp.getFullPath();
-		try{
-			File path=new File(ss+"//Data");
-			File dir=new File(path,"playerInfoVO.txt");
-			if(!dir.exists()) 
-				dir.createNewFile(); 
+		/*try{
+			String path = "C://playerInfoVO.txt";
+			File filename = new File(path);
+			if (!filename.exists())
+		            filename.createNewFile();
 		}catch(Exception e){
 			 System.out.print("创建失败");
-		}
+		}*/
 		 
 		ArrayList<PlayerPO> result=new ArrayList<PlayerPO>();
 		
@@ -517,7 +515,7 @@ public class PlayerDataCalculate {
 				result.remove(i);
 		}*/
 		
-		File f = new File(ss+"//Data//playerInfoVO.txt");
+		File f = new File("D://playerInfoVO.txt");
 		FileWriter fw;
 		BufferedWriter bw;
 		try{		
@@ -611,10 +609,18 @@ public class PlayerDataCalculate {
 		return "Unknow";
 	}//球队全称
 	
-	/*public static void main(String []args ){
+	public static void main(String []args ){
+		try{
+			File filename = new File("D://playerInfoVO.txt");
+			if (!filename.exists())
+		            filename.createNewFile();
+		}catch(Exception e){
+			 System.out.print("创建失败");
+		}
 		PlayerDataCalculate pic=new PlayerDataCalculate();
 		pic.savePlayerInfoVO();
-	}*/
+		
+	}
 		
 }
 
