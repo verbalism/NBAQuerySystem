@@ -492,9 +492,9 @@ public class PlayerDataCalculate {
 	
 	public void savePlayerInfoVO(){
 		getFullPatch gfp=new getFullPatch();
-		String s=gfp.getFullPath();
+		String ss=gfp.getFullPath();
 		try{
-			File path=new File(s+"//Data");
+			File path=new File(ss+"//Data");
 			File dir=new File(path,"playerInfoVO.txt");
 			if(!dir.exists()) 
 				dir.createNewFile(); 
@@ -517,7 +517,7 @@ public class PlayerDataCalculate {
 				result.remove(i);
 		}*/
 		
-		File f = new File(s+"//Data//playerInfoVO.txt");
+		File f = new File(ss+"//Data//playerInfoVO.txt");
 		FileWriter fw;
 		BufferedWriter bw;
 		try{		

@@ -34,7 +34,7 @@ public class TeamDataCalculate{
 	
 	public void writeTeamInfo(ArrayList<TeamPO> teaminfo){
 		//System.out.println("÷¥––¡ÀwriteTeamInfo");
-		File f = new File(new getFullPatch()+"//Data//teamInfoPO.txt");
+		File f = new File(new getFullPatch().getFullPath()+"//Data//teamInfoPO.txt");
 		FileWriter fw ;
 		BufferedWriter bw;
 		try {
@@ -67,7 +67,7 @@ public class TeamDataCalculate{
 	}
 	
 	public ArrayList<TeamPO> readTeamInfo(){
-		File f = new File(new getFullPatch()+"//Data//teamInfoPO.txt");
+		File f = new File(new getFullPatch().getFullPath()+"//Data//teamInfoPO.txt");
 		ArrayList<TeamPO> result=new ArrayList<TeamPO>();
 		try{
 			BufferedReader br=new BufferedReader(new FileReader(f));

@@ -16,7 +16,7 @@ public class Update {
     	TeamData td=new TeamData();
     	PlayerData pd=new PlayerData();
     	
-    	File f = new File(new getFullPatch()+"//Data//path.txt");
+    	File f = new File(new getFullPatch().getFullPath()+"//Data//path.txt");
 		FileWriter fw;
 		BufferedWriter bw;
 		try{		
@@ -27,7 +27,7 @@ public class Update {
         	e.printStackTrace();
         }
 		
-		f = new File(new getFullPatch()+"//Data//teamInfoPO.txt");
+		f = new File(new getFullPatch().getFullPath()+"//Data//teamInfoPO.txt");
 		try{		
 			fw = new FileWriter(f);
 			fw.write("");

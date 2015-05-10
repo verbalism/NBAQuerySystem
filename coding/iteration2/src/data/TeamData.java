@@ -19,7 +19,7 @@ public class TeamData implements TeamDataService{
 		TeamDataCalculate tic=new TeamDataCalculate();
 		TeamPO result=new TeamPO();
 
-		if(tic.judgeEmptyFile(new getFullPatch()+"//Data//teamInfoPO.txt")){
+		if(tic.judgeEmptyFile(new getFullPatch().getFullPath()+"//Data//teamInfoPO.txt")){
 		
 			BasicTeamData btd=new BasicTeamData();
 			BasicTeamPO tp=btd.getSingleTeamOriginal(teamName);
@@ -99,7 +99,7 @@ public class TeamData implements TeamDataService{
 		TeamData td=new TeamData();
 
 		
-		if(tic.judgeEmptyFile(new getFullPatch()+"//Data//teamInfoPO.txt")){
+		if(tic.judgeEmptyFile(new getFullPatch().getFullPath()+"//Data//teamInfoPO.txt")){
 			ArrayList<BasicTeamPO> tp=btd.getTeamOriginal();
 			for(int i=0;i<tp.size()&&i<30;i++){
 				if(tp.get(i).getFullName()!=null){
