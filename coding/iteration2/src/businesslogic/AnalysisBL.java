@@ -1467,8 +1467,8 @@ public class AnalysisBL implements AnalysisBLService {
 		return result;
 	}
 
-	@Override
-	public void updateData() {
+	
+	/*public void updateData() {
 		// TODO Auto-generated method stub
 		Update up = new Update();
 		try {
@@ -1478,7 +1478,7 @@ public class AnalysisBL implements AnalysisBLService {
 			e.printStackTrace();
 		}
 		
-	}
+	}*/
 
 	@Override
 	public ArrayList<PlayerVO> getTopNPlayers(int n, PlayerPosition position,
@@ -1877,7 +1877,13 @@ public class AnalysisBL implements AnalysisBLService {
 	@Override
 	public void getData(String dataSourse) {
 		// TODO Auto-generated method stub
-		
+		Update up = new Update();
+		try {
+			up.AutoUpdate(dataSourse);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Override

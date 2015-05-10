@@ -77,7 +77,7 @@ public class DataBL implements DataBLService {
 		result.setTurnoverRating(pp.getTurnoverRating());
 		result.setUtilizationRating(pp.getUtilizationRating());
 		result.setDoubleDouble(pp.getDoubleDouble());
-		result.setAllTimeOfTeam(pp.getAllTimeOfTeam());
+		/*result.setAllTimeOfTeam(pp.getAllTimeOfTeam());
 		result.setAllReboundsOfTeam(pp.getAllReboundsOfTeam());
 		result.setAllOffensiveReboundsOfTeam(pp.getAllOffensiveReboundsOfTeam());
 		result.setAlldefensiveReboundsOfTeam(pp.getAlldefensiveReboundsOfTeam());
@@ -94,7 +94,7 @@ public class DataBL implements DataBLService {
 		result.setAllFieldGoalsAttemptsOfOpposite(pp.getAllFieldGoalsAttemptsOfOpposite());
 		result.setAllFreeGoalsAttemptsOfOpposite(pp.getAllFreeGoalsAttemptsOfOpposite());
 		result.setAllMissedGoalsOfOpposite(pp.getAllMissedGoalsOfOpposite());
-		result.setAllturnoversOfOpposite(pp.getAllturnoversOfOpposite());
+		result.setAllturnoversOfOpposite(pp.getAllturnoversOfOpposite());*/
 		result.setIncreaseOfPoints(pp.getIncreaseOfPoints());
 		result.setIncreaseOfRebounds(pp.getIncreaseOfRebounds());
 		result.setIncreaseOfAssists(pp.getIncreaseOfAssists());
@@ -159,7 +159,7 @@ public class DataBL implements DataBLService {
 			temp.setTurnoverRating(pp.get(i).getTurnoverRating());
 			temp.setUtilizationRating(pp.get(i).getUtilizationRating());
 			temp.setDoubleDouble(pp.get(i).getDoubleDouble());
-			temp.setAllTimeOfTeam(pp.get(i).getAllTimeOfTeam());
+			/*temp.setAllTimeOfTeam(pp.get(i).getAllTimeOfTeam());
 			temp.setAllReboundsOfTeam(pp.get(i).getAllReboundsOfTeam());
 			temp.setAllOffensiveReboundsOfTeam(pp.get(i).getAllOffensiveReboundsOfTeam());
 			temp.setAlldefensiveReboundsOfTeam(pp.get(i).getAlldefensiveReboundsOfTeam());
@@ -176,7 +176,7 @@ public class DataBL implements DataBLService {
 			temp.setAllFieldGoalsAttemptsOfOpposite(pp.get(i).getAllFieldGoalsAttemptsOfOpposite());
 			temp.setAllFreeGoalsAttemptsOfOpposite(pp.get(i).getAllFreeGoalsAttemptsOfOpposite());
 			temp.setAllMissedGoalsOfOpposite(pp.get(i).getAllMissedGoalsOfOpposite());
-			temp.setAllturnoversOfOpposite(pp.get(i).getAllturnoversOfOpposite());
+			temp.setAllturnoversOfOpposite(pp.get(i).getAllturnoversOfOpposite());*/
 			temp.setIncreaseOfPoints(pp.get(i).getIncreaseOfPoints());
 			temp.setIncreaseOfRebounds(pp.get(i).getIncreaseOfRebounds());
 			temp.setIncreaseOfAssists(pp.get(i).getIncreaseOfAssists());

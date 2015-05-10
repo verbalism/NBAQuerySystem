@@ -20,7 +20,7 @@ public interface AnalysisBLService {
 	public ArrayList<TeamVO> getSeasonHotSpotTeam (String keyword);
 	public ArrayList<PlayerVO> getProgressivePlayer (String keyword);
 	public ArrayList<MatchVO> getTodayMatch ();
-	public void updateData();//更新数据
+	//public void updateData();//更新数据
 	ArrayList<PlayerVO> getTopNPlayers(int n, PlayerPosition position, PlayerPartition partition, PlayerAge age, String[] keyword,SortType[] sorttype);
 	void getData(String dataSourse);
 	ArrayList<TeamVO> getTopNTeams(int n, String keyword, SortType type);
