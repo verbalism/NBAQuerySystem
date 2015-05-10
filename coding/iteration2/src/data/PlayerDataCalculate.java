@@ -609,7 +609,7 @@ public class PlayerDataCalculate {
 		return "Unknow";
 	}//Çò¶ÓÈ«³Æ
 	
-	public static void main(String []args ){
+	/*public static void main(String []args ){
 		try{
 			File filename = new File("D://playerInfoVO.txt");
 			if (!filename.exists())
@@ -620,7 +620,7 @@ public class PlayerDataCalculate {
 		PlayerDataCalculate pic=new PlayerDataCalculate();
 		pic.savePlayerInfoVO();
 		
-	}
+	}*/
 		
 }
 
