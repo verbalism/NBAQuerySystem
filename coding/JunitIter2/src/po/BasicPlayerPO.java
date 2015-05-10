@@ -11,6 +11,17 @@ public class BasicPlayerPO {
 	private String exp;			//球龄
 	private String school;		//毕业学校
 	
+	public BasicPlayerPO(){
+		name="";		//球员姓名
+		number="";		//球衣号码
+		position="";	//球队位置
+		height="";		//身高
+		weight="";		//体重
+		birth="";		//生日
+		age="";			//年龄
+		exp="";			//球龄
+		school="";
+	}
 	public void setName(String n){
 		this.name=n;
 	}

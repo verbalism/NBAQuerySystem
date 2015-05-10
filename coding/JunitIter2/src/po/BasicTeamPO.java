@@ -9,6 +9,16 @@ public class BasicTeamPO {
 	private String homeCourt;		//主场
 	private String createTime;		//创建时间
 
+	public BasicTeamPO(){
+		fullName="";		//球队全名
+		abbreviation="";	//缩写
+		city="";			//所在地
+		zone="";			//赛区
+		subarea="";			//分区
+		homeCourt="";		//主场
+		createTime="";
+	}
+	
 	public void setFullName(String n){
 		this.fullName = n;
 	}
