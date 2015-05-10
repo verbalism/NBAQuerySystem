@@ -21,7 +21,7 @@ public class MatchData implements MatchDataService{
 			String [] temp1=filelist[i].split("_");
 			String [] temp2=temp1[2].split("-");
 			if(temp1[1].equals(date)&&(teamName.equals(temp2[0])||teamName.equals(temp2[1]))){
-				result=bmd.getOneMatchOriginal(Dpath+"\\"+filelist[i]);
+				result=bmd.getOneMatchOriginal(filelist[i]);
 				break;
 			}
 		}
@@ -105,7 +105,7 @@ public class MatchData implements MatchDataService{
 			String [] temp1=filelist[i].split("_");
 			String [] temp2=temp1[2].split("-");
 			if(temp1[1].equals(date)){
-				result.add(bmd.getOneMatchOriginal(Dpath+"\\"+filelist[i]));
+				result.add(bmd.getOneMatchOriginal(filelist[i]));
 				break;
 			}
 		}
