@@ -206,7 +206,7 @@ public class BasicMatchData {
 	}
 	
 	public String getPath(){
-		File f = new File(new getFullPatch().getFullPath()+"//Data//path.txt");
+		File f = new File("D://path.txt");
 		String result="";
 		try{
 			BufferedReader br=new BufferedReader(new FileReader(f));

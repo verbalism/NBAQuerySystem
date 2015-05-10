@@ -3,6 +3,7 @@ package data;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import po.MatchPO;
@@ -16,18 +17,23 @@ public class Update {
     	TeamData td=new TeamData();
     	PlayerData pd=new PlayerData();
     	
-    	File f = new File(new getFullPatch().getFullPath()+"//Data//path.txt");
+    	File filename=new File("D://path.txt");
+    	if (!filename.exists()) {
+    		filename.createNewFile();
+    	}
+    	filename=new File("D://playerInfoVO.txt");
+    	if (!filename.exists()) {
+    		filename.createNewFile();
+    	}
+    	filename=new File("D://teamInfoVO.txt");
+    	if (!filename.exists()) {
+    		filename.createNewFile();
+    	}
+    	
+
 		FileWriter fw;
-		BufferedWriter bw;
-		try{		
-			fw = new FileWriter(f);
-			fw.write(path);
-			fw.close();
-		}catch(Exception e) {
-        	e.printStackTrace();
-        }
 		
-		f = new File(new getFullPatch().getFullPath()+"//Data//teamInfoPO.txt");
+		File f = new File("D://teamInfoPO.txt");
 		try{		
 			fw = new FileWriter(f);
 			fw.write("");
@@ -40,16 +46,5 @@ public class Update {
 		pd.updateBasicPlayerInfo();
     }
     
-    /*public static void main(String[]args){
-    	Update u=new Update();
-    	try {
-			u.AutoUpdate("C:\\Users\\Administrator\\Desktop\\NBAQuerySystem\\coding\\iteration2\\Data");
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-    	ArrayList<MatchPO> result=new MatchData().getAllMatchInfo();
-    	System.out.println(result.size());
-    	System.out.println(result.get(0).getMatchTime());
-    }*/
+   
 }  
