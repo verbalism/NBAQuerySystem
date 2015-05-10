@@ -16,7 +16,7 @@ public class Update {
     	TeamData td=new TeamData();
     	PlayerData pd=new PlayerData();
     	
-    	File f = new File("Data//path.txt");
+    	File f = new File(new getFullPatch()+"//Data//path.txt");
 		FileWriter fw;
 		BufferedWriter bw;
 		try{		
@@ -27,7 +27,7 @@ public class Update {
         	e.printStackTrace();
         }
 		
-		f = new File("Data//teamInfoPO.txt");
+		f = new File(new getFullPatch()+"//Data//teamInfoPO.txt");
 		try{		
 			fw = new FileWriter(f);
 			fw.write("");
@@ -40,7 +40,7 @@ public class Update {
 		pd.updateBasicPlayerInfo();
     }
     
-    public static void main(String[]args){
+    /*public static void main(String[]args){
     	Update u=new Update();
     	try {
 			u.AutoUpdate("C:\\Users\\Administrator\\Desktop\\NBAQuerySystem\\coding\\iteration2\\Data");
@@ -51,5 +51,5 @@ public class Update {
     	ArrayList<MatchPO> result=new MatchData().getAllMatchInfo();
     	System.out.println(result.size());
     	System.out.println(result.get(0).getMatchTime());
-    }
+    }*/
 }  

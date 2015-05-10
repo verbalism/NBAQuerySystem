@@ -113,8 +113,5 @@ public class MatchData implements MatchDataService{
 		return result;
 	}
 	
-	public static void main(String[]args){
-		new MatchData().getPlayerRecentMatchInfo(5, "LeBron James");
-	}
 	
 }

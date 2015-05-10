@@ -206,7 +206,7 @@ public class BasicMatchData {
 	}
 	
 	public String getPath(){
-		File f = new File("E://SE3//NBAQuerySystem//coding//iteration2//Data//path.txt");
+		File f = new File(new getFullPatch()+"//Data//path.txt");
 		String result="";
 		try{
 			BufferedReader br=new BufferedReader(new FileReader(f));
