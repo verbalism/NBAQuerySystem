@@ -69,10 +69,10 @@ public BasicPlayerPO getSinglePlayerOriginal(String playerName) {
 		player.setPosition(wtf.get(5).split("©¦")[1].split("¨U")[0].trim());
 		player.setHeight(wtf.get(7).split("©¦")[1].split("¨U")[0].trim());
 		player.setWeight(wtf.get(9).split("©¦")[1].split("¨U")[0].trim());
-		player.setBirth(wtf.get(11).split("©¦")[1].split("¨U")[0]);
+		player.setBirth(wtf.get(11).split("©¦")[1].split("¨U")[0].trim());
 		player.setAge(wtf.get(13).split("©¦")[1].split("¨U")[0].trim());
 		player.setExp(wtf.get(15).split("©¦")[1].split("¨U")[0].trim());
-		player.setSchool(wtf.get(17).split("©¦")[1].split("¨U")[0]);
+		player.setSchool(wtf.get(17).split("©¦")[1].split("¨U")[0].trim());
 	} catch (FileNotFoundException e) {
 		return null;//Î´ÕÒµ½ÎÄ¼þ
 	} catch (IOException e) {
