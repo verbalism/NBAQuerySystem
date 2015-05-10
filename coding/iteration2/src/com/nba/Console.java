@@ -28,13 +28,23 @@ public class Console {
 		CmdlineParser cp;
 		AnalysisBLService abl = new AnalysisBL();
 		int j=0;
-		cp = new CmdlineParser(new Object[] {config, player, team});
+		if(args[0].equals("-player")){
+			cp = new CmdlineParser(new Object[] { player});
+		}
+		else if(args[0].equals("-team")){
+			cp = new CmdlineParser(new Object[] { team});
+		}
+		else
+			cp = new CmdlineParser(new Object[] {config});
 		while(j<args.length){
 			if(args[j].equals("--datasourse")){
 				cp.parse(args[j],args[j+1]);
 				j++;
 			}
-			if(args[j].equals("-n")){
+			else if(args[j].equals("-player")||args[j].equals("-team")){
+				
+			}
+			else if(args[j].equals("-n")){
 				cp.parse(new String[]{args[j],args[j+1]});
 				j++;
 			}
@@ -43,6 +53,7 @@ public class Console {
 				j++;
 			}
 			else{
+				
 				cp.parse(args[j]);
 			}
 			j++;
@@ -74,7 +85,7 @@ public class Console {
 						if(player.superField.equals("assist"))
 							king.setValue(players.get(k).getAssists());
 
-						out.print(king);	
+						out.print(king.toString());	
 					}		
 				}
 				if(player.dailyKing){
@@ -92,7 +103,7 @@ public class Console {
 							king.setValue(tdplayers.get(k).getRebound());
 						if(player.superField.equals("assist"))
 							king.setValue(tdplayers.get(k).getAssist());
-						out.print(king);
+						out.print(king.toString());
 					}
 				}
 			}
@@ -117,7 +128,7 @@ public class Console {
 						hotPlayer.setValue(players.get(k).getIncreaseOfRebounds());
 					if(keyword=="assists")
 						hotPlayer.setValue(players.get(k).getIncreaseOfAssists());
-					out.print(hotPlayer);
+					out.print(hotPlayer.toString());
 				}
 			}
 			/**筛选全部球员*/
@@ -158,7 +169,7 @@ public class Console {
 						highPlayer.setStealEfficient(players.get(k).getStealRating());
 						highPlayer.setTeamName(players.get(k).getTeamName());
 						
-						out.print(highPlayer);						
+						out.print(highPlayer.toString());						
 					}
 				}
 				else{
@@ -185,7 +196,7 @@ public class Console {
 							normal.setStart(players.get(k).getGamesStarting());
 							normal.setSteal(players.get(k).getSteals());
 							
-							out.print(normal);
+							out.print(normal.toString());
 						}
 					}
 					else{
@@ -211,7 +222,7 @@ public class Console {
 							normal.setStart(players.get(k).getGamesStarting()/players.get(k).getGamesPlayed());
 							normal.setSteal(players.get(k).getSteals()/players.get(k).getGamesPlayed());
 						
-							out.print(normal);
+							out.print(normal.toString());
 						}
 					}
 				}
@@ -276,7 +287,7 @@ public class Console {
 					if(team.superField.equals("offendRebound"))
 						hotTeam.setValue(teams.get(k).getOffensiveRebounds());
 					
-					out.print(hotTeam);
+					out.print(hotTeam.toString());
 				}
 			}
 			/**筛选所有球队并输出*/
@@ -291,7 +302,7 @@ public class Console {
 					field = new Object[][]{{"points",SortType.Descending}};
 				
 				teams = abl.getTopNTeams(team.n, (String) field[0][0],(SortType) field[0][1]);
-	
+				
 				if(team.highData){
 					for(int k=0;k<teams.size();k++){
 						TeamHighInfo highTeam = new TeamHighInfo();
@@ -308,7 +319,7 @@ public class Console {
 						else
 							highTeam.setOffendRound(teams.get(k).getPossessions()/teams.get(k).getGamesPlayed());
 						
-						out.print(highTeam);
+						out.print(highTeam.toString());
 					}
 				}
 				else{
@@ -330,7 +341,7 @@ public class Console {
 							normalTeam.setRebound(teams.get(k).getRebounds());
 							normalTeam.setSteal(teams.get(k).getSteals());
 							
-							out.println(normalTeam);
+							out.print(normalTeam.toString());
 						}
 					}
 					else{
@@ -351,7 +362,7 @@ public class Console {
 							normalTeam.setRebound(teams.get(k).getRebounds()/teams.get(k).getGamesPlayed());
 							normalTeam.setSteal(teams.get(k).getSteals()/teams.get(k).getGamesPlayed());
 							
-							out.println(normalTeam);
+							out.print(normalTeam.toString());
 						}
 					}
 				}
@@ -365,12 +376,13 @@ public class Console {
 class Config {
 	@CmdOption(names = { "--datasourse"}, args = {"sourse"}, description = "set data")
 	public void setData(String sourse){
-		AnalysisBLService abl = new AnalysisBL();
-		abl.getData(sourse);
+		//AnalysisBLService abl = new AnalysisBL();
+		//abl.getData(sourse);
+		System.out.println(sourse);
 	}
 }
 
-@CmdCommand(names = { "-player" }, description = "player mode")
+//@CmdCommand(names = { "-player" }, description = "player mode")
 class Player {
 	int n = 50;
 	boolean avgValue = true;
@@ -558,7 +570,7 @@ class Player {
 	}
 }
 
-@CmdCommand(names = { "-team" }, description = "team mode")
+//@CmdCommand(names = { "-team" }, description = "team mode")
 class Team{
 	int n = 30;
 	boolean avgValue = true;
@@ -579,6 +591,7 @@ class Team{
 	@CmdOption(names = {"-all"},description = "show all teams", conflictsWith = {"-hot"})
 	public void setAll(){
 		this.allTeams = true;
+		
 	}
 	@CmdOption(names = {"-hot"}, args = {"field"}, description = "show hot teams", conflictsWith = {"-all","-avg","-total","-sort"})
 	public void setHot(String field){
