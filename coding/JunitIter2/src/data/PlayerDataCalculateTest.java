@@ -379,6 +379,7 @@ public class PlayerDataCalculateTest {
 		st.add("PHX");
 		st.add("POR");
 		st.add("SAC");
+		st.add("SAS");
 		st.add("TOR");
 		st.add("UTA");
 		st.add("WAS");
