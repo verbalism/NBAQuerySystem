@@ -83,7 +83,7 @@ public class BasicMatchDataTest {
 	public void testGetTeamInfo() {
 		ArrayList<String> wtf=new ArrayList<String>();
 		String path=bmd.getPath();
-		String Dpath=path;
+		String Dpath=path+"\\matches";
 		File f = new File(Dpath);
 		String[] filelist = f.list();
 		int index=3;

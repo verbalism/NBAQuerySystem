@@ -14,7 +14,7 @@ public class MatchData implements MatchDataService{
 	public MatchPO getSingleMatchInfo(String teamName,String date){
 		MatchPO result=new MatchPO();
 		BasicMatchData bmd=new BasicMatchData();
-		String Dpath=bmd.getPath();
+		String Dpath=bmd.getPath()+"//matches";
 		File f = new File(Dpath);
 		String[] filelist = f.list();
 		for(int i=0;i<filelist.length;i++){
@@ -98,7 +98,7 @@ public class MatchData implements MatchDataService{
 	public ArrayList<MatchPO> getTodayMatchInfo(String date){
 		ArrayList<MatchPO> result=new ArrayList<MatchPO>();
 		BasicMatchData bmd=new BasicMatchData();
-		String Dpath=bmd.getPath();
+		String Dpath=bmd.getPath()+"//matches";
 		File f = new File(Dpath);
 		String[] filelist = f.list();
 		for(int i=0;i<filelist.length;i++){
