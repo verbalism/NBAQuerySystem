@@ -111,8 +111,9 @@ public class PlayerData implements PlayerDataService{
 	
 	public ArrayList<PlayerPO> getAllPlayerInfo(){
 		ArrayList<PlayerPO> result=new ArrayList<PlayerPO>();
-		
-		File file = new File("E://SE3//NBAQuerySystem//coding//iteration2//Data//playerInfoVO.txt");
+		getFullPatch gfp=new getFullPatch();
+		String ss=gfp.getFullPath();
+		File file = new File(ss+"//Data//playerInfoVO.txt");
 		try{
 			BufferedReader br = new BufferedReader(new FileReader(file));
 			String s = null;
