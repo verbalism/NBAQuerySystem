@@ -971,7 +971,7 @@ public class AnalysisBL implements AnalysisBLService {
 			}
 		}
 		else if(keyword.equals("oppOffensiveRebounds")){
-			while(teamlist.size()>0){
+			while(teamlist.size()>0){ 
 				int max=0;
 				for(int i=0;i<teamlist.size();i++){
 					if(teamlist.get(i).getOppOffensiveRebounds()>teamlist.get(max).getOppOffensiveRebounds()){
@@ -1165,7 +1165,7 @@ public class AnalysisBL implements AnalysisBLService {
 			
 		return result;
 	}
-
+	
 	public ArrayList<TodayPlayerVO> getTodayHotSpotPlayer(String keyword) {
 		
 		PlayerDataService pd=new PlayerData();

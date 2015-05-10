@@ -22,7 +22,7 @@ import businesslogicService.DataBLService;
 public class DataBL implements DataBLService {	
 	public PlayerVO getSinglePlayerInfo(String playerName){
 		PlayerDataService pd=new PlayerData();
-		PlayerVO result=new PlayerVO();
+		PlayerVO result=new PlayerVO(); 
 		PlayerPO pp=pd.getSinglePlayerInfo(playerName);
 		String t=pp.getTeamName();
 		if(t.equals("CHI")||t.equals("CLE")||t.equals("DET")||t.equals("IND")||t.equals("MIL")||
