@@ -17,7 +17,7 @@ public class TeamData implements TeamDataService{
 		TeamDataCalculate tic=new TeamDataCalculate();
 		TeamPO result=new TeamPO();
 
-		if(tic.judgeEmptyFile("Data//teamInfoPO.txt")){
+		if(tic.judgeEmptyFile("E://SE3//NBAQuerySystem//coding//iteration2//Data//teamInfoPO.txt")){
 		
 			BasicTeamData btd=new BasicTeamData();
 			BasicTeamPO tp=btd.getSingleTeamOriginal(teamName);
@@ -97,7 +97,7 @@ public class TeamData implements TeamDataService{
 		TeamData td=new TeamData();
 
 		
-		if(tic.judgeEmptyFile("Data//teamInfoPO.txt")){
+		if(tic.judgeEmptyFile("E://SE3//NBAQuerySystem//coding//iteration2//Data//teamInfoPO.txt")){
 			ArrayList<BasicTeamPO> tp=btd.getTeamOriginal();
 			for(int i=0;i<tp.size()&&i<30;i++){
 				if(tp.get(i).getFullName()!=null){
@@ -107,11 +107,11 @@ public class TeamData implements TeamDataService{
 				}
 			}
 			tic.writeTeamInfo(original);
-			System.out.println("未执行readTeam");
+			//System.out.println("未执行readTeam");
 		}
 		else{
 			original=tic.readTeamInfo();
-			System.out.println("执行了readTeam");
+			//System.out.println("执行了readTeam");
 		}
 		
 		

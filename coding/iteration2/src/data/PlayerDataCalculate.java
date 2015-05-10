@@ -515,7 +515,7 @@ public class PlayerDataCalculate {
 				result.remove(i);
 		}*/
 		
-		File f = new File("Data//playerInfoVO.txt");
+		File f = new File("E://SE3//NBAQuerySystem//coding//iteration2//Data//playerInfoVO.txt");
 		FileWriter fw;
 		BufferedWriter bw;
 		try{		

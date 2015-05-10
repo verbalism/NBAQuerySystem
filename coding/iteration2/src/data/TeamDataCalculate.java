@@ -33,8 +33,8 @@ public class TeamDataCalculate{
 	}//判断文件是否为空，为空返回true
 	
 	public void writeTeamInfo(ArrayList<TeamPO> teaminfo){
-		System.out.println("执行了writeTeamInfo");
-		File f = new File("Data//teamInfoPO.txt");
+		//System.out.println("执行了writeTeamInfo");
+		File f = new File("E://SE3//NBAQuerySystem//coding//iteration2//Data//teamInfoPO.txt");
 		FileWriter fw ;
 		BufferedWriter bw;
 		try {
@@ -67,7 +67,7 @@ public class TeamDataCalculate{
 	}
 	
 	public ArrayList<TeamPO> readTeamInfo(){
-		File f = new File("Data//teamInfoPO.txt");
+		File f = new File("E://SE3//NBAQuerySystem//coding//iteration2//Data//teamInfoPO.txt");
 		ArrayList<TeamPO> result=new ArrayList<TeamPO>();
 		try{
 			BufferedReader br=new BufferedReader(new FileReader(f));
