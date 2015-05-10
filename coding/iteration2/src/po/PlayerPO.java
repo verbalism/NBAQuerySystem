@@ -45,24 +45,24 @@ public class PlayerPO {
 	private double turnoverRating;//失误率
 	private double utilizationRating;//使用率
 	private double doubleDouble; //两双
-	private String allTimeOfTeam;//球队所有球员上场时间
-	private double allReboundsOfTeam;//球队总篮板
-	private double allOffensiveReboundsOfTeam;//球队进攻篮板
-	private double alldefensiveReboundsOfTeam;//球队防守篮板
-	private double allReboundsOfOpposite;//对手总篮板
-	private double allOffensiveReboundsOfOpposite;//对手进攻篮板
-	private double alldefensiveReboundsOfOpposite;//对手防守篮板
-	private double allFieldGoalsMade;//球队总进球数
-	private double allDefenseOfOpposite;//对手进攻次数
-	private double twoPointFieldGoalsAttemptsOfOpposite;//对手两分球出手次数
-	private double twoPointFieldGoalsAttempts;//球员两分球出手次数
-	private double allFieldGoalsAttemptsOfTeam;//球队所有球员出手次数
-	private double allFreeGoalsAttemptsOfTeam;//球队所有球员罚球次数
-	private double allturnoversOfTeam;//球队所有球员失误次数
-	private double allFieldGoalsAttemptsOfOpposite;//对手投篮数
-	private double allFreeGoalsAttemptsOfOpposite;//对手罚球数
-	private double allMissedGoalsOfOpposite;//对手投失球数
-	private double allturnoversOfOpposite;//对手失误次数
+	//private String allTimeOfTeam;//球队所有球员上场时间
+	//private double allReboundsOfTeam;//球队总篮板
+	//private double allOffensiveReboundsOfTeam;//球队进攻篮板
+	//private double alldefensiveReboundsOfTeam;//球队防守篮板
+	//private double allReboundsOfOpposite;//对手总篮板
+	//private double allOffensiveReboundsOfOpposite;//对手进攻篮板
+	//private double alldefensiveReboundsOfOpposite;//对手防守篮板
+	//private double allFieldGoalsMade;//球队总进球数
+	//private double allDefenseOfOpposite;//对手进攻次数
+	//private double twoPointFieldGoalsAttemptsOfOpposite;//对手两分球出手次数
+	//private double twoPointFieldGoalsAttempts;//球员两分球出手次数
+	//private double allFieldGoalsAttemptsOfTeam;//球队所有球员出手次数
+	//private double allFreeGoalsAttemptsOfTeam;//球队所有球员罚球次数
+	//private double allturnoversOfTeam;//球队所有球员失误次数
+	//private double allFieldGoalsAttemptsOfOpposite;//对手投篮数
+	//private double allFreeGoalsAttemptsOfOpposite;//对手罚球数
+	//private double allMissedGoalsOfOpposite;//对手投失球数
+	//private double allturnoversOfOpposite;//对手失误次数
 	private double increaseOfPoints;//近五场得分提升率
 	private double increaseOfRebounds;//近五场篮板提升率
 	private double increaseOfAssists;//近五场助攻提升率
@@ -102,25 +102,25 @@ public class PlayerPO {
 		turnoverRating=0;//失误率
 		utilizationRating=0;//使用率
 		doubleDouble=0;//两双
-		allTimeOfTeam="0:0";//球队所有球员上场时间
-		allReboundsOfTeam=0;//球队总篮板
-		allOffensiveReboundsOfTeam=0;//球队进攻篮板
-		alldefensiveReboundsOfTeam=0;//球队防守篮板
-		allReboundsOfOpposite=0;//对手总篮板
-		allOffensiveReboundsOfOpposite=0;//对手进攻篮板
-		alldefensiveReboundsOfOpposite=0;//对手防守篮板
-		allFieldGoalsMade=0;//球队总进球数
-		allDefenseOfOpposite=0;//对手进攻次数
-		twoPointFieldGoalsAttemptsOfOpposite=0;//对手两分球出手次数
-		twoPointFieldGoalsAttempts=0;//球员两分球出手次数
-		allFieldGoalsAttemptsOfTeam=0;//球队所有球员出手次数
-		allFreeGoalsAttemptsOfTeam=0;//球队所有球员罚球次数
-		allturnoversOfTeam=0;//球队所有球员失误次数
-		setAllFieldGoalsAttemptsOfOpposite(0);//对手投篮数
-		setAllFreeGoalsAttemptsOfOpposite(0);//对手罚球数
-		setAllMissedGoalsOfOpposite(0);//对手投失球数
-		setAllturnoversOfOpposite(0);//对手失误数
-		setIncreaseOfPoints(0);//近五场得分提升率
+		//allTimeOfTeam="0:0";//球队所有球员上场时间
+		//allReboundsOfTeam=0;//球队总篮板
+		//allOffensiveReboundsOfTeam=0;//球队进攻篮板
+		//alldefensiveReboundsOfTeam=0;//球队防守篮板
+		//allReboundsOfOpposite=0;//对手总篮板
+		//allOffensiveReboundsOfOpposite=0;//对手进攻篮板
+		//alldefensiveReboundsOfOpposite=0;//对手防守篮板
+		//allFieldGoalsMade=0;//球队总进球数
+		//allDefenseOfOpposite=0;//对手进攻次数
+		//twoPointFieldGoalsAttemptsOfOpposite=0;//对手两分球出手次数
+		//twoPointFieldGoalsAttempts=0;//球员两分球出手次数
+		//allFieldGoalsAttemptsOfTeam=0;//球队所有球员出手次数
+		//allFreeGoalsAttemptsOfTeam=0;//球队所有球员罚球次数
+		//allturnoversOfTeam=0;//球队所有球员失误次数
+		//setAllFieldGoalsAttemptsOfOpposite(0);//对手投篮数
+		//setAllFreeGoalsAttemptsOfOpposite(0);//对手罚球数
+		//setAllMissedGoalsOfOpposite(0);//对手投失球数
+		//setAllturnoversOfOpposite(0);//对手失误数
+		//setIncreaseOfPoints(0);//近五场得分提升率
 		setIncreaseOfRebounds(0);//近五场篮板提升率
 		setIncreaseOfAssists(0);//近五场助攻提升率
 	}
@@ -477,7 +477,7 @@ public class PlayerPO {
 		this.freeThrowsMade = freeThrowsMade;
 	}
 
-	public String getAllTimeOfTeam() {
+	/*public String getAllTimeOfTeam() {
 		return allTimeOfTeam;
 	}
 
@@ -624,7 +624,7 @@ public class PlayerPO {
 
 	public void setAllturnoversOfOpposite(double allturnoversOfOpposite) {
 		this.allturnoversOfOpposite = allturnoversOfOpposite;
-	}
+	}*/
 
 	public double getIncreaseOfPoints() {
 		return increaseOfPoints;
