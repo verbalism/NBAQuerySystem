@@ -32,8 +32,17 @@ public class Update {
     	
 
 		FileWriter fw;
+		File f = new File("D://path.txt");
+		BufferedWriter bw;
+		try{		
+			fw = new FileWriter(f);
+			fw.write(path);
+			fw.close();
+		}catch(Exception e) {
+        	e.printStackTrace();
+        }
 		
-		File f = new File("D://teamInfoPO.txt");
+		f = new File("D://teamInfoPO.txt");
 		try{		
 			fw = new FileWriter(f);
 			fw.write("");
