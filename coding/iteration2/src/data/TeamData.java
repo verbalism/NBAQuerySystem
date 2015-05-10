@@ -1,12 +1,8 @@
 package data;
 
-import java.io.File;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.Statement;
+
 import java.util.ArrayList;
-import java.util.Timer;
+
 
 
 
@@ -20,6 +16,7 @@ public class TeamData implements TeamDataService{
 	public TeamPO getSingleTeamInfo(String teamName){
 		TeamDataCalculate tic=new TeamDataCalculate();
 		TeamPO result=new TeamPO();
+
 		if(tic.judgeEmptyFile("Data//teamInfoPO.txt")){
 		
 			BasicTeamData btd=new BasicTeamData();
@@ -98,6 +95,7 @@ public class TeamData implements TeamDataService{
 		ArrayList<TeamPO> original=new ArrayList<TeamPO>();
 		BasicTeamData btd=new BasicTeamData();
 		TeamData td=new TeamData();
+
 		
 		if(tic.judgeEmptyFile("Data//teamInfoPO.txt")){
 			ArrayList<BasicTeamPO> tp=btd.getTeamOriginal();

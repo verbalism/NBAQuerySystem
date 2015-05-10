@@ -37,14 +37,14 @@ public class TeamDataCalculate{
 		File f = new File("Data//teamInfoPO.txt");
 		FileWriter fw ;
 		BufferedWriter bw;
-		/*try {
+		try {
 			fw=  new FileWriter(f);
 			fw.write("");
 			fw.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}*/
+		}
 		try {
 			fw=new FileWriter(f);
 			bw=new BufferedWriter(fw);

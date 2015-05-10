@@ -9,9 +9,10 @@ import po.MatchPO;
 public class MatchDataCalculate {
 	public ArrayList <String> getSortedFile(){
 		ArrayList<String> result=new ArrayList<String>();
+		BasicMatchData bmd=new BasicMatchData();
 		
 		int shut=0;
-		String Dpath="Data\\matches";
+		String Dpath=bmd.getPath();
 		File f = new File(Dpath);
 		String[] filelist = f.list();
 		

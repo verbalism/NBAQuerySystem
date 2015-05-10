@@ -1,33 +1,20 @@
 package data;
 
-import java.io.BufferedReader;
+
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.Statement;
+
 import java.util.ArrayList;
 
 import po.MatchPO;
-import po.MatchPlayer;
-import po.MatchTeam;
+
 import dataService.MatchDataService;
 
 public class MatchData implements MatchDataService{
 	
-	public static void main(String[]args){
-		MatchData md=new MatchData();
-		md.getSingleMatchInfo("a", "b");
-	}
-	
 	public MatchPO getSingleMatchInfo(String teamName,String date){
 		MatchPO result=new MatchPO();
 		BasicMatchData bmd=new BasicMatchData();
-		String Dpath="Data\\matches";
+		String Dpath=bmd.getPath();
 		File f = new File(Dpath);
 		String[] filelist = f.list();
 		for(int i=0;i<filelist.length;i++){
@@ -100,12 +87,10 @@ public class MatchData implements MatchDataService{
 	}
 	
 	public String getDate(){
-		String Dpath="Data\\matches";
-		File f = new File(Dpath);
-		String[] filelist = f.list();
+		MatchDataCalculate mdc=new MatchDataCalculate();
+		ArrayList<String> allpath=mdc.getSortedFile();
 		
-		int length=filelist.length;
-		String[] temp=filelist[length-1].split("_");
+		String[] temp=allpath.get(allpath.size()-1).split("_");
 		
 		return temp[1]; 
 	}
@@ -113,7 +98,7 @@ public class MatchData implements MatchDataService{
 	public ArrayList<MatchPO> getTodayMatchInfo(String date){
 		ArrayList<MatchPO> result=new ArrayList<MatchPO>();
 		BasicMatchData bmd=new BasicMatchData();
-		String Dpath="Data\\matches";
+		String Dpath=bmd.getPath();
 		File f = new File(Dpath);
 		String[] filelist = f.list();
 		for(int i=0;i<filelist.length;i++){

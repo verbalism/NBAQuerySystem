@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -15,11 +16,13 @@ import po.MatchTeam;
 public class BasicMatchData {
 
 	public ArrayList<MatchPO> getMatchOriginal() {
+		BasicMatchData bmd=new BasicMatchData();
 		ArrayList<MatchPO> allMatches = new ArrayList<MatchPO>();
-		
-		String Dpath="Data\\matches";
+		String path=bmd.getPath();
+		String Dpath=path;
 		File f = new File(Dpath);
 		String[] filelist = f.list();
+
 		for(int i=0; i<filelist.length; i++){
 			File readfile = new File(Dpath+"\\"+filelist[i]);
 			try {
@@ -70,9 +73,10 @@ public class BasicMatchData {
 	}
 	
 	public MatchPO getOneMatchOriginal(String path) {
-		
+		    BasicMatchData bmd =new BasicMatchData();
+		    
 			MatchPO oneMatch = new MatchPO();
-			File readfile = new File(path);
+			File readfile = new File(bmd.getPath()+"//"+path);
 			try {
 				ArrayList<String> wtf = new ArrayList<String>();
 				InputStreamReader read = new InputStreamReader(new FileInputStream(readfile),"UTF-8");
@@ -199,6 +203,22 @@ public class BasicMatchData {
 			team.addPlayer(player);
 		}
 		return team;
+	}
+	
+	public String getPath(){
+		File f = new File("Data//path.txt");
+		String result="";
+		try{
+			BufferedReader br=new BufferedReader(new FileReader(f));
+			String s="";
+			while((s=br.readLine())!=null){
+				result=s;
+			}
+			br.close();    
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return result;
 	}
 
 }
