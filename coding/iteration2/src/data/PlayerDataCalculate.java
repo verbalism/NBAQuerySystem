@@ -16,10 +16,10 @@ public class PlayerDataCalculate {
 		ArrayList<MatchPlayer> tp=match.getTeam1().getPlayers();
 		for(int j=0;j<tp.size();j++){
 			if(tp.get(j).getPlayerName().equals(playerName)){
-				return pic.getFullName(match.getTeam1().getTeamName());
+				return match.getTeam1().getTeamName();
 			}
 		}
-		return pic.getFullName(match.getTeam2().getTeamName());
+		return match.getTeam2().getTeamName();
 	}//¼ÆËãËùÊôÇò¶Ó
 	
 	public int CalculateGamesStarting(String playerName,ArrayList<MatchPO> mpSelected){

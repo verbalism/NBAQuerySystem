@@ -84,7 +84,7 @@ public class Console {
 							king.setValue(players.get(k).getRebounds());
 						if(player.superField.equals("assist"))
 							king.setValue(players.get(k).getAssists());
-
+						out.print(k+1);
 						out.print(king.toString());	
 					}		
 				}
@@ -103,6 +103,7 @@ public class Console {
 							king.setValue(tdplayers.get(k).getRebound());
 						if(player.superField.equals("assist"))
 							king.setValue(tdplayers.get(k).getAssist());
+						out.print(k+1);
 						out.print(king.toString());
 					}
 				}
@@ -128,6 +129,7 @@ public class Console {
 						hotPlayer.setValue(players.get(k).getIncreaseOfRebounds());
 					if(keyword=="assists")
 						hotPlayer.setValue(players.get(k).getIncreaseOfAssists());
+					out.print(k+1);
 					out.print(hotPlayer.toString());
 				}
 			}
@@ -168,7 +170,7 @@ public class Console {
 						highPlayer.setShotEfficient(players.get(k).getShootingEfficiency());
 						highPlayer.setStealEfficient(players.get(k).getStealRating());
 						highPlayer.setTeamName(players.get(k).getTeamName());
-						
+						out.print(k+1);
 						out.print(highPlayer.toString());						
 					}
 				}
@@ -195,7 +197,7 @@ public class Console {
 							normal.setRebound(players.get(k).getRebounds());
 							normal.setStart(players.get(k).getGamesStarting());
 							normal.setSteal(players.get(k).getSteals());
-							
+							out.print(k+1);
 							out.print(normal.toString());
 						}
 					}
@@ -221,7 +223,7 @@ public class Console {
 							normal.setRebound(players.get(k).getRebounds()/players.get(k).getGamesPlayed());
 							normal.setStart(players.get(k).getGamesStarting()/players.get(k).getGamesPlayed());
 							normal.setSteal(players.get(k).getSteals()/players.get(k).getGamesPlayed());
-						
+							out.print(k+1);
 							out.print(normal.toString());
 						}
 					}
@@ -286,7 +288,7 @@ public class Console {
 						hotTeam.setValue(teams.get(k).getDefensiveRebounds());
 					if(team.superField.equals("offendRebound"))
 						hotTeam.setValue(teams.get(k).getOffensiveRebounds());
-					
+					out.print(k+1);
 					out.print(hotTeam.toString());
 				}
 			}
@@ -318,7 +320,7 @@ public class Console {
 							highTeam.setOffendRound(teams.get(k).getPossessions());
 						else
 							highTeam.setOffendRound(teams.get(k).getPossessions()/teams.get(k).getGamesPlayed());
-						
+						out.print(k+1);
 						out.print(highTeam.toString());
 					}
 				}
@@ -340,7 +342,7 @@ public class Console {
 							normalTeam.setPoint(teams.get(k).getPoints());
 							normalTeam.setRebound(teams.get(k).getRebounds());
 							normalTeam.setSteal(teams.get(k).getSteals());
-							
+							out.print(k+1);
 							out.print(normalTeam.toString());
 						}
 					}
@@ -361,7 +363,7 @@ public class Console {
 							normalTeam.setPoint(teams.get(k).getPoints()/teams.get(k).getGamesPlayed());
 							normalTeam.setRebound(teams.get(k).getRebounds()/teams.get(k).getGamesPlayed());
 							normalTeam.setSteal(teams.get(k).getSteals()/teams.get(k).getGamesPlayed());
-							
+							out.print(k+1);
 							out.print(normalTeam.toString());
 						}
 					}
