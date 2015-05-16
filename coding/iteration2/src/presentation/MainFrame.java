@@ -68,7 +68,7 @@ public class MainFrame extends JFrame implements ActionListener{
 		};
 		line.start();
 		f.start();
-		abs.updateData();
+		//abs.updateData();
 	}
 	
 	

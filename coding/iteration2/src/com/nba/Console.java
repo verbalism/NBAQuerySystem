@@ -22,7 +22,7 @@ import vo.TodayPlayerVO;
 import de.tototec.cmdoption.*;
 public class Console {
 	public  void execute(PrintStream out,String[] args) {
-		Config config = new Config();
+		DataSet data = new DataSet();
 		Player player = new Player();
 		Team team = new Team();
 		CmdlineParser cp;
@@ -35,9 +35,9 @@ public class Console {
 			cp = new CmdlineParser(new Object[] { team});
 		}
 		else
-			cp = new CmdlineParser(new Object[] {config});
+			cp = new CmdlineParser(new Object[] { data });
 		while(j<args.length){
-			if(args[j].equals("--datasourse")){
+			if(args[j].equals("--datasource")){
 				cp.parse(args[j],args[j+1]);
 				j++;
 			}
@@ -375,12 +375,12 @@ public class Console {
 	}
 }
 
-class Config {
-	@CmdOption(names = { "--datasourse"}, args = {"sourse"}, description = "set data")
+class DataSet {
+	@CmdOption(names = { "--datasource"}, args = {"sourse"}, description = "set data")
 	public void setData(String sourse){
-		//AnalysisBLService abl = new AnalysisBL();
-		//abl.getData(sourse);
-		System.out.println(sourse);
+		AnalysisBLService abl = new AnalysisBL();
+		abl.getData(sourse);
+		
 	}
 }
 
