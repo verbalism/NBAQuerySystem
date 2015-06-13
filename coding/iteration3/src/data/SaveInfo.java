@@ -13,7 +13,7 @@ public class SaveInfo {
 	public void savePlayerInfo(String postfix,PlayerPO pp) throws Exception{
 		ConnectMySQL c=new ConnectMySQL();
 		Connection conn=c.getConnection();
-		String sql = "insert into player"+postfix+" (playerName,number,position,height,weight,birth,age,exp,school,teamName,gamesPlayed,gamesStarting,rebounds,offensiveRebounds,defensiveRebounds,assists,minutes,fieldGoalsAttempts,fieldGoalsMade,fieldGoalsPercentage,threePointFieldGoalsAttempts,threePointFieldGoalsMade,threePointFieldGoalsPercentage,freeThrowsAttempts,freeThrowsMade,freeThrowsPercentage,steals,blocks,turnovers,fouls,points,efficiency,GmSc,trueShootingPercentage,shootingEfficiency,reboundRating,offensiveReboundRating,defensiveReboundRating,assisyRating,stealRating,blockRating,turnoverRating,utilizationRating,doubleDouble,increaseOfPoints,increaseOfRebounds,increaseOfAssists) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+		String sql = "insert into player"+postfix+" (playerName,playerNumber,position,height,weight,birth,age,exp,school,teamName,gamesPlayed,gamesStarting,rebounds,offensiveRebounds,defensiveRebounds,assists,minutes,fieldGoalsAttempts,fieldGoalsMade,fieldGoalsPercentage,threePointFieldGoalsAttempts,threePointFieldGoalsMade,threePointFieldGoalsPercentage,freeThrowsAttempts,freeThrowsMade,freeThrowsPercentage,steals,blocks,turnovers,fouls,points,efficiency,GmSc,trueShootingPercentage,shootingEfficiency,reboundRating,offensiveReboundRating,defensiveReboundRating,assisyRating,stealRating,blockRating,turnoverRating,utilizationRating,doubleDouble,increaseOfPoints,increaseOfRebounds,increaseOfAssists) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 	    PreparedStatement pstmt;
 	    
 	    pstmt = (PreparedStatement) conn.prepareStatement(sql);
@@ -76,7 +76,7 @@ public class SaveInfo {
 		ConnectMySQL c=new ConnectMySQL();
 		Connection conn=c.getConnection();
 		String sql = "insert into team"+postfix+" (teamName,gamesPlayed,fieldGoalsMade,fieldGoalsAttempted,threePointFieldGoalsMade,threePointFieldGoalsAttempted,freeThrowsMade,freeThrowsAttempted,offensiveRebounds,defensiveRebounds,rebounds,assists,steals,blocks,turnovers,fouls,points,fieldGoalPercentage,threePointFieldGoalPercentage,freeThrowPercentage,winPercentage,possessions,offensiveRating,defensiveRating,offensiveReboundPercentage,defensiveReboundPercentage,stealPercentage,assistPercentage,fullName,city,zone,subarea,homeCourt,createTime,gamesPlayedWin) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-	    PreparedStatement pstmt;
+		PreparedStatement pstmt;
 	    
 	    pstmt = (PreparedStatement) conn.prepareStatement(sql);
 	    pstmt.setString(1,pp.getTeamName());
@@ -154,7 +154,7 @@ public class SaveInfo {
 	    
 	    ArrayList<MatchPlayer> mp1=pp.getTeam1().getPlayers();
 	    ArrayList<MatchPlayer> mp2=pp.getTeam2().getPlayers();
-	    String sql1 = "insert into matchPlayer"+postfix+" (generalMatch,teamName,oppositeTeamName,playerName,position,matchTime,fieldGoal,fieldGoalAttempts,threepointShot,threepointAttempts,freeThrowGoal,freeThrowAttempts,offensiveRebound,defensiveRebound,rebound,assist,st,blockShot,turnover,foul,score) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+	    String sql1 = "insert into matchplayer"+postfix+" (generalMatch,teamName,oppositeTeamName,playerName,position,matchTime,fieldGoal,fieldGoalAttempts,threepointShot,threepointAttempts,freeThrowGoal,freeThrowAttempts,offensiveRebound,defensiveRebound,rebound,assist,st,blockShot,turnover,foul,score) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 	    
 	    for(int i=0;i<mp1.size();i++){
 	    	PreparedStatement pstmt1;
@@ -181,9 +181,9 @@ public class SaveInfo {
 	    	pstmt1.setDouble(20,mp1.get(i).getFoul());
 	    	pstmt1.setDouble(21,mp1.get(i).getScore());
 	    	
-	    	pstmt.executeUpdate();
+	    	pstmt1.executeUpdate();
 		    
-		    pstmt.close();
+		    pstmt1.close();
 	    }
 	    
 	    for(int i=0;i<mp2.size();i++){
@@ -211,9 +211,9 @@ public class SaveInfo {
 	    	pstmt1.setDouble(20,mp2.get(i).getFoul());
 	    	pstmt1.setDouble(21,mp2.get(i).getScore());
 	    	
-	    	pstmt.executeUpdate();
+	    	pstmt1.executeUpdate();
 		    
-		    pstmt.close();
+		    pstmt1.close();
 	    }
 	    
 	    conn.close();
@@ -221,16 +221,7 @@ public class SaveInfo {
 	
 	
 	
-	public static void main(String[] args) throws Exception{
-		ConnectMySQL c=new ConnectMySQL();
-		Connection conn=c.getConnection();
-		Statement stmt =  conn.createStatement();
-        ResultSet rs = stmt.executeQuery("select * from generalMatch12_13_after");
-         
-        while (rs.next()) {
-            System.out.println(rs.getInt("id"));
-        }
-        rs.close();
-        conn.close();
-	}
+	/*public static void main(String[] args) throws Exception{
+		
+	}*/
 }

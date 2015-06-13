@@ -25,8 +25,7 @@ public class MatchData implements MatchDataService{
 			 ConnectMySQL c=new ConnectMySQL();
 			 Connection conn=c.getConnection();
 			 Statement stmt = conn.createStatement();  
-	 		 
-	 		 ResultSet rs = stmt.executeQuery("select * from generalmatch"+season+" where (teamName1='"+teamName+"' or teamName2='"+teamName+"') and matchTime in (select matchTime from generalMatchInfo where matchTime='"+date+"')");	
+	 		 ResultSet rs = stmt.executeQuery("select * from generalmatch"+season+" where (teamName1='"+teamName+"' or teamName2='"+teamName+"') and matchTime in (select matchTime from generalmatch"+season+" where matchTime='"+date+"')");	
 	 		 
 	 		 while(rs.next()){
 	 			 matchID=rs.getInt("id");
@@ -141,7 +140,7 @@ public class MatchData implements MatchDataService{
 		try {
 			ConnectMySQL c=new ConnectMySQL();
 			Connection conn=c.getConnection();
-			for(int i=0;i<20;i++){
+			for(int i=19;i>=0;i--){
 				Statement stmt = conn.createStatement();  
 				ResultSet rs = stmt.executeQuery("select * from generalmatch"+season[i]+" where teamName1='"+teamName+"' or teamName2='"+teamName+"'");	
 		 		
@@ -174,9 +173,9 @@ public class MatchData implements MatchDataService{
 		try {
 			ConnectMySQL c=new ConnectMySQL();
 			Connection conn=c.getConnection();
-			for(int i=0;i<20;i++){
+			for(int i=19;i>=0;i--){
 				Statement stmt = conn.createStatement();  
-				ResultSet rs = stmt.executeQuery("select * from generalmatch"+season[i]+" where ID in(select generalMatch from matchplayer where playerName='"+playerName+"')");	
+				ResultSet rs = stmt.executeQuery("select * from generalmatch"+season[i]+" where ID in(select generalMatch from matchplayer"+season[i]+" where playerName='"+playerName+"')");	
 	 		 
 				while(rs.next()){
 					date.add(rs.getString("MatchTime")+";"+season[i]);
@@ -220,4 +219,9 @@ public class MatchData implements MatchDataService{
 		return result;
 	}//获取某日的比赛
 	
+	/*public static void main(String[] args){
+		MatchData md=new MatchData();
+		ArrayList<MatchPO> a=md.getTodayMatchInfo("04-09","12_13");
+		System.out.println(a.size());
+	}*/
 }

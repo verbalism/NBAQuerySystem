@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 import dataService.TeamDataService;
 import po.TeamPO;
+import po.TodayPlayerPO;
 
 public class TeamData implements TeamDataService{
 	public TeamPO getSingleTeamInfo(String teamName,String season){
@@ -117,4 +118,9 @@ public class TeamData implements TeamDataService{
 		return Result;
 	}//获取所有球队信息。返回arraylist
 	
+	/*public static void main(String[]args){
+		TeamData pd=new TeamData();
+		ArrayList<TeamPO> a=pd.getAllTeamInfo("08_09");
+		System.out.println(a.get(3).getDefensiveRebounds());
+	}*/
 }

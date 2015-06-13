@@ -21,7 +21,7 @@ public class PlayerData implements PlayerDataService{
 			ResultSet rs=stmt.executeQuery(sql);
 			while(rs.next()){
 				result.setPlayerName(rs.getString("playerName"));
-				result.setNumber(rs.getString("number"));
+				result.setNumber(rs.getString("playerNumber"));
 				result.setPosition(rs.getString("position"));
 				result.setHeight(rs.getString("height"));
 				result.setWeight(rs.getString("weight"));
@@ -88,7 +88,7 @@ public class PlayerData implements PlayerDataService{
 			while(rs.next()){
 				PlayerPO result=new PlayerPO();
 				result.setPlayerName(rs.getString("playerName"));
-				result.setNumber(rs.getString("number"));
+				result.setNumber(rs.getString("playerNumber"));
 				result.setPosition(rs.getString("position"));
 				result.setHeight(rs.getString("height"));
 				result.setWeight(rs.getString("weight"));
@@ -184,5 +184,10 @@ public class PlayerData implements PlayerDataService{
 		return Result;
 	}//查询当天球员信息
 	
+	/*public static void main(String[]args){
+		PlayerData pd=new PlayerData();
+		ArrayList<TodayPlayerPO> a=pd.getTodayPlayerInfo("01-04", "05_06");
+		System.out.println(a.size());
+	}*/
 	
 }
