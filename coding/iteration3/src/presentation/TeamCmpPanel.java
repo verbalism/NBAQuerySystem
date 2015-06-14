@@ -40,6 +40,7 @@ public class TeamCmpPanel extends JPanel implements ActionListener{
 	JPanel cmpPanel, dataColumnPanel, selectPanel;
 	LeftHorizontalBarChart team1Chart;RightHorizontalBarChart team2Chart;
 	SeriesChart seriesChart;
+	String team1,team2="NBA";
 	public TeamCmpPanel(){
 		Toolkit kit = Toolkit.getDefaultToolkit();
 		Dimension screenSize = kit.getScreenSize();
@@ -158,7 +159,7 @@ public class TeamCmpPanel extends JPanel implements ActionListener{
 		img1 = new ImageIcon("Img//teams//"+"BOS.png");
 		img1.setImage(img1.getImage().getScaledInstance(90,90,Image.SCALE_DEFAULT));
 		teamImgLabel1.setIcon(img1);
-		img2 = new ImageIcon("Img//icon.jpg");
+		img2 = new ImageIcon("Img//teams//"+team2+".png");
 		img2.setImage(img2.getImage().getScaledInstance(90,90,Image.SCALE_DEFAULT));
 		teamImgLabel2.setIcon(img2);
 		
@@ -456,7 +457,7 @@ public class TeamCmpPanel extends JPanel implements ActionListener{
 		 }
 		 //随机添加数据值
 		 for (int i = 0; i < 11; i++) {
-			 linedataset.addValue(i + i * 9.34 + 3/(i+1),  //值
+			 linedataset.addValue(i + i * 9.344444 + 3/(i+1)+0.55555,  //值
 					 series1,  //哪条数据线
 					 time[i]); // 对应的横轴
 			 linedataset.addValue(i + i * 23.2 -22/(i+1),  //值

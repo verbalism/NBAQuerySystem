@@ -20,6 +20,7 @@ import javax.swing.table.TableColumn;
 
 import businesslogic.DataBL;
 import businesslogicService.DataBLService;
+import ui.InfoListTable;
 import vo.MatchPlayer;
 import vo.MatchVO;
 

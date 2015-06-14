@@ -75,7 +75,7 @@ public class PlayerData implements PlayerDataService{
 		}
 		
 		return result;
-	}//查询单个球员信息
+	}//锟斤拷询锟斤拷锟斤拷锟斤拷员锟斤拷息
 	
 	public ArrayList<PlayerPO> getAllPlayerInfo(String season){
 		ArrayList<PlayerPO> Result=new ArrayList<PlayerPO>();
@@ -142,7 +142,7 @@ public class PlayerData implements PlayerDataService{
 		}catch(Exception e){
 		}
 		return Result;
-	}//查询全部球员信息
+	}//锟斤拷询全锟斤拷锟斤拷员锟斤拷息
 	
 	public ArrayList<TodayPlayerPO> getTodayPlayerInfo(String date,String season){
 		ArrayList<TodayPlayerPO> Result=new ArrayList<TodayPlayerPO>();
@@ -182,12 +182,12 @@ public class PlayerData implements PlayerDataService{
 		}catch(Exception e){
 		}
 		return Result;
-	}//查询当天球员信息
+	}//锟斤拷询锟斤拷锟斤拷锟斤拷员锟斤拷息
 	
 	/*public static void main(String[]args){
 		PlayerData pd=new PlayerData();
 		ArrayList<TodayPlayerPO> a=pd.getTodayPlayerInfo("01-04", "05_06");
 		System.out.println(a.size());
 	}*/
-	
+
 }

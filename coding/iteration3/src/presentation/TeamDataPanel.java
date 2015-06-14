@@ -24,6 +24,7 @@ import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
+import ui.InfoListTable;
 import vo.TeamVO;
 import businesslogic.DataBL;
 import businesslogicService.DataBLService;

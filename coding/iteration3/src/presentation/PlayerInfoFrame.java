@@ -29,6 +29,7 @@ import javax.swing.table.DefaultTableModel;
 
 import businesslogic.DataBL;
 import businesslogicService.DataBLService;
+import ui.InfoListTable;
 import vo.MatchVO;
 import vo.PlayerVO;
 import vo.TeamVO;
