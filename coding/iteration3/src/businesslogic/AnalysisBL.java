@@ -1207,9 +1207,9 @@ public class AnalysisBL implements AnalysisBLService {
 						n++;
 					}
 				}
-				if(n<(t.size()/3)){
+				if(n<(t.size()*2/5)){
 					return TeamType.Defensive;
-				}else if(n>(t.size()*2/3)){
+				}else if(n>(t.size()*3/5)){
 					return TeamType.Offensive;
 				}else{
 					return TeamType.Balanced;
@@ -1222,69 +1222,110 @@ public class AnalysisBL implements AnalysisBLService {
 	public String getBestOffensivePlayer(String teamName, String season) {
 		// TODO Auto-generated method stub
 		DataBLService d=new DataBL();
+		MatchDataService md=new MatchData();
+		ArrayList<MatchPO> m=md.getAllMatchInfo(season);
+		System.out.println("获取本赛季全部比赛");
 		ArrayList<PlayerVO> p=d.getAllPlayerInfo(season);
+		System.out.println("获取本赛季全部球员");
 		ArrayList<PlayerVO> p2=new ArrayList<PlayerVO>();
-		ArrayList<PlayerVO> result=new ArrayList<PlayerVO>();
 		for(int i=0;i<p.size();i++){
 			if(p.get(i).getTeamName().equals(teamName)){
 				p2.add(p.get(i));
 			}
 		}
-		while(p2.size()>0){
-			int i=0;
-			for(int j=i+1;j<p2.size();j++){
-				if(p2.get(i).getOffensiveReboundRating()<p2.get(j).getOffensiveReboundRating())
-						i=j;
+		System.out.println("获取该队球员");
+		double[] n=new double[p2.size()];		
+		double CORR = 0.0;  
+		for(int j=0;j<p2.size();j++){
+			List<String> xList = new ArrayList<String>(); 
+			List<String> yList = new ArrayList<String>();  
+			
+			for(int a=0;a<m.size();a++){
+				ArrayList<MatchPlayer> mm = new ArrayList<MatchPlayer>();
+				if(m.get(a).getTeam1().getTeamName().equals(teamName))
+					mm=m.get(a).getTeam1().getPlayers();
+				else if(m.get(a).getTeam2().getTeamName().equals(teamName))
+					mm=m.get(a).getTeam2().getPlayers();
+				else
+					continue;
+				double temp=0;
+				for(int k=0;k<mm.size();k++){
+					if(mm.get(k).getPlayerName().equals(p2.get(j).getPlayerName())){
+						xList.add(String.valueOf(mm.get(k).getOffensiveRebound()));	
+					}
+					temp+=mm.get(k).getOffensiveRebound();
+				}  
+				yList.add(String.valueOf(temp));					
+			}		         
+			NumberatorCalculate nc = new NumberatorCalculate(xList,yList);  
+			double numerator = nc.calculateNumberator();  
+			DenominatorCalculate dc = new DenominatorCalculate();  
+			double denominator = dc.calculateDenominator(xList, yList);  
+			CORR = numerator/denominator;  
+			n[j]=CORR;
+			/*System.out.println(p2.get(j).getPlayerName()+"\t\t\t"+n[j]+"\t\t\t"+numerator+"\t\t"+denominator);*/
+		}
+		
+		for(int i=0;i<n.length;i++){
+			int k=0;
+			for(int j=0;j<n.length;j++){
+				if(n[i]<n[j])
+					k=1;
 			}
-			result.add(p2.get(i));
-			p2.remove(i);
-		}		
-		return result.get(0).getPlayerName();
+			if(k==0){
+				return p2.get(i).getPlayerName();
+			}
+		}
+		return null;
 	}
 
 	@Override
-	public String getTheMostPotentialOffensivePlayer(String teamName,
-			String season) {
+	public String getTheMostPotentialOffensivePlayer(String teamName,String season) {
 		DataBLService d=new DataBL();
 		MatchDataService md=new MatchData();
 		ArrayList<MatchPO> m=new ArrayList<MatchPO>();
 		ArrayList<PlayerVO> p=d.getAllPlayerInfo(season);
 		ArrayList<PlayerVO> p2=new ArrayList<PlayerVO>();
-		ArrayList<PlayerVO> result=new ArrayList<PlayerVO>();
 		for(int i=0;i<p.size();i++){
 			if(p.get(i).getTeamName().equals(teamName)){
 				p2.add(p.get(i));
 			}
 		}
-		double[] n=new double[p2.size()];
-		double CORR = 0.0;  
+		double[] n=new double[p2.size()];		
 		for(int j=0;j<p2.size();j++){
-			List<String> xList = new ArrayList<String>();;  
-			List<String> yList = new ArrayList<String>();  
+			List<Double> xList = new ArrayList<Double>();
+			List<Double> yList = new ArrayList<Double>();  
 			m=md.getAllMatchInfo(season);
-			/*ArrayList<MatchPlayer> mm=new ArrayList<MatchPlayer>;
-			if(m.get(0).getTeam1().getTeamName().equals(teamName))
-				mm=m.get(0).getTeam1().getPlayers();
-			else
-				mm=m.get(0).getTeam2().getPlayers();
-			for(int k=0;k<mm.size();k++){
-				if(mm.get(k).getPlayerName().equals(p2.get(j).getPlayerName())){
-						
-				}
+			
+			for(int a=0;a<m.size();a++){
+				ArrayList<MatchPlayer> mm = new ArrayList<MatchPlayer>();
+				if(m.get(a).getTeam1().getTeamName().equals(teamName))
+					mm=m.get(a).getTeam1().getPlayers();
+				else if(m.get(a).getTeam2().getTeamName().equals(teamName))
+					mm=m.get(a).getTeam2().getPlayers();
+				else
+					continue;
+				int l=1;
+				for(int k=0;k<mm.size();k++){
+					if(mm.get(k).getPlayerName().equals(p2.get(j).getPlayerName())){
+						xList.add((double) mm.get(k).getOffensiveRebound());
+						yList.add((double) l);
+						l++;
+					}
+				}  						
+			}		         
+			LinearRegression h=new LinearRegression(xList,yList);
+			n[j]=h.getB();		
+		}		
+		for(int i=0;i<n.length;i++){
+			int k=0;
+			for(int j=0;j<n.length;j++){
+				if(n[i]<n[j])
+					k=1;
 			}
-			
-			
-			
-			for(int i=0;i<p2.size();i++){
-				xList.add(String.valueOf(i+1));
-				yList.add(String.valueOf(p2.get(i).getOffensiveReboundRating()));
-			}           
-			NumeratorCalculate nc = new NumeratorCalculate(xList,yList);  
-			double numerator = nc.calcuteNumerator();  
-			DenominatorCalculate dc = new DenominatorCalculate();  
-			double denominator = dc.calculateDenominator(xList, yList);  
-			CORR = numerator/denominator;  
-			n[j]=CORR;*/
+			if(k==0){
+				return p2.get(i).getPlayerName();
+			}
 		}
 		return null;
 	}
@@ -1292,108 +1333,113 @@ public class AnalysisBL implements AnalysisBLService {
 	@Override
 	public String getBestDefensivePlayer(String teamName, String season) {
 		DataBLService d=new DataBL();
+		MatchDataService md=new MatchData();
+		ArrayList<MatchPO> m=md.getAllMatchInfo(season);
+		System.out.println("获取本赛季全部比赛");
 		ArrayList<PlayerVO> p=d.getAllPlayerInfo(season);
+		System.out.println("获取本赛季全部球员");
 		ArrayList<PlayerVO> p2=new ArrayList<PlayerVO>();
-		ArrayList<PlayerVO> result=new ArrayList<PlayerVO>();
 		for(int i=0;i<p.size();i++){
 			if(p.get(i).getTeamName().equals(teamName)){
 				p2.add(p.get(i));
 			}
 		}
-		while(p2.size()>0){
-			int i=0;
-			for(int j=i+1;j<p2.size();j++){
-				if(p2.get(i).getDefensiveReboundRating()<p2.get(j).getDefensiveReboundRating())
-						i=j;
+		System.out.println("获取该队球员");
+		double[] n=new double[p2.size()];		
+		double CORR = 0.0;  
+		for(int j=0;j<p2.size();j++){
+			List<String> xList = new ArrayList<String>();;  
+			List<String> yList = new ArrayList<String>();  
+			
+			for(int a=0;a<m.size();a++){
+				ArrayList<MatchPlayer> mm = new ArrayList<MatchPlayer>();
+				if(m.get(a).getTeam1().getTeamName().equals(teamName))
+					mm=m.get(a).getTeam1().getPlayers();
+				else if(m.get(a).getTeam2().getTeamName().equals(teamName))
+					mm=m.get(a).getTeam2().getPlayers();
+				else
+					continue;
+				double temp=0;
+				for(int k=0;k<mm.size();k++){
+					if(mm.get(k).getPlayerName().equals(p2.get(j).getPlayerName())){
+						xList.add(String.valueOf(mm.get(k).getDefensiveRebound()));	
+					}
+					temp+=mm.get(k).getDefensiveRebound();
+				}  
+				yList.add(String.valueOf(temp));					
+			}		         
+			NumberatorCalculate nc = new NumberatorCalculate(xList,yList);  
+			double numerator = nc.calculateNumberator();  
+			DenominatorCalculate dc = new DenominatorCalculate();  
+			double denominator = dc.calculateDenominator(xList, yList);  
+			
+			CORR = numerator/denominator;  
+			n[j]=CORR;
+		}
+		
+		for(int i=0;i<n.length;i++){
+			int k=0;
+			for(int j=0;j<n.length;j++){
+				if(n[i]<n[j])
+					k=1;
 			}
-			result.add(p2.get(i));
-			p2.remove(i);
-		}		
-		return result.get(0).getPlayerName();
+			if(k==0){
+				return p2.get(i).getPlayerName();
+			}
+		}
+		return null;
 	}
 
 	@Override
-	public String getTheMostPotentialDefensivePlayer(String teamName,
-			String season) {
-		// TODO Auto-generated method stub
+	public String getTheMostPotentialDefensivePlayer(String teamName,String season) {
+		DataBLService d=new DataBL();
+		MatchDataService md=new MatchData();
+		ArrayList<MatchPO> m=new ArrayList<MatchPO>();
+		ArrayList<PlayerVO> p=d.getAllPlayerInfo(season);
+		ArrayList<PlayerVO> p2=new ArrayList<PlayerVO>();
+		for(int i=0;i<p.size();i++){
+			if(p.get(i).getTeamName().equals(teamName)){
+				p2.add(p.get(i));
+			}
+		}
+		double[] n=new double[p2.size()];		
+		for(int j=0;j<p2.size();j++){
+			List<Double> xList = new ArrayList<Double>();
+			List<Double> yList = new ArrayList<Double>();  
+			m=md.getAllMatchInfo(season);
+			
+			for(int a=0;a<m.size();a++){
+				ArrayList<MatchPlayer> mm = new ArrayList<MatchPlayer>();
+				if(m.get(a).getTeam1().getTeamName().equals(teamName))
+					mm=m.get(a).getTeam1().getPlayers();
+				else if(m.get(a).getTeam2().getTeamName().equals(teamName))
+					mm=m.get(a).getTeam2().getPlayers();
+				else
+					continue;
+				int l=1;
+				for(int k=0;k<mm.size();k++){
+					if(mm.get(k).getPlayerName().equals(p2.get(j).getPlayerName())){
+						xList.add((double) mm.get(k).getOffensiveRebound());
+						yList.add((double) l);
+						l++;
+					}
+				}  						
+			}		         
+			LinearRegression h=new LinearRegression(xList,yList);
+			n[j]=h.getB();		
+		}		
+		for(int i=0;i<n.length;i++){
+			int k=0;
+			for(int j=0;j<n.length;j++){
+				if(n[i]<n[j])
+					k=1;
+			}
+			if(k==0){
+				return p2.get(i).getPlayerName();
+			}
+		}
 		return null;
 	}
-	
-	 
-	@Override
-	public void updateData() {
-		// TODO Auto-generated method stub
-		
-	}
-	class NumeratorCalculate {  
-	      
-	    //add global varieties  
-	    protected List<String> xList , yList;  
-	      
-	    public NumeratorCalculate(List<String> xList ,List<String> yList){  
-	        this.xList = xList;  
-	        this.yList = yList;  
-	    }  
-	      
-	    /** 
-	     * add operate method 
-	     */  
-	    public double calcuteNumerator(){  
-	        double result =0.0;  
-	        double xAverage = 0.0;  
-	        double temp = 0.0;  
-	          
-	        int xSize = xList.size();  
-	        for(int x=0;x<xSize;x++){  
-	            temp += Double.parseDouble(xList.get(x));  
-	        }  
-	        xAverage = temp/xSize;  
-	          
-	        double yAverage = 0.0;  
-	        temp = 0.0;  
-	        int ySize = yList.size();  
-	        for(int x=0;x<ySize;x++){  
-	            temp += Double.parseDouble(yList.get(x));  
-	        }  
-	        yAverage = temp/ySize;  
-	          
-	        //double sum = 0.0;  
-	        for(int x=0;x<xSize;x++){  
-	            result+=(Double.parseDouble(xList.get(x))-xAverage)*(Double.parseDouble(yList.get(x))-yAverage);  
-	        }  
-	        return result;  
-	    }  
-	    
-	}
-	class DenominatorCalculate {  
-	      
-	    //add denominatorCalculate method  
-	    public double calculateDenominator(List<String> xList,List<String> yList){  
-	        double standardDifference = 0.0;  
-	        int size = xList.size();  
-	        double xAverage = 0.0;  
-	        double yAverage = 0.0;  
-	        double xException = 0.0;  
-	        double yException = 0.0;  
-	        double temp = 0.0;  
-	        for(int i=0;i<size;i++){  
-	            temp += Double.parseDouble(xList.get(i));  
-	        }  
-	        xAverage = temp/size;  
-	          
-	        for(int i=0;i<size;i++){  
-	            temp += Double.parseDouble(yList.get(i));  
-	        }  
-	        yAverage = temp/size;  
-	          
-	        for(int i=0;i<size;i++){  
-	            xException += Math.pow(Double.parseDouble(xList.get(i))-xAverage,2);  
-	            yException += Math.pow(Double.parseDouble(yList.get(i))-yAverage, 2);  
-	        }  
-	        //calculate denominator of   
-	        return standardDifference = Math.sqrt(xException*yException);  
-	    }  
-	}  
 	
 
 }

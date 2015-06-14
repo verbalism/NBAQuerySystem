@@ -170,6 +170,48 @@ public class DataBL implements DataBLService {
 		TeamDataService td=new TeamData();
 		TeamVO result=new TeamVO();
 		TeamPO tp=new TeamPO();
+		if(teamName.equals("NBA")){
+			ArrayList<TeamVO> ttt=getAllTeamInfo(season);
+			double point=0.0;
+			double assists=0.0;
+			double steals=0.0;
+			double blocks=0.0;
+			double rebounds=0.0;
+			double threePointFieldGoalPercentage=0.0;
+			double freeThrowPercentage=0.0;
+			double fieldGoalPercentage=0.0;
+			
+			for(int i=0;i<ttt.size();i++){
+				point+=ttt.get(i).getPoints();
+				assists+=ttt.get(i).getAssists();
+				blocks+=ttt.get(i).getBlocks();
+				steals+=ttt.get(i).getSteals();
+				rebounds+=ttt.get(i).getRebounds();
+				threePointFieldGoalPercentage+=ttt.get(i).getThreePointFieldGoalPercentage();
+				freeThrowPercentage+=ttt.get(i).getFreeThrowPercentage();
+				fieldGoalPercentage+=ttt.get(i).getFieldGoalPercentage();
+			}
+			point/=ttt.size();
+			assists/=ttt.size();
+			blocks/=ttt.size();
+			steals/=ttt.size();
+			rebounds/=ttt.size();
+			threePointFieldGoalPercentage/=ttt.size();
+			freeThrowPercentage/=ttt.size();
+			fieldGoalPercentage/=ttt.size();
+			
+			result.setTeamName(teamName);
+			result.setRebounds(rebounds);
+			result.setAssists(assists);
+			result.setSteals(steals);
+			result.setBlocks(blocks);
+			result.setPoints(point);
+			result.setFieldGoalPercentage(fieldGoalPercentage);
+			result.setThreePointFieldGoalPercentage(threePointFieldGoalPercentage);
+			result.setFreeThrowPercentage(freeThrowPercentage);
+			return result;
+		}		
+		
 		tp=td.getSingleTeamInfo(teamName,season);
 		result.setTeamName(teamName);
 		result.setGamesPlayed(tp.getGamesPlayed());

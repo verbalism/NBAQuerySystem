@@ -25,6 +25,5 @@ public interface AnalysisBLService {
 	public String getTheMostPotentialOffensivePlayer(String teamName,String season );
 	public String getBestDefensivePlayer(String teamName,String season );
 	public String getTheMostPotentialDefensivePlayer(String teamName,String season );
-	public void updateData();//更新数据
 	
 }
