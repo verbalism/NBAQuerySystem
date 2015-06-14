@@ -24,6 +24,7 @@ import org.jfree.chart.entity.EntityCollection;
 import org.jfree.chart.plot.PlotRenderingInfo;
 import org.jfree.chart.plot.PlotState;
 import org.jfree.chart.plot.SpiderWebPlot;
+import org.jfree.chart.renderer.category.LineAndShapeRenderer;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.general.DatasetUtilities;
 import org.jfree.ui.RectangleInsets;
@@ -460,5 +461,7 @@ public class MySpiderWebPlot extends SpiderWebPlot {
 		public void setDrawValue(boolean drawValue){
 		this.drawValue = drawValue;
 		}
+
+		
 		
 }

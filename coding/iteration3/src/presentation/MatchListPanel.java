@@ -20,6 +20,9 @@ import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 
+import ui.ActionDialog;
+import ui.DateChooser;
+import ui.InfoListTable;
 import vo.MatchVO;
 import vo.PlayerVO;
 import businesslogic.AnalysisBL;
@@ -34,7 +37,7 @@ public class MatchListPanel extends JPanel implements ActionListener {
 	DateChooser matchDateChooser;
 	JScrollPane scrollPane;
 	JLabel title;
-	SimpleDateFormat sdf = new SimpleDateFormat("MM-dd");
+	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 	AnalysisBLService abl = new AnalysisBL();
 	DataBLService dbl = new DataBL();
 	MatchListPanel matchListPanel;

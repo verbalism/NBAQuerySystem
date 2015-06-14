@@ -26,6 +26,8 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
+import ui.ActionDialog;
+import ui.TeamLabel;
 import vo.MatchVO;
 import vo.PlayerVO;
 import vo.TeamVO;
@@ -36,7 +38,7 @@ public class TeamListPanel extends JPanel implements ActionListener{
 	int panelWidth,panelHeight;
 	JTextField searchField;
 	JButton searchBtn;
-	DataBLService dbl = new DataBL();
+	//DataBLService dbl = new DataBL();
 	ArrayList<TeamVO> teams;
 	public TeamListPanel(JPanel fpanel){
 		Toolkit kit = Toolkit.getDefaultToolkit();

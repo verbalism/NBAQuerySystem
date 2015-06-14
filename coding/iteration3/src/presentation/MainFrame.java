@@ -17,25 +17,25 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import ui.ProgressBar;
 import vo.TeamVO;
-import businesslogic.AnalysisBL;
 import businesslogicService.AnalysisBLService;
 
 public class MainFrame extends JFrame implements ActionListener{
 	int frameHeight,frameWidth,panelWidth,panelHeight;
 	JButton teamInfoBtn,playerInfoBtn,matchInfoBtn,teamDataBtn,playerDataBtn,hotBtn;
-	JPanel containPanel;
+	JPanel containPanel, guidePanel;
 	TeamListPanel teamListPanel; boolean teamlist = true; boolean tl = false;
 	PlayerListPanel playerListPanel; boolean playerlist = false; boolean pl = true;
 	TeamDataPanel teamDataPanel; boolean teamdata = false; boolean td = true;
 	PlayerDataPanel playerDataPanel; boolean playerdata = false; boolean pd = true;
 	MatchListPanel matchListPanel; boolean matchlist = false; boolean ml = true;
 	HotPanel hotPanel; boolean hot = false; boolean h = true;
-	TeamCmpPanel teamCmpPanel = new TeamCmpPanel();
-	TeamAnlPanel teamAnlPanel = new TeamAnlPanel();
+	//TeamCmpPanel teamCmpPanel = new TeamCmpPanel();
+	//TeamAnlPanel teamAnlPanel = new TeamAnlPanel();
 	static ProgressBar pb; static Boolean load = true;
 	public static void main(String args[]){
-		AnalysisBLService abs = new AnalysisBL();
+		//AnalysisBLService abs = new AnalysisBL();
 		 final Thread line =	new Thread() {
 			    public void run() {
 			    	synchronized (this){
@@ -206,7 +206,7 @@ public class MainFrame extends JFrame implements ActionListener{
 		buttonPanel.add(hotBtn);
 		
 		
-		JPanel guidePanel = new JPanel();
+		guidePanel = new JPanel();
 		guidePanel.setBounds(10, 10, panelWidth, 90);
 		guidePanel.setBackground(new Color(0,103,175));
 		guidePanel.setLayout(null);
@@ -234,7 +234,7 @@ public class MainFrame extends JFrame implements ActionListener{
 	
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource()==teamInfoBtn){
-			if(teamlist){
+			/*if(teamlist){
 				containPanel.remove(teamListPanel);
 				teamlist = false;
 			}
@@ -261,13 +261,15 @@ public class MainFrame extends JFrame implements ActionListener{
 			if(tl){
 				teamListPanel = new TeamListPanel(containPanel);
 				tl = false;
-			}
+			}*/
+			containPanel.removeAll();
 			containPanel.add(teamListPanel);
-			teamlist = true;
+			containPanel.add(guidePanel);
+			//teamlist = true;
 			containPanel.repaint();
 		}
 		if(e.getSource()==playerInfoBtn){
-			if(teamlist){
+			/*if(teamlist){
 				containPanel.remove(teamListPanel);
 				teamlist = false;
 			}
@@ -294,13 +296,15 @@ public class MainFrame extends JFrame implements ActionListener{
 			if(pl){
 				playerListPanel = new PlayerListPanel();
 				pl = false;
-			}
+			}*/
+			containPanel.removeAll();
+			containPanel.add(guidePanel);
 			containPanel.add(playerListPanel);
-			playerlist = true;
+			//playerlist = true;
 			containPanel.repaint();
 		}
 		if(e.getSource()==matchInfoBtn){
-			if(teamlist){
+			/*if(teamlist){
 				containPanel.remove(teamListPanel);
 				teamlist = false;
 			}
@@ -327,13 +331,15 @@ public class MainFrame extends JFrame implements ActionListener{
 			if(ml){
 				matchListPanel = new MatchListPanel();
 				ml = false;
-			}
+			}*/
+			containPanel.removeAll();
+			containPanel.add(guidePanel);
 			containPanel.add(matchListPanel);
-			matchlist = true;
+			//matchlist = true;
 			containPanel.repaint();
 		}
 		if(e.getSource()==teamDataBtn){
-			if(teamlist){
+			/*if(teamlist){
 				containPanel.remove(teamListPanel);
 				teamlist = false;
 			}
@@ -360,13 +366,15 @@ public class MainFrame extends JFrame implements ActionListener{
 			if(td){
 				teamDataPanel = new TeamDataPanel();
 				td = false;
-			}
+			}*/
+			containPanel.removeAll();
+			containPanel.add(guidePanel);
 			containPanel.add(teamDataPanel);
 			teamdata = true;
 			containPanel.repaint();
 		}
 		if(e.getSource()==playerDataBtn){
-			if(teamlist){
+			/*if(teamlist){
 				containPanel.remove(teamListPanel);
 				teamlist = false;
 			}
@@ -393,13 +401,15 @@ public class MainFrame extends JFrame implements ActionListener{
 			if(pd){
 				playerDataPanel = new PlayerDataPanel();
 				pd = false;
-			}
+			}*/
+			containPanel.removeAll();
+			containPanel.add(guidePanel);
 			containPanel.add(playerDataPanel);
-			playerdata = true;
+			//playerdata = true;
 			containPanel.repaint();
 		}
 		if(e.getSource()==hotBtn){
-			if(teamlist){
+			/*if(teamlist){
 				containPanel.remove(teamListPanel);
 				teamlist = false;
 			}
@@ -426,9 +436,11 @@ public class MainFrame extends JFrame implements ActionListener{
 			if(h){
 				hotPanel = new HotPanel();
 				h = false;
-			}
+			}*/
+			containPanel.removeAll();
+			containPanel.add(guidePanel);
 			containPanel.add(hotPanel);
-			hot = true;
+			//hot = true;
 			containPanel.repaint();
 		}
 	}

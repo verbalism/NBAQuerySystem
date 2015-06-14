@@ -1,11 +1,13 @@
 package ui;
 
 import java.awt.Color;
+import java.awt.Font;
 
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.labels.StandardCategoryToolTipGenerator;
 import org.jfree.chart.plot.SpiderWebPlot;
+import org.jfree.chart.renderer.category.LineAndShapeRenderer;
 import org.jfree.chart.title.LegendTitle;
 import org.jfree.chart.title.TextTitle;
 import org.jfree.data.category.CategoryDataset;
@@ -27,6 +29,8 @@ public class SpiderWebChart extends ChartPanel{
 	  spiderwebplot.setOutlinePaint(Color.WHITE); // 设置绘图面板外边的填充颜色
 	  //spiderwebplot.setInteriorGap(0.40000000000000002D);
 	  spiderwebplot.setToolTipGenerator(new StandardCategoryToolTipGenerator());
+	  spiderwebplot.setSeriesPaint(new Color(30,81,140));
+	  spiderwebplot.setLabelFont(new Font("微软雅黑",0,13));
 	  JFreeChart jfreechart = new JFreeChart("", TextTitle.DEFAULT_FONT, spiderwebplot, false);
 	  LegendTitle legendtitle = new LegendTitle(spiderwebplot);
 	  legendtitle.setPosition(RectangleEdge.BOTTOM);

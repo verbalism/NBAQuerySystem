@@ -6,6 +6,8 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
@@ -29,21 +31,28 @@ import org.jfree.data.xy.XYDataset;
 
 import businesslogic.DataBL;
 import businesslogicService.DataBLService;
+import ui.PieChart;
+import ui.SeriesChart;
+import ui.SpiderWebChart;
 import vo.PlayerVO;
 import vo.TeamVO;
 
-public class TeamAnlPanel extends JPanel{
+public class TeamAnlPanel extends JPanel implements ActionListener{
 	int panelHeight,panelWidth;
 	JLabel title;
-	DataBLService dbl = new DataBL();
+	//DataBLService dbl = new DataBL();
 	JTextField searchField;
 	JButton searchBtn;
 	JButton scoreBtn, shotBtn, historyBtn;
 	JButton offensiveBtn,defensiveBtn;
-	JComboBox seasonBox;
+	JComboBox seasonBox;JLabel chooseSeason;
 	JButton playerNameLabel1,playerNameLabel2;
+	TeamVO team;
+	JPanel anlPanel;
+	SeriesChart seriesChart;SpiderWebChart spiderChart;PieChart pieChart;
 	public TeamAnlPanel(){
-		TeamVO team = dbl.getSingleTeamInfo("BOS");
+		//TeamVO team = dbl.getSingleTeamInfo("BOS");
+		team = new TeamVO(); team.setTeamName("BOS");
 		Toolkit kit = Toolkit.getDefaultToolkit();
 		Dimension screenSize = kit.getScreenSize();
 		panelHeight = screenSize.height-160;
@@ -139,18 +148,18 @@ public class TeamAnlPanel extends JPanel{
 		basicInfoPanel.add(infoLabel);
 		basicInfoPanel.add(search);
 		
-		JPanel anlPanel = new JPanel();
+		anlPanel = new JPanel();
 		anlPanel.setBounds(0, 200, 700, 380);
 		anlPanel.setBackground(null);
 		
 		
-		SeriesChart seriesChart = new SeriesChart(createSeriesDataset());
+		seriesChart = new SeriesChart(createSeriesDataset());
 		seriesChart.setBounds(0, 60, 700, 300);
 		
-		SpiderWebChart spiderChart = new SpiderWebChart(createSpiderDataset());
+		spiderChart = new SpiderWebChart(createSpiderDataset());
 		spiderChart.setBounds(-7, 60, 700, 300);
 		
-		PieChart pieChart = new PieChart(createPieDataset());
+		pieChart = new PieChart(createPieDataset());
 		pieChart.setBounds(0, 60, 700, 300);
 		
 		
@@ -171,7 +180,7 @@ public class TeamAnlPanel extends JPanel{
 				historyBtn.setBackground(new Color(89,89,89));
 			}
 		});
-		//offensiveBtn.addActionListener(this);
+		scoreBtn.addActionListener(this);
 		shotBtn.setBounds(114, 10, 60, 30);
 		shotBtn.setBackground(new Color(89,89,89));
 		shotBtn.setBorder(new LineBorder(new Color(69,69,69),3,false));
@@ -185,7 +194,7 @@ public class TeamAnlPanel extends JPanel{
 				historyBtn.setBackground(new Color(89,89,89));
 			}
 		});
-		//defensiveBtn.addActionListener(this);
+		shotBtn.addActionListener(this);
 		historyBtn.setBounds(0, 10, 60, 30);
 		historyBtn.setBackground(new Color(158,158,158));
 		historyBtn.setBorder(new LineBorder(new Color(69,69,69),3,false));
@@ -199,9 +208,9 @@ public class TeamAnlPanel extends JPanel{
 				shotBtn.setBackground(new Color(89,89,89));
 			}
 		});
-		//historyBtn.addActionListener(this);
+		historyBtn.addActionListener(this);
 		
-		JLabel chooseSeason = new JLabel("选择赛季：");
+		chooseSeason = new JLabel("选择赛季：");
 		chooseSeason.setBounds(450, 10, 80, 30);
 		chooseSeason.setFont(new Font("微软雅黑",0,15));
 		chooseSeason.setForeground(new Color(69,69,69));
@@ -218,9 +227,7 @@ public class TeamAnlPanel extends JPanel{
 		anlPanel.add(historyBtn);
 		anlPanel.add(scoreBtn);
 		anlPanel.add(shotBtn);
-		anlPanel.add(seasonBox);
-		anlPanel.add(chooseSeason);
-		anlPanel.add(pieChart);
+		anlPanel.add(seriesChart);
 		
 		
 		offensiveBtn = new JButton("进攻");
@@ -428,6 +435,39 @@ public class TeamAnlPanel extends JPanel{
         pieDataset.setValue("三分投篮", 36);  
         pieDataset.setValue("罚球 ", 14);  
         return pieDataset;  
-    }  
+    }
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if(e.getSource()==historyBtn){
+			anlPanel.removeAll();
+			anlPanel.add(historyBtn);
+			anlPanel.add(scoreBtn);
+			anlPanel.add(shotBtn);
+			anlPanel.add(seriesChart);
+			anlPanel.repaint();
+		}
+		if(e.getSource()==scoreBtn){
+			anlPanel.removeAll();
+			anlPanel.add(historyBtn);
+			anlPanel.add(scoreBtn);
+			anlPanel.add(shotBtn);
+			anlPanel.add(seasonBox);
+			anlPanel.add(chooseSeason);
+			anlPanel.add(pieChart);
+			anlPanel.repaint();
+		}
+		if(e.getSource()==shotBtn){
+			anlPanel.removeAll();
+			anlPanel.add(historyBtn);
+			anlPanel.add(scoreBtn);
+			anlPanel.add(shotBtn);
+			anlPanel.add(seasonBox);
+			anlPanel.add(chooseSeason);
+			anlPanel.add(spiderChart);
+			anlPanel.repaint();
+		}
+		
+	}  
 	
 }
