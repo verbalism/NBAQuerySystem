@@ -37,17 +37,7 @@ public class TeamVO {
 	private String homeCourt;		//主场
 	private String createTime;		//创建时间
 	
-	private int gamesPlayedWin;//赢得的比赛
-	private double oppFieldGoalsMade;//对手投篮命中数
-	private double oppFieldGoalsAttempted;//对手投篮数
-	private double oppFreeThrowsAttempted;//对手罚球数
-	private double oppTurnovers;//对手失误数
-	private double oppSteals;//对手抢断数
-	private double oppAssists;//对手助攻数
-	private double oppOffensiveRebounds;//对手进攻篮板数
-	private double oppDefensiveRebounds;//对手防守篮板数
-	private double oppPoints;//对手得分数
-	private double oppPossessions;
+	
 		
 	public void setTeamName(String tn){
 		teamName=tn;
@@ -289,81 +279,6 @@ public class TeamVO {
 		this.createTime = createTime;
 	}
 
-	public int getGamesPlayedWin() {
-		return gamesPlayedWin;
-	}
-	public void setGamesPlayedWin(int gamesPlayedWin) {
-		this.gamesPlayedWin = gamesPlayedWin;
-	}
-
-	public double getOppFieldGoalsMade() {
-		return oppFieldGoalsMade;
-	}
-	public void setOppFieldGoalsMade(double oppFieldGoalsMade) {
-		this.oppFieldGoalsMade = oppFieldGoalsMade;
-	}
-
-	public double getOppFieldGoalsAttempted() {
-		return oppFieldGoalsAttempted;
-	}
-	public void setOppFieldGoalsAttempted(double oppFieldGoalsAttempted) {
-		this.oppFieldGoalsAttempted = oppFieldGoalsAttempted;
-	}
-
-	public double getOppFreeThrowsAttempted() {
-		return oppFreeThrowsAttempted;
-	}
-	public void setOppFreeThrowsAttempted(double oppFreeThrowsAttempted) {
-		this.oppFreeThrowsAttempted = oppFreeThrowsAttempted;
-	}
-
-	public double getOppTurnovers() {
-		return oppTurnovers;
-	}
-	public void setOppTurnovers(double oppTurnovers) {
-		this.oppTurnovers = oppTurnovers;
-	}
-
-	public double getOppSteals() {
-		return oppSteals;
-	}
-	public void setOppSteals(double oppSteals) {
-		this.oppSteals = oppSteals;
-	}
-
-	public double getOppAssists() {
-		return oppAssists;
-	}
-	public void setOppAssists(double oppAssists) {
-		this.oppAssists = oppAssists;
-	}
-
-	public double getOppOffensiveRebounds() {
-		return oppOffensiveRebounds;
-	}
-	public void setOppOffensiveRebounds(double oppOffensiveRebounds) {
-		this.oppOffensiveRebounds = oppOffensiveRebounds;
-	}
-
-	public double getOppDefensiveRebounds() {
-		return oppDefensiveRebounds;
-	}
-	public void setOppDefensiveRebounds(double oppDefensiveRebounds) {
-		this.oppDefensiveRebounds = oppDefensiveRebounds;
-	}
-
-	public double getOppPoints() {
-		return oppPoints;
-	}
-	public void setOppPoints(double oppPoints) {
-		this.oppPoints = oppPoints;
-	}
-
-	public double getOppPossessions() {
-		return oppPossessions;
-	}
-	public void setOppPossessions(double oppPossessions) {
-		this.oppPossessions = oppPossessions;
-	}
+	
 	
 }
