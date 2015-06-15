@@ -1,95 +1,94 @@
 package po;
 
 public class PlayerPO {
-	private String playerName;//ÇòÔ±Ãû³Æ
-	private String number;		//ÇòÒÂºÅÂë
-	private String position;	//Çò¶ÓÎ»ÖÃ
-	private String height;		//Éí¸ß
-	private String weight;		//ÌåÖØ
-	private String birth;		//ÉúÈÕ
-	private String age;			//ÄêÁä
-	private String exp;			//ÇòÁä
-	private String school;		//±ÏÒµÑ§Ğ£
-	private String teamName;//ËùÊôÇò¶Ó
-	private int gamesPlayed;//²ÎÈü³¡Êı
-	private int gamesStarting;//ÏÈ·¢³¡Êı
-	private double rebounds;//Àº°åÊı
-	private double offensiveRebounds;//½ø¹¥Àº°åÊı
-	private double defensiveRebounds;//·ÀÊØÀº°åÊı
-	private double assists;//Öú¹¥Êı
-	private double minutes;//ÔÚ³¡Ê±¼ä
-	private double fieldGoalsAttempts;//Í¶Àº³öÊÖÊı
-	private double fieldGoalsMade;//Í¶ÀºÃüÖĞÊı
-	private double fieldGoalsPercentage;//Í¶ÀºÃüÖĞÂÊ
-	private double threePointFieldGoalsAttempts;//Èı·Ö³öÊÖÊı
-	private double threePointFieldGoalsMade;//Èı·ÖÃüÖĞÊı
-	private double threePointFieldGoalsPercentage;//Èı·ÖÃüÖĞÂÊ
-	private double freeThrowsAttempts;//·£Çò³öÊÖÊı
-	private double freeThrowsMade;//·£ÇòÃüÖĞÊı
-	private double freeThrowsPercentage;//·£ÇòÃüÖĞÂÊ
-	private double steals;//ÇÀ¶ÏÊı
-	private double blocks;//¸ÇÃ±Êı
-	private double turnovers;//Ê§ÎóÊı
-	private double fouls;//·¸¹æÊı
-	private double points;//µÃ·Ö
-	private double efficiency;//Ğ§ÂÊ
-	private double GmSc;//GmScĞ§ÂÊÖµ
-	private double trueShootingPercentage;//ÕæÊµÃüÖĞÂÊ
-	private double shootingEfficiency;//Í¶ÀºĞ§ÂÊ
-	private double reboundRating;//Àº°åÂÊ
-	private double offensiveReboundRating;//½ø¹¥Àº°åÂÊ
-	private double defensiveReboundRating;//·ÀÊØÀº°åÂÊ
-	private double assisyRating;//Öú¹¥ÂÊ
-	private double stealRating;//ÇÀ¶ÏÂÊ
-	private double blockRating;//¸ÇÃ±ÂÊ
-	private double turnoverRating;//Ê§ÎóÂÊ
-	private double utilizationRating;//Ê¹ÓÃÂÊ
-	private double doubleDouble; //Á½Ë«
-
-	private double increaseOfPoints;//½üÎå³¡µÃ·ÖÌáÉıÂÊ
-	private double increaseOfRebounds;//½üÎå³¡Àº°åÌáÉıÂÊ
-	private double increaseOfAssists;//½üÎå³¡Öú¹¥ÌáÉıÂÊ
-	private String playerID;//ÇòÔ±id
+	private String playerName;//ï¿½ï¿½Ô±ï¿½ï¿½ï¿½ï¿½
+	private String number;		//ï¿½ï¿½ï¿½Âºï¿½ï¿½ï¿½
+	private String position;	//ï¿½ï¿½ï¿½Î»ï¿½ï¿½
+	private String height;		//ï¿½ï¿½ï¿½
+	private String weight;		//ï¿½ï¿½ï¿½ï¿½
+	private String birth;		//ï¿½ï¿½ï¿½ï¿½
+	private String age;			//ï¿½ï¿½ï¿½ï¿½
+	private String exp;			//ï¿½ï¿½ï¿½ï¿½
+	private String school;		//ï¿½ï¿½ÒµÑ§Ğ£
+	private String teamName;//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	private int gamesPlayed;//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	private int gamesStarting;//ï¿½È·ï¿½ï¿½ï¿½ï¿½ï¿½
+	private double rebounds;//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	private double offensiveRebounds;//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	private double defensiveRebounds;//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	private double assists;//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	private double minutes;//ï¿½Ú³ï¿½Ê±ï¿½ï¿½
+	private double fieldGoalsAttempts;//Í¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	private double fieldGoalsMade;//Í¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	private double fieldGoalsPercentage;//Í¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	private double threePointFieldGoalsAttempts;//ï¿½ï¿½ï¿½Ö³ï¿½ï¿½ï¿½ï¿½ï¿½
+	private double threePointFieldGoalsMade;//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	private double threePointFieldGoalsPercentage;//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	private double freeThrowsAttempts;//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	private double freeThrowsMade;//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	private double freeThrowsPercentage;//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	private double steals;//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	private double blocks;//ï¿½ï¿½Ã±ï¿½ï¿½
+	private double turnovers;//Ê§ï¿½ï¿½ï¿½ï¿½
+	private double fouls;//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	private double points;//ï¿½Ã·ï¿½
+	private double efficiency;//Ğ§ï¿½ï¿½
+	private double GmSc;//GmScĞ§ï¿½ï¿½Öµ
+	private double trueShootingPercentage;//ï¿½ï¿½Êµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	private double shootingEfficiency;//Í¶ï¿½ï¿½Ğ§ï¿½ï¿½
+	private double reboundRating;//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	private double offensiveReboundRating;//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	private double defensiveReboundRating;//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	private double assisyRating;//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	private double stealRating;//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	private double blockRating;//ï¿½ï¿½Ã±ï¿½ï¿½
+	private double turnoverRating;//Ê§ï¿½ï¿½ï¿½ï¿½
+	private double utilizationRating;//Ê¹ï¿½ï¿½ï¿½ï¿½
+	private double doubleDouble; //ï¿½ï¿½Ë«
+	private double increaseOfPoints;//ï¿½ï¿½ï¿½å³¡ï¿½Ã·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	private double increaseOfRebounds;//ï¿½ï¿½ï¿½å³¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	private double increaseOfAssists;//ï¿½ï¿½ï¿½å³¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	private String playerID;//ï¿½ï¿½Ô±id
 	
 	public PlayerPO(){
-		gamesPlayed=0;//²ÎÈü³¡Êı
-		gamesStarting=0;//ÏÈ·¢³¡Êı
-		rebounds=0;//Àº°åÊı
-		minutes=0;//ÉÏ³¡Ê±¼ä
-		assists=0;//Öú¹¥Êı
-		fieldGoalsAttempts=0;//Í¶Àº³öÊÖÊı
-		fieldGoalsMade=0;//Í¶ÀºÃüÖĞÊı
-		fieldGoalsPercentage=0;//Í¶ÀºÃüÖĞÂÊ
-		threePointFieldGoalsAttempts=0;//Èı·Ö³öÊÖÊı
-		threePointFieldGoalsMade=0;//Èı·ÖÃüÖĞÊı
-		threePointFieldGoalsPercentage=0;//Èı·ÖÃüÖĞÂÊ
-		freeThrowsAttempts=0;//·£Çò³öÊÖÊı
-		freeThrowsMade=0;//·£ÇòÃüÖĞÊı
-		freeThrowsPercentage=0;//·£ÇòÃüÖĞÂÊ
-		offensiveRebounds=0;//½ø¹¥Àº°åÊı
-		defensiveRebounds=0;//·ÀÊØÀº°åÊı
-		steals=0;//ÇÀ¶ÏÊı
-		blocks=0;//¸ÇÃ±Êı
-		turnovers=0;//Ê§ÎóÊı
-		fouls=0;//·¸¹æÊı
-		points=0;//µÃ·Ö
-		efficiency=0;//Ğ§ÂÊ
-		GmSc=0;//GmScĞ§ÂÊÖµ
-		trueShootingPercentage=0;//ÕæÊµÃüÖĞÂÊ
-		shootingEfficiency=0;//Í¶ÀºĞ§ÂÊ
-		reboundRating=0;//Àº°åÂÊ
-		offensiveReboundRating=0;//½ø¹¥Àº°åÂÊ
-		defensiveReboundRating=0;//·ÀÊØÀº°åÂÊ
-		assisyRating=0;//Öú¹¥ÂÊ
-		stealRating=0;//ÇÀ¶ÏÂÊ
-		blockRating=0;//¸ÇÃ±ÂÊ
-		turnoverRating=0;//Ê§ÎóÂÊ
-		utilizationRating=0;//Ê¹ÓÃÂÊ
-		doubleDouble=0;//Á½Ë«
-		setIncreaseOfPoints(0);//½üÎå³¡µÃ·ÖÌáÉıÂÊ
-		setIncreaseOfRebounds(0);//½üÎå³¡Àº°åÌáÉıÂÊ
-		setIncreaseOfAssists(0);//½üÎå³¡Öú¹¥ÌáÉıÂÊ
-		playerID="";//ÇòÔ±id
+		gamesPlayed=0;//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		gamesStarting=0;//ï¿½È·ï¿½ï¿½ï¿½ï¿½ï¿½
+		rebounds=0;//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		minutes=0;//ï¿½Ï³ï¿½Ê±ï¿½ï¿½
+		assists=0;//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		fieldGoalsAttempts=0;//Í¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		fieldGoalsMade=0;//Í¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		fieldGoalsPercentage=0;//Í¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		threePointFieldGoalsAttempts=0;//ï¿½ï¿½ï¿½Ö³ï¿½ï¿½ï¿½ï¿½ï¿½
+		threePointFieldGoalsMade=0;//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		threePointFieldGoalsPercentage=0;//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		freeThrowsAttempts=0;//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		freeThrowsMade=0;//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		freeThrowsPercentage=0;//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		offensiveRebounds=0;//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		defensiveRebounds=0;//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		steals=0;//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		blocks=0;//ï¿½ï¿½Ã±ï¿½ï¿½
+		turnovers=0;//Ê§ï¿½ï¿½ï¿½ï¿½
+		fouls=0;//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		points=0;//ï¿½Ã·ï¿½
+		efficiency=0;//Ğ§ï¿½ï¿½
+		GmSc=0;//GmScĞ§ï¿½ï¿½Öµ
+		trueShootingPercentage=0;//ï¿½ï¿½Êµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		shootingEfficiency=0;//Í¶ï¿½ï¿½Ğ§ï¿½ï¿½
+		reboundRating=0;//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		offensiveReboundRating=0;//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		defensiveReboundRating=0;//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		assisyRating=0;//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		stealRating=0;//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		blockRating=0;//ï¿½ï¿½Ã±ï¿½ï¿½
+		turnoverRating=0;//Ê§ï¿½ï¿½ï¿½ï¿½
+		utilizationRating=0;//Ê¹ï¿½ï¿½ï¿½ï¿½
+		doubleDouble=0;//ï¿½ï¿½Ë«
+		setIncreaseOfPoints(0);//ï¿½ï¿½ï¿½å³¡ï¿½Ã·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		setIncreaseOfRebounds(0);//ï¿½ï¿½ï¿½å³¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		setIncreaseOfAssists(0);//ï¿½ï¿½ï¿½å³¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		playerID="";//ï¿½ï¿½Ô±id
 	}
 
 	public String getPlayerName() {
