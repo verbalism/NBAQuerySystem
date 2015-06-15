@@ -1224,7 +1224,7 @@ public class AnalysisBL implements AnalysisBLService {
 		// TODO Auto-generated method stub
 		DataBLService d=new DataBL();
 		MatchDataService md=new MatchData();
-		ArrayList<MatchPO> m=md.getAllMatchInfo(season);
+		ArrayList<MatchPO> m=md.getMatchOfTeam(teamName, season);
 		ArrayList<PlayerVO> p=d.getAllPlayerInfo(season);
 		
 		ArrayList<PlayerVO> p2=new ArrayList<PlayerVO>();
@@ -1251,7 +1251,8 @@ public class AnalysisBL implements AnalysisBLService {
 				for(int k=0;k<mm.size();k++){
 					if(mm.get(k).getPlayerName().equals(p2.get(j).getPlayerName())){					
 						xList.add(String.valueOf(mm.get(k).getOffensiveRebound()));	
-					}					
+					}		
+					temp+=mm.get(k).getOffensiveRebound();
 				}  
 				yList.add(String.valueOf(temp));					
 			}		         
@@ -1260,8 +1261,8 @@ public class AnalysisBL implements AnalysisBLService {
 			DenominatorCalculate dc = new DenominatorCalculate();  
 			double denominator = dc.calculateDenominator(xList, yList);  
 			CORR = numerator/denominator;  
-			if(denominator==0)
-				CORR=0;
+			if(denominator==0){
+				CORR=0;}
 			n[j]=CORR;
 			System.out.println(p2.get(j).getPlayerName()+"\t\t\t"+n[j]+"\t\t\t"+numerator+"\t\t"+denominator);
 		}
@@ -1283,7 +1284,7 @@ public class AnalysisBL implements AnalysisBLService {
 	public String getTheMostPotentialOffensivePlayer(String teamName,String season) {
 		DataBLService d=new DataBL();
 		MatchDataService md=new MatchData();
-		ArrayList<MatchPO> m=md.getAllMatchInfo(season);
+		ArrayList<MatchPO> m=md.getMatchOfTeam(teamName, season);
 		ArrayList<PlayerVO> p=d.getAllPlayerInfo(season);
 		ArrayList<PlayerVO> p2=new ArrayList<PlayerVO>();
 		for(int i=0;i<p.size();i++){
@@ -1336,7 +1337,7 @@ public class AnalysisBL implements AnalysisBLService {
 					 
 			LinearRegression h=new LinearRegression(xList,yList);
 			n[j]=h.getB();	
-			System.out.println(p2.get(j).getPlayerName()+"\t\t"+n[j]+"\t\t"+xList.get(j)+"\t\t"+yList.get(j));
+			System.out.println(p2.get(j).getPlayerName()+"\t\t"+n[j]+"\t\t"+"\t\t"+l);
 			
 		}		
 		for(int i=0;i<n.length;i++){
@@ -1356,7 +1357,7 @@ public class AnalysisBL implements AnalysisBLService {
 	public String getBestDefensivePlayer(String teamName, String season) {
 		DataBLService d=new DataBL();
 		MatchDataService md=new MatchData();
-		ArrayList<MatchPO> m=md.getAllMatchInfo(season);
+		ArrayList<MatchPO> m=md.getMatchOfTeam(teamName, season);
 		
 		ArrayList<PlayerVO> p=d.getAllPlayerInfo(season);
 		ArrayList<PlayerVO> p2=new ArrayList<PlayerVO>();
@@ -1416,7 +1417,7 @@ public class AnalysisBL implements AnalysisBLService {
 	public String getTheMostPotentialDefensivePlayer(String teamName,String season) {
 		DataBLService d=new DataBL();
 		MatchDataService md=new MatchData();
-		ArrayList<MatchPO> m=md.getAllMatchInfo(season);
+		ArrayList<MatchPO> m=md.getMatchOfTeam(teamName, season);
 		ArrayList<PlayerVO> p=d.getAllPlayerInfo(season);
 		ArrayList<PlayerVO> p2=new ArrayList<PlayerVO>();
 		for(int i=0;i<p.size();i++){
