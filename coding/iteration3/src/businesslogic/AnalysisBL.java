@@ -1121,7 +1121,9 @@ public class AnalysisBL implements AnalysisBLService {
 		DataBLService d=new DataBL();
 		SimpleDateFormat df = new SimpleDateFormat("MM-dd");//设置日期格式
 		String str=df.format(new Date());	
-		ArrayList<MatchVO> result=d.findMatchByDate(str,"14_15_after");
+		ArrayList<MatchVO> result=new ArrayList<MatchVO>();
+				
+		result=d.findMatchByDate(str,"14_15_after");
 		return result;
 	}
 

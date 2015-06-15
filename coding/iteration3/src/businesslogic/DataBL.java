@@ -94,9 +94,7 @@ public class DataBL implements DataBLService {
 		MatchDataService md=new MatchData();
 		ArrayList<MatchPO> m=new ArrayList<MatchPO>();
 		m=md.getTodayMatchInfo(matchDate, season);
-		System.out.println("比赛场数："+m.size());
-		for(int j=0;j<m.size();j++){
-			
+		for(int j=0;j<m.size();j++){		
 			MatchVO temp=new MatchVO();
 			temp.setMatchTime(m.get(j).getMatchTime());
 			temp.setTeams(m.get(j).getTeams());
@@ -160,9 +158,6 @@ public class DataBL implements DataBLService {
 			result.add(temp);
 			
 		}
-		
-		if(result.size()==0)
-			return null;
 		return result;
 	}
 
