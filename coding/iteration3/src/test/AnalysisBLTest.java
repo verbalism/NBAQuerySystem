@@ -12,6 +12,7 @@ import vo.MatchVO;
 import vo.PlayerPartition;
 import vo.PlayerPosition;
 import vo.PlayerVO;
+import vo.ScoreWay;
 import vo.SortType;
 import vo.TeamVO;
 import vo.TodayPlayerVO;
@@ -26,12 +27,12 @@ public class AnalysisBLTest {
 		DataBLService d=new DataBL();
 		MatchDataService md=new MatchData();
 	
-		/*ArrayList<PlayerVO> p=a.sortPlayer(d.getAllPlayerInfo(),"stealRating",SortType.Descending);
+		/*ArrayList<PlayerVO> p=a.sortPlayer(d.getAllPlayerInfo("14_15"),"stealRating");
 		for(int i=0;i<p.size();i++){
 			System.out.println(p.get(i).getStealRating());
 		}
 		
-		ArrayList<TeamVO> t=a.sortTeam(d.getAllTeamInfo(),"fieldGoalsMade",SortType.Descending);
+		ArrayList<TeamVO> t=a.sortTeam(d.getAllTeamInfo("14_15"),"fieldGoalsMade");
 		for(int i=0;i<t.size();i++){
 			System.out.println(t.get(i).getFieldGoalsMade());
 		}*/
@@ -40,7 +41,7 @@ public class AnalysisBLTest {
 		System.out.println(pp.getTeamName());
 		TeamVO tt=d.getSingleTeamInfo(pp.getTeamName(),"14_15");
 		System.out.println(tt.getSubarea());
-		/*
+		
 		ArrayList<PlayerVO> p2=a.getTopFiftyPlayer(PlayerPosition.All, PlayerPartition.All, "rebounds","14_15");
 		for(int i=0;i<p2.size();i++){
 			System.out.print(i+1);System.out.print("      ");
@@ -49,10 +50,12 @@ public class AnalysisBLTest {
 			System.out.print(p2.get(i).getAssists());System.out.print("      ");
 			System.out.println();
 		}
-		System.out.println("***********************************************************************************");*/
+		System.out.println(a.getScoreAnalysis("CHA", "14_15",ScoreWay.threePointFieldGoals));
+		System.out.println("***********************************************************************************");
+		System.out.println(a.getTheMostPotentialOffensivePlayer("CHA", "14_15"));
 		
 		System.out.println(a.getBestOffensivePlayer("CHA", "14_15"));
-	/*
+	
 		ArrayList<TodayPlayerVO> p3=a.getTodayHotSpotPlayer("rebound");
 		 for(int i=0;i<p3.size();i++){
 				System.out.println(p3.get(i).getRebound());
@@ -77,7 +80,10 @@ public class AnalysisBLTest {
 		 for(int i=0;i<p5.size();i++){
 				System.out.println(p5.get(i).getIncreaseOfPoints());
 		}
-		 System.out.println("*****************************************************************************************");*/
+		 System.out.println("*****************************************************************************************");
+		 System.out.println(a.getScoreAnalysis("CHA", "14_15",ScoreWay.threePointFieldGoals));
+		 System.out.println("*****************************************************************************************");
+	
 
 		 
 		

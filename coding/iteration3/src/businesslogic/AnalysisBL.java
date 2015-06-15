@@ -1134,6 +1134,8 @@ public class AnalysisBL implements AnalysisBLService {
 		if(t.getPoints()==0){
 			return result;
 		}
+		System.out.println(t.getThreePointFieldGoalsMade());
+		System.out.println(t.getPoints());
 		if(scoreWay.equals(ScoreWay.fieldGoals)){			
 			result=1.0;
 		}else if(scoreWay.equals(ScoreWay.threePointFieldGoals)){
@@ -1202,7 +1204,7 @@ public class AnalysisBL implements AnalysisBLService {
 		for(int i=0;i<t.size();i++){
 			if(t.get(i).getTeamName().equals(teamName)){
 				int n=0;
-				for(int j=0;i<t.size();j++){
+				for(int j=0;j<t.size();j++){
 					if(temp[i]>temp[j]){
 						n++;
 					}
@@ -1224,16 +1226,14 @@ public class AnalysisBL implements AnalysisBLService {
 		DataBLService d=new DataBL();
 		MatchDataService md=new MatchData();
 		ArrayList<MatchPO> m=md.getAllMatchInfo(season);
-		System.out.println("获取本赛季全部比赛");
 		ArrayList<PlayerVO> p=d.getAllPlayerInfo(season);
-		System.out.println("获取本赛季全部球员");
+		
 		ArrayList<PlayerVO> p2=new ArrayList<PlayerVO>();
 		for(int i=0;i<p.size();i++){
 			if(p.get(i).getTeamName().equals(teamName)){
 				p2.add(p.get(i));
 			}
 		}
-		System.out.println("获取该队球员");
 		double[] n=new double[p2.size()];		
 		double CORR = 0.0;  
 		for(int j=0;j<p2.size();j++){
@@ -1262,8 +1262,10 @@ public class AnalysisBL implements AnalysisBLService {
 			DenominatorCalculate dc = new DenominatorCalculate();  
 			double denominator = dc.calculateDenominator(xList, yList);  
 			CORR = numerator/denominator;  
+			if(denominator==0)
+				CORR=0;
 			n[j]=CORR;
-			/*System.out.println(p2.get(j).getPlayerName()+"\t\t\t"+n[j]+"\t\t\t"+numerator+"\t\t"+denominator);*/
+			//System.out.println(p2.get(j).getPlayerName()+"\t\t\t"+n[j]+"\t\t\t"+numerator+"\t\t"+denominator);
 		}
 		
 		for(int i=0;i<n.length;i++){
@@ -1283,7 +1285,7 @@ public class AnalysisBL implements AnalysisBLService {
 	public String getTheMostPotentialOffensivePlayer(String teamName,String season) {
 		DataBLService d=new DataBL();
 		MatchDataService md=new MatchData();
-		ArrayList<MatchPO> m=new ArrayList<MatchPO>();
+		ArrayList<MatchPO> m=md.getAllMatchInfo(season);
 		ArrayList<PlayerVO> p=d.getAllPlayerInfo(season);
 		ArrayList<PlayerVO> p2=new ArrayList<PlayerVO>();
 		for(int i=0;i<p.size();i++){
@@ -1294,9 +1296,8 @@ public class AnalysisBL implements AnalysisBLService {
 		double[] n=new double[p2.size()];		
 		for(int j=0;j<p2.size();j++){
 			List<Double> xList = new ArrayList<Double>();
-			List<Double> yList = new ArrayList<Double>();  
-			m=md.getAllMatchInfo(season);
-			
+			List<Double> yList = new ArrayList<Double>();
+			int l=1;  		
 			for(int a=0;a<m.size();a++){
 				ArrayList<MatchPlayer> mm = new ArrayList<MatchPlayer>();
 				if(m.get(a).getTeam1().getTeamName().equals(teamName))
@@ -1305,7 +1306,7 @@ public class AnalysisBL implements AnalysisBLService {
 					mm=m.get(a).getTeam2().getPlayers();
 				else
 					continue;
-				int l=1;
+				
 				for(int k=0;k<mm.size();k++){
 					if(mm.get(k).getPlayerName().equals(p2.get(j).getPlayerName())){
 						xList.add((double) mm.get(k).getOffensiveRebound());
@@ -1313,9 +1314,11 @@ public class AnalysisBL implements AnalysisBLService {
 						l++;
 					}
 				}  						
-			}		         
+			}		
+					 
 			LinearRegression h=new LinearRegression(xList,yList);
 			n[j]=h.getB();		
+			System.out.println(p2.get(j).getPlayerName()+"\t\t\t"+n[j]);
 		}		
 		for(int i=0;i<n.length;i++){
 			int k=0;
@@ -1337,14 +1340,12 @@ public class AnalysisBL implements AnalysisBLService {
 		ArrayList<MatchPO> m=md.getAllMatchInfo(season);
 		System.out.println("获取本赛季全部比赛");
 		ArrayList<PlayerVO> p=d.getAllPlayerInfo(season);
-		System.out.println("获取本赛季全部球员");
 		ArrayList<PlayerVO> p2=new ArrayList<PlayerVO>();
 		for(int i=0;i<p.size();i++){
 			if(p.get(i).getTeamName().equals(teamName)){
 				p2.add(p.get(i));
 			}
 		}
-		System.out.println("获取该队球员");
 		double[] n=new double[p2.size()];		
 		double CORR = 0.0;  
 		for(int j=0;j<p2.size();j++){
@@ -1373,7 +1374,9 @@ public class AnalysisBL implements AnalysisBLService {
 			DenominatorCalculate dc = new DenominatorCalculate();  
 			double denominator = dc.calculateDenominator(xList, yList);  
 			
-			CORR = numerator/denominator;  
+			CORR = numerator/denominator; 
+			if(denominator==0)
+				CORR=0;
 			n[j]=CORR;
 		}
 		
@@ -1394,7 +1397,7 @@ public class AnalysisBL implements AnalysisBLService {
 	public String getTheMostPotentialDefensivePlayer(String teamName,String season) {
 		DataBLService d=new DataBL();
 		MatchDataService md=new MatchData();
-		ArrayList<MatchPO> m=new ArrayList<MatchPO>();
+		ArrayList<MatchPO> m=md.getAllMatchInfo(season);
 		ArrayList<PlayerVO> p=d.getAllPlayerInfo(season);
 		ArrayList<PlayerVO> p2=new ArrayList<PlayerVO>();
 		for(int i=0;i<p.size();i++){
@@ -1406,8 +1409,7 @@ public class AnalysisBL implements AnalysisBLService {
 		for(int j=0;j<p2.size();j++){
 			List<Double> xList = new ArrayList<Double>();
 			List<Double> yList = new ArrayList<Double>();  
-			m=md.getAllMatchInfo(season);
-			
+			int l=1;
 			for(int a=0;a<m.size();a++){
 				ArrayList<MatchPlayer> mm = new ArrayList<MatchPlayer>();
 				if(m.get(a).getTeam1().getTeamName().equals(teamName))
@@ -1416,7 +1418,6 @@ public class AnalysisBL implements AnalysisBLService {
 					mm=m.get(a).getTeam2().getPlayers();
 				else
 					continue;
-				int l=1;
 				for(int k=0;k<mm.size();k++){
 					if(mm.get(k).getPlayerName().equals(p2.get(j).getPlayerName())){
 						xList.add((double) mm.get(k).getOffensiveRebound());
