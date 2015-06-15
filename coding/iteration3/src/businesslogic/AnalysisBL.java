@@ -1264,7 +1264,7 @@ public class AnalysisBL implements AnalysisBLService {
 			if(denominator==0){
 				CORR=0;}
 			n[j]=CORR;
-			System.out.println(p2.get(j).getPlayerName()+"\t\t\t"+n[j]+"\t\t\t"+numerator+"\t\t"+denominator);
+			//System.out.println(p2.get(j).getPlayerName()+"\t\t\t"+n[j]+"\t\t\t"+numerator+"\t\t"+denominator);
 		}
 		
 		for(int i=0;i<n.length;i++){
@@ -1337,7 +1337,7 @@ public class AnalysisBL implements AnalysisBLService {
 					 
 			LinearRegression h=new LinearRegression(xList,yList);
 			n[j]=h.getB();	
-			System.out.println(p2.get(j).getPlayerName()+"\t\t"+n[j]+"\t\t"+"\t\t"+l);
+			//System.out.println(p2.get(j).getPlayerName()+"\t\t"+n[j]+"\t\t"+"\t\t"+l);
 			
 		}		
 		for(int i=0;i<n.length;i++){
