@@ -202,7 +202,7 @@ public class TeamInfoFrame extends JFrame implements ActionListener{
 		JPanel beforeTitle = new JPanel();
 		beforeTitle.setBackground(new Color(30,81,140));
 		beforeTitle.setBounds(0, 0, frameWidth-40, 40);
-		JLabel title = new JLabel("球 队 数 据");
+		JLabel title = new JLabel("常 规 赛 数 据");
 		title.setBounds(20,0,100,40);
 		title.setBackground(null);
 		title.setFont(new Font("微软雅黑",Font.BOLD,16));

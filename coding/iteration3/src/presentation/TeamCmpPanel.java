@@ -12,6 +12,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.text.DecimalFormat;
 
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
@@ -24,9 +25,13 @@ import javax.swing.SwingConstants;
 
 import org.jfree.data.category.DefaultCategoryDataset;
 
+import businesslogic.DataBL;
+import businesslogicService.DataBLService;
+import ui.ActionDialog;
 import ui.LeftHorizontalBarChart;
 import ui.RightHorizontalBarChart;
 import ui.SeriesChart;
+import vo.TeamVO;
 
 public class TeamCmpPanel extends JPanel implements ActionListener{
 	int panelHeight,panelWidth;
@@ -40,8 +45,11 @@ public class TeamCmpPanel extends JPanel implements ActionListener{
 	JPanel cmpPanel, dataColumnPanel, selectPanel;
 	LeftHorizontalBarChart team1Chart;RightHorizontalBarChart team2Chart;
 	SeriesChart seriesChart;
-	String team1,team2="NBA";
-	public TeamCmpPanel(){
+	TeamVO team1,team2;ButtonGroup bg;JRadioButton jrbScore;
+	DecimalFormat df=new DecimalFormat("#########.##");
+	DataBLService dbl = new DataBL();
+	public TeamCmpPanel(String team){
+		team1 = dbl.getSingleTeamInfo(team, "14_15");
 		Toolkit kit = Toolkit.getDefaultToolkit();
 		Dimension screenSize = kit.getScreenSize();
 		panelHeight = screenSize.height-160;
@@ -88,7 +96,7 @@ public class TeamCmpPanel extends JPanel implements ActionListener{
 		      {    
 		        if(e.getKeyChar()==KeyEvent.VK_ENTER )   //按回车键执行相应操作; 
 		        { 
-		          //searchBtn1.doClick();
+		          searchBtn1.doClick();
 		        } 
 		      } 
 		    });
@@ -108,7 +116,7 @@ public class TeamCmpPanel extends JPanel implements ActionListener{
 		      {    
 		        if(e.getKeyChar()==KeyEvent.VK_ENTER )   //按回车键执行相应操作; 
 		        { 
-		          //searchBtn2.doClick();
+		          searchBtn2.doClick();
 		        } 
 		      } 
 		    });
@@ -119,7 +127,7 @@ public class TeamCmpPanel extends JPanel implements ActionListener{
 		searchBtn1.setIcon(find);
 		searchBtn1.setBounds(0, 0, 30, 30);
 		searchBtn1.setBorder(null);
-		//searchBtn1.addActionListener(this);
+		searchBtn1.addActionListener(this);
 		searchBtn1.addMouseListener(new MouseAdapter(){
 			public void mouseEntered(MouseEvent arg0){
 				searchBtn1.setIcon(find_c);
@@ -132,7 +140,7 @@ public class TeamCmpPanel extends JPanel implements ActionListener{
 		searchBtn2.setIcon(find);
 		searchBtn2.setBounds(panelWidth-30, 0, 30, 30);
 		searchBtn2.setBorder(null);
-		//searchBtn2.addActionListener(this);
+		searchBtn2.addActionListener(this);
 		searchBtn2.addMouseListener(new MouseAdapter(){
 			public void mouseEntered(MouseEvent arg0){
 				searchBtn2.setIcon(find_c);
@@ -156,10 +164,10 @@ public class TeamCmpPanel extends JPanel implements ActionListener{
 		teamImgLabel1.setBounds(panelWidth/2-215, 5, 90, 90);
 		teamImgLabel2 = new JLabel();
 		teamImgLabel2.setBounds(panelWidth/2+65, 5, 90, 90);
-		img1 = new ImageIcon("Img//teams//"+"BOS.png");
+		img1 = new ImageIcon("Img//teams//"+team1.getTeamName()+".png");
 		img1.setImage(img1.getImage().getScaledInstance(90,90,Image.SCALE_DEFAULT));
 		teamImgLabel1.setIcon(img1);
-		img2 = new ImageIcon("Img//teams//"+team2+".png");
+		img2 = new ImageIcon("Img//teams//NBA.png");
 		img2.setImage(img2.getImage().getScaledInstance(90,90,Image.SCALE_DEFAULT));
 		teamImgLabel2.setIcon(img2);
 		
@@ -175,7 +183,7 @@ public class TeamCmpPanel extends JPanel implements ActionListener{
 		teamNameLabel1.setBounds(0, 130, panelWidth/2-65, 50);
 		teamNameLabel1.setBackground(new Color(30,81,140));
 		teamNameLabel1.setOpaque(true);
-		teamNameLabel1.setText("ATL  ");
+		teamNameLabel1.setText(team1.getTeamName()+"  ");
 		teamNameLabel1.setForeground(Color.WHITE);
 		teamNameLabel1.setFont(new Font("Arial",Font.BOLD,20));
 		teamNameLabel1.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -322,40 +330,112 @@ public class TeamCmpPanel extends JPanel implements ActionListener{
 		selectPanel.setBounds(730, 20, 300, 300);
 		selectPanel.setBackground(null);
 		
-		ButtonGroup bg = new ButtonGroup();
-		JRadioButton jrbScore = new JRadioButton("场均得分");
+		bg = new ButtonGroup();
+		jrbScore = new JRadioButton("场均得分");
 		jrbScore.setBackground(null);
 		jrbScore.setSelected(true);
 		jrbScore.setBounds(0, 0, 200, 30);
 		jrbScore.setFont(new Font("微软雅黑",0,15));
+		jrbScore.addActionListener(new ActionListener() {     // 捕获单选按钮被选中的事件
+			public void actionPerformed(ActionEvent e) {
+				cmpPanel.remove(seriesChart);
+				seriesChart = new SeriesChart(createSeriesDataset("score"));
+				seriesChart.setBounds(0, 20, 700, 300);
+				cmpPanel.add(seriesChart);
+				cmpPanel.repaint();
+			}
+		});
 		JRadioButton jrbAssist = new JRadioButton("场均助攻");
 		jrbAssist.setBackground(null);
 		jrbAssist.setBounds(0, 30, 200, 30);
 		jrbAssist.setFont(new Font("微软雅黑",0,15));
+		jrbAssist.addActionListener(new ActionListener() {     // 捕获单选按钮被选中的事件
+			public void actionPerformed(ActionEvent e) {
+				cmpPanel.remove(seriesChart);
+				seriesChart = new SeriesChart(createSeriesDataset("assist"));
+				seriesChart.setBounds(0, 20, 700, 300);
+				cmpPanel.add(seriesChart);
+				cmpPanel.repaint();
+			}
+		});
 		JRadioButton jrbBoard = new JRadioButton("场均篮板");
 		jrbBoard.setBackground(null);
 		jrbBoard.setBounds(0, 60, 200, 30);
 		jrbBoard.setFont(new Font("微软雅黑",0,15));
+		jrbBoard.addActionListener(new ActionListener() {     // 捕获单选按钮被选中的事件
+			public void actionPerformed(ActionEvent e) {
+				cmpPanel.remove(seriesChart);
+				seriesChart = new SeriesChart(createSeriesDataset("board"));
+				seriesChart.setBounds(0, 20, 700, 300);
+				cmpPanel.add(seriesChart);
+				cmpPanel.repaint();
+			}
+		});
 		JRadioButton jrbSteal = new JRadioButton("场均抢断");
 		jrbSteal.setBackground(null);
 		jrbSteal.setBounds(0, 90, 200, 30);
 		jrbSteal.setFont(new Font("微软雅黑",0,15));
+		jrbSteal.addActionListener(new ActionListener() {     // 捕获单选按钮被选中的事件
+			public void actionPerformed(ActionEvent e) {
+				cmpPanel.remove(seriesChart);
+				seriesChart = new SeriesChart(createSeriesDataset("steal"));
+				seriesChart.setBounds(0, 20, 700, 300);
+				cmpPanel.add(seriesChart);
+				cmpPanel.repaint();
+			}
+		});
 		JRadioButton jrbBlock = new JRadioButton("场均盖帽");
 		jrbBlock.setBackground(null);
 		jrbBlock.setBounds(0, 120, 200, 30);
 		jrbBlock.setFont(new Font("微软雅黑",0,15));
+		jrbBlock.addActionListener(new ActionListener() {     // 捕获单选按钮被选中的事件
+			public void actionPerformed(ActionEvent e) {
+				cmpPanel.remove(seriesChart);
+				seriesChart = new SeriesChart(createSeriesDataset("block"));
+				seriesChart.setBounds(0, 20, 700, 300);
+				cmpPanel.add(seriesChart);
+				cmpPanel.repaint();
+			}
+		});
 		JRadioButton jrbThree = new JRadioButton("三分%");
 		jrbThree.setBackground(null);
 		jrbThree.setBounds(0, 150, 200, 30);
 		jrbThree.setFont(new Font("微软雅黑",0,15));
+		jrbThree.addActionListener(new ActionListener() {     // 捕获单选按钮被选中的事件
+			public void actionPerformed(ActionEvent e) {
+				cmpPanel.remove(seriesChart);
+				seriesChart = new SeriesChart(createSeriesDataset("three"));
+				seriesChart.setBounds(0, 20, 700, 300);
+				cmpPanel.add(seriesChart);
+				cmpPanel.repaint();
+			}
+		});
 		JRadioButton jrbFree = new JRadioButton("罚球%");
 		jrbFree.setBackground(null);
 		jrbFree.setBounds(0, 180, 200, 30);
 		jrbFree.setFont(new Font("微软雅黑",0,15));
+		jrbFree.addActionListener(new ActionListener() {     // 捕获单选按钮被选中的事件
+			public void actionPerformed(ActionEvent e) {
+				cmpPanel.remove(seriesChart);
+				seriesChart = new SeriesChart(createSeriesDataset("free"));
+				seriesChart.setBounds(0, 20, 700, 300);
+				cmpPanel.add(seriesChart);
+				cmpPanel.repaint();
+			}
+		});
 		JRadioButton jrbHit = new JRadioButton("%");
 		jrbHit.setBackground(null);
 		jrbHit.setBounds(0, 210, 200, 30);
 		jrbHit.setFont(new Font("微软雅黑",0,15));
+		jrbHit.addActionListener(new ActionListener() {     // 捕获单选按钮被选中的事件
+			public void actionPerformed(ActionEvent e) {
+				cmpPanel.remove(seriesChart);
+				seriesChart = new SeriesChart(createSeriesDataset("hit"));
+				seriesChart.setBounds(0, 20, 700, 300);
+				cmpPanel.add(seriesChart);
+				cmpPanel.repaint();
+			}
+		});
 		bg.add(jrbScore);
 		bg.add(jrbAssist);
 		bg.add(jrbBoard);
@@ -374,10 +454,8 @@ public class TeamCmpPanel extends JPanel implements ActionListener{
 		selectPanel.add(jrbFree);
 		selectPanel.add(jrbHit);
 		
-		
-		seriesChart = new SeriesChart(createSeriesDataset());
+		seriesChart = new SeriesChart(createSeriesDataset("score"));
 		seriesChart.setBounds(0, 20, 700, 300);
-		
 		
 		
 		cmpPanel.setLayout(null);
@@ -395,31 +473,105 @@ public class TeamCmpPanel extends JPanel implements ActionListener{
 		
 	}
 	
-	public static DefaultCategoryDataset createTeam1BarDataset() {
+	public DefaultCategoryDataset createTeam1BarDataset() {
 		DefaultCategoryDataset dataset = new DefaultCategoryDataset();   
-		dataset.addValue(-94.8, "", "得分");  
-		dataset.addValue(-20, "", "助攻");  
-		dataset.addValue(-40.8, "", "篮板");  
-		dataset.addValue(-25.6, "", "三分");  
-		dataset.addValue(-77.5, "", "罚球");  
-		dataset.addValue(-42, "", "%");   
-		dataset.addValue(-3.75, "", "盖帽");
-		dataset.addValue(-13.5, "", "失误");
+		dataset.addValue(-Double.valueOf(df.format(team1.getPoints()/team1.getGamesPlayed())), "", "得分");  
+		dataset.addValue(-Double.valueOf(df.format(team1.getAssists()/team1.getGamesPlayed())), "", "助攻");  
+		dataset.addValue(-Double.valueOf(df.format(team1.getRebounds()/team1.getGamesPlayed())), "", "篮板");  
+		dataset.addValue(-Double.valueOf(df.format(team1.getSteals()/team1.getGamesPlayed())), "", "抢断");  
+		dataset.addValue(-Double.valueOf(df.format(team1.getBlocks()/team1.getGamesPlayed())), "", "盖帽");  
+		dataset.addValue(-Double.valueOf(df.format(team1.getThreePointFieldGoalPercentage()*100)), "", "三分%");   
+		dataset.addValue(-Double.valueOf(df.format(team1.getFreeThrowPercentage()*100)), "", "罚球%");
+		dataset.addValue(-Double.valueOf(df.format(team1.getFieldGoalPercentage()*100)), "", "%");
 		 return dataset;
 	}
 	
-	public static DefaultCategoryDataset createTeam2BarDataset(){
+	public DefaultCategoryDataset createTeam2BarDataset(){
 		DefaultCategoryDataset dataset = new DefaultCategoryDataset();   
-		dataset.addValue(94.8, "", "得分");  
-		dataset.addValue(20, "", "助攻");  
-		dataset.addValue(40.8, "", "篮板");  
-		dataset.addValue(25.6, "", "三分");  
-		dataset.addValue(77.5, "", "罚球");  
-		dataset.addValue(42, "", "%");   
-		dataset.addValue(3.75, "", "盖帽");
-		dataset.addValue(13.5, "", "失误");
+		dataset.addValue(Double.valueOf(df.format(team2.getPoints()/team2.getGamesPlayed())), "", "得分");  
+		dataset.addValue(Double.valueOf(df.format(team2.getAssists()/team2.getGamesPlayed())), "", "助攻");  
+		dataset.addValue(Double.valueOf(df.format(team2.getRebounds()/team2.getGamesPlayed())), "", "篮板");  
+		dataset.addValue(Double.valueOf(df.format(team2.getSteals()/team1.getGamesPlayed())), "", "抢断");  
+		dataset.addValue(Double.valueOf(df.format(team2.getBlocks()/team1.getGamesPlayed())), "", "盖帽");  
+		dataset.addValue(Double.valueOf(df.format(team2.getThreePointFieldGoalPercentage()*100)), "", "三分%");   
+		dataset.addValue(Double.valueOf(df.format(team2.getFreeThrowPercentage()*100)), "", "罚球%");
+		dataset.addValue(Double.valueOf(df.format(team2.getFieldGoalPercentage()*100)), "", "%");
 		return dataset;
 	}
+
+	public DefaultCategoryDataset createSeriesDataset(String keyword) {
+		 DefaultCategoryDataset linedataset = new DefaultCategoryDataset();
+		 // 曲线名称
+		 String series1 = team1.getTeamName();  // series指的就是报表里的那条数据线
+                       //因此 对数据线的相关设置就需要联系到serise
+                       //比如说setSeriesPaint 设置数据线的颜色
+
+		 // 横轴名称(列名称) 
+		 String series2 = team2.getTeamName();
+		 
+		 String[] time = new String[11];
+		 String[] timeValue = { "04-05", "05-06", "06-07", "07-08", "08-09", "09-10",
+                    "10-11", "11-12", "12-13", "13-14", "14-15"};
+		 for (int i = 0; i < 11; i++) {
+			 time[i] = timeValue[i];
+		 }
+		 //随机添加数据值
+		 for (int i = 0; i < 11; i++) {
+			 Double d1=0.0,d2=0.0;
+			 TeamVO t1 = dbl.getSingleTeamInfo(team1.getTeamName(), timeValue[i].replace('-', '_'));
+			 TeamVO t2 = dbl.getSingleTeamInfo(team2.getTeamName(), timeValue[i].replace('-', '_'));
+			 switch(keyword){
+			 case "score":
+				 d1 = Double.valueOf(df.format(t1.getPoints()/t1.getGamesPlayed()));
+				 d2 = Double.valueOf(df.format(t2.getPoints()/t2.getGamesPlayed()));
+				 break;
+			 case "assist": 
+				 d1 = Double.valueOf(df.format(t1.getAssists()/t1.getGamesPlayed()));
+				 d2 = Double.valueOf(df.format(t2.getAssists()/t2.getGamesPlayed()));
+				 break;
+			 case "board":
+				 d1 = Double.valueOf(df.format(t1.getRebounds()/t1.getGamesPlayed()));
+				 d2 = Double.valueOf(df.format(t2.getRebounds()/t2.getGamesPlayed()));
+				 break;
+			 case "steal":
+				 d1 = Double.valueOf(df.format(t1.getSteals()/t1.getGamesPlayed()));
+				 d2 = Double.valueOf(df.format(t2.getSteals()/t2.getGamesPlayed()));
+				 break;
+			 case "block":
+				 d1 = Double.valueOf(df.format(t1.getBlocks()/t1.getGamesPlayed()));
+				 d2 = Double.valueOf(df.format(t2.getBlocks()/t2.getGamesPlayed()));
+				 break;
+			 case "three":
+				 d1 = Double.valueOf(df.format(t1.getThreePointFieldGoalPercentage()*100));
+				 d2 = Double.valueOf(df.format(t2.getThreePointFieldGoalPercentage()*100));
+				 break;
+			 case "free":
+				 d1 = Double.valueOf(df.format(t1.getFreeThrowPercentage()*100));
+				 d2 = Double.valueOf(df.format(t2.getFreeThrowPercentage()*100));
+				 break;
+			 case "hit":
+				 d1 = Double.valueOf(df.format(t1.getFieldGoalPercentage()*100));
+				 d2 = Double.valueOf(df.format(t2.getFieldGoalPercentage()*100));
+				 break;
+			 default:
+				 break;
+			 }
+			 
+				 
+			 linedataset.addValue(d1,  //值
+					 series1,  //哪条数据线
+					 time[i]); // 对应的横轴
+			 linedataset.addValue(d2,  //值
+					 series2,  //哪条数据线
+					 time[i]); // 对应的横轴
+			// linedataset.addValue(i + i * 14.34 ,  //值
+			//		 series3,  //哪条数据线
+			//		 time[i]); // 对应的横轴
+		 }
+
+		 return linedataset;
+	}
+	
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -437,38 +589,63 @@ public class TeamCmpPanel extends JPanel implements ActionListener{
 			cmpPanel.add(team2Chart);
 			cmpPanel.repaint();
 		}
+		if(e.getSource()==searchBtn1){
+			String name = searchField1.getText();
+		    TeamVO team = dbl.getSingleTeamInfo(name, "14_15");
+		    if(team.getTeamName().equals(""))
+		    	new ActionDialog("不存在该球队");
+		    else{
+		    	cmpPanel.removeAll();
+		    	team1 = team;
+		    	team1Chart = new LeftHorizontalBarChart(createTeam1BarDataset(),new String[]{ "#9E9E9E","#9E9E9E","#9E9E9E","#9E9E9E","#9E9E9E","#9E9E9E","#9E9E9E","#9E9E9E"} );
+				team1Chart.setBounds(8, 0, panelWidth/2-65, 310);
+				team1Chart.setBackground(null);
+				img1 = new ImageIcon("Img//teams//"+team1.getTeamName()+".png");
+				img1.setImage(img1.getImage().getScaledInstance(90,90,Image.SCALE_DEFAULT));
+				teamImgLabel1.setIcon(img1);
+				teamNameLabel1.setText(team1.getTeamName()+"  ");
+				searchField1.setText("  查找球队");
+				seriesChart = new SeriesChart(createSeriesDataset("score"));
+				seriesChart.setBounds(0, 20, 700, 300);
+				jrbScore.setSelected(true);
+				
+				cmpPanel.add(dataColumnPanel);
+				cmpPanel.add(team1Chart);
+				cmpPanel.add(team2Chart);
+				cmpPanel.repaint();
+				barChartBtn.setVisible(false);
+				lineChartBtn.setVisible(true);
+		    }
+		}
+		
+		if(e.getSource()==searchBtn2){
+			String name = searchField1.getText();
+		    TeamVO team = dbl.getSingleTeamInfo(name, "14_15");
+		    if(team.getTeamName().equals(""))
+		    	new ActionDialog("不存在该球队");
+		    else{
+		    	cmpPanel.removeAll();
+		    	team2 = team;
+		    	team2Chart = new RightHorizontalBarChart(createTeam2BarDataset(),new String[]{ "#9E9E9E","#9E9E9E","#9E9E9E","#9E9E9E","#9E9E9E","#9E9E9E","#9E9E9E","#9E9E9E"} );
+				team2Chart.setBounds(panelWidth/2+57, 0, panelWidth/2-65, 310);
+				team2Chart.setBackground(null);
+				img2 = new ImageIcon("Img//teams//NBA.png");
+				img2.setImage(img2.getImage().getScaledInstance(90,90,Image.SCALE_DEFAULT));
+				teamImgLabel2.setIcon(img2);
+				teamNameLabel2.setText(team2.getTeamName()+"  ");
+				searchField2.setText("  查找球队");
+				seriesChart = new SeriesChart(createSeriesDataset("score"));
+				seriesChart.setBounds(0, 20, 700, 300);
+				jrbScore.setSelected(true);
+				
+				cmpPanel.add(dataColumnPanel);
+				cmpPanel.add(team1Chart);
+				cmpPanel.add(team2Chart);
+				cmpPanel.repaint();
+				barChartBtn.setVisible(true);
+				lineChartBtn.setVisible(false);
+		    }
+		}
 	}
 	
-	public DefaultCategoryDataset createSeriesDataset() {
-		 DefaultCategoryDataset linedataset = new DefaultCategoryDataset();
-		 // 曲线名称
-		 String series1 = "BOS";  // series指的就是报表里的那条数据线
-                       //因此 对数据线的相关设置就需要联系到serise
-                       //比如说setSeriesPaint 设置数据线的颜色
-
-		 // 横轴名称(列名称) 
-		 String series2 = "NBA";
-		 //String series3 = "防守";
-		 String[] time = new String[11];
-		 String[] timeValue = { "04-05", "05-06", "06-07", "07-08", "08-09", "09-10",
-                    "10-11", "11-12", "12-13", "13-14", "14-15"};
-		 for (int i = 0; i < 11; i++) {
-			 time[i] = timeValue[i];
-		 }
-		 //随机添加数据值
-		 for (int i = 0; i < 11; i++) {
-			 linedataset.addValue(i + i * 9.344444 + 3/(i+1)+0.55555,  //值
-					 series1,  //哪条数据线
-					 time[i]); // 对应的横轴
-			 linedataset.addValue(i + i * 23.2 -22/(i+1),  //值
-					 series2,  //哪条数据线
-					 time[i]); // 对应的横轴
-			// linedataset.addValue(i + i * 14.34 ,  //值
-			//		 series3,  //哪条数据线
-			//		 time[i]); // 对应的横轴
-		 }
-
-		 return linedataset;
-		
-	}
 }

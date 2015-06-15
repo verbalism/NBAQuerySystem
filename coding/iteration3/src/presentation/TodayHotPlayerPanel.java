@@ -56,7 +56,7 @@ public class TodayHotPlayerPanel extends JPanel{
 		playerNameLabel1.addMouseListener(new MouseAdapter(){
 			public void mouseClicked(MouseEvent arg0) {
 				playerNameLabel1.setBackground(null);
-				PlayerVO findPlayer = db.getSinglePlayerInfo(playerNameLabel1.getText());
+				PlayerVO findPlayer = db.getSinglePlayerInfo(playerNameLabel1.getText(),"14_15");
 				new PlayerInfoFrame(findPlayer);
 			}
 			
@@ -104,7 +104,7 @@ public class TodayHotPlayerPanel extends JPanel{
 		playerNameLabel2.addMouseListener(new MouseAdapter(){
 			public void mouseClicked(MouseEvent arg0) {
 				playerNameLabel2.setBackground(null);
-				PlayerVO findPlayer = db.getSinglePlayerInfo(playerNameLabel2.getText());
+				PlayerVO findPlayer = db.getSinglePlayerInfo(playerNameLabel2.getText(),"14_15");
 				new PlayerInfoFrame(findPlayer);
 			}
 			
@@ -151,7 +151,7 @@ public class TodayHotPlayerPanel extends JPanel{
 		playerNameLabel3.addMouseListener(new MouseAdapter(){
 			public void mouseClicked(MouseEvent arg0) {
 				playerNameLabel3.setBackground(null);
-				PlayerVO findPlayer = db.getSinglePlayerInfo(playerNameLabel3.getText());
+				PlayerVO findPlayer = db.getSinglePlayerInfo(playerNameLabel3.getText(),"14_15");
 				new PlayerInfoFrame(findPlayer);
 			}
 			
@@ -198,7 +198,7 @@ public class TodayHotPlayerPanel extends JPanel{
 		playerNameLabel4.addMouseListener(new MouseAdapter(){
 			public void mouseClicked(MouseEvent arg0) {
 				playerNameLabel4.setBackground(null);
-				PlayerVO findPlayer = db.getSinglePlayerInfo(playerNameLabel4.getText());
+				PlayerVO findPlayer = db.getSinglePlayerInfo(playerNameLabel4.getText(),"14_15");
 				new PlayerInfoFrame(findPlayer);
 			}
 			
@@ -245,7 +245,7 @@ public class TodayHotPlayerPanel extends JPanel{
 		playerNameLabel5.addMouseListener(new MouseAdapter(){
 			public void mouseClicked(MouseEvent arg0) {
 				playerNameLabel5.setBackground(null);
-				PlayerVO findPlayer = db.getSinglePlayerInfo(playerNameLabel5.getText());
+				PlayerVO findPlayer = db.getSinglePlayerInfo(playerNameLabel5.getText(),"14_15");
 				new PlayerInfoFrame(findPlayer);
 			}
 			

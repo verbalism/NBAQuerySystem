@@ -447,9 +447,9 @@ public class HotPanel extends JPanel implements ActionListener{
 		searchPanel.add(teamBtn);
 		
 		
-		ArrayList<TeamVO> teams = abl.getSeasonHotSpotTeam("points");
+		ArrayList<TeamVO> teams = abl.getSeasonHotSpotTeam("points","14_15");
 		teamResultPanel = new HotTeamPanel(teams,"allScore");
-		ArrayList<PlayerVO> players2 = abl.getSeasonHotSpotPlayer("points");
+		ArrayList<PlayerVO> players2 = abl.getSeasonHotSpotPlayer("points","14_15");
 		playerResultPanel = new HotPlayerPanel(players2,"allScore");
 		ArrayList<TodayPlayerVO> players = abl.getTodayHotSpotPlayer("score");
 		tdplayerResultPanel = new TodayHotPlayerPanel(players,"tdScore");
@@ -481,12 +481,12 @@ public class HotPanel extends JPanel implements ActionListener{
 			this.remove(teamResultPanel);
 			this.remove(tdplayerResultPanel);
 			if(e.getSource()==allBtn){
-				ArrayList<PlayerVO> players = abl.getSeasonHotSpotPlayer("points");
+				ArrayList<PlayerVO> players = abl.getSeasonHotSpotPlayer("points","14_15");
 				playerResultPanel = new HotPlayerPanel(players,"allScore");
 				this.add(playerResultPanel);
 			}
 			else{
-				ArrayList<TeamVO> teams = abl.getSeasonHotSpotTeam("points");
+				ArrayList<TeamVO> teams = abl.getSeasonHotSpotTeam("points","14_15");
 				teamResultPanel = new HotTeamPanel(teams,"allScore");
 				this.add(teamResultPanel);
 			}
@@ -519,7 +519,7 @@ public class HotPanel extends JPanel implements ActionListener{
 			this.remove(tdplayerResultPanel);
 			this.remove(playerResultPanel);
 			this.remove(teamResultPanel);
-			ArrayList<PlayerVO> players = abl.getProgressivePlayer("increaseOfPoints");
+			ArrayList<PlayerVO> players = abl.getProgressivePlayer("increaseOfPoints","14_15");
 			playerResultPanel = new HotPlayerPanel(players,"adScore");
 			this.add(playerResultPanel);
 			this.repaint();
@@ -564,13 +564,13 @@ public class HotPanel extends JPanel implements ActionListener{
 		if(e.getSource()==allScoreBtn){
 			if(sortTeam){
 				this.remove(teamResultPanel);
-				ArrayList<TeamVO> teams = abl.getSeasonHotSpotTeam("points");
+				ArrayList<TeamVO> teams = abl.getSeasonHotSpotTeam("points","14_15");
 				teamResultPanel = new HotTeamPanel(teams,"allScore");
 				this.add(teamResultPanel);
 			}
 			else{
 				this.remove(playerResultPanel);
-				ArrayList<PlayerVO> players = abl.getSeasonHotSpotPlayer("points");
+				ArrayList<PlayerVO> players = abl.getSeasonHotSpotPlayer("points","14_15");
 				playerResultPanel = new HotPlayerPanel(players,"allScore");
 				this.add(playerResultPanel);
 			}
@@ -580,13 +580,13 @@ public class HotPanel extends JPanel implements ActionListener{
 		if(e.getSource()==allBackBordBtn){
 			if(sortTeam){
 				this.remove(teamResultPanel);
-				ArrayList<TeamVO> teams = abl.getSeasonHotSpotTeam("rebounds");
+				ArrayList<TeamVO> teams = abl.getSeasonHotSpotTeam("rebounds","14_15");
 				teamResultPanel = new HotTeamPanel(teams,"allBackBord");
 				this.add(teamResultPanel);
 			}
 			else{
 				this.remove(playerResultPanel);
-				ArrayList<PlayerVO> players = abl.getSeasonHotSpotPlayer("rebounds");
+				ArrayList<PlayerVO> players = abl.getSeasonHotSpotPlayer("rebounds","14_15");
 				playerResultPanel = new HotPlayerPanel(players,"allBackBord");
 				this.add(playerResultPanel);
 			}
@@ -595,13 +595,13 @@ public class HotPanel extends JPanel implements ActionListener{
 		if(e.getSource()==allAssistBtn){
 			if(sortTeam){
 				this.remove(teamResultPanel);
-				ArrayList<TeamVO> teams = abl.getSeasonHotSpotTeam("assists");
+				ArrayList<TeamVO> teams = abl.getSeasonHotSpotTeam("assists","14_15");
 				teamResultPanel = new HotTeamPanel(teams,"allAssist");
 				this.add(teamResultPanel);
 			}
 			else{
 				this.remove(playerResultPanel);
-				ArrayList<PlayerVO> players = abl.getSeasonHotSpotPlayer("assists");
+				ArrayList<PlayerVO> players = abl.getSeasonHotSpotPlayer("assists","14_15");
 				playerResultPanel = new HotPlayerPanel(players,"allAssist");
 				this.add(playerResultPanel);
 			}
@@ -610,13 +610,13 @@ public class HotPanel extends JPanel implements ActionListener{
 		if(e.getSource()==allBlockShotBtn){
 			if(sortTeam){
 				this.remove(teamResultPanel);
-				ArrayList<TeamVO> teams = abl.getSeasonHotSpotTeam("blocks");
+				ArrayList<TeamVO> teams = abl.getSeasonHotSpotTeam("blocks","14_15");
 				teamResultPanel = new HotTeamPanel(teams,"allBlockShot");
 				this.add(teamResultPanel);
 			}
 			else{
 				this.remove(playerResultPanel);
-				ArrayList<PlayerVO> players = abl.getSeasonHotSpotPlayer("blocks");
+				ArrayList<PlayerVO> players = abl.getSeasonHotSpotPlayer("blocks","14_15");
 				playerResultPanel = new HotPlayerPanel(players,"allBlockShot");
 				this.add(playerResultPanel);
 			}
@@ -625,13 +625,13 @@ public class HotPanel extends JPanel implements ActionListener{
 		if(e.getSource()==allSTBtn){
 			if(sortTeam){
 				this.remove(teamResultPanel);
-				ArrayList<TeamVO> teams = abl.getSeasonHotSpotTeam("steals");
+				ArrayList<TeamVO> teams = abl.getSeasonHotSpotTeam("steals","14_15");
 				teamResultPanel = new HotTeamPanel(teams,"allST");
 				this.add(teamResultPanel);
 			}
 			else{
 				this.remove(playerResultPanel);
-				ArrayList<PlayerVO> players = abl.getSeasonHotSpotPlayer("steals");
+				ArrayList<PlayerVO> players = abl.getSeasonHotSpotPlayer("steals","14_15");
 				playerResultPanel = new HotPlayerPanel(players,"allST");
 				this.add(playerResultPanel);
 			}
@@ -640,13 +640,13 @@ public class HotPanel extends JPanel implements ActionListener{
 		if(e.getSource()==all3Btn){
 			if(sortTeam){
 				this.remove(teamResultPanel);
-				ArrayList<TeamVO> teams = abl.getSeasonHotSpotTeam("threePointFieldGoalPercentage");
+				ArrayList<TeamVO> teams = abl.getSeasonHotSpotTeam("threePointFieldGoalPercentage","14_15");
 				teamResultPanel = new HotTeamPanel(teams,"all3");
 				this.add(teamResultPanel);
 			}
 			else{
 				this.remove(playerResultPanel);
-				ArrayList<PlayerVO> players = abl.getSeasonHotSpotPlayer("threePointFieldGoalsPercentage");
+				ArrayList<PlayerVO> players = abl.getSeasonHotSpotPlayer("threePointFieldGoalsPercentage","14_15");
 				playerResultPanel = new HotPlayerPanel(players,"all3");
 				this.add(playerResultPanel);
 			}
@@ -655,13 +655,13 @@ public class HotPanel extends JPanel implements ActionListener{
 		if(e.getSource()==allShotBtn){
 			if(sortTeam){
 				this.remove(teamResultPanel);
-				ArrayList<TeamVO> teams = abl.getSeasonHotSpotTeam("fieldGoalPercentage");
+				ArrayList<TeamVO> teams = abl.getSeasonHotSpotTeam("fieldGoalPercentage","14_15");
 				teamResultPanel = new HotTeamPanel(teams,"allShot");
 				this.add(teamResultPanel);
 			}
 			else{
 				this.remove(playerResultPanel);
-				ArrayList<PlayerVO> players = abl.getSeasonHotSpotPlayer("fieldGoalsPercentage");
+				ArrayList<PlayerVO> players = abl.getSeasonHotSpotPlayer("fieldGoalsPercentage","14_15");
 				playerResultPanel = new HotPlayerPanel(players,"allShot");
 				this.add(playerResultPanel);
 			}
@@ -670,13 +670,13 @@ public class HotPanel extends JPanel implements ActionListener{
 		if(e.getSource()==allPenaltyBtn){
 			if(sortTeam){
 				this.remove(teamResultPanel);
-				ArrayList<TeamVO> teams = abl.getSeasonHotSpotTeam("freeThrowPercentage");
+				ArrayList<TeamVO> teams = abl.getSeasonHotSpotTeam("freeThrowPercentage","14_15");
 				teamResultPanel = new HotTeamPanel(teams,"allPenalty");
 				this.add(teamResultPanel);
 			}
 			else{
 				this.remove(playerResultPanel);
-				ArrayList<PlayerVO> players = abl.getSeasonHotSpotPlayer("freeThrowsPercentage");
+				ArrayList<PlayerVO> players = abl.getSeasonHotSpotPlayer("freeThrowsPercentage","14_15");
 				playerResultPanel = new HotPlayerPanel(players,"allPenalty");
 				this.add(playerResultPanel);
 			}
@@ -685,21 +685,21 @@ public class HotPanel extends JPanel implements ActionListener{
 		
 		if(e.getSource()==adScoreBtn){
 			this.remove(playerResultPanel);
-			ArrayList<PlayerVO> players = abl.getProgressivePlayer("increaseOfPoints");
+			ArrayList<PlayerVO> players = abl.getProgressivePlayer("increaseOfPoints","14_15");
 			playerResultPanel = new HotPlayerPanel(players,"adScore");
 			this.add(playerResultPanel);
 			this.repaint();
 		}
 		if(e.getSource()==adBackBordBtn){
 			this.remove(playerResultPanel);
-			ArrayList<PlayerVO> players = abl.getProgressivePlayer("increaseOfRebounds");
+			ArrayList<PlayerVO> players = abl.getProgressivePlayer("increaseOfRebounds","14_15");
 			playerResultPanel = new HotPlayerPanel(players,"adBackBord");
 			this.add(playerResultPanel);
 			this.repaint();
 		}
 		if(e.getSource()==adAssistBtn){
 			this.remove(playerResultPanel);
-			ArrayList<PlayerVO> players = abl.getProgressivePlayer("increaseOfAssists");
+			ArrayList<PlayerVO> players = abl.getProgressivePlayer("increaseOfAssists","14_15");
 			playerResultPanel = new HotPlayerPanel(players,"adAssist");
 			this.add(playerResultPanel);
 			this.repaint();

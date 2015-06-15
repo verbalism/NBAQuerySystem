@@ -37,11 +37,12 @@ public class MatchListPanel extends JPanel implements ActionListener {
 	DateChooser matchDateChooser;
 	JScrollPane scrollPane;
 	JLabel title;
-	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+	SimpleDateFormat sdf = new SimpleDateFormat("MM-dd");
 	AnalysisBLService abl = new AnalysisBL();
 	DataBLService dbl = new DataBL();
 	MatchListPanel matchListPanel;
 	Thread thread;
+	String season;
 	public MatchListPanel(){
 		Toolkit kit = Toolkit.getDefaultToolkit();
 		Dimension screenSize = kit.getScreenSize();
@@ -59,7 +60,7 @@ public class MatchListPanel extends JPanel implements ActionListener {
 		title.setBackground(null);
 		title.setFont(new Font("微软雅黑",Font.BOLD,16));
 		title.setForeground(Color.WHITE);
-		matchDateChooser = new DateChooser("MM-dd");
+		matchDateChooser = new DateChooser("yyyy-MM-dd");
 		matchDateChooser.setBounds(panelWidth-300,10,200,30);
 		matchDateChooser.setBackground(new Color(69,69,69));
 		matchDateChooser.setBorder(null);
@@ -110,7 +111,7 @@ public class MatchListPanel extends JPanel implements ActionListener {
                 	 if (e.getClickCount() == 2) {
                 		 	String matchDate = (String) table.getValueAt(table.getSelectedRow(), 0);
                  		    String team = ((String) table.getValueAt(table.getSelectedRow(), 1)).split("-")[0];
-                 			MatchVO match = dbl.getSingleMatchInfo(matchDate, team);
+                 			MatchVO match = dbl.getSingleMatchInfo(matchDate, team, season);
                  		    new MatchInfoFrame(match);
                  	 }	    	 
               }}});
@@ -124,7 +125,7 @@ public class MatchListPanel extends JPanel implements ActionListener {
 		this.add(searchPanel);
 		this.add(scrollPane);
 		
-		thread = new Thread(new Runnable(){
+		/**thread = new Thread(new Runnable(){
             @Override
             public void run() {
             	 while(true){
@@ -138,26 +139,35 @@ public class MatchListPanel extends JPanel implements ActionListener {
             	 }
             }
         });
-		thread.start();
+		thread.start();*/
 	}
 	@SuppressWarnings("deprecation")
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource()==searchBtn){
+			if(matchDateChooser.getDate().getMonth()<7)
+				season = Integer.toString(matchDateChooser.getDate().getYear()-2001)+"_"+Integer.toString(matchDateChooser.getDate().getYear()-2000);
+			else
+				season = Integer.toString(matchDateChooser.getDate().getYear()-2000)+"_"+Integer.toString(matchDateChooser.getDate().getYear()-1999);
+			
+			if((matchDateChooser.getDate().getMonth()<7&&matchDateChooser.getDate().getMonth()>4)||(matchDateChooser.getDate().getMonth()==4&&matchDateChooser.getDate().getDay()>20));
+				season = season+"_after";
 			String date = sdf.format(matchDateChooser.getDate());
-			ArrayList<MatchVO> matches = dbl.findMatchByDate(date);
+			
+			System.out.println(season);
+			ArrayList<MatchVO> matches = dbl.findMatchByDate(date,season);
 			if(matches.isEmpty())
 				new ActionDialog("该日无比赛");
 			else{
-				thread.stop();
-				refresh(matches);
+				//thread.stop();
+				//refresh(matches);
 				title.setText(date+" 比赛");
 			}
 			
 		}
 		
 	}
-	public void refresh(ArrayList<MatchVO> matches){
+	/**public void refresh(ArrayList<MatchVO> matches){
 		this.remove(scrollPane);
 		String[] columnNames = new String[]{"比赛日期","对阵队伍","比分","第一节比分","第二节比分","第三节比分","第四节比分"};
 		String[][]data=new String[matches.size()][7];
@@ -193,5 +203,5 @@ public class MatchListPanel extends JPanel implements ActionListener {
 		scrollPane.setBorder(null);
 		this.add(scrollPane);
 		this.repaint();
-	}
+	}*/
 }

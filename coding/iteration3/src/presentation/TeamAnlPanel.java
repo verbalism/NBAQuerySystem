@@ -13,6 +13,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
+import java.text.DecimalFormat;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -29,30 +30,34 @@ import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.data.time.TimeSeries;
 import org.jfree.data.xy.XYDataset;
 
+import businesslogic.AnalysisBL;
 import businesslogic.DataBL;
+import businesslogicService.AnalysisBLService;
 import businesslogicService.DataBLService;
 import ui.PieChart;
 import ui.SeriesChart;
 import ui.SpiderWebChart;
 import vo.PlayerVO;
+import vo.TeamType;
 import vo.TeamVO;
 
 public class TeamAnlPanel extends JPanel implements ActionListener{
 	int panelHeight,panelWidth;
 	JLabel title;
-	//DataBLService dbl = new DataBL();
-	JTextField searchField;
-	JButton searchBtn;
-	JButton scoreBtn, shotBtn, historyBtn;
+	DataBLService dbl = new DataBL(); AnalysisBLService abl = new AnalysisBL();
+	//JTextField searchField;
+	//JLabel teamImgLabel;ImageIcon img;JLabel teamNameLabel,teamCityLabel,infoLabel;
+	//JButton searchBtn;
+	JButton scoreBtn, shotBtn, historyBtn;String state = "score";
 	JButton offensiveBtn,defensiveBtn;
-	JComboBox seasonBox;JLabel chooseSeason;
-	JButton playerNameLabel1,playerNameLabel2;
-	TeamVO team;
+	JComboBox seasonBox;JLabel chooseSeason;JLabel seasonLabel,teamTypeLabel;
+	JButton playerNameLabel1,playerNameLabel2;JLabel playerImgLabel1,playerImgLabel2;ImageIcon img1,img2;JLabel playerScoreLabel1, playerScoreLabel2;
+	TeamVO team; String season = "14_15";
 	JPanel anlPanel;
 	SeriesChart seriesChart;SpiderWebChart spiderChart;PieChart pieChart;
-	public TeamAnlPanel(){
-		//TeamVO team = dbl.getSingleTeamInfo("BOS");
-		team = new TeamVO(); team.setTeamName("BOS");
+	DecimalFormat df=new DecimalFormat("#########.##");
+	public TeamAnlPanel(String teamName){
+		TeamVO team = dbl.getSingleTeamInfo(teamName,"14_15");
 		Toolkit kit = Toolkit.getDefaultToolkit();
 		Dimension screenSize = kit.getScreenSize();
 		panelHeight = screenSize.height-160;
@@ -97,7 +102,7 @@ public class TeamAnlPanel extends JPanel implements ActionListener{
 			zone = "西部联盟";
 		infoLabel.setText("<html>"+zone+"<br>主场："+team.getHomeCourt()+"<br>建立时间："+team.getCreateTime()+"</html>");
 		
-		searchField = new JTextField();
+		/*searchField = new JTextField();
 		searchField.setBounds(30,0,400,30);
 		searchField.setBackground(new Color(246,246,246));
 		searchField.setBorder(null);
@@ -137,7 +142,7 @@ public class TeamAnlPanel extends JPanel implements ActionListener{
 		search.setBackground(null);
 		search.setLayout(null);
 		search.add(searchField);
-		search.add(searchBtn);
+		search.add(searchBtn);*/
 		JPanel basicInfoPanel = new JPanel();
 		basicInfoPanel.setBackground(null);
 		basicInfoPanel.setBounds(0, 50, 700, 150);
@@ -146,7 +151,7 @@ public class TeamAnlPanel extends JPanel implements ActionListener{
 		basicInfoPanel.add(teamNameLabel);
 		basicInfoPanel.add(teamCityLabel);
 		basicInfoPanel.add(infoLabel);
-		basicInfoPanel.add(search);
+		//basicInfoPanel.add(search);
 		
 		anlPanel = new JPanel();
 		anlPanel.setBounds(0, 200, 700, 380);
@@ -214,14 +219,14 @@ public class TeamAnlPanel extends JPanel implements ActionListener{
 		chooseSeason.setBounds(450, 10, 80, 30);
 		chooseSeason.setFont(new Font("微软雅黑",0,15));
 		chooseSeason.setForeground(new Color(69,69,69));
-		String season[] = {"14-15","13-14","12-13","11-12","10-11","09-10","08-09","07-08","06-07","05-06","04-05"};
-		seasonBox = new JComboBox(season);
+		String seasons[] = {"14-15","13-14","12-13","11-12","10-11","09-10","08-09","07-08","06-07","05-06","04-05"};
+		seasonBox = new JComboBox(seasons);
 		seasonBox.setBounds(530, 10, 150, 30);
 		seasonBox.setFont(new Font("微软雅黑",0,14));
 		//seasonBox.setBorder(new LineBorder(new Color(69,69,69),1,false));
 		seasonBox.setForeground(new Color(69,69,69));
 		seasonBox.setBackground(Color.WHITE);
-		//seasonBox.addActionListener(this);
+		seasonBox.addActionListener(this);
 		
 		anlPanel.setLayout(null);
 		anlPanel.add(historyBtn);
@@ -258,33 +263,41 @@ public class TeamAnlPanel extends JPanel implements ActionListener{
 			}
 		});
 		
-		JLabel sl = new JLabel("赛季");
-		sl.setBounds(0, 0, 100, 20);
-		sl.setFont(new Font("黑体",0,14));
-		sl.setForeground(new Color(126,126,126));
-		JLabel seasonLabel = new JLabel("14-15赛季");
-		seasonLabel.setBounds(0,40,300,30);
-		seasonLabel.setFont(new Font("微软雅黑",0,30));
-		seasonLabel.setForeground(new Color(68,68,68));
+		seasonLabel = new JLabel("14-15赛季");
+		seasonLabel.setBounds(0, 0, 100, 20);
+		seasonLabel.setFont(new Font("黑体",0,14));
+		seasonLabel.setForeground(new Color(126,126,126));
+		teamTypeLabel = new JLabel();
+		teamTypeLabel.setBounds(0,40,300,30);
+		teamTypeLabel.setFont(new Font("微软雅黑",0,30));
+		teamTypeLabel.setForeground(new Color(68,68,68));
+		TeamType type = abl.getTeamType(team.getTeamName(), season);
+		if(type==TeamType.Defensive)
+			teamTypeLabel.setText("进攻主导型球队");
+		if(type==TeamType.Offensive)
+			teamTypeLabel.setText("防守主导型球队");
+		if(type==TeamType.Balanced)
+			teamTypeLabel.setText("攻防兼顾型球队");
 		JPanel seasonPanel = new JPanel();
 		seasonPanel.setBackground(null);
 		seasonPanel.setBounds(30, 60, panelWidth-700, 120);
 		seasonPanel.setLayout(null);
-		seasonPanel.add(sl);
+		seasonPanel.add(teamTypeLabel);
 		seasonPanel.add(seasonLabel);
 		
 		JLabel bestPlayerLabel = new JLabel("最佳球员");
 		bestPlayerLabel.setBounds(0, 0, 100, 20);
 		bestPlayerLabel.setFont(new Font("黑体",0,14));
 		bestPlayerLabel.setForeground(new Color(126,126,126));
-		JLabel playerImgLabel1 = new JLabel();
+		playerImgLabel1 = new JLabel();
 		playerImgLabel1.setBounds(0, 40, 100, 80);
-		ImageIcon img1 = new ImageIcon("Img//players//portrait//"+"players.get(1).getPlayerName()"+".png");
-		//if(!new File("Img//players//portrait//"+players.get(1).getPlayerName()+".png").exists())
+		String name1 = abl.getBestOffensivePlayer(team.getTeamName(), season);
+		img1 = new ImageIcon("Img//players//portrait//"+name1+".png");
+		if(!new File("Img//players//portrait//"+name1+".png").exists())
 			img1 = new ImageIcon("Img//portrait.png");
 		img1.setImage(img1.getImage().getScaledInstance(75,60,Image.SCALE_DEFAULT));
 		playerImgLabel1.setIcon(img1);
-		playerNameLabel1 = new JButton("players");//).get(1).getPlayerName()");
+		playerNameLabel1 = new JButton(name1);
 		playerNameLabel1.setBounds(100, 40, 200, 30);
 		playerNameLabel1.setFont(new Font("Arial Black",0,20));
 		playerNameLabel1.setForeground(new Color(0,103,175));
@@ -300,11 +313,7 @@ public class TeamAnlPanel extends JPanel implements ActionListener{
 			}
 			
 		});
-		/*JLabel playerTeamLabel2 = new JLabel("players.get(1).getPosition()"+"/"+"players.get(1).getTeamName()");
-		playerTeamLabel2.setFont(new Font("Arial",0,15));
-		playerTeamLabel2.setBounds(130, 70, 200, 30);
-		playerTeamLabel2.setForeground(new Color(68,68,68));*/
-		JLabel playerScoreLabel1 = new JLabel("34.6");
+		playerScoreLabel1 = new JLabel(df.format(dbl.getSinglePlayerInfo(name1, season).getOffensiveRebounds()/dbl.getSinglePlayerInfo(name1, season).getGamesPlayed()));
 		playerScoreLabel1.setFont(new Font("Modern",Font.BOLD,28));
 		playerScoreLabel1.setForeground(new Color(68,68,68));
 		playerScoreLabel1.setBounds(100, 70, 200, 40);
@@ -316,20 +325,20 @@ public class TeamAnlPanel extends JPanel implements ActionListener{
 		bestPlayer.add(playerImgLabel1);
 		bestPlayer.add(playerNameLabel1);
 		bestPlayer.add(playerScoreLabel1);
-		//bestPlayer.add(playerTeamLabel2);
 		
 		JLabel advancePlayerLabel = new JLabel("最具潜力球员");
 		advancePlayerLabel.setBounds(0, 0, 100, 20);
 		advancePlayerLabel.setFont(new Font("黑体",0,14));
 		advancePlayerLabel.setForeground(new Color(126,126,126));
-		JLabel playerImgLabel2 = new JLabel();
+		String name2 = abl.getTheMostPotentialOffensivePlayer(team.getTeamName(), season);
+		playerImgLabel2 = new JLabel();
 		playerImgLabel2.setBounds(0, 40, 100, 80);
-		ImageIcon img2 = new ImageIcon("Img//players//portrait//"+"players.get(1).getPlayerName()"+".png");
-		//if(!new File("Img//players//portrait//"+players.get(1).getPlayerName()+".png").exists())
+		img2 = new ImageIcon("Img//players//portrait//"+name2+".png");
+		if(!new File("Img//players//portrait//"+name2+".png").exists())
 			img2 = new ImageIcon("Img//portrait.png");
 		img2.setImage(img2.getImage().getScaledInstance(75,60,Image.SCALE_DEFAULT));
 		playerImgLabel2.setIcon(img2);
-		playerNameLabel2 = new JButton("players");//).get(1).getPlayerName()");
+		playerNameLabel2 = new JButton(name2);//).get(1).getPlayerName()");
 		playerNameLabel2.setBounds(100, 40, 200, 30);
 		playerNameLabel2.setFont(new Font("Arial Black",0,20));
 		playerNameLabel2.setForeground(new Color(0,103,175));
@@ -345,11 +354,7 @@ public class TeamAnlPanel extends JPanel implements ActionListener{
 			}
 			
 		});
-		/*JLabel playerTeamLabel2 = new JLabel("players.get(1).getPosition()"+"/"+"players.get(1).getTeamName()");
-		playerTeamLabel2.setFont(new Font("Arial",0,15));
-		playerTeamLabel2.setBounds(130, 70, 200, 30);
-		playerTeamLabel2.setForeground(new Color(68,68,68));*/
-		JLabel playerScoreLabel2 = new JLabel("34.6");
+		playerScoreLabel2 = new JLabel(df.format(dbl.getSinglePlayerInfo(name2, season).getOffensiveRebounds()/dbl.getSinglePlayerInfo(name2, season).getGamesPlayed()));
 		playerScoreLabel2.setFont(new Font("Modern",Font.BOLD,28));
 		playerScoreLabel2.setForeground(new Color(68,68,68));
 		playerScoreLabel2.setBounds(100, 70, 200, 40);
@@ -401,13 +406,17 @@ public class TeamAnlPanel extends JPanel implements ActionListener{
 		 }
 		 //随机添加数据值
 		 for (int i = 0; i < 11; i++) {
-			 linedataset.addValue(i + i * 9.34 ,  //值
+			 TeamVO t1 = dbl.getSingleTeamInfo(team.getTeamName(), timeValue[i].replace('-', '_'));
+			 Double d1 = Double.valueOf(df.format(t1.getPoints()/t1.getGamesPlayed()));
+			 Double d2 = Double.valueOf(df.format(t1.getOffensiveRebounds()/t1.getGamesPlayed()));
+			 Double d3 = Double.valueOf(df.format(t1.getOffensiveRebounds()/t1.getGamesPlayed()));
+			 linedataset.addValue(d1 ,  //值
 					 series1,  //哪条数据线
 					 time[i]); // 对应的横轴
-			 linedataset.addValue(i + i * 23.2 ,  //值
+			 linedataset.addValue(d2 ,  //值
 					 series2,  //哪条数据线
 					 time[i]); // 对应的横轴
-			 linedataset.addValue(i + i * 14.34 ,  //值
+			 linedataset.addValue(d3 ,  //值
 					 series3,  //哪条数据线
 					 time[i]); // 对应的横轴
 		 }
@@ -416,30 +425,31 @@ public class TeamAnlPanel extends JPanel implements ActionListener{
 		
 	}
 	
-	private static DefaultCategoryDataset createSpiderDataset()
+	private DefaultCategoryDataset createSpiderDataset()
 	 {
-	  String s = "First";
+	  String s = seasonBox.getSelectedItem().toString()+"赛季";
 	  String s3 = "%";
 	  String s4 = "三分%";
 	  String s5 = "罚球%";
 	  DefaultCategoryDataset defaultcategorydataset = new DefaultCategoryDataset();
-	  defaultcategorydataset.addValue(30.7, s, s3);
-	  defaultcategorydataset.addValue(42.77, s, s4);
-	  defaultcategorydataset.addValue(56.2, s, s5);
+	  defaultcategorydataset.addValue(Double.valueOf(df.format(team.getFieldGoalPercentage()*100)), s, s3);
+	  defaultcategorydataset.addValue(Double.valueOf(df.format(team.getThreePointFieldGoalPercentage()*100)), s, s4);
+	  defaultcategorydataset.addValue(Double.valueOf(df.format(team.getFreeThrowPercentage()*100)), s, s5);
 	  return defaultcategorydataset;
 	 }
 	
-	public static DefaultPieDataset createPieDataset() {  
+	public DefaultPieDataset createPieDataset() {  
         DefaultPieDataset pieDataset = new DefaultPieDataset();  
-        pieDataset.setValue("二分投篮", 64);  
-        pieDataset.setValue("三分投篮", 36);  
-        pieDataset.setValue("罚球 ", 14);  
+        pieDataset.setValue("二分投篮", Double.valueOf(df.format((team.getPoints()-team.getThreePointFieldGoalsMade()*3-team.getFreeThrowsMade())/team.getGamesPlayed())));  
+        pieDataset.setValue("三分投篮", Double.valueOf(df.format(team.getThreePointFieldGoalsMade()*3/team.getGamesPlayed())));  
+        pieDataset.setValue("罚球 ", Double.valueOf(df.format(team.getFieldGoalsMade()/team.getGamesPlayed())));  
         return pieDataset;  
     }
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource()==historyBtn){
+			state = "history";
 			anlPanel.removeAll();
 			anlPanel.add(historyBtn);
 			anlPanel.add(scoreBtn);
@@ -448,6 +458,7 @@ public class TeamAnlPanel extends JPanel implements ActionListener{
 			anlPanel.repaint();
 		}
 		if(e.getSource()==scoreBtn){
+			state = "score";
 			anlPanel.removeAll();
 			anlPanel.add(historyBtn);
 			anlPanel.add(scoreBtn);
@@ -458,6 +469,7 @@ public class TeamAnlPanel extends JPanel implements ActionListener{
 			anlPanel.repaint();
 		}
 		if(e.getSource()==shotBtn){
+			state = "shot";
 			anlPanel.removeAll();
 			anlPanel.add(historyBtn);
 			anlPanel.add(scoreBtn);
@@ -467,7 +479,74 @@ public class TeamAnlPanel extends JPanel implements ActionListener{
 			anlPanel.add(spiderChart);
 			anlPanel.repaint();
 		}
-		
+		if(e.getSource()==defensiveBtn){
+			String name1 = abl.getBestDefensivePlayer(team.getTeamName(), season);
+			img1 = new ImageIcon("Img//players//portrait//"+name1+".png");
+			if(!new File("Img//players//portrait//"+name1+".png").exists())
+				img1 = new ImageIcon("Img//portrait.png");
+			img1.setImage(img1.getImage().getScaledInstance(75,60,Image.SCALE_DEFAULT));
+			playerImgLabel1.setIcon(img1);
+			playerNameLabel1.setText(name1);
+			playerScoreLabel1.setText(df.format(dbl.getSinglePlayerInfo(name1, season).getDefensiveRebounds()/dbl.getSinglePlayerInfo(name1, season).getGamesPlayed()));
+			
+			String name2 = abl.getTheMostPotentialDefensivePlayer(team.getTeamName(), season);
+			img2 = new ImageIcon("Img//players//portrait//"+name2+".png");
+			if(!new File("Img//players//portrait//"+name2+".png").exists())
+				img2 = new ImageIcon("Img//portrait.png");
+			img2.setImage(img2.getImage().getScaledInstance(75,60,Image.SCALE_DEFAULT));
+			playerImgLabel1.setIcon(img2);
+			playerNameLabel1.setText(name2);
+			playerScoreLabel1.setText(df.format(dbl.getSinglePlayerInfo(name2, season).getDefensiveRebounds()/dbl.getSinglePlayerInfo(name2, season).getGamesPlayed()));
+			
+		}
+		if(e.getSource()==offensiveBtn){
+			String name1 = abl.getBestOffensivePlayer(team.getTeamName(), season);
+			img1 = new ImageIcon("Img//players//portrait//"+name1+".png");
+			if(!new File("Img//players//portrait//"+name1+".png").exists())
+				img1 = new ImageIcon("Img//portrait.png");
+			img1.setImage(img1.getImage().getScaledInstance(75,60,Image.SCALE_DEFAULT));
+			playerImgLabel1.setIcon(img1);
+			playerNameLabel1.setText(name1);
+			playerScoreLabel1.setText(df.format(dbl.getSinglePlayerInfo(name1, season).getDefensiveRebounds()/dbl.getSinglePlayerInfo(name1, season).getGamesPlayed()));
+			
+			String name2 = abl.getTheMostPotentialOffensivePlayer(team.getTeamName(), season);
+			img2 = new ImageIcon("Img//players//portrait//"+name2+".png");
+			if(!new File("Img//players//portrait//"+name2+".png").exists())
+				img2 = new ImageIcon("Img//portrait.png");
+			img2.setImage(img2.getImage().getScaledInstance(75,60,Image.SCALE_DEFAULT));
+			playerImgLabel1.setIcon(img2);
+			playerNameLabel1.setText(name2);
+			playerScoreLabel1.setText(df.format(dbl.getSinglePlayerInfo(name2, season).getDefensiveRebounds()/dbl.getSinglePlayerInfo(name2, season).getGamesPlayed()));
+			
+		}
+		if(e.getSource()==seasonBox){
+			anlPanel.remove(pieChart);
+			anlPanel.remove(spiderChart);
+			season = seasonBox.getSelectedItem().toString().replace('-', '_');
+			TeamType type = abl.getTeamType(team.getTeamName(), season);
+			if(type==TeamType.Defensive)
+				teamTypeLabel.setText("进攻主导型球队");
+			if(type==TeamType.Offensive)
+				teamTypeLabel.setText("防守主导型球队");
+			if(type==TeamType.Balanced)
+				teamTypeLabel.setText("攻防兼顾型球队");
+			seasonLabel.setText(seasonBox.getSelectedItem().toString()+"赛季");
+			defensiveBtn.doClick();
+			
+			spiderChart = new SpiderWebChart(createSpiderDataset());
+			spiderChart.setBounds(-7, 60, 700, 300);
+			
+			pieChart = new PieChart(createPieDataset());
+			pieChart.setBounds(0, 60, 700, 300);
+			
+			if(state == "score"){
+				anlPanel.add(pieChart);
+			}
+			if(state == "hit"){
+				anlPanel.add(spiderChart);
+			}
+			anlPanel.repaint();
+		}
 	}  
 	
 }

@@ -68,7 +68,7 @@ public class TeamLabel extends JLabel{
 		cmpLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		cmpLabel.addMouseListener((new MouseAdapter(){
 			public void mouseClicked(MouseEvent arg0) {
-				TeamCmpPanel cmp = new TeamCmpPanel();
+				TeamCmpPanel cmp = new TeamCmpPanel(teamNameLabel.getText());
 				fPanel.remove(list);
 				fPanel.add(cmp);
 				fPanel.repaint();
@@ -88,7 +88,7 @@ public class TeamLabel extends JLabel{
 		historyLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		historyLabel.addMouseListener((new MouseAdapter(){
 			public void mouseClicked(MouseEvent arg0) {
-				TeamAnlPanel anl = new TeamAnlPanel();
+				TeamAnlPanel anl = new TeamAnlPanel(teamNameLabel.getText());
 				fPanel.remove(list);
 				fPanel.add(anl);
 				fPanel.repaint();

@@ -99,7 +99,7 @@ public class PlayerListPanel extends JPanel implements ActionListener{
 		
 		
 		
-		ArrayList<PlayerVO> allPlayer = db.getAllPlayerInfo();
+		ArrayList<PlayerVO> allPlayer = db.getAllPlayerInfo("14_15");
 		String[] columnNames = new String[]{"","球员名","位置","球衣号","球龄","身高","体重","生日","年龄","毕业学校"};
 		Object[][]data=new Object[allPlayer.size()][10];
 		for(int i=0;i<allPlayer.size();i++){
@@ -132,7 +132,7 @@ public class PlayerListPanel extends JPanel implements ActionListener{
         		 if (e.getButton() == MouseEvent.BUTTON1) {// 单击鼠标左键
         		     if (e.getClickCount() == 1) {
         		    	 String name = (String) table.getValueAt(table.getSelectedRow(), 1);
-        		    	 PlayerVO player = db.getSinglePlayerInfo(name);
+        		    	 PlayerVO player = db.getSinglePlayerInfo(name,"14_15");
         		    	 new PlayerInfoFrame(player);
         		     }
         		    	 
@@ -174,7 +174,7 @@ public class PlayerListPanel extends JPanel implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource()==searchBtn){
-			PlayerVO findPlayer = db.getSinglePlayerInfo(searchField.getText());
+			PlayerVO findPlayer = db.getSinglePlayerInfo(searchField.getText(),"14_15");
 			if(findPlayer.getAge() == null){
 				new ActionDialog("未查找到相关球员，请重新输入");
 			}

@@ -7,6 +7,8 @@ import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.text.DecimalFormat;
@@ -14,6 +16,7 @@ import java.text.NumberFormat;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollBar;
@@ -34,7 +37,8 @@ public class TeamDataPanel extends JPanel implements ActionListener{
 	JButton allBtn;
 	JButton averageBtn;
 	JButton analysisBtn;
-	String state = "all";
+	JButton seasonBtn;JComboBox seasonBox, matchType;
+	String state = "all"; String season = "14_15";
 	JScrollPane scrollPane = new JScrollPane();
 	DataBLService dbl = new DataBL();
 	DecimalFormat df=new DecimalFormat("#########.##");
@@ -50,7 +54,7 @@ public class TeamDataPanel extends JPanel implements ActionListener{
 		this.setBackground(Color.white);
 		
 		JPanel searchPanel = new JPanel();
-		searchPanel.setBounds(0, 10, panelWidth, 50);
+		searchPanel.setBounds(0, 10, panelWidth, 100);
 		searchPanel.setBackground(new Color(87,89,91));
 		JLabel title = new JLabel("球 队 数 据");
 		title.setBounds(20,0,100,50);
@@ -60,7 +64,7 @@ public class TeamDataPanel extends JPanel implements ActionListener{
 		allBtn = new JButton("赛季");
 		averageBtn = new JButton("场均");
 		analysisBtn = new JButton("分析");
-		allBtn.setBounds(panelWidth-184, 10, 60, 30);
+		allBtn.setBounds(20, 65, 60, 30);
 		allBtn.setBackground(new Color(158,158,158));
 		allBtn.setBorder(new LineBorder(new Color(69,69,69),3,false));
 		allBtn.setFont(new Font("微软雅黑",0,14));
@@ -72,9 +76,10 @@ public class TeamDataPanel extends JPanel implements ActionListener{
 				averageBtn.setBackground(null);
 				analysisBtn.setBackground(null);
 			}
+			
 		});
 		allBtn.addActionListener(this);
-		averageBtn.setBounds(panelWidth-127, 10, 60, 30);
+		averageBtn.setBounds(77, 65, 60, 30);
 		averageBtn.setBackground(null);
 		averageBtn.setBorder(new LineBorder(new Color(69,69,69),3,false));
 		averageBtn.setFont(new Font("微软雅黑",0,14));
@@ -88,7 +93,7 @@ public class TeamDataPanel extends JPanel implements ActionListener{
 			}
 		});
 		averageBtn.addActionListener(this);
-		analysisBtn.setBounds(panelWidth-70, 10, 60, 30);
+		analysisBtn.setBounds(134, 65, 60, 30);
 		analysisBtn.setBackground(null);
 		analysisBtn.setBorder(new LineBorder(new Color(69,69,69),3,false));
 		analysisBtn.setFont(new Font("微软雅黑",0,14));
@@ -97,25 +102,77 @@ public class TeamDataPanel extends JPanel implements ActionListener{
 		analysisBtn.addMouseListener(new MouseAdapter(){
 			public void mouseClicked(MouseEvent arg0) {
 				analysisBtn.setBackground(new Color(158,158,158));
-				allBtn.setBackground(null);
 				averageBtn.setBackground(null);
+				allBtn.setBackground(null);
 			}
+			
 		});
 		analysisBtn.addActionListener(this);
+		
+		JPanel seasonPanel = new JPanel();
+		seasonPanel.setBounds(370, 20, panelWidth-370, 80);
+		seasonPanel.setBorder(null);
+		seasonPanel.setBackground(null);
+		
+		String union[] = {"14-15","13-14","12-13","11-12","10-11","09-10","08-09","07-08","06-07","05-06","04-05"};
+		seasonBox = new JComboBox(union);
+		seasonBox.setSelectedIndex(0);
+		seasonBox.setBounds(340, 10, 150, 30);
+		seasonBox.setFont(new Font("微软雅黑",0,14));
+		seasonBox.setBorder(new LineBorder(new Color(69,69,69),2,false));
+		seasonBox.setForeground(Color.WHITE);
+		seasonBox.setBackground(new Color(69,69,69));
+		seasonBox.addActionListener(this);
+		
+		String area[] = {"常规赛","季后赛"};
+		matchType = new JComboBox(area);
+		matchType.setSelectedIndex(0);
+		matchType.setBounds(510, 10, 150, 30);
+		matchType.setFont(new Font("微软雅黑",0,14));
+		matchType.setBorder(new LineBorder(new Color(69,69,69),2,false));
+		matchType.setForeground(Color.WHITE);
+		matchType.setBackground(new Color(69,69,69));
+		
+	
+		seasonBtn = new JButton("Find Top50");
+		seasonBtn.setBounds(460, 50, 200, 25);
+		seasonBtn.setFont(new Font("微软雅黑",0,14));
+		seasonBtn.setBorder(new LineBorder(new Color(69,69,69),2,false));
+		seasonBtn.setForeground(Color.WHITE);
+		seasonBtn.setBackground(null);
+		seasonBtn.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		seasonBtn.addMouseListener(new MouseAdapter(){
+			public void mouseEntered(MouseEvent arg0) {
+				seasonBtn.setBackground(new Color(158,158,158));
+			}
+			public void mouseExited(MouseEvent arg0){
+				seasonBtn.setBackground(null);
+			}
+		});
+		seasonBtn.addActionListener(this);
+		
+		
+		
+		seasonPanel.setLayout(null);
+		seasonPanel.add(seasonBox);
+		seasonPanel.add(matchType);
+		seasonPanel.add(seasonBtn);
 		
 		searchPanel.setLayout(null);
 		searchPanel.add(title);
 		searchPanel.add(allBtn);
 		searchPanel.add(averageBtn);
 		searchPanel.add(analysisBtn);
+		searchPanel.add(seasonPanel);
 		
 		
         nf.setMaximumFractionDigits(2);
-		all();
+        ArrayList<TeamVO> teams = dbl.getAllTeamInfo("14_15");
+		all(teams);
 		this.setLayout(null);
 		this.add(searchPanel);
 		
-		thread = new Thread(new Runnable(){
+		/**thread = new Thread(new Runnable(){
             @Override
             public void run() {
             	 while(true){
@@ -140,13 +197,13 @@ public class TeamDataPanel extends JPanel implements ActionListener{
             	 }
             }
         });
-		thread.start();
+		thread.start();*/
 	}
 	
 	
-	public void avg(){
+	public void avg(ArrayList<TeamVO> teams){
 		this.remove(scrollPane);
-		ArrayList<TeamVO> teams = dbl.getAllTeamInfo();
+		//ArrayList<TeamVO> teams = dbl.getAllTeamInfo("14_15");
 		String[] columnNames = new String[]{"","球队名","投篮命中","投篮出手","三分命中","三分出手","罚球命中","罚球出手","进攻篮板","防守篮板","篮板","助攻","抢断","盖帽","失误","犯规","得分","进攻回合"};
 		Object[][]data=new Object[teams.size()][18];
 		for(int i=0;i<teams.size();i++){
@@ -203,7 +260,7 @@ public class TeamDataPanel extends JPanel implements ActionListener{
         	Column.setMinWidth(60);
         }*/
         scrollPane = new JScrollPane(table);
-        scrollPane.setBounds(-1, 69, panelWidth+18, panelHeight-100);
+        scrollPane.setBounds(-1, 120, panelWidth+18, panelHeight-160);
 		scrollPane.setOpaque(false);
 		scrollPane.getViewport().setOpaque(false);
 		scrollPane.setBorder(null);
@@ -211,9 +268,9 @@ public class TeamDataPanel extends JPanel implements ActionListener{
 		this.repaint();
 	}
 	
-	public void all(){
+	public void all(ArrayList<TeamVO> teams){
 		this.remove(scrollPane);
-		ArrayList<TeamVO> teams = dbl.getAllTeamInfo();
+		//ArrayList<TeamVO> teams = dbl.getAllTeamInfo("14_15");
 		String[] columnNames = new String[]{"","球队名","场数","投篮命中","投篮出手","三分命中","三分出手","罚球命中","罚球出手","进攻篮板","防守篮板","篮板","助攻","抢断","盖帽","失误","犯规","得分","进攻回合"};
 		Object[][]data=new Object[teams.size()][19];
 		for(int i=0;i<teams.size();i++){
@@ -258,7 +315,7 @@ public class TeamDataPanel extends JPanel implements ActionListener{
         nameColumn.setMaxWidth(80);
         nameColumn.setMinWidth(80);
         scrollPane = new JScrollPane(table);
-        scrollPane.setBounds(-1, 69, panelWidth+18, panelHeight-100);
+        scrollPane.setBounds(-1, 120, panelWidth+18, panelHeight-160);
 		scrollPane.setOpaque(false);
 		scrollPane.getViewport().setOpaque(false);
 		scrollPane.setBorder(null);
@@ -266,9 +323,9 @@ public class TeamDataPanel extends JPanel implements ActionListener{
 		this.repaint();
 	}
 	
-	public void analysis(){
+	public void analysis(ArrayList<TeamVO> teams){
 		this.remove(scrollPane);
-		ArrayList<TeamVO> teams = dbl.getAllTeamInfo();
+		//ArrayList<TeamVO> teams = dbl.getAllTeamInfo("14_15");
 		String[] columnNames = new String[]{"","球队名称","投篮命中率","三分命中率","罚球命中率","进攻篮板效率","防守篮板效率","助攻效率","抢断效率","胜率","进攻效率","防守效率"};
 		Object[][]data=new Object[teams.size()][13];
 		for(int i=0;i<teams.size();i++){
@@ -303,7 +360,7 @@ public class TeamDataPanel extends JPanel implements ActionListener{
         firsetColumn.setMaxWidth(30);
         firsetColumn.setMinWidth(30);
         scrollPane = new JScrollPane(table);
-        scrollPane.setBounds(-1, 69, panelWidth+20, panelHeight-100);
+        scrollPane.setBounds(-1, 120, panelWidth+18, panelHeight-160);
 		scrollPane.setOpaque(false);
 		scrollPane.getViewport().setOpaque(false);
 		scrollPane.setBorder(null);
@@ -314,15 +371,37 @@ public class TeamDataPanel extends JPanel implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource()==allBtn){
 			state = "all";
-			all();
+			ArrayList<TeamVO> teams = dbl.getAllTeamInfo(season);
+			all(teams);
 		}
 		if(e.getSource()==averageBtn){
 			state = "avg";
-			avg();
+			ArrayList<TeamVO> teams = dbl.getAllTeamInfo(season);
+			avg(teams);
 		}
 		if(e.getSource()==analysisBtn){
 			state = "anl";
-			analysis();
+			ArrayList<TeamVO> teams = dbl.getAllTeamInfo(season);
+			analysis(teams);
+		}
+		if(e.getSource()==seasonBtn){
+			season = seasonBox.getSelectedItem().toString().replace('-', '_');
+			if(matchType.getSelectedIndex()==1)
+				season = season+"_after";
+			ArrayList<TeamVO> teams = dbl.getAllTeamInfo(season);
+			switch(state){
+			case "all":
+				all(teams);
+				break;
+			case "avg":
+				avg(teams);
+				break;
+			case "anl":
+				analysis(teams);
+				break;
+			default:
+				break;
+			}
 		}
 	}
 }

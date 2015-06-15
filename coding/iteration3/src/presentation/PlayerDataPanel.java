@@ -364,14 +364,14 @@ public class PlayerDataPanel extends JPanel implements ActionListener{
 			default:
 				break;
 			}
-			ArrayList<PlayerVO> players = abl.getTopFiftyPlayer(position, partition, keyword);
+			ArrayList<PlayerVO> players = abl.getTopFiftyPlayer(position, partition, keyword, "14_15");
 			setTop50(players);
 		}
 		
 	}
 	public void analysis(){
 		this.remove(scrollPane);
-		ArrayList<PlayerVO> players = dbl.getAllPlayerInfo();
+		ArrayList<PlayerVO> players = dbl.getAllPlayerInfo("14_15");
 		String[] columnNames = new String[]{"","球员名","投篮命中率","三分命中率","罚球命中率","效率","GMSc","真实命中率","投篮效率","篮板率","进攻篮板率","防守篮板率","助攻率","抢断率","盖帽率","失误率","使用率"};
 		Object[][]data=new Object[players.size()][17];
 		for(int i=0;i<players.size();i++){
@@ -442,7 +442,7 @@ public class PlayerDataPanel extends JPanel implements ActionListener{
 	public void all(){
 		this.remove(scrollPane);
 		
-		ArrayList<PlayerVO> players = dbl.getAllPlayerInfo();
+		ArrayList<PlayerVO> players = dbl.getAllPlayerInfo("14_15");
 		String[] columnNames = new String[]{"","球员名称","所属球队","参赛场数","先发场数","在场时间","篮板","助攻","进攻","防守","抢断","盖帽","失误","犯规","得分"};
 		Object[][]data=new Object[players.size()][15];
 		for(int i=0;i<players.size();i++){
@@ -478,7 +478,7 @@ public class PlayerDataPanel extends JPanel implements ActionListener{
                             		 if (e.getButton() == MouseEvent.BUTTON1) {// 单击鼠标左键
                             		     if (e.getClickCount() == 1) {
                             		    	 String name = (String) table.getValueAt(table.getSelectedRow(), 1);
-                            		    	 PlayerVO player = dbl.getSinglePlayerInfo(name);
+                            		    	 PlayerVO player = dbl.getSinglePlayerInfo(name,"14_15");
                             		    	 new PlayerInfoFrame(player);
                             		     }
                             		    	 
@@ -507,7 +507,7 @@ public class PlayerDataPanel extends JPanel implements ActionListener{
 	public void avg(){
 		this.remove(scrollPane);
 		
-		ArrayList<PlayerVO> players = dbl.getAllPlayerInfo();
+		ArrayList<PlayerVO> players = dbl.getAllPlayerInfo("14_15");
 		String[] columnNames = new String[]{"","球员名","所属球队","篮板","助攻","进攻","防守","抢断","盖帽","失误","犯规","得分","效率","GMSc"};
 		Object[][]data=new Object[players.size()][14];
 		
@@ -551,7 +551,7 @@ public class PlayerDataPanel extends JPanel implements ActionListener{
                  		 if (e.getButton() == MouseEvent.BUTTON1) {// 单击鼠标左键
                  		     if (e.getClickCount() == 1) {
                  		    	 String name = (String) table.getValueAt(table.getSelectedRow(), 1);
-                 		    	 PlayerVO player = dbl.getSinglePlayerInfo(name);
+                 		    	 PlayerVO player = dbl.getSinglePlayerInfo(name,"14_15");
                  		    	 new PlayerInfoFrame(player);
                  		     }
                  		    	 
@@ -616,7 +616,7 @@ public class PlayerDataPanel extends JPanel implements ActionListener{
                             		 if (e.getButton() == MouseEvent.BUTTON1) {// 单击鼠标左键
                             		     if (e.getClickCount() == 1) {
                             		    	 String name = (String) table.getValueAt(table.getSelectedRow(), 1);
-                            		    	 PlayerVO player = dbl.getSinglePlayerInfo(name);
+                            		    	 PlayerVO player = dbl.getSinglePlayerInfo(name,"14_15");
                             		    	 new PlayerInfoFrame(player);
                             		     }
                             		    	 

@@ -297,6 +297,7 @@ public class MainFrame extends JFrame implements ActionListener{
 				playerListPanel = new PlayerListPanel();
 				pl = false;
 			}*/
+			playerListPanel = new PlayerListPanel();
 			containPanel.removeAll();
 			containPanel.add(guidePanel);
 			containPanel.add(playerListPanel);
@@ -332,6 +333,7 @@ public class MainFrame extends JFrame implements ActionListener{
 				matchListPanel = new MatchListPanel();
 				ml = false;
 			}*/
+			matchListPanel  = new MatchListPanel();
 			containPanel.removeAll();
 			containPanel.add(guidePanel);
 			containPanel.add(matchListPanel);
@@ -367,6 +369,7 @@ public class MainFrame extends JFrame implements ActionListener{
 				teamDataPanel = new TeamDataPanel();
 				td = false;
 			}*/
+			teamDataPanel = new TeamDataPanel();
 			containPanel.removeAll();
 			containPanel.add(guidePanel);
 			containPanel.add(teamDataPanel);
@@ -402,6 +405,7 @@ public class MainFrame extends JFrame implements ActionListener{
 				playerDataPanel = new PlayerDataPanel();
 				pd = false;
 			}*/
+			playerDataPanel = new PlayerDataPanel();
 			containPanel.removeAll();
 			containPanel.add(guidePanel);
 			containPanel.add(playerDataPanel);
@@ -437,6 +441,7 @@ public class MainFrame extends JFrame implements ActionListener{
 				hotPanel = new HotPanel();
 				h = false;
 			}*/
+			hotPanel = new HotPanel();
 			containPanel.removeAll();
 			containPanel.add(guidePanel);
 			containPanel.add(hotPanel);

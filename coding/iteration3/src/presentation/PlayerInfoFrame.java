@@ -79,7 +79,7 @@ public class PlayerInfoFrame extends JFrame{
 		playerTeamLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		playerTeamLabel.addMouseListener(new MouseAdapter(){
 			public void mouseClicked(MouseEvent arg0) {
-				TeamVO findPlayer = db.getSingleTeamInfo(player.getTeamName());
+				TeamVO findPlayer = db.getSingleTeamInfo(player.getTeamName(),"14_15");
 				new TeamInfoFrame(findPlayer);
 			}
 			
@@ -161,7 +161,7 @@ public class PlayerInfoFrame extends JFrame{
                          	 if (e.getClickCount() == 2) {
                          		 	String matchDate = (String) table.getValueAt(table.getSelectedRow(), 0);
                           		    String team = ((String) table.getValueAt(table.getSelectedRow(), 1)).split("-")[0];
-                          			MatchVO match = dbl.getSingleMatchInfo(matchDate, team);
+                          			MatchVO match = dbl.getSingleMatchInfo(matchDate, team, "14_15_after");
                           		    new MatchInfoFrame(match);
                           	 }	    	 
                        }}});
