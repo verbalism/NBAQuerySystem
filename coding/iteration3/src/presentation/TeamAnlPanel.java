@@ -1,5 +1,6 @@
 package presentation;
 
+import java.awt.CheckboxGroup;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
@@ -8,15 +9,19 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -50,11 +55,11 @@ public class TeamAnlPanel extends JPanel implements ActionListener{
 	//JButton searchBtn;
 	JButton scoreBtn, shotBtn, historyBtn;String state = "score";
 	JButton offensiveBtn,defensiveBtn;
-	JComboBox seasonBox;JLabel chooseSeason;JLabel seasonLabel,teamTypeLabel;
-	JButton playerNameLabel1,playerNameLabel2;JLabel playerImgLabel1,playerImgLabel2;ImageIcon img1,img2;JLabel playerScoreLabel1, playerScoreLabel2;
-	TeamVO team; String season = "14_15";
+	JComboBox seasonBox;JLabel chooseSeason;JCheckBox s14,s13,s12,s11,s10,s09,s08,s07,s06,s05;JPanel seasonChoosePanel;
+	JButton playerNameLabel1,playerNameLabel2;JLabel seasonLabel,teamTypeLabel;JLabel playerImgLabel1,playerImgLabel2;ImageIcon img1,img2;JLabel playerScoreLabel1, playerScoreLabel2;
+	TeamVO team; String season = "14_15"; ArrayList<String> selectSeason;
 	JPanel anlPanel;
-	SeriesChart seriesChart;SpiderWebChart spiderChart;PieChart pieChart;
+	SeriesChart seriesChart;SpiderWebChart spiderChart;PieChart pieChart;DefaultCategoryDataset spiderDataset;
 	DecimalFormat df=new DecimalFormat("#########.##");
 	public TeamAnlPanel(String teamName){
 		team = dbl.getSingleTeamInfo(teamName,"14_15");
@@ -171,10 +176,209 @@ public class TeamAnlPanel extends JPanel implements ActionListener{
 		seasonBox.setSelectedIndex(0);
 		seasonBox.addActionListener(this);
 		
+		seasonChoosePanel = new JPanel();
+		seasonChoosePanel.setBackground(null);
+		seasonChoosePanel.setBounds(530, 0, 150, 380);
+		s14 = new JCheckBox("14-15");
+		s14.setBounds(0, 10, 150, 30);
+		s14.setFont(new Font("微软雅黑",0,14));
+		s14.setForeground(new Color(69,69,69));
+		s14.setSelected(true);
+		selectSeason.add("14_15");
+		s14.addItemListener(new ItemListener(){
+			public void itemStateChanged(ItemEvent e) {
+                if (s14.isSelected()) {
+                	if(!selectSeason.contains("14_15"))
+                		selectSeason.add("14_15");
+                } else {
+                    selectSeason.remove("14_15");
+                }
+                anlPanel.remove(spiderChart);
+                spiderChart = new SpiderWebChart(spiderDataset);
+        		spiderChart.setBounds(-7, 60, 700, 300);
+        		anlPanel.add(spiderChart);
+        		anlPanel.repaint();
+            }
+		});
+		s13 = new JCheckBox("13-14");
+		s13.setBounds(0, 40, 150, 30);
+		s13.setFont(new Font("微软雅黑",0,14));
+		s13.setForeground(new Color(69,69,69));
+		s13.addItemListener(new ItemListener(){
+			public void itemStateChanged(ItemEvent e) {
+                if (s13.isSelected()) {
+                	if(!selectSeason.contains("13_14"))
+                		selectSeason.add("13_14");
+                } else {
+                    selectSeason.remove("13_14");
+                }
+                anlPanel.remove(spiderChart);
+                spiderChart = new SpiderWebChart(spiderDataset);
+        		spiderChart.setBounds(-7, 60, 700, 300);
+        		anlPanel.add(spiderChart);
+        		anlPanel.repaint();
+            }
+		});
+		s12 = new JCheckBox("12-13");
+		s12.setBounds(0, 70, 150, 30);
+		s12.setFont(new Font("微软雅黑",0,14));
+		s12.setForeground(new Color(69,69,69));
+		s12.addItemListener(new ItemListener(){
+			public void itemStateChanged(ItemEvent e) {
+                if (s12.isSelected()) {
+                	if(!selectSeason.contains("12_13"))
+                		selectSeason.add("12_13");
+                } else {
+                    selectSeason.remove("12_13");
+                }
+                anlPanel.remove(spiderChart);
+                spiderChart = new SpiderWebChart(spiderDataset);
+        		spiderChart.setBounds(-7, 60, 700, 300);
+        		anlPanel.add(spiderChart);
+        		anlPanel.repaint();
+            }
+		});
+		s11 = new JCheckBox("11-12");
+		s11.setBounds(0, 100, 150, 30);
+		s11.setFont(new Font("微软雅黑",0,14));
+		s11.setForeground(new Color(69,69,69));
+		s11.addItemListener(new ItemListener(){
+			public void itemStateChanged(ItemEvent e) {
+                if (s11.isSelected()) {
+                	if(!selectSeason.contains("11_12"))
+                		selectSeason.add("11_12");
+                } else {
+                    selectSeason.remove("11_12");
+                }
+                anlPanel.remove(spiderChart);
+                spiderChart = new SpiderWebChart(spiderDataset);
+        		spiderChart.setBounds(-7, 60, 700, 300);
+        		anlPanel.add(spiderChart);
+        		anlPanel.repaint();
+            }
+		});
+		s10 = new JCheckBox("10-11");
+		s10.setBounds(0, 130, 150, 30);
+		s10.setFont(new Font("微软雅黑",0,14));
+		s10.setForeground(new Color(69,69,69));
+		s10.addItemListener(new ItemListener(){
+			public void itemStateChanged(ItemEvent e) {
+                if (s10.isSelected()) {
+                	if(!selectSeason.contains("10_11"))
+                		selectSeason.add("10_11");
+                } else {
+                    selectSeason.remove("10_11");
+                }
+                anlPanel.remove(spiderChart);
+                spiderChart = new SpiderWebChart(spiderDataset);
+        		spiderChart.setBounds(-7, 60, 700, 300);
+        		anlPanel.add(spiderChart);
+        		anlPanel.repaint();
+            }
+		});
+		s09 = new JCheckBox("09-10");
+		s09.setBounds(0, 160, 150, 30);
+		s09.setFont(new Font("微软雅黑",0,14));
+		s09.setForeground(new Color(69,69,69));
+		s09.addItemListener(new ItemListener(){
+			public void itemStateChanged(ItemEvent e) {
+                if (s09.isSelected()) {
+                	if(!selectSeason.contains("09_10"))
+                		selectSeason.add("09_10");
+                } else {
+                    selectSeason.remove("09_10");
+                }
+                anlPanel.remove(spiderChart);
+                spiderChart = new SpiderWebChart(spiderDataset);
+        		spiderChart.setBounds(-7, 60, 700, 300);
+        		anlPanel.add(spiderChart);
+        		anlPanel.repaint();
+            }
+		});
+		s08 = new JCheckBox("08-09");
+		s08.setBounds(0, 190, 150, 30);
+		s08.setFont(new Font("微软雅黑",0,14));
+		s08.setForeground(new Color(69,69,69));
+		s08.addItemListener(new ItemListener(){
+			public void itemStateChanged(ItemEvent e) {
+                if (s08.isSelected()) {
+                	if(!selectSeason.contains("08_09"))
+                		selectSeason.add("08_09");
+                } else {
+                    selectSeason.remove("08_09");
+                }
+                anlPanel.remove(spiderChart);
+                spiderChart = new SpiderWebChart(spiderDataset);
+        		spiderChart.setBounds(-7, 60, 700, 300);
+        		anlPanel.add(spiderChart);
+        		anlPanel.repaint();
+            }
+		});
+		s07 = new JCheckBox("07-08");
+		s07.setBounds(0, 220, 150, 30);
+		s07.setFont(new Font("微软雅黑",0,14));
+		s07.setForeground(new Color(69,69,69));
+		s07.addItemListener(new ItemListener(){
+			public void itemStateChanged(ItemEvent e) {
+                if (s07.isSelected()) {
+                	if(!selectSeason.contains("07_08"))
+                		selectSeason.add("07_08");
+                } else {
+                    selectSeason.remove("07_08");
+                }
+                anlPanel.remove(spiderChart);
+                spiderChart = new SpiderWebChart(spiderDataset);
+        		spiderChart.setBounds(-7, 60, 700, 300);
+        		anlPanel.add(spiderChart);
+        		anlPanel.repaint();
+            }
+		});
+		s06 = new JCheckBox("06-07");
+		s06.setBounds(0, 250, 150, 30);
+		s06.setFont(new Font("微软雅黑",0,14));
+		s06.setForeground(new Color(69,69,69));
+		s06.addItemListener(new ItemListener(){
+			public void itemStateChanged(ItemEvent e) {
+                if (s06.isSelected()) {
+                	if(!selectSeason.contains("06_07"))
+                		selectSeason.add("06_07");
+                } else {
+                    selectSeason.remove("06_07");
+                }
+                anlPanel.remove(spiderChart);
+                spiderChart = new SpiderWebChart(spiderDataset);
+        		spiderChart.setBounds(-7, 60, 700, 300);
+        		anlPanel.add(spiderChart);
+        		anlPanel.repaint();
+            }
+		});
+		s05 = new JCheckBox("05-06");
+		s05.setBounds(0, 280, 150, 30);
+		s05.setFont(new Font("微软雅黑",0,14));
+		s05.setForeground(new Color(69,69,69));
+		s05.addItemListener(new ItemListener(){
+			public void itemStateChanged(ItemEvent e) {
+                if (s05.isSelected()) {
+                	if(!selectSeason.contains("05_06"))
+                		selectSeason.add("05_06");
+                } else {
+                    selectSeason.remove("05_06");
+                }
+                anlPanel.remove(spiderChart);
+                spiderChart = new SpiderWebChart(spiderDataset);
+        		spiderChart.setBounds(-7, 60, 700, 300);
+        		anlPanel.add(spiderChart);
+        		anlPanel.repaint();
+            }
+		});
+		seasonChoosePanel.setLayout(null);
+		seasonChoosePanel.add(s14);seasonChoosePanel.add(s13);seasonChoosePanel.add(s12);seasonChoosePanel.add(s11);seasonChoosePanel.add(s10);seasonChoosePanel.add(s09);seasonChoosePanel.add(s08);seasonChoosePanel.add(s07);seasonChoosePanel.add(s06);seasonChoosePanel.add(s05);
+		
+		
 		seriesChart = new SeriesChart(createSeriesDataset());
 		seriesChart.setBounds(0, 60, 700, 300);
 		
-		spiderChart = new SpiderWebChart(createSpiderDataset());
+		spiderChart = new SpiderWebChart(spiderDataset);
 		spiderChart.setBounds(-7, 60, 700, 300);
 		
 		pieChart = new PieChart(createPieDataset());
@@ -231,6 +435,8 @@ public class TeamAnlPanel extends JPanel implements ActionListener{
 		anlPanel.add(scoreBtn);
 		anlPanel.add(shotBtn);
 		anlPanel.add(seriesChart);
+		
+		
 		
 		
 		offensiveBtn = new JButton("进攻");
@@ -425,14 +631,18 @@ public class TeamAnlPanel extends JPanel implements ActionListener{
 	
 	public DefaultCategoryDataset createSpiderDataset()
 	 {
-	  String s = seasonBox.getSelectedItem().toString()+"赛季";
+	  
 	  String s3 = "%";
 	  String s4 = "三分%";
 	  String s5 = "罚球%";
 	  DefaultCategoryDataset defaultcategorydataset = new DefaultCategoryDataset();
-	  defaultcategorydataset.addValue(Double.valueOf(df.format(team.getFieldGoalPercentage()*100)), s, s3);
-	  defaultcategorydataset.addValue(Double.valueOf(df.format(team.getThreePointFieldGoalPercentage()*100)), s, s4);
-	  defaultcategorydataset.addValue(Double.valueOf(df.format(team.getFreeThrowPercentage()*100)), s, s5);
+	  for(int i=0;i<selectSeason.size();i++){
+		  TeamVO t1 = dbl.getSingleTeamInfo(team.getTeamName(), selectSeason.get(i));
+		  String s = selectSeason.get(i).toString().replace('_', '-')+"赛季";
+		  defaultcategorydataset.addValue(Double.valueOf(df.format(t1.getFieldGoalPercentage()*100)), s, s3);
+		  defaultcategorydataset.addValue(Double.valueOf(df.format(t1.getThreePointFieldGoalPercentage()*100)), s, s4);
+		  defaultcategorydataset.addValue(Double.valueOf(df.format(t1.getFreeThrowPercentage()*100)), s, s5);
+	  }
 	  return defaultcategorydataset;
 	 }
 	
@@ -472,8 +682,8 @@ public class TeamAnlPanel extends JPanel implements ActionListener{
 			anlPanel.add(historyBtn);
 			anlPanel.add(scoreBtn);
 			anlPanel.add(shotBtn);
-			anlPanel.add(seasonBox);
 			anlPanel.add(chooseSeason);
+			anlPanel.add(seasonChoosePanel);
 			anlPanel.add(spiderChart);
 			anlPanel.repaint();
 		}
@@ -519,7 +729,6 @@ public class TeamAnlPanel extends JPanel implements ActionListener{
 		}
 		if(e.getSource()==seasonBox){
 			anlPanel.remove(pieChart);
-			anlPanel.remove(spiderChart);
 			season = seasonBox.getSelectedItem().toString().replace('-', '_');
 			TeamType type = abl.getTeamType(team.getTeamName(), season);
 			if(type==TeamType.Defensive)
@@ -531,20 +740,15 @@ public class TeamAnlPanel extends JPanel implements ActionListener{
 			seasonLabel.setText(seasonBox.getSelectedItem().toString()+"赛季");
 			defensiveBtn.doClick();
 			
-			spiderChart = new SpiderWebChart(createSpiderDataset());
-			spiderChart.setBounds(-7, 60, 700, 300);
 			
 			pieChart = new PieChart(createPieDataset());
 			pieChart.setBounds(0, 60, 700, 300);
-			
-			if(state == "score"){
-				anlPanel.add(pieChart);
-			}
-			if(state == "hit"){
-				anlPanel.add(spiderChart);
-			}
+			anlPanel.add(pieChart);
 			anlPanel.repaint();
 		}
+		
+		
+		
 	}  
 	
 }

@@ -209,6 +209,7 @@ public class DataBL implements DataBLService {
 			result.setFieldGoalPercentage(fieldGoalPercentage);
 			result.setThreePointFieldGoalPercentage(threePointFieldGoalPercentage);
 			result.setFreeThrowPercentage(freeThrowPercentage);
+			result.setGamesPlayed(82);
 			return result;
 		}		
 		
@@ -391,8 +392,11 @@ public class DataBL implements DataBLService {
 		for(int i=0;i<m.getTeam1().getPlayers().size();i++){
 			vo.MatchPlayer mp=new vo.MatchPlayer();
 			mp.setPlayerName(m.getTeam1().getPlayers().get(i).getPlayerName());
+			System.out.println(m.getTeam1().getPlayers().get(i).getPlayerName());
 			mp.setPosition(m.getTeam1().getPlayers().get(i).getPosition());
+			System.out.println(m.getTeam1().getPlayers().get(i).getPosition());
 			mp.setMatchTime(m.getTeam1().getPlayers().get(i).getMatchTime());
+			System.out.println(m.getTeam1().getPlayers().get(i).getMatchTime());
 			mp.setFieldGoal(m.getTeam1().getPlayers().get(i).getFieldGoal());
 			mp.setFieldGoalAttempts(m.getTeam1().getPlayers().get(i).getFieldGoalAttempts());
 			mp.setThreePointShot(m.getTeam1().getPlayers().get(i).getThreePointShot());

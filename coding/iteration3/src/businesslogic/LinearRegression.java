@@ -32,8 +32,12 @@ public class LinearRegression {
 		}
 
 		double beta1 = xybar / xxbar;
+		
 
 		double beta0 = ybar - beta1*xbar;
+		if(xxbar==0){
+			beta1=0;
+		}
 		return beta1;
 		}
 }
