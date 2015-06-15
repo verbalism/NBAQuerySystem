@@ -7,7 +7,6 @@ import java.util.ArrayList;
 
 import dataService.TeamDataService;
 import po.TeamPO;
-import po.TodayPlayerPO;
 
 public class TeamData implements TeamDataService{
 	public TeamPO getSingleTeamInfo(String teamName,String season){

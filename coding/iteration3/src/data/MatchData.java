@@ -108,19 +108,110 @@ public class MatchData implements MatchDataService{
 	}//根据队名和比赛时间获取比赛信息matchpo
 	
 	public ArrayList<MatchPO> getAllMatchInfo(String season){
-		MatchData md=new MatchData();
-		ArrayList<MatchPO> result=new ArrayList<MatchPO>();
+		ArrayList<MatchPO> Result=new ArrayList<MatchPO>();
 		
 		try {
 			ConnectMySQL c=new ConnectMySQL();
 			Connection conn=c.getConnection();
 			Statement stmt = conn.createStatement();  
 	 		 
-	 		 ResultSet rs = stmt.executeQuery("select * from generalmatch"+season);	
-	 		 while(rs.next()){
-	 			 result.add(md.getSingleMatchInfo(rs.getString("teamName1"), rs.getString("matchTime"),season));
-	 		 }
-			rs.close();
+			ResultSet rs0 = stmt.executeQuery("select * from generalmatch"+season);
+	 		
+			ArrayList<String> teamName=new ArrayList<String>();
+			ArrayList<String> date=new ArrayList<String>();
+			while(rs0.next()){
+				teamName.add(rs0.getString("teamName1"));
+				date.add(rs0.getString("matchTime"));
+			}
+			rs0.close();
+			
+			for(int i=0;i<teamName.size();i++){
+				MatchPO result=new MatchPO();
+	 			MatchTeam t1=new MatchTeam();
+	 			MatchTeam t2=new MatchTeam();
+	 			String teamName1="";
+	 			String teamName2="";
+	 			String escore="";
+	 			String[] sescore;
+	 			int matchID=0;
+	 			ArrayList<String> temp=new ArrayList<String>();
+	 			ArrayList<MatchPlayer> players1=new ArrayList<MatchPlayer>();
+	 			ArrayList<MatchPlayer> players2=new ArrayList<MatchPlayer>();
+	 		 	ResultSet rs = stmt.executeQuery("select * from generalmatch"+season+" where (teamName1='"+teamName.get(i)+"' or teamName2='"+teamName.get(i)+"') and matchTime in (select matchTime from generalmatch"+season+" where matchTime='"+date.get(i)+"')");	
+	 		 		 
+	 		 		while(rs.next()){
+	 		 			 matchID=rs.getInt("id");
+	 		 			 result.setMatchTime(date.get(i));
+	 		 			 teamName1=rs.getString("teamName1");
+	 		 			 teamName2=rs.getString("teamName2");
+	 		 			 result.setTeams(teamName1+"-"+teamName2);
+	 		 			 result.setScore(rs.getString("score"));
+	 		 			 result.setScore1(rs.getString("score1"));
+	 		 			 result.setScore2(rs.getString("score2"));
+	 		 			 result.setScore3(rs.getString("score3"));
+	 		 			 result.setScore4(rs.getString("score4"));
+	 		 			 escore=rs.getString("extrascores");
+	 		 			 sescore=escore.split(";");
+	 		 			 for(int j=0;j<sescore.length;j++){
+	 		 				 temp.add(sescore[j]);
+	 		 			 }
+	 		 			 result.setExtraScores(temp);
+	 		 		 }
+	 		 		 t1.setTeamName(teamName1);
+	 		 		 t2.setTeamName(teamName2);
+	 		 		 rs = stmt.executeQuery("select * from matchplayer"+season+" where generalMatch="+matchID+" and teamName='"+teamName.get(i)+"'");
+	 		 		 while(rs.next()){
+	 		 			 MatchPlayer mp=new MatchPlayer();
+	 		 			 mp.setPlayerName(rs.getString("playerName"));
+	 		 			 mp.setPosition(rs.getString("position"));
+	 		 			 mp.setMatchTime(rs.getString("matchTime"));
+	 		 			 mp.setFieldGoal(rs.getInt("fieldGoal"));
+	 		 			 mp.setFieldGoalAttempts(rs.getInt("fieldGoalAttempts"));
+	 		 			 mp.setThreePointShot(rs.getInt("threepointShot"));
+	 		 			 mp.setThreePointAttempts(rs.getInt("threepointAttempts"));
+	 		 			 mp.setFreeThrowGoal(rs.getInt("freeThrowGoal"));
+	 		 			 mp.setFreeThrowAttempts(rs.getInt("freeThrowAttempts"));
+	 		 			 mp.setOffensiveRebound(rs.getInt("offensiveRebound"));
+	 		 			 mp.setDefensiveRebound(rs.getInt("defensiveRebound"));
+	 		 			 mp.setRebound(rs.getInt("rebound"));
+	 		 			 mp.setAssist(rs.getInt("assist"));
+	 		 			 mp.setST(rs.getInt("st"));	
+	 		 			 mp.setBlockShot(rs.getInt("blockShot"));
+	 		 			 mp.setError(rs.getInt("turnover"));
+	 		 			 mp.setFoul(rs.getInt("foul"));
+	 		 			 mp.setScore(rs.getInt("score"));	
+	 		 			 players1.add(mp);
+	 		 		 }
+	 		 		 t1.setPlayers(players1);
+	 		 		 rs = stmt.executeQuery("select * from matchplayer"+season+" where generalMatch="+matchID+" and oppositeTeamName='"+teamName.get(i)+"'");
+	 		 		 while(rs.next()){
+	 		 			 MatchPlayer mp=new MatchPlayer();
+	 		 			 mp.setPlayerName(rs.getString("playerName"));
+	 		 			 mp.setPosition(rs.getString("position"));
+	 		 			 mp.setMatchTime(rs.getString("matchTime"));
+	 		 			 mp.setFieldGoal(rs.getInt("fieldGoal"));
+	 		 			 mp.setFieldGoalAttempts(rs.getInt("fieldGoalAttempts"));
+	 		 			 mp.setThreePointShot(rs.getInt("threepointShot"));
+	 		 			 mp.setThreePointAttempts(rs.getInt("threepointAttempts"));
+	 		 			 mp.setFreeThrowGoal(rs.getInt("freeThrowGoal"));
+	 		 			 mp.setFreeThrowAttempts(rs.getInt("freeThrowAttempts"));
+	 		 			 mp.setOffensiveRebound(rs.getInt("offensiveRebound"));
+	 		 			 mp.setDefensiveRebound(rs.getInt("defensiveRebound"));
+	 		 			 mp.setRebound(rs.getInt("rebound"));
+	 		 			 mp.setAssist(rs.getInt("assist"));
+	 		 			 mp.setST(rs.getInt("st"));	
+	 		 			 mp.setBlockShot(rs.getInt("blockShot"));
+	 		 			 mp.setError(rs.getInt("turnover"));
+	 		 			 mp.setFoul(rs.getInt("foul"));
+	 		 			 mp.setScore(rs.getInt("score"));	
+	 		 			 players2.add(mp);
+	 		 		 }
+	 		 		 t2.setPlayers(players2);
+	 		 		 rs.close();
+	 		 		 result.setTeam1(t1);
+	 		 		 result.setTeam2(t2);
+	 		 	Result.add(result);
+			}
 			stmt.close();
 			conn.close();
 	 		 
@@ -128,7 +219,7 @@ public class MatchData implements MatchDataService{
 				e.printStackTrace();
 		 }
 		
-		return result;
+		return Result;
 	}//获取所有比赛信息
 	
 	public ArrayList<MatchPO> getTeamRecentMatchInfo(int number,String teamName){
@@ -219,9 +310,9 @@ public class MatchData implements MatchDataService{
 		return result;
 	}//获取某日的比赛
 	
-	/*public static void main(String[] args){
+	public static void main(String[] args){
 		MatchData md=new MatchData();
-		ArrayList<MatchPO> a=md.getTodayMatchInfo("06_14","14_15");
+		ArrayList<MatchPO> a=md.getAllMatchInfo("05_06");
 		System.out.println(a.size());
-	}*/
+	}
 }
