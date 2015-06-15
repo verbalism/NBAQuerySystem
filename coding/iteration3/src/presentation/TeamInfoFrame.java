@@ -126,7 +126,7 @@ public class TeamInfoFrame extends JFrame implements ActionListener{
 		
 		String[] columnNames = new String[]{"比赛日期","对阵队伍","比分","第一节比分","第二节比分","第三节比分","第四节比分"};
 		
-		/*final DataBLService dbl = new DataBL();
+		
 		ArrayList<MatchVO> matches = dbl.findMatchByTeam(team.getTeamName());
 		String[][]matchData=new String[matches.size()][7];
 		for(int i=0;i<matches.size();i++){
@@ -137,8 +137,7 @@ public class TeamInfoFrame extends JFrame implements ActionListener{
 			matchData[i][4] = matches.get(i).getScore2();
 			matchData[i][5] = matches.get(i).getScore3();
 			matchData[i][6] = matches.get(i).getScore4();
-		}*/
-		String[][]matchData=new String[][]{{"","",""},{},{}};
+		}
 		DefaultTableModel matchModel = new DefaultTableModel(matchData,columnNames);
 		final InfoListTable table=new InfoListTable(matchModel){
             public boolean isCellEditable(int row, int column)
@@ -160,7 +159,7 @@ public class TeamInfoFrame extends JFrame implements ActionListener{
 		matchscrollPane.setOpaque(false);
 		matchscrollPane.getViewport().setOpaque(false);
 		matchscrollPane.setBorder(null);
-		JLabel matchTitle = new JLabel("    最近"+"场比赛");
+		JLabel matchTitle = new JLabel("    最近"+matches.size()+"场比赛");
 		matchTitle.setOpaque(true);
 		matchTitle.setBackground(new Color(0,103,175));
 		matchTitle.setForeground(Color.WHITE);
@@ -344,7 +343,7 @@ public class TeamInfoFrame extends JFrame implements ActionListener{
 		String[] columnNames = new String[]{"年度","场数","投篮%","三分%","罚球%","进攻","防守","场均篮板","场均助攻","场均抢断","场均盖帽","失误","犯规","得分"};
 		Object[][]data=new Object[10][14];
 		String[] season = {"14-15","13-14","12-13","11-12","10-11","09-10","08-09","07-08","06-07","05-06"};
-		for(int i=0;i<11;i++){
+		for(int i=0;i<10;i++){
 			TeamVO team = dbl.getSingleTeamInfo(teamName, season[i].replace('-', '_'));
 			data[i][0] = season[i];
 			data[i][1] = team.getGamesPlayed();
@@ -393,7 +392,7 @@ public class TeamInfoFrame extends JFrame implements ActionListener{
 		String[] columnNames = new String[]{"年度","场数","投篮%","三分%","罚球%","进攻","防守","场均篮板","场均助攻","场均抢断","场均盖帽","失误","犯规","得分"};
 		Object[][]data=new Object[10][14];
 		String[] season = {"14-15","13-14","12-13","11-12","10-11","09-10","08-09","07-08","06-07","05-06"};
-		for(int i=0;i<11;i++){
+		for(int i=0;i<10;i++){
 			TeamVO team = dbl.getSingleTeamInfo(teamName, season[i].replace('-', '_')+"_after");
 			data[i][0] = season[i];
 			data[i][1] = team.getGamesPlayed();
@@ -425,7 +424,7 @@ public class TeamInfoFrame extends JFrame implements ActionListener{
         firsetColumn.setPreferredWidth(70);
         firsetColumn.setMaxWidth(70);
         firsetColumn.setMinWidth(70);
-        for(int i=4;i<8;i++){
+        for(int i=7;i<11;i++){
         	TableColumn nameColumn = table.getColumnModel().getColumn(i);
         	nameColumn.setPreferredWidth(70);
         	nameColumn.setMaxWidth(70);

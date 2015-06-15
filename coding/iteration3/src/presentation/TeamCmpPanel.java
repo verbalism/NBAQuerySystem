@@ -424,7 +424,7 @@ public class TeamCmpPanel extends JPanel implements ActionListener{
 				cmpPanel.repaint();
 			}
 		});
-		JRadioButton jrbHit = new JRadioButton("%");
+		JRadioButton jrbHit = new JRadioButton("命中%");
 		jrbHit.setBackground(null);
 		jrbHit.setBounds(0, 210, 200, 30);
 		jrbHit.setFont(new Font("微软雅黑",0,15));

@@ -390,7 +390,7 @@ public class PlayerDataPanel extends JPanel implements ActionListener{
 			data[i][12] = nf.format(players.get(i).getAssisyRating());
 			data[i][13] = nf.format(players.get(i).getStealRating());
 			data[i][14] = nf.format(players.get(i).getBlockRating());
-			data[i][15] = nf.format(players.get(i).getTurnoverRating());
+			data[i][15] = nf.format(players.get(i).getTurnoverRating()/100);
 			data[i][16] = nf.format(players.get(i).getUtilizationRating());
 		}
 		
@@ -451,7 +451,7 @@ public class PlayerDataPanel extends JPanel implements ActionListener{
 			data[i][2] = players.get(i).getTeamName();
 			data[i][3] = (players.get(i).getGamesPlayed());
 			data[i][4] = (players.get(i).getGamesStarting());
-			data[i][5] = players.get(i).getMinutes();
+			data[i][5] = df.format(players.get(i).getMinutes());
 			data[i][6] = ((int)players.get(i).getRebounds());
 			data[i][7] = ((int)players.get(i).getAssists());
 			data[i][8] = ((int)players.get(i).getOffensiveRebounds());
