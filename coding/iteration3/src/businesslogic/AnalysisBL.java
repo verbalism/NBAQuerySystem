@@ -1121,8 +1121,7 @@ public class AnalysisBL implements AnalysisBLService {
 		DataBLService d=new DataBL();
 		SimpleDateFormat df = new SimpleDateFormat("MM-dd");//设置日期格式
 		String str=df.format(new Date());	
-		ArrayList<MatchVO> result=new ArrayList<MatchVO>();
-				
+		ArrayList<MatchVO> result=new ArrayList<MatchVO>();			
 		result=d.findMatchByDate(str,"14_15_after");
 		return result;
 	}
@@ -1242,32 +1241,17 @@ public class AnalysisBL implements AnalysisBLService {
 			
 			for(int a=0;a<m.size();a++){
 				ArrayList<MatchPlayer> mm = new ArrayList<MatchPlayer>();
-				ArrayList<MatchPlayer> mm2 = new ArrayList<MatchPlayer>();
 				if(m.get(a).getTeam1().getTeamName().equals(teamName)){
-					mm=m.get(a).getTeam1().getPlayers();
-				    mm2=m.get(a).getTeam2().getPlayers();
+					mm=m.get(a).getTeam1().getPlayers();	   
 				}else if(m.get(a).getTeam2().getTeamName().equals(teamName)){
 					mm=m.get(a).getTeam2().getPlayers();
-					mm2=m.get(a).getTeam1().getPlayers();
 				}else
 					continue;
-				double temp=0;
-				double temp2=0;
-				double temp3=0;
+				double temp=0;			
 				for(int k=0;k<mm.size();k++){
-					temp+=mm.get(k).getOffensiveRebound();
-					String[] splits=mm.get(k).getMatchTime().split("：");
-					double minutes
-					temp3+=mm.get(k).getMatchTime();
-				}  
-				for(int k=0;k<mm2.size();k++){
-					temp2+=mm2.get(k).getOffensiveRebound();
-				}  
-				for(int k=0;k<mm.size();k++){
-					if(mm.get(k).getPlayerName().equals(p2.get(j).getPlayerName())){
-						xList.add(String.valueOf(mm.get(k).getOffensiveRebound()/mm.get(k).get));	
-					}
-					temp+=mm.get(k).getOffensiveRebound();
+					if(mm.get(k).getPlayerName().equals(p2.get(j).getPlayerName())){					
+						xList.add(String.valueOf(mm.get(k).getOffensiveRebound()));	
+					}					
 				}  
 				yList.add(String.valueOf(temp));					
 			}		         
@@ -1279,7 +1263,7 @@ public class AnalysisBL implements AnalysisBLService {
 			if(denominator==0)
 				CORR=0;
 			n[j]=CORR;
-			//System.out.println(p2.get(j).getPlayerName()+"\t\t\t"+n[j]+"\t\t\t"+numerator+"\t\t"+denominator);
+			System.out.println(p2.get(j).getPlayerName()+"\t\t\t"+n[j]+"\t\t\t"+numerator+"\t\t"+denominator);
 		}
 		
 		for(int i=0;i<n.length;i++){
@@ -1311,27 +1295,48 @@ public class AnalysisBL implements AnalysisBLService {
 		for(int j=0;j<p2.size();j++){
 			List<Double> xList = new ArrayList<Double>();
 			List<Double> yList = new ArrayList<Double>();
-			int l=1;  		
+			int l=1;  
+			
 			for(int a=0;a<m.size();a++){
 				ArrayList<MatchPlayer> mm = new ArrayList<MatchPlayer>();
-				if(m.get(a).getTeam1().getTeamName().equals(teamName))
+				ArrayList<MatchPlayer> mm2 = new ArrayList<MatchPlayer>();
+				if(m.get(a).getTeam1().getTeamName().equals(teamName)){
 					mm=m.get(a).getTeam1().getPlayers();
-				else if(m.get(a).getTeam2().getTeamName().equals(teamName))
+				    mm2=m.get(a).getTeam2().getPlayers();
+				}else if(m.get(a).getTeam2().getTeamName().equals(teamName)){
 					mm=m.get(a).getTeam2().getPlayers();
-				else
+					mm2=m.get(a).getTeam1().getPlayers();
+				}else
 					continue;
-				
+				double temp=0;
+				double temp2=0;
+				double temp3=0;
+				for(int k=0;k<mm.size();k++){
+					temp+=mm.get(k).getOffensiveRebound();
+					String[] str=mm.get(k).getMatchTime().split(":");
+					double minutes=Double.parseDouble(str[0])+Double.parseDouble("0."+str[1])*5/3;
+					temp3+=minutes;
+				}  
+				for(int k=0;k<mm2.size();k++){
+					temp2+=mm2.get(k).getOffensiveRebound();
+				}  
 				for(int k=0;k<mm.size();k++){
 					if(mm.get(k).getPlayerName().equals(p2.get(j).getPlayerName())){
-						xList.add((double) mm.get(k).getOffensiveRebound());
+						String[] str=mm.get(k).getMatchTime().split(":");
+						double minutes=Double.parseDouble(str[0])+Double.parseDouble("0."+str[1])*5/3;
+						if(minutes==0)
+							xList.add(0.0);
+						else
+							xList.add(mm.get(k).getOffensiveRebound()*temp3/5/minutes/(temp+temp2));
 						yList.add((double) l);
 						l++;
-					}
-				}  						
+					}					
+				}  				
 			}		
 					 
 			LinearRegression h=new LinearRegression(xList,yList);
-			n[j]=h.getB();		
+			n[j]=h.getB();	
+			System.out.println(p2.get(j).getPlayerName()+"\t\t"+n[j]+"\t\t"+xList.get(j)+"\t\t"+yList.get(j));
 			
 		}		
 		for(int i=0;i<n.length;i++){
@@ -1426,19 +1431,39 @@ public class AnalysisBL implements AnalysisBLService {
 			int l=1;
 			for(int a=0;a<m.size();a++){
 				ArrayList<MatchPlayer> mm = new ArrayList<MatchPlayer>();
-				if(m.get(a).getTeam1().getTeamName().equals(teamName))
+				ArrayList<MatchPlayer> mm2 = new ArrayList<MatchPlayer>();
+				if(m.get(a).getTeam1().getTeamName().equals(teamName)){
 					mm=m.get(a).getTeam1().getPlayers();
-				else if(m.get(a).getTeam2().getTeamName().equals(teamName))
+				    mm2=m.get(a).getTeam2().getPlayers();
+				}else if(m.get(a).getTeam2().getTeamName().equals(teamName)){
 					mm=m.get(a).getTeam2().getPlayers();
-				else
+					mm2=m.get(a).getTeam1().getPlayers();
+				}else
 					continue;
+				double temp=0;
+				double temp2=0;
+				double temp3=0;
+				for(int k=0;k<mm.size();k++){
+					temp+=mm.get(k).getDefensiveRebound();
+					String[] str=mm.get(k).getMatchTime().split(":");
+					double minutes=Double.parseDouble(str[0])+Double.parseDouble("0."+str[1])*5/3;
+					temp3+=minutes;
+				}  
+				for(int k=0;k<mm2.size();k++){
+					temp2+=mm2.get(k).getDefensiveRebound();
+				}  
 				for(int k=0;k<mm.size();k++){
 					if(mm.get(k).getPlayerName().equals(p2.get(j).getPlayerName())){
-						xList.add((double) mm.get(k).getOffensiveRebound());
+						String[] str=mm.get(k).getMatchTime().split(":");
+						double minutes=Double.parseDouble(str[0])+Double.parseDouble("0."+str[1])*5/3;
+						if(minutes==0)
+							xList.add(0.0);
+						else
+							xList.add(mm.get(k).getDefensiveRebound()*temp3/5/minutes/(temp+temp2));
 						yList.add((double) l);
 						l++;
-					}
-				}  						
+					}					
+				}  					
 			}		         
 			LinearRegression h=new LinearRegression(xList,yList);
 			n[j]=h.getB();		
