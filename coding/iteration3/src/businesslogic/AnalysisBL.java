@@ -830,7 +830,7 @@ public class AnalysisBL implements AnalysisBLService {
 		PlayerDataService pd=new PlayerData();
 		SimpleDateFormat df = new SimpleDateFormat("MM-dd");//设置日期格式
 		String str=df.format(new Date());	
-		ArrayList<TodayPlayerPO> tp=pd.getTodayPlayerInfo(str,"14_15_after");
+		ArrayList<TodayPlayerPO> tp=pd.getTodayPlayerInfo("06-11","14_15_after");
 		ArrayList<TodayPlayerVO> result2=new ArrayList<TodayPlayerVO>();
 		ArrayList<TodayPlayerVO> result=new ArrayList<TodayPlayerVO>();
 		for(int i=0;i<tp.size();i++){
@@ -1136,8 +1136,6 @@ public class AnalysisBL implements AnalysisBLService {
 		if(t.getPoints()==0){
 			return result;
 		}
-		System.out.println(t.getThreePointFieldGoalsMade());
-		System.out.println(t.getPoints());
 		if(scoreWay.equals(ScoreWay.fieldGoals)){			
 			result=1.0;
 		}else if(scoreWay.equals(ScoreWay.threePointFieldGoals)){
@@ -1244,16 +1242,30 @@ public class AnalysisBL implements AnalysisBLService {
 			
 			for(int a=0;a<m.size();a++){
 				ArrayList<MatchPlayer> mm = new ArrayList<MatchPlayer>();
-				if(m.get(a).getTeam1().getTeamName().equals(teamName))
+				ArrayList<MatchPlayer> mm2 = new ArrayList<MatchPlayer>();
+				if(m.get(a).getTeam1().getTeamName().equals(teamName)){
 					mm=m.get(a).getTeam1().getPlayers();
-				else if(m.get(a).getTeam2().getTeamName().equals(teamName))
+				    mm2=m.get(a).getTeam2().getPlayers();
+				}else if(m.get(a).getTeam2().getTeamName().equals(teamName)){
 					mm=m.get(a).getTeam2().getPlayers();
-				else
+					mm2=m.get(a).getTeam1().getPlayers();
+				}else
 					continue;
 				double temp=0;
+				double temp2=0;
+				double temp3=0;
+				for(int k=0;k<mm.size();k++){
+					temp+=mm.get(k).getOffensiveRebound();
+					String[] splits=mm.get(k).getMatchTime().split("：");
+					double minutes
+					temp3+=mm.get(k).getMatchTime();
+				}  
+				for(int k=0;k<mm2.size();k++){
+					temp2+=mm2.get(k).getOffensiveRebound();
+				}  
 				for(int k=0;k<mm.size();k++){
 					if(mm.get(k).getPlayerName().equals(p2.get(j).getPlayerName())){
-						xList.add(String.valueOf(mm.get(k).getOffensiveRebound()));	
+						xList.add(String.valueOf(mm.get(k).getOffensiveRebound()/mm.get(k).get));	
 					}
 					temp+=mm.get(k).getOffensiveRebound();
 				}  
@@ -1320,7 +1332,7 @@ public class AnalysisBL implements AnalysisBLService {
 					 
 			LinearRegression h=new LinearRegression(xList,yList);
 			n[j]=h.getB();		
-			System.out.println(p2.get(j).getPlayerName()+"\t\t\t"+n[j]);
+			
 		}		
 		for(int i=0;i<n.length;i++){
 			int k=0;
@@ -1340,7 +1352,7 @@ public class AnalysisBL implements AnalysisBLService {
 		DataBLService d=new DataBL();
 		MatchDataService md=new MatchData();
 		ArrayList<MatchPO> m=md.getAllMatchInfo(season);
-		System.out.println("获取本赛季全部比赛");
+		
 		ArrayList<PlayerVO> p=d.getAllPlayerInfo(season);
 		ArrayList<PlayerVO> p2=new ArrayList<PlayerVO>();
 		for(int i=0;i<p.size();i++){
