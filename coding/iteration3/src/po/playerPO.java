@@ -49,6 +49,7 @@ public class PlayerPO {
 	private double increaseOfPoints;//近五场得分提升率
 	private double increaseOfRebounds;//近五场篮板提升率
 	private double increaseOfAssists;//近五场助攻提升率
+	private String playerID;//球员id
 	
 	public PlayerPO(){
 		gamesPlayed=0;//参赛场数
@@ -88,6 +89,7 @@ public class PlayerPO {
 		setIncreaseOfPoints(0);//近五场得分提升率
 		setIncreaseOfRebounds(0);//近五场篮板提升率
 		setIncreaseOfAssists(0);//近五场助攻提升率
+		playerID="";//球员id
 	}
 
 	public String getPlayerName() {
@@ -464,6 +466,14 @@ public class PlayerPO {
 
 	public void setIncreaseOfAssists(double increaseOfAssists) {
 		this.increaseOfAssists = increaseOfAssists;
+	}
+
+	public String getPlayerID() {
+		return playerID;
+	}
+
+	public void setPlayerID(String playerID) {
+		this.playerID = playerID;
 	}
 
 }

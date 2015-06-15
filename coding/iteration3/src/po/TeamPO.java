@@ -38,7 +38,8 @@ public class TeamPO {
 	private String homeCourt;		//主场
 	private String createTime;		//创建时间
 	private double gamesPlayedWin;
-
+	private String teamID;
+	
 	public TeamPO(){
 		teamName="";
 		gamesPlayed=0;
@@ -77,6 +78,7 @@ public class TeamPO {
 		homeCourt="";		
 		createTime="";		
 		setGamesPlayedWin(0);
+		teamID="";
 	}
 	
 	
@@ -384,6 +386,22 @@ public class TeamPO {
 
 	public void setGamesPlayedWin(double gamesPlayedWin) {
 		this.gamesPlayedWin = gamesPlayedWin;
+	}
+
+
+	/**
+	 * @return the teamID
+	 */
+	public String getTeamID() {
+		return teamID;
+	}
+
+
+	/**
+	 * @param teamID the teamID to set
+	 */
+	public void setTeamID(String teamID) {
+		this.teamID = teamID;
 	}
 
 }

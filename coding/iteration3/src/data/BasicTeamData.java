@@ -60,6 +60,7 @@ public class BasicTeamData {
 				temp.setHomeCourt((c[32]));
 				temp.setCreateTime((c[33]));
 				temp.setGamesPlayedWin(Double.parseDouble(c[34]));
+				temp.setTeamID(c[35]);
 				result.add(temp);
 			}
 		} catch (IOException e) {
@@ -80,6 +81,13 @@ public class BasicTeamData {
 					si.saveTeamInfo(season[i],a.get(k));
 				} catch (Exception e) {
 				}
+			}
+		}
+		ArrayList<TeamPO> b=btd.getTeamInfo(filename[19]);
+		for(int k=0;k<b.size();k++){
+			try {
+				si.saveTeamID(b.get(k));
+			} catch (Exception e) {
 			}
 		}
 	}

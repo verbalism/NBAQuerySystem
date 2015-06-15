@@ -17,18 +17,23 @@ public class PlayerData implements PlayerDataService{
 			ConnectMySQL c=new ConnectMySQL();
 			Connection conn=c.getConnection();
 			Statement stmt=conn.createStatement();
-			String sql ="select * from player"+season+" where playerName='" + name + "'";
-			ResultSet rs=stmt.executeQuery(sql);
+			String sql1="select * from allplayer where playerName='"+name+"'";
+			ResultSet rs0=stmt.executeQuery(sql1);
+			while(rs0.next()){
+				result.setPlayerName(rs0.getString("playerName"));
+				result.setNumber(rs0.getString("playerNumber"));
+				result.setPosition(rs0.getString("position"));
+				result.setHeight(rs0.getString("height"));
+				result.setWeight(rs0.getString("weight"));
+				result.setBirth(rs0.getString("birth"));
+				result.setAge(rs0.getString("age"));
+				result.setExp(rs0.getString("exp"));
+				result.setSchool(rs0.getString("school"));
+			}
+			rs0.close();
+			String sql2 ="select * from player"+season+" where playerID in (select playerID from allplayer where playerName='"+name+"')";
+			ResultSet rs=stmt.executeQuery(sql2);
 			while(rs.next()){
-				result.setPlayerName(rs.getString("playerName"));
-				result.setNumber(rs.getString("playerNumber"));
-				result.setPosition(rs.getString("position"));
-				result.setHeight(rs.getString("height"));
-				result.setWeight(rs.getString("weight"));
-				result.setBirth(rs.getString("birth"));
-				result.setAge(rs.getString("age"));
-				result.setExp(rs.getString("exp"));
-				result.setSchool(rs.getString("school"));
 				result.setTeamName(rs.getString("teamName"));
 				result.setGamesPlayed(rs.getInt("gamesPlayed"));
 				result.setGamesStarting(rs.getInt("gamesStarting"));
@@ -75,7 +80,7 @@ public class PlayerData implements PlayerDataService{
 		}
 		
 		return result;
-	}//ï¿½ï¿½Ñ¯ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô±ï¿½ï¿½Ï¢
+	}//²éÑ¯µ¥¸öÇòÔ±ÐÅÏ¢
 	
 	public ArrayList<PlayerPO> getAllPlayerInfo(String season){
 		ArrayList<PlayerPO> Result=new ArrayList<PlayerPO>();
@@ -83,10 +88,11 @@ public class PlayerData implements PlayerDataService{
 			ConnectMySQL c=new ConnectMySQL();
 			Connection conn=c.getConnection();
 			Statement stmt=conn.createStatement();
-			String sql ="select * from player"+season;
+			String sql ="select * from allplayer,player"+season+" where allplayer.playerID=player"+season+".playerID";
 			ResultSet rs=stmt.executeQuery(sql);
 			while(rs.next()){
 				PlayerPO result=new PlayerPO();
+				result.setPlayerID(rs.getString("playerID"));
 				result.setPlayerName(rs.getString("playerName"));
 				result.setNumber(rs.getString("playerNumber"));
 				result.setPosition(rs.getString("position"));
@@ -142,7 +148,7 @@ public class PlayerData implements PlayerDataService{
 		}catch(Exception e){
 		}
 		return Result;
-	}//ï¿½ï¿½Ñ¯È«ï¿½ï¿½ï¿½ï¿½Ô±ï¿½ï¿½Ï¢
+	}//²éÑ¯È«²¿ÇòÔ±ÐÅÏ¢
 	
 	public ArrayList<TodayPlayerPO> getTodayPlayerInfo(String date,String season){
 		ArrayList<TodayPlayerPO> Result=new ArrayList<TodayPlayerPO>();
@@ -182,12 +188,12 @@ public class PlayerData implements PlayerDataService{
 		}catch(Exception e){
 		}
 		return Result;
-	}//ï¿½ï¿½Ñ¯ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô±ï¿½ï¿½Ï¢
+	}//²éÑ¯µ±ÌìÇòÔ±ÐÅÏ¢
 	
-	/*public static void main(String[]args){
+	public static void main(String[]args){
 		PlayerData pd=new PlayerData();
-		ArrayList<TodayPlayerPO> a=pd.getTodayPlayerInfo("01-04", "05_06");
-		System.out.println(a.size());
-	}*/
-
+		ArrayList<PlayerPO> a=pd.getAllPlayerInfo("05_06_after");
+		System.out.println(a.get(2).getBirth());
+	}
+	
 }

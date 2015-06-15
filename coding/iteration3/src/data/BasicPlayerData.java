@@ -70,6 +70,7 @@ public class BasicPlayerData {
 				temp.setTurnoverRating(Double.parseDouble(c[41]));
 				temp.setUtilizationRating(Double.parseDouble(c[42]));
 				temp.setDoubleDouble(Double.parseDouble(c[43]));
+				temp.setPlayerID(c[44]);
 				result.add(temp);
 			}
 		} catch (IOException e) {
@@ -78,7 +79,7 @@ public class BasicPlayerData {
 		return result;
 	}
 	
-	/*public static void main(String[]args){
+	public static void main(String[]args){
 		BasicPlayerData bpd=new BasicPlayerData();
 		SaveInfo si=new SaveInfo();
 		String[] filename={"05-06\\playoff","05-06\\regular","06-07\\playoff","06-07\\regular","07-08\\playoff","07-08\\regular","08-09\\playoff","08-09\\regular","09-10\\playoff","09-10\\regular","10-11\\playoff","10-11\\regular","11-12\\playoff","11-12\\regular","12-13\\playoff","12-13\\regular","13-14\\playoff","13-14\\regular","14-15\\playoff","14-15\\regular"};
@@ -92,8 +93,8 @@ public class BasicPlayerData {
 				}
 			}
 		}
-		bpd.getIncrease("14_15");
-	}*/
+		/*bpd.getIncrease("14_15");*/
+	}
 	public double CalculateIncreaseOfPoints(ArrayList<MatchPlayer> MP){
 		int num=MP.size();
 		double A=0,B=0,result=0;
@@ -217,9 +218,9 @@ public class BasicPlayerData {
 				double ior=bpd.CalculateIncreaseOfRebounds(MP);
 				
 				PreparedStatement pstmt;
-				String sql3 = "update player"+season+" set increaseOfPoints='" + iop + "' where playerName='" + name + "'";
-				String sql4 = "update player"+season+" set increaseOfAssists='" + ioa + "' where playerName='" + name + "'";
-				String sql5 = "update player"+season+" set increaseOfRebounds='" + ior + "' where playerName='" + name + "'";
+				String sql3 = "update player"+season+" set increaseOfPoints='" + iop + "' where playerID='" + pp1.get(i).getPlayerID() + "'";
+				String sql4 = "update player"+season+" set increaseOfAssists='" + ioa + "' where playerID='" + pp1.get(i).getPlayerID() + "'";
+				String sql5 = "update player"+season+" set increaseOfRebounds='" + ior + "' where playerID='" + pp1.get(i).getPlayerID() + "'";
 				pstmt = (PreparedStatement) conn.prepareStatement(sql3);
 			    pstmt.executeUpdate();
 			    pstmt = (PreparedStatement) conn.prepareStatement(sql4);
@@ -289,9 +290,9 @@ public class BasicPlayerData {
 				double ior=bpd.CalculateIncreaseOfRebounds(MP);
 				
 				PreparedStatement pstmt;
-				String sql3 = "update player"+season+"_after set increaseOfPoints='" + iop + "' where playerName='" + name + "'";
-				String sql4 = "update player"+season+"_after set increaseOfAssists='" + ioa + "' where playerName='" + name + "'";
-				String sql5 = "update player"+season+"_after set increaseOfRebounds='" + ior + "' where playerName='" + name + "'";
+				String sql3 = "update player"+season+"_after set increaseOfPoints='" + iop + "' where playerID='" + pp2.get(i).getPlayerID() + "'";
+				String sql4 = "update player"+season+"_after set increaseOfAssists='" + ioa + "' where playerID='" + pp2.get(i).getPlayerID() + "'";
+				String sql5 = "update player"+season+"_after set increaseOfRebounds='" + ior + "' where playerID='" + pp2.get(i).getPlayerID() + "'";
 				pstmt = (PreparedStatement) conn.prepareStatement(sql3);
 			    pstmt.executeUpdate();
 			    pstmt = (PreparedStatement) conn.prepareStatement(sql4);

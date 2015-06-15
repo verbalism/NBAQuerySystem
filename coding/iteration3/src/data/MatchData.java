@@ -221,7 +221,7 @@ public class MatchData implements MatchDataService{
 	
 	/*public static void main(String[] args){
 		MatchData md=new MatchData();
-		ArrayList<MatchPO> a=md.getTodayMatchInfo("04-09","12_13");
+		ArrayList<MatchPO> a=md.getTodayMatchInfo("06_14","14_15");
 		System.out.println(a.size());
 	}*/
 }

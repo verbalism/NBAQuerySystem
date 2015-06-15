@@ -235,8 +235,10 @@ public class BasicMatchData {
 	public static void main(String[] args){
 		BasicMatchData bmd=new BasicMatchData();
 		SaveInfo si=new SaveInfo();
-		String[] p={"05-06\\playoff","05-06\\regular","06-07\\playoff","06-07\\regular","07-08\\playoff","07-08\\regular","08-09\\playoff","08-09\\regular","09-10\\playoff","09-10\\regular","10-11\\playoff","10-11\\regular","11-12\\playoff","11-12\\regular","12-13\\playoff","12-13\\regular","13-14\\playoff","13-14\\regular","14-15\\playoff","14-15\\regular"};
-		String[] season={"05_06_after","05_06","06_07_after","06_07","07_08_after","07_08","08_09_after","08_09","09_10_after","09_10","10_11_after","10_11","11_12_after","11_12","12_13_after","12_13","13_14_after","13_14","14_15_after","14_15"};
+		//String[] p={"05-06\\playoff","05-06\\regular","06-07\\playoff","06-07\\regular","07-08\\playoff","07-08\\regular","08-09\\playoff","08-09\\regular","09-10\\playoff","09-10\\regular","10-11\\playoff","10-11\\regular","11-12\\playoff","11-12\\regular","12-13\\playoff","12-13\\regular","13-14\\playoff","13-14\\regular","14-15\\playoff","14-15\\regular"};
+		//String[] season={"05_06_after","05_06","06_07_after","06_07","07_08_after","07_08","08_09_after","08_09","09_10_after","09_10","10_11_after","10_11","11_12_after","11_12","12_13_after","12_13","13_14_after","13_14","14_15_after","14_15"};
+		String[] p={"05-06\\playoff","06-07\\playoff","07-08\\playoff","08-09\\playoff","09-10\\playoff","10-11\\playoff","11-12\\playoff","12-13\\playoff","13-14\\playoff","14-15\\playoff"};
+		String[] season={"05_06_after","06_07_after","07_08_after","08_09_after","09_10_after","10_11_after","11_12_after","12_13_after","13_14_after","14_15_after"};
 		for(int i=0;i<p.length;i++){
 			ArrayList<MatchPO> a=new ArrayList<MatchPO>();
 			ArrayList<String> pa=bmd.getSortedFile(p[i]);
