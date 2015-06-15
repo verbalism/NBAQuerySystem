@@ -50,6 +50,7 @@ public class TeamCmpPanel extends JPanel implements ActionListener{
 	DataBLService dbl = new DataBL();
 	public TeamCmpPanel(String team){
 		team1 = dbl.getSingleTeamInfo(team, "14_15");
+		team2 = dbl.getSingleTeamInfo("NBA", "14_15");
 		Toolkit kit = Toolkit.getDefaultToolkit();
 		Dimension screenSize = kit.getScreenSize();
 		panelHeight = screenSize.height-160;
@@ -509,14 +510,14 @@ public class TeamCmpPanel extends JPanel implements ActionListener{
 		 // 横轴名称(列名称) 
 		 String series2 = team2.getTeamName();
 		 
-		 String[] time = new String[11];
-		 String[] timeValue = { "04-05", "05-06", "06-07", "07-08", "08-09", "09-10",
+		 String[] time = new String[10];
+		 String[] timeValue = { "05-06", "06-07", "07-08", "08-09", "09-10",
                     "10-11", "11-12", "12-13", "13-14", "14-15"};
-		 for (int i = 0; i < 11; i++) {
+		 for (int i = 0; i < 10; i++) {
 			 time[i] = timeValue[i];
 		 }
 		 //随机添加数据值
-		 for (int i = 0; i < 11; i++) {
+		 for (int i = 0; i < 10; i++) {
 			 Double d1=0.0,d2=0.0;
 			 TeamVO t1 = dbl.getSingleTeamInfo(team1.getTeamName(), timeValue[i].replace('-', '_'));
 			 TeamVO t2 = dbl.getSingleTeamInfo(team2.getTeamName(), timeValue[i].replace('-', '_'));
@@ -619,7 +620,7 @@ public class TeamCmpPanel extends JPanel implements ActionListener{
 		}
 		
 		if(e.getSource()==searchBtn2){
-			String name = searchField1.getText();
+			String name = searchField2.getText();
 		    TeamVO team = dbl.getSingleTeamInfo(name, "14_15");
 		    if(team.getTeamName().equals(""))
 		    	new ActionDialog("不存在该球队");
@@ -629,9 +630,10 @@ public class TeamCmpPanel extends JPanel implements ActionListener{
 		    	team2Chart = new RightHorizontalBarChart(createTeam2BarDataset(),new String[]{ "#9E9E9E","#9E9E9E","#9E9E9E","#9E9E9E","#9E9E9E","#9E9E9E","#9E9E9E","#9E9E9E"} );
 				team2Chart.setBounds(panelWidth/2+57, 0, panelWidth/2-65, 310);
 				team2Chart.setBackground(null);
-				img2 = new ImageIcon("Img//teams//NBA.png");
+				img2 = new ImageIcon("Img//teams//"+team2.getTeamName()+".png");
 				img2.setImage(img2.getImage().getScaledInstance(90,90,Image.SCALE_DEFAULT));
 				teamImgLabel2.setIcon(img2);
+				teamImgLabel2.repaint();
 				teamNameLabel2.setText(team2.getTeamName()+"  ");
 				searchField2.setText("  查找球队");
 				seriesChart = new SeriesChart(createSeriesDataset("score"));
@@ -642,8 +644,8 @@ public class TeamCmpPanel extends JPanel implements ActionListener{
 				cmpPanel.add(team1Chart);
 				cmpPanel.add(team2Chart);
 				cmpPanel.repaint();
-				barChartBtn.setVisible(true);
-				lineChartBtn.setVisible(false);
+				barChartBtn.setVisible(false);
+				lineChartBtn.setVisible(true);
 		    }
 		}
 	}

@@ -114,7 +114,7 @@ public class TeamDataPanel extends JPanel implements ActionListener{
 		seasonPanel.setBorder(null);
 		seasonPanel.setBackground(null);
 		
-		String union[] = {"14-15","13-14","12-13","11-12","10-11","09-10","08-09","07-08","06-07","05-06","04-05"};
+		String union[] = {"14-15","13-14","12-13","11-12","10-11","09-10","08-09","07-08","06-07","05-06"};
 		seasonBox = new JComboBox(union);
 		seasonBox.setSelectedIndex(0);
 		seasonBox.setBounds(340, 10, 150, 30);

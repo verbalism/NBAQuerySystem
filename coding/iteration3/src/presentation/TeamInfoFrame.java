@@ -34,20 +34,23 @@ import vo.MatchVO;
 import vo.TeamVO;
 
 public class TeamInfoFrame extends JFrame implements ActionListener{
-	JButton beforeSearch,avgBtn,allBtn,backBtn;
+	JButton beforeSearch,regularBtn,afterBtn,backBtn;
 	JPanel dataPanel;
 	JPanel matchPanel;
 	JPanel backgroundPanel;
 	JPanel beforePanel;
 	JScrollPane scrollPane = new JScrollPane();
-	boolean avg=true;
+	JLabel title;
+	boolean regular=true;
+	DataBLService dbl = new DataBL();
+	String teamName;DecimalFormat df=new DecimalFormat("#########.#");
 	public TeamInfoFrame(TeamVO team){
 		Toolkit kit = Toolkit.getDefaultToolkit();
 		Dimension screenSize = kit.getScreenSize();
 		int frameHeight = screenSize.height*2/3;
 		int frameWidth = screenSize.width*3/5;
 		
-		
+		teamName = team.getTeamName();
 		
 		JLabel teamImgLabel = new JLabel();
 		teamImgLabel.setBounds(20, 0, 150, 150);
@@ -202,61 +205,61 @@ public class TeamInfoFrame extends JFrame implements ActionListener{
 		JPanel beforeTitle = new JPanel();
 		beforeTitle.setBackground(new Color(30,81,140));
 		beforeTitle.setBounds(0, 0, frameWidth-40, 40);
-		JLabel title = new JLabel("常 规 赛 数 据");
+		title = new JLabel("常 规 赛 数 据");
 		title.setBounds(20,0,100,40);
 		title.setBackground(null);
 		title.setFont(new Font("微软雅黑",Font.BOLD,16));
 		title.setForeground(Color.WHITE);
 		
-		avgBtn = new JButton("平均");
-		avgBtn.setBounds(frameWidth-180, 5, 60, 30);
-		avgBtn.setBackground(new Color(42,108,182));
-		avgBtn.setBorder(new LineBorder(new Color(26,71,123),2,false));
-		avgBtn.setForeground(Color.white);
-		avgBtn.setFont(new Font("华文细黑",0,14));
-		avgBtn.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		avgBtn.addActionListener(this);
-		avgBtn.addMouseListener(new MouseAdapter(){
+		regularBtn = new JButton("常规赛");
+		regularBtn.setBounds(frameWidth-220, 5, 80, 30);
+		regularBtn.setBackground(new Color(42,108,182));
+		regularBtn.setBorder(new LineBorder(new Color(26,71,123),2,false));
+		regularBtn.setForeground(Color.white);
+		regularBtn.setFont(new Font("华文细黑",0,14));
+		regularBtn.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		regularBtn.addActionListener(this);
+		regularBtn.addMouseListener(new MouseAdapter(){
 			public void mouseClicked(MouseEvent arg0) {
-				avgBtn.setBackground(new Color(42,108,182));
-				allBtn.setBackground(new Color(26,71,123));
-				avg = true;
+				regularBtn.setBackground(new Color(42,108,182));
+				afterBtn.setBackground(new Color(26,71,123));
+				regular = true;
 			}
 			public void mouseEntered(MouseEvent arg0){
-				if(!avg){
-					avgBtn.setBackground(new Color(30,81,140));
+				if(!regular){
+					regularBtn.setBackground(new Color(30,81,140));
 				}
 			}
 			public void mouseExited(MouseEvent e){
-				if(!avg){
-					avgBtn.setBackground(new Color(26,71,123));
+				if(!regular){
+					regularBtn.setBackground(new Color(26,71,123));
 				}
 			}
 		});
 		
 		
-		allBtn = new JButton("总计");
-		allBtn.setBounds(frameWidth-122, 5, 60, 30);
-		allBtn.setBackground(new Color(26,71,123));
-		allBtn.setBorder(new LineBorder(new Color(26,71,123),2,false));
-		allBtn.setForeground(Color.white);
-		allBtn.setFont(new Font("华文细黑",0,14));
-		allBtn.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		allBtn.addActionListener(this);
-		allBtn.addMouseListener(new MouseAdapter(){
+		afterBtn = new JButton("季后赛");
+		afterBtn.setBounds(frameWidth-142, 5, 80, 30);
+		afterBtn.setBackground(new Color(26,71,123));
+		afterBtn.setBorder(new LineBorder(new Color(26,71,123),2,false));
+		afterBtn.setForeground(Color.white);
+		afterBtn.setFont(new Font("华文细黑",0,14));
+		afterBtn.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		afterBtn.addActionListener(this);
+		afterBtn.addMouseListener(new MouseAdapter(){
 			public void mouseClicked(MouseEvent arg0) {
-				allBtn.setBackground(new Color(42,108,182));
-				avgBtn.setBackground(new Color(26,71,123));
-				avg = false;
+				afterBtn.setBackground(new Color(42,108,182));
+				regularBtn.setBackground(new Color(26,71,123));
+				regular = false;
 			}
 			public void mouseEntered(MouseEvent arg0){
-				if(avg){
-					allBtn.setBackground(new Color(30,81,140));
+				if(regular){
+					afterBtn.setBackground(new Color(30,81,140));
 				}
 			}
 			public void mouseExited(MouseEvent e){
-				if(avg){
-					allBtn.setBackground(new Color(26,71,123));
+				if(regular){
+					afterBtn.setBackground(new Color(26,71,123));
 				}
 			}
 		});
@@ -264,8 +267,8 @@ public class TeamInfoFrame extends JFrame implements ActionListener{
 		
 		beforeTitle.setLayout(null);
 		beforeTitle.add(title);
-		beforeTitle.add(avgBtn);
-		beforeTitle.add(allBtn);
+		beforeTitle.add(regularBtn);
+		beforeTitle.add(afterBtn);
 		
 		scrollPane.setBounds(-1, 40, frameWidth-22, 290);
 		scrollPane.setOpaque(false);
@@ -279,7 +282,7 @@ public class TeamInfoFrame extends JFrame implements ActionListener{
 		beforePanel.add(beforeTitle);
 		beforePanel.add(backBtn);
 		beforePanel.add(scrollPane);
-		avg();
+		regular();
 		
 		
 		backgroundPanel = new JPanel();
@@ -323,43 +326,41 @@ public class TeamInfoFrame extends JFrame implements ActionListener{
 			backgroundPanel.repaint();
 			this.repaint();
 		}
-		if(e.getSource()==avgBtn){
-			avg();
+		if(e.getSource()==regularBtn){
+			regular();
 			backgroundPanel.repaint();
 			this.repaint();
 		}
-		if(e.getSource()==allBtn){
-			all();
+		if(e.getSource()==afterBtn){
+			after();
 			backgroundPanel.repaint();
 			this.repaint();
 		}
 		
 	}
 	
-	public void avg(){
-		String[] columnNames = new String[]{"年度","场数","投篮命中","三分命中","罚球命中","进攻","防守","篮板","助攻","抢断","盖帽","失误","犯规","得分"};
+	public void regular(){
+		title.setText("常 规 赛 数 据");
+		String[] columnNames = new String[]{"年度","场数","投篮%","三分%","罚球%","进攻","防守","场均篮板","场均助攻","场均抢断","场均盖帽","失误","犯规","得分"};
 		Object[][]data=new Object[10][14];
-		/*for(int i=0;i<teams.size();i++){
-			data[i][0] = (i+1);
-			data[i][1] = teams.get(i).getFullName();
-			data[i][2] = (teams.get(i).getGamesPlayed());
-			data[i][3] = ((int)teams.get(i).getFieldGoalsMade());
-			data[i][4] = ((int)teams.get(i).getFieldGoalsAttempted());
-			data[i][5] = ((int)teams.get(i).getThreePointFieldGoalsMade());
-			data[i][6] = ((int)teams.get(i).getThreePointFieldGoalsAttempted());
-			data[i][7] = ((int)teams.get(i).getFreeThrowsMade());
-			data[i][8] = ((int)teams.get(i).getFreeThrowsAttempted());
-			data[i][9] = ((int)teams.get(i).getOffensiveRebounds());
-			data[i][10] = ((int)teams.get(i).getDefensiveRebounds());
-			data[i][11] = ((int)teams.get(i).getRebounds());
-			data[i][12] = ((int)teams.get(i).getAssists());
-			data[i][13] = ((int)teams.get(i).getSteals());
-			data[i][14] = ((int)teams.get(i).getBlocks());
-			data[i][15] = ((int)teams.get(i).getTurnovers());
-			data[i][16] = ((int)teams.get(i).getFouls());
-			data[i][17] = ((int)teams.get(i).getPoints());
-			data[i][18] = (int)teams.get(i).getPossessions();
-		}*/
+		String[] season = {"14-15","13-14","12-13","11-12","10-11","09-10","08-09","07-08","06-07","05-06"};
+		for(int i=0;i<11;i++){
+			TeamVO team = dbl.getSingleTeamInfo(teamName, season[i].replace('-', '_'));
+			data[i][0] = season[i];
+			data[i][1] = team.getGamesPlayed();
+			data[i][2] = df.format(team.getFieldGoalPercentage()*100);
+			data[i][3] = df.format(team.getThreePointFieldGoalPercentage()*100);
+			data[i][4] = df.format(team.getFreeThrowPercentage()*100);
+			data[i][5] = df.format(team.getOffensiveRating());
+			data[i][6] = df.format(team.getDefensiveRating());
+			data[i][7] = df.format(team.getRebounds()/team.getGamesPlayed());
+			data[i][8] = df.format(team.getAssists()/team.getGamesPlayed());
+			data[i][9] = df.format(team.getSteals()/team.getGamesPlayed());
+			data[i][10] = df.format(team.getBlocks()/team.getGamesPlayed());
+			data[i][11] = df.format(team.getTurnovers()/team.getGamesPlayed());
+			data[i][12] = df.format(team.getFouls()/team.getGamesPlayed());
+			data[i][13] = df.format(team.getPoints()/team.getGamesPlayed());
+		}
 		
 		DefaultTableModel model = new DefaultTableModel(data,columnNames){
 		      public Class<?> getColumnClass(int column) {
@@ -375,7 +376,7 @@ public class TeamInfoFrame extends JFrame implements ActionListener{
         firsetColumn.setPreferredWidth(70);
         firsetColumn.setMaxWidth(70);
         firsetColumn.setMinWidth(70);
-        for(int i=2;i<5;i++){
+        for(int i=7;i<11;i++){
         TableColumn nameColumn = table.getColumnModel().getColumn(i);
         nameColumn.setPreferredWidth(80);
         nameColumn.setMaxWidth(80);
@@ -387,30 +388,28 @@ public class TeamInfoFrame extends JFrame implements ActionListener{
 		
 	}
 	
-	public void all(){
-		String[] columnNames = new String[]{"年度","场数","命中","出手","三分命中","三分出手","罚球命中","罚球出手","进攻","防守","篮板","助攻","抢断","盖帽","失误","犯规","得分"};
-		Object[][]data=new Object[10][17];
-		/*for(int i=0;i<teams.size();i++){
-			data[i][0] = (i+1);
-			data[i][1] = teams.get(i).getFullName();
-			data[i][2] = (teams.get(i).getGamesPlayed());
-			data[i][3] = ((int)teams.get(i).getFieldGoalsMade());
-			data[i][4] = ((int)teams.get(i).getFieldGoalsAttempted());
-			data[i][5] = ((int)teams.get(i).getThreePointFieldGoalsMade());
-			data[i][6] = ((int)teams.get(i).getThreePointFieldGoalsAttempted());
-			data[i][7] = ((int)teams.get(i).getFreeThrowsMade());
-			data[i][8] = ((int)teams.get(i).getFreeThrowsAttempted());
-			data[i][9] = ((int)teams.get(i).getOffensiveRebounds());
-			data[i][10] = ((int)teams.get(i).getDefensiveRebounds());
-			data[i][11] = ((int)teams.get(i).getRebounds());
-			data[i][12] = ((int)teams.get(i).getAssists());
-			data[i][13] = ((int)teams.get(i).getSteals());
-			data[i][14] = ((int)teams.get(i).getBlocks());
-			data[i][15] = ((int)teams.get(i).getTurnovers());
-			data[i][16] = ((int)teams.get(i).getFouls());
-			data[i][17] = ((int)teams.get(i).getPoints());
-			data[i][18] = (int)teams.get(i).getPossessions();
-		}*/
+	public void after(){
+		title.setText("季 后 赛 数 据");
+		String[] columnNames = new String[]{"年度","场数","投篮%","三分%","罚球%","进攻","防守","场均篮板","场均助攻","场均抢断","场均盖帽","失误","犯规","得分"};
+		Object[][]data=new Object[10][14];
+		String[] season = {"14-15","13-14","12-13","11-12","10-11","09-10","08-09","07-08","06-07","05-06"};
+		for(int i=0;i<11;i++){
+			TeamVO team = dbl.getSingleTeamInfo(teamName, season[i].replace('-', '_')+"_after");
+			data[i][0] = season[i];
+			data[i][1] = team.getGamesPlayed();
+			data[i][2] = df.format(team.getFieldGoalPercentage()*100);
+			data[i][3] = df.format(team.getThreePointFieldGoalPercentage()*100);
+			data[i][4] = df.format(team.getFreeThrowPercentage()*100);
+			data[i][5] = df.format(team.getOffensiveRating());
+			data[i][6] = df.format(team.getDefensiveRating());
+			data[i][7] = df.format(team.getRebounds()/team.getGamesPlayed());
+			data[i][8] = df.format(team.getAssists()/team.getGamesPlayed());
+			data[i][9] = df.format(team.getSteals()/team.getGamesPlayed());
+			data[i][10] = df.format(team.getBlocks()/team.getGamesPlayed());
+			data[i][11] = df.format(team.getTurnovers()/team.getGamesPlayed());
+			data[i][12] = df.format(team.getFouls()/team.getGamesPlayed());
+			data[i][13] = df.format(team.getPoints()/team.getGamesPlayed());
+		}
 		
 		DefaultTableModel model = new DefaultTableModel(data,columnNames){
 		      public Class<?> getColumnClass(int column) {

@@ -57,7 +57,7 @@ public class TeamAnlPanel extends JPanel implements ActionListener{
 	SeriesChart seriesChart;SpiderWebChart spiderChart;PieChart pieChart;
 	DecimalFormat df=new DecimalFormat("#########.##");
 	public TeamAnlPanel(String teamName){
-		TeamVO team = dbl.getSingleTeamInfo(teamName,"14_15");
+		team = dbl.getSingleTeamInfo(teamName,"14_15");
 		Toolkit kit = Toolkit.getDefaultToolkit();
 		Dimension screenSize = kit.getScreenSize();
 		panelHeight = screenSize.height-160;
@@ -157,6 +157,19 @@ public class TeamAnlPanel extends JPanel implements ActionListener{
 		anlPanel.setBounds(0, 200, 700, 380);
 		anlPanel.setBackground(null);
 		
+		chooseSeason = new JLabel("选择赛季：");
+		chooseSeason.setBounds(450, 10, 80, 30);
+		chooseSeason.setFont(new Font("微软雅黑",0,15));
+		chooseSeason.setForeground(new Color(69,69,69));
+		String seasons[] = {"14-15","13-14","12-13","11-12","10-11","09-10","08-09","07-08","06-07","05-06"};
+		seasonBox = new JComboBox(seasons);
+		seasonBox.setBounds(530, 10, 150, 30);
+		seasonBox.setFont(new Font("微软雅黑",0,14));
+		//seasonBox.setBorder(new LineBorder(new Color(69,69,69),1,false));
+		seasonBox.setForeground(new Color(69,69,69));
+		seasonBox.setBackground(Color.WHITE);
+		seasonBox.setSelectedIndex(0);
+		seasonBox.addActionListener(this);
 		
 		seriesChart = new SeriesChart(createSeriesDataset());
 		seriesChart.setBounds(0, 60, 700, 300);
@@ -166,8 +179,6 @@ public class TeamAnlPanel extends JPanel implements ActionListener{
 		
 		pieChart = new PieChart(createPieDataset());
 		pieChart.setBounds(0, 60, 700, 300);
-		
-		
 		
 		scoreBtn = new JButton("得分");
 		shotBtn = new JButton("投篮");
@@ -214,19 +225,6 @@ public class TeamAnlPanel extends JPanel implements ActionListener{
 			}
 		});
 		historyBtn.addActionListener(this);
-		
-		chooseSeason = new JLabel("选择赛季：");
-		chooseSeason.setBounds(450, 10, 80, 30);
-		chooseSeason.setFont(new Font("微软雅黑",0,15));
-		chooseSeason.setForeground(new Color(69,69,69));
-		String seasons[] = {"14-15","13-14","12-13","11-12","10-11","09-10","08-09","07-08","06-07","05-06","04-05"};
-		seasonBox = new JComboBox(seasons);
-		seasonBox.setBounds(530, 10, 150, 30);
-		seasonBox.setFont(new Font("微软雅黑",0,14));
-		//seasonBox.setBorder(new LineBorder(new Color(69,69,69),1,false));
-		seasonBox.setForeground(new Color(69,69,69));
-		seasonBox.setBackground(Color.WHITE);
-		seasonBox.addActionListener(this);
 		
 		anlPanel.setLayout(null);
 		anlPanel.add(historyBtn);
@@ -398,14 +396,14 @@ public class TeamAnlPanel extends JPanel implements ActionListener{
 		 // 横轴名称(列名称) 
 		 String series2 = "进攻";
 		 String series3 = "防守";
-		 String[] time = new String[11];
-		 String[] timeValue = { "04-05", "05-06", "06-07", "07-08", "08-09", "09-10",
+		 String[] time = new String[10];
+		 String[] timeValue = {  "05-06", "06-07", "07-08", "08-09", "09-10",
                      "10-11", "11-12", "12-13", "13-14", "14-15"};
-		 for (int i = 0; i < 11; i++) {
+		 for (int i = 0; i < 10; i++) {
 			 time[i] = timeValue[i];
 		 }
 		 //随机添加数据值
-		 for (int i = 0; i < 11; i++) {
+		 for (int i = 0; i < 10; i++) {
 			 TeamVO t1 = dbl.getSingleTeamInfo(team.getTeamName(), timeValue[i].replace('-', '_'));
 			 Double d1 = Double.valueOf(df.format(t1.getPoints()/t1.getGamesPlayed()));
 			 Double d2 = Double.valueOf(df.format(t1.getOffensiveRebounds()/t1.getGamesPlayed()));
@@ -425,7 +423,7 @@ public class TeamAnlPanel extends JPanel implements ActionListener{
 		
 	}
 	
-	private DefaultCategoryDataset createSpiderDataset()
+	public DefaultCategoryDataset createSpiderDataset()
 	 {
 	  String s = seasonBox.getSelectedItem().toString()+"赛季";
 	  String s3 = "%";

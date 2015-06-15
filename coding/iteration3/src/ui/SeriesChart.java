@@ -58,11 +58,11 @@ public class SeriesChart extends ChartPanel{
         
         // 数据渲染部分 主要是对折线做操作
         LineAndShapeRenderer renderer = (LineAndShapeRenderer) plot.getRenderer();
-        renderer.setBaseItemLabelsVisible(true);
-        renderer.setBaseItemLabelPaint(new Color(102, 102, 102));// 显示折点数值字体的颜色  
-        renderer.setBaseItemLabelFont(new Font("Dialog", 1, 14));  //设置提示折点数据形状
+        renderer.setBaseItemLabelsVisible(false);
+       // renderer.setBaseItemLabelPaint(new Color(102, 102, 102));// 显示折点数值字体的颜色  
+       // renderer.setBaseItemLabelFont(new Font("Dialog", 0, 13));  //设置提示折点数据形状
         renderer.setBaseShapesFilled(true);     
-        renderer.setBasePositiveItemLabelPosition(new ItemLabelPosition(ItemLabelAnchor.OUTSIDE12, TextAnchor.BASELINE_LEFT));
+       // renderer.setBasePositiveItemLabelPosition(new ItemLabelPosition(ItemLabelAnchor.OUTSIDE12, TextAnchor.BASELINE_LEFT));
         renderer.setBaseItemLabelGenerator(new StandardCategoryItemLabelGenerator());          
         renderer.setSeriesShapesVisible(0, true);  
         renderer.setSeriesShapesVisible(1, true);  
