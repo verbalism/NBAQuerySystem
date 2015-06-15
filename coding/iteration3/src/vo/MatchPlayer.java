@@ -19,7 +19,26 @@ public class MatchPlayer {
 	private int error;			//失误数
 	private int foul;			//犯规数
 	private int score;			//个人得分
-	
+	public MatchPlayer(){
+		playerName="";
+		position="";
+		matchTime="0:0";		
+		fieldGoal=0;		
+		fieldGoalAttempts=0;		
+		threepointShot=0;			
+		threepointAttempts=0;	
+		freeThrowGoal=0;			
+		freeThrowAttempts=0;		
+		offensiveRebound=0;		
+		defensiveRebound=0;		
+		rebound=0;		
+		assist=0;			
+		st=0;				
+		blockShot=0;		
+		error=0;			
+		foul=0;			
+		score=0;			
+	}
 	public void setPlayerName(String n){
 		this.playerName = n;
 	}

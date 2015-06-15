@@ -2,10 +2,14 @@ package vo;
 
 import java.util.ArrayList;
 
+import vo.MatchPlayer;
+
 public class MatchTeam {
 	private String teamName;
-	private ArrayList<MatchPlayer> players;
-
+	private ArrayList<MatchPlayer> players= new ArrayList<MatchPlayer>();
+	public MatchTeam(){
+		teamName="";
+	}
 	public void setTeamName(String n){
 		this.teamName = n;
 	}
