@@ -190,10 +190,10 @@ public class PlayerData implements PlayerDataService{
 		return Result;
 	}//查询当天球员信息
 	
-	public static void main(String[]args){
+	/*public static void main(String[]args){
 		PlayerData pd=new PlayerData();
 		ArrayList<PlayerPO> a=pd.getAllPlayerInfo("05_06_after");
 		System.out.println(a.get(2).getBirth());
-	}
+	}*/
 	
 }

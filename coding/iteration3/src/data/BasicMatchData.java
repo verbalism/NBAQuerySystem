@@ -232,7 +232,7 @@ public class BasicMatchData {
 		return result;
 	}
 	
-	public static void main(String[] args){
+	/*public static void main(String[] args){
 		BasicMatchData bmd=new BasicMatchData();
 		SaveInfo si=new SaveInfo();
 		//String[] p={"05-06\\playoff","05-06\\regular","06-07\\playoff","06-07\\regular","07-08\\playoff","07-08\\regular","08-09\\playoff","08-09\\regular","09-10\\playoff","09-10\\regular","10-11\\playoff","10-11\\regular","11-12\\playoff","11-12\\regular","12-13\\playoff","12-13\\regular","13-14\\playoff","13-14\\regular","14-15\\playoff","14-15\\regular"};
@@ -256,6 +256,6 @@ public class BasicMatchData {
 			}
 		}
 		
-	}
+	}*/
 
 }

@@ -28,8 +28,8 @@ public class ConnectMySQL {
 	}
 	
 	public void create(){
-		//String season[]={"14_15_after","14_15","13_14_after","13_14","12_13_after","12_13","11_12_after","11_12","10_11_after","10_11","09_10_after","09_10","08_09_after","08_09","07_08_after","07_08","06_07_after","06_07","05_06_after","05_06",};
-		String season[]={"14_15_after","13_14_after","12_13_after","11_12_after","10_11_after","09_10_after","08_09_after","07_08_after","06_07_after","05_06_after"};
+		String season[]={"14_15_after","14_15","13_14_after","13_14","12_13_after","12_13","11_12_after","11_12","10_11_after","10_11","09_10_after","09_10","08_09_after","08_09","07_08_after","07_08","06_07_after","06_07","05_06_after","05_06",};
+		//String season[]={"14_15_after","13_14_after","12_13_after","11_12_after","10_11_after","09_10_after","08_09_after","07_08_after","06_07_after","05_06_after"};
 		try {
 			ConnectMySQL c=new ConnectMySQL();
 			Connection conn = c.getConnection();
@@ -55,14 +55,14 @@ public class ConnectMySQL {
 					+ "AssistPercentage double not null,fullName char(20) not null,city char(50) not null,zone char(20) not null,subarea char(20) not null,homeCourt char(50) not null,createTime char(20) not null,gamesPlayedWin double not null)";
 				
 				PreparedStatement pstmt;
-				pstmt = (PreparedStatement) conn.prepareStatement(sql1);
+				/*pstmt = (PreparedStatement) conn.prepareStatement(sql1);
 				pstmt.executeUpdate();
 				pstmt = (PreparedStatement) conn.prepareStatement(sql2);
 				pstmt.executeUpdate();
-				/*pstmt = (PreparedStatement) conn.prepareStatement(sql3);
-				pstmt.executeUpdate();
-				pstmt = (PreparedStatement) conn.prepareStatement(sql4);
+				pstmt = (PreparedStatement) conn.prepareStatement(sql3);
 				pstmt.executeUpdate();*/
+				pstmt = (PreparedStatement) conn.prepareStatement(sql4);
+				pstmt.executeUpdate();
 				pstmt.close();
 				
 			}
@@ -84,8 +84,8 @@ public class ConnectMySQL {
 	}
 	
 	public void drop(){
-		//String season[]={"14_15_after","14_15","13_14_after","13_14","12_13_after","12_13","11_12_after","11_12","10_11_after","10_11","09_10_after","09_10","08_09_after","08_09","07_08_after","07_08","06_07_after","06_07","05_06_after","05_06",};
-		String season[]={"14_15_after","13_14_after","12_13_after","11_12_after","10_11_after","09_10_after","08_09_after","07_08_after","06_07_after","05_06_after"};
+		String season[]={"14_15_after","14_15","13_14_after","13_14","12_13_after","12_13","11_12_after","11_12","10_11_after","10_11","09_10_after","09_10","08_09_after","08_09","07_08_after","07_08","06_07_after","06_07","05_06_after","05_06",};
+		//String season[]={"14_15_after","13_14_after","12_13_after","11_12_after","10_11_after","09_10_after","08_09_after","07_08_after","06_07_after","05_06_after"};
 		try {
 			ConnectMySQL c=new ConnectMySQL();
 			Connection conn = c.getConnection();
@@ -95,14 +95,14 @@ public class ConnectMySQL {
 				String sql3="DROP TABLE player"+season[i];
 				String sql4="DROP TABLE team"+season[i];
 				PreparedStatement pstmt;
-				pstmt = (PreparedStatement) conn.prepareStatement(sql1);
+				/*pstmt = (PreparedStatement) conn.prepareStatement(sql1);
 				pstmt.executeUpdate();
 				pstmt = (PreparedStatement) conn.prepareStatement(sql2);
 				pstmt.executeUpdate();
-				/*pstmt = (PreparedStatement) conn.prepareStatement(sql3);
-				pstmt.executeUpdate();
-				pstmt = (PreparedStatement) conn.prepareStatement(sql4);
+				pstmt = (PreparedStatement) conn.prepareStatement(sql3);
 				pstmt.executeUpdate();*/
+				pstmt = (PreparedStatement) conn.prepareStatement(sql4);
+				pstmt.executeUpdate();
 				pstmt.close();
 			
 			}

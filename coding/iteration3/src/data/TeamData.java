@@ -117,9 +117,9 @@ public class TeamData implements TeamDataService{
 		return Result;
 	}//获取所有球队信息。返回arraylist
 	
-	/*public static void main(String[]args){
+	public static void main(String[]args){
 		TeamData pd=new TeamData();
-		ArrayList<TeamPO> a=pd.getAllTeamInfo("08_09");
-		System.out.println(a.get(3).getDefensiveRebounds());
-	}*/
+		ArrayList<TeamPO> a=pd.getAllTeamInfo("14_15");
+		System.out.println(a.get(4).getOffensiveRating());
+	}
 }

@@ -69,7 +69,7 @@ public class BasicTeamData {
 		return result;
 	}
 	
-	public static void main(String[]args){
+	/*public static void main(String[]args){
 		BasicTeamData btd=new BasicTeamData();
 		SaveInfo si=new SaveInfo();
 		String[] filename={"05-06playoff","05-06regular","06-07playoff","06-07regular","07-08playoff","07-08regular","08-09playoff","08-09regular","09-10playoff","09-10regular","10-11playoff","10-11regular","11-12playoff","11-12regular","12-13playoff","12-13regular","13-14playoff","13-14regular","14-15playoff","14-15regular"};
@@ -90,5 +90,5 @@ public class BasicTeamData {
 			} catch (Exception e) {
 			}
 		}
-	}
+	}*/
 }

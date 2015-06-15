@@ -13,6 +13,7 @@ public interface MatchDataService {
 	
 	public ArrayList<MatchPO> getPlayerRecentMatchInfo(int number,String playerName);//获取球员最近比赛，number为比赛场数，playername为队员名
 	
-	public ArrayList<MatchPO> getTodayMatchInfo(String date,String season);//获取某日比赛啊时间
+	public ArrayList<MatchPO> getTodayMatchInfo(String date,String season);//获取某日比赛
 	
+	public ArrayList<MatchPO> getMatchOfTeam(String teamName,String season);//获取某支球队某个赛季比赛
 }

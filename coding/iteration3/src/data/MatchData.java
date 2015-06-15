@@ -109,23 +109,17 @@ public class MatchData implements MatchDataService{
 	
 	public ArrayList<MatchPO> getAllMatchInfo(String season){
 		ArrayList<MatchPO> Result=new ArrayList<MatchPO>();
-		
+		ArrayList<Integer> id=new ArrayList<Integer>();
 		try {
-			ConnectMySQL c=new ConnectMySQL();
-			Connection conn=c.getConnection();
-			Statement stmt = conn.createStatement();  
-	 		 
-			ResultSet rs0 = stmt.executeQuery("select * from generalmatch"+season);
-	 		
-			ArrayList<String> teamName=new ArrayList<String>();
-			ArrayList<String> date=new ArrayList<String>();
-			while(rs0.next()){
-				teamName.add(rs0.getString("teamName1"));
-				date.add(rs0.getString("matchTime"));
-			}
-			rs0.close();
-			
-			for(int i=0;i<teamName.size();i++){
+			 ConnectMySQL c=new ConnectMySQL();
+			 Connection conn=c.getConnection();
+			 Statement stmt = conn.createStatement();  
+			 String sql="select * from generalmatch"+season;
+	 		 ResultSet rs = stmt.executeQuery(sql);	
+	 		 while(rs.next()){
+	 			 id.add(rs.getInt("id"));
+	 		 }
+	 		for(int i=0;i<id.size();i++){
 				MatchPO result=new MatchPO();
 	 			MatchTeam t1=new MatchTeam();
 	 			MatchTeam t2=new MatchTeam();
@@ -137,29 +131,30 @@ public class MatchData implements MatchDataService{
 	 			ArrayList<String> temp=new ArrayList<String>();
 	 			ArrayList<MatchPlayer> players1=new ArrayList<MatchPlayer>();
 	 			ArrayList<MatchPlayer> players2=new ArrayList<MatchPlayer>();
-	 		 	ResultSet rs = stmt.executeQuery("select * from generalmatch"+season+" where (teamName1='"+teamName.get(i)+"' or teamName2='"+teamName.get(i)+"') and matchTime in (select matchTime from generalmatch"+season+" where matchTime='"+date.get(i)+"')");	
+	 		 	ResultSet rs1 = stmt.executeQuery("select * from generalmatch"+season+" where id='"+id.get(i)+"'");	
 	 		 		 
-	 		 		while(rs.next()){
-	 		 			 matchID=rs.getInt("id");
-	 		 			 result.setMatchTime(date.get(i));
-	 		 			 teamName1=rs.getString("teamName1");
-	 		 			 teamName2=rs.getString("teamName2");
+	 		 		while(rs1.next()){
+	 		 			 matchID=rs1.getInt("id");
+	 		 			 result.setMatchTime(rs1.getString("matchTime"));
+	 		 			 teamName1=rs1.getString("teamName1");
+	 		 			 teamName2=rs1.getString("teamName2");
 	 		 			 result.setTeams(teamName1+"-"+teamName2);
-	 		 			 result.setScore(rs.getString("score"));
-	 		 			 result.setScore1(rs.getString("score1"));
-	 		 			 result.setScore2(rs.getString("score2"));
-	 		 			 result.setScore3(rs.getString("score3"));
-	 		 			 result.setScore4(rs.getString("score4"));
-	 		 			 escore=rs.getString("extrascores");
+	 		 			 result.setScore(rs1.getString("score"));
+	 		 			 result.setScore1(rs1.getString("score1"));
+	 		 			 result.setScore2(rs1.getString("score2"));
+	 		 			 result.setScore3(rs1.getString("score3"));
+	 		 			 result.setScore4(rs1.getString("score4"));
+	 		 			 escore=rs1.getString("extrascores");
 	 		 			 sescore=escore.split(";");
 	 		 			 for(int j=0;j<sescore.length;j++){
 	 		 				 temp.add(sescore[j]);
 	 		 			 }
 	 		 			 result.setExtraScores(temp);
 	 		 		 }
+	 		 		rs1.close();
 	 		 		 t1.setTeamName(teamName1);
 	 		 		 t2.setTeamName(teamName2);
-	 		 		 rs = stmt.executeQuery("select * from matchplayer"+season+" where generalMatch="+matchID+" and teamName='"+teamName.get(i)+"'");
+	 		 		 rs = stmt.executeQuery("select * from matchplayer"+season+" where generalMatch="+matchID+" and teamName='"+teamName1+"'");
 	 		 		 while(rs.next()){
 	 		 			 MatchPlayer mp=new MatchPlayer();
 	 		 			 mp.setPlayerName(rs.getString("playerName"));
@@ -183,7 +178,7 @@ public class MatchData implements MatchDataService{
 	 		 			 players1.add(mp);
 	 		 		 }
 	 		 		 t1.setPlayers(players1);
-	 		 		 rs = stmt.executeQuery("select * from matchplayer"+season+" where generalMatch="+matchID+" and oppositeTeamName='"+teamName.get(i)+"'");
+	 		 		 rs = stmt.executeQuery("select * from matchplayer"+season+" where generalMatch="+matchID+" and teamName='"+teamName2+"'");
 	 		 		 while(rs.next()){
 	 		 			 MatchPlayer mp=new MatchPlayer();
 	 		 			 mp.setPlayerName(rs.getString("playerName"));
@@ -207,18 +202,16 @@ public class MatchData implements MatchDataService{
 	 		 			 players2.add(mp);
 	 		 		 }
 	 		 		 t2.setPlayers(players2);
-	 		 		 rs.close();
 	 		 		 result.setTeam1(t1);
 	 		 		 result.setTeam2(t2);
 	 		 	Result.add(result);
 			}
+	 		rs.close();
 			stmt.close();
 			conn.close();
-	 		 
-		 } catch (Exception e) {
-				e.printStackTrace();
-		 }
-		
+		}catch(Exception e){
+			
+		}
 		return Result;
 	}//获取所有比赛信息
 	
@@ -310,9 +303,117 @@ public class MatchData implements MatchDataService{
 		return result;
 	}//获取某日的比赛
 	
-	public static void main(String[] args){
-		MatchData md=new MatchData();
-		ArrayList<MatchPO> a=md.getAllMatchInfo("05_06");
-		System.out.println(a.size());
+	public ArrayList<MatchPO> getMatchOfTeam(String teamName,String season){
+		ArrayList<MatchPO> Result=new ArrayList<MatchPO>();
+		ArrayList<Integer> id=new ArrayList<Integer>();
+		try {
+			 ConnectMySQL c=new ConnectMySQL();
+			 Connection conn=c.getConnection();
+			 Statement stmt = conn.createStatement();  
+			 String sql="select * from generalmatch"+season+" where (teamName1='"+teamName+"' or teamName2='"+teamName+"')";
+	 		 ResultSet rs = stmt.executeQuery(sql);	
+	 		 while(rs.next()){
+	 			 id.add(rs.getInt("id"));
+	 		 }
+	 		for(int i=0;i<id.size();i++){
+				MatchPO result=new MatchPO();
+	 			MatchTeam t1=new MatchTeam();
+	 			MatchTeam t2=new MatchTeam();
+	 			String teamName1="";
+	 			String teamName2="";
+	 			String escore="";
+	 			String[] sescore;
+	 			int matchID=0;
+	 			ArrayList<String> temp=new ArrayList<String>();
+	 			ArrayList<MatchPlayer> players1=new ArrayList<MatchPlayer>();
+	 			ArrayList<MatchPlayer> players2=new ArrayList<MatchPlayer>();
+	 		 	ResultSet rs1 = stmt.executeQuery("select * from generalmatch"+season+" where id='"+id.get(i)+"'");	
+	 		 		 
+	 		 		while(rs1.next()){
+	 		 			 matchID=rs1.getInt("id");
+	 		 			 result.setMatchTime(rs1.getString("matchTime"));
+	 		 			 teamName1=rs1.getString("teamName1");
+	 		 			 teamName2=rs1.getString("teamName2");
+	 		 			 result.setTeams(teamName1+"-"+teamName2);
+	 		 			 result.setScore(rs1.getString("score"));
+	 		 			 result.setScore1(rs1.getString("score1"));
+	 		 			 result.setScore2(rs1.getString("score2"));
+	 		 			 result.setScore3(rs1.getString("score3"));
+	 		 			 result.setScore4(rs1.getString("score4"));
+	 		 			 escore=rs1.getString("extrascores");
+	 		 			 sescore=escore.split(";");
+	 		 			 for(int j=0;j<sescore.length;j++){
+	 		 				 temp.add(sescore[j]);
+	 		 			 }
+	 		 			 result.setExtraScores(temp);
+	 		 		 }
+	 		 		rs1.close();
+	 		 		 t1.setTeamName(teamName1);
+	 		 		 t2.setTeamName(teamName2);
+	 		 		 rs = stmt.executeQuery("select * from matchplayer"+season+" where generalMatch="+matchID+" and teamName='"+teamName1+"'");
+	 		 		 while(rs.next()){
+	 		 			 MatchPlayer mp=new MatchPlayer();
+	 		 			 mp.setPlayerName(rs.getString("playerName"));
+	 		 			 mp.setPosition(rs.getString("position"));
+	 		 			 mp.setMatchTime(rs.getString("matchTime"));
+	 		 			 mp.setFieldGoal(rs.getInt("fieldGoal"));
+	 		 			 mp.setFieldGoalAttempts(rs.getInt("fieldGoalAttempts"));
+	 		 			 mp.setThreePointShot(rs.getInt("threepointShot"));
+	 		 			 mp.setThreePointAttempts(rs.getInt("threepointAttempts"));
+	 		 			 mp.setFreeThrowGoal(rs.getInt("freeThrowGoal"));
+	 		 			 mp.setFreeThrowAttempts(rs.getInt("freeThrowAttempts"));
+	 		 			 mp.setOffensiveRebound(rs.getInt("offensiveRebound"));
+	 		 			 mp.setDefensiveRebound(rs.getInt("defensiveRebound"));
+	 		 			 mp.setRebound(rs.getInt("rebound"));
+	 		 			 mp.setAssist(rs.getInt("assist"));
+	 		 			 mp.setST(rs.getInt("st"));	
+	 		 			 mp.setBlockShot(rs.getInt("blockShot"));
+	 		 			 mp.setError(rs.getInt("turnover"));
+	 		 			 mp.setFoul(rs.getInt("foul"));
+	 		 			 mp.setScore(rs.getInt("score"));	
+	 		 			 players1.add(mp);
+	 		 		 }
+	 		 		 t1.setPlayers(players1);
+	 		 		 rs = stmt.executeQuery("select * from matchplayer"+season+" where generalMatch="+matchID+" and teamName='"+teamName2+"'");
+	 		 		 while(rs.next()){
+	 		 			 MatchPlayer mp=new MatchPlayer();
+	 		 			 mp.setPlayerName(rs.getString("playerName"));
+	 		 			 mp.setPosition(rs.getString("position"));
+	 		 			 mp.setMatchTime(rs.getString("matchTime"));
+	 		 			 mp.setFieldGoal(rs.getInt("fieldGoal"));
+	 		 			 mp.setFieldGoalAttempts(rs.getInt("fieldGoalAttempts"));
+	 		 			 mp.setThreePointShot(rs.getInt("threepointShot"));
+	 		 			 mp.setThreePointAttempts(rs.getInt("threepointAttempts"));
+	 		 			 mp.setFreeThrowGoal(rs.getInt("freeThrowGoal"));
+	 		 			 mp.setFreeThrowAttempts(rs.getInt("freeThrowAttempts"));
+	 		 			 mp.setOffensiveRebound(rs.getInt("offensiveRebound"));
+	 		 			 mp.setDefensiveRebound(rs.getInt("defensiveRebound"));
+	 		 			 mp.setRebound(rs.getInt("rebound"));
+	 		 			 mp.setAssist(rs.getInt("assist"));
+	 		 			 mp.setST(rs.getInt("st"));	
+	 		 			 mp.setBlockShot(rs.getInt("blockShot"));
+	 		 			 mp.setError(rs.getInt("turnover"));
+	 		 			 mp.setFoul(rs.getInt("foul"));
+	 		 			 mp.setScore(rs.getInt("score"));	
+	 		 			 players2.add(mp);
+	 		 		 }
+	 		 		 t2.setPlayers(players2);
+	 		 		 result.setTeam1(t1);
+	 		 		 result.setTeam2(t2);
+	 		 	Result.add(result);
+			}
+	 		rs.close();
+			stmt.close();
+			conn.close();
+		}catch(Exception e){
+			
+		}
+		return Result;
 	}
+	
+	/*public static void main(String[] args){
+		MatchData md=new MatchData();
+		ArrayList<MatchPO> a=md.getAllMatchInfo("14_15");
+		System.out.println(a.size());
+	}*/
 }

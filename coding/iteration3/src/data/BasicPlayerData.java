@@ -79,7 +79,7 @@ public class BasicPlayerData {
 		return result;
 	}
 	
-	public static void main(String[]args){
+	/*public static void main(String[]args){
 		BasicPlayerData bpd=new BasicPlayerData();
 		SaveInfo si=new SaveInfo();
 		String[] filename={"05-06\\playoff","05-06\\regular","06-07\\playoff","06-07\\regular","07-08\\playoff","07-08\\regular","08-09\\playoff","08-09\\regular","09-10\\playoff","09-10\\regular","10-11\\playoff","10-11\\regular","11-12\\playoff","11-12\\regular","12-13\\playoff","12-13\\regular","13-14\\playoff","13-14\\regular","14-15\\playoff","14-15\\regular"};
@@ -93,8 +93,8 @@ public class BasicPlayerData {
 				}
 			}
 		}
-		/*bpd.getIncrease("14_15");*/
-	}
+		bpd.getIncrease("14_15");
+	}*/
 	public double CalculateIncreaseOfPoints(ArrayList<MatchPlayer> MP){
 		int num=MP.size();
 		double A=0,B=0,result=0;
