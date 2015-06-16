@@ -308,25 +308,25 @@ public class HotTeamPanel extends JPanel{
 			teamScoreLabel5.setText(df.format(teams.get(4).getSteals()/teams.get(4).getGamesPlayed()));
 			break;
 		case "all3":
-			teamScoreLabel1.setText(nf.format(teams.get(0).getThreePointFieldGoalPercentage()/teams.get(0).getGamesPlayed()));
-			teamScoreLabel2.setText(nf.format(teams.get(1).getThreePointFieldGoalPercentage()/teams.get(1).getGamesPlayed()));
-			teamScoreLabel3.setText(nf.format(teams.get(2).getThreePointFieldGoalPercentage()/teams.get(2).getGamesPlayed()));
-			teamScoreLabel4.setText(nf.format(teams.get(3).getThreePointFieldGoalPercentage()/teams.get(3).getGamesPlayed()));
-			teamScoreLabel5.setText(nf.format(teams.get(4).getThreePointFieldGoalPercentage()/teams.get(4).getGamesPlayed()));
+			teamScoreLabel1.setText(nf.format(teams.get(0).getThreePointFieldGoalPercentage()));
+			teamScoreLabel2.setText(nf.format(teams.get(1).getThreePointFieldGoalPercentage()));
+			teamScoreLabel3.setText(nf.format(teams.get(2).getThreePointFieldGoalPercentage()));
+			teamScoreLabel4.setText(nf.format(teams.get(3).getThreePointFieldGoalPercentage()));
+			teamScoreLabel5.setText(nf.format(teams.get(4).getThreePointFieldGoalPercentage()));
 			break;
 		case "allShot":
-			teamScoreLabel1.setText(nf.format(teams.get(0).getFieldGoalPercentage()/teams.get(0).getGamesPlayed()));
-			teamScoreLabel2.setText(nf.format(teams.get(1).getFieldGoalPercentage()/teams.get(1).getGamesPlayed()));
-			teamScoreLabel3.setText(nf.format(teams.get(2).getFieldGoalPercentage()/teams.get(2).getGamesPlayed()));
-			teamScoreLabel4.setText(nf.format(teams.get(3).getFieldGoalPercentage()/teams.get(3).getGamesPlayed()));
-			teamScoreLabel5.setText(nf.format(teams.get(4).getFieldGoalPercentage()/teams.get(4).getGamesPlayed()));
+			teamScoreLabel1.setText(nf.format(teams.get(0).getFieldGoalPercentage()));
+			teamScoreLabel2.setText(nf.format(teams.get(1).getFieldGoalPercentage()));
+			teamScoreLabel3.setText(nf.format(teams.get(2).getFieldGoalPercentage()));
+			teamScoreLabel4.setText(nf.format(teams.get(3).getFieldGoalPercentage()));
+			teamScoreLabel5.setText(nf.format(teams.get(4).getFieldGoalPercentage()));
 			break;
 		case "allPenalty":
-			teamScoreLabel1.setText(nf.format(teams.get(0).getFreeThrowPercentage()/teams.get(0).getGamesPlayed()));
-			teamScoreLabel2.setText(nf.format(teams.get(1).getFreeThrowPercentage()/teams.get(1).getGamesPlayed()));
-			teamScoreLabel3.setText(nf.format(teams.get(2).getFreeThrowPercentage()/teams.get(2).getGamesPlayed()));
-			teamScoreLabel4.setText(nf.format(teams.get(3).getFreeThrowPercentage()/teams.get(3).getGamesPlayed()));
-			teamScoreLabel5.setText(nf.format(teams.get(4).getFreeThrowPercentage()/teams.get(4).getGamesPlayed()));
+			teamScoreLabel1.setText(nf.format(teams.get(0).getFreeThrowPercentage()));
+			teamScoreLabel2.setText(nf.format(teams.get(1).getFreeThrowPercentage()));
+			teamScoreLabel3.setText(nf.format(teams.get(2).getFreeThrowPercentage()));
+			teamScoreLabel4.setText(nf.format(teams.get(3).getFreeThrowPercentage()));
+			teamScoreLabel5.setText(nf.format(teams.get(4).getFreeThrowPercentage()));
 			break;
 		default:
 			break;

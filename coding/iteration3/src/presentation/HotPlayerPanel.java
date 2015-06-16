@@ -271,9 +271,9 @@ public class HotPlayerPanel extends JPanel{
 		fifPlayer.add(playerScoreLabel5);
 		fifPlayer.add(playerTeamLabel5);
 		
-		DecimalFormat df=new DecimalFormat(".##");
+		DecimalFormat df=new DecimalFormat(".#");
 		NumberFormat nf = NumberFormat.getPercentInstance();
-        nf.setMaximumFractionDigits(2);
+        nf.setMaximumFractionDigits(0);
 		switch (keyword){
 		case "allScore":
 			playerScoreLabel1.setText(df.format(players.get(0).getPoints()/players.get(0).getGamesPlayed()));

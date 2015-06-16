@@ -13,9 +13,13 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import businesslogic.DataBL;
+import businesslogicService.DataBLService;
 import presentation.TeamAnlPanel;
 import presentation.TeamCmpPanel;
+import presentation.TeamInfoFrame;
 import presentation.TeamListPanel;
+import vo.TeamVO;
 
 public class TeamLabel extends JLabel{
 	JLabel teamImgLabel = new JLabel();
@@ -51,7 +55,9 @@ public class TeamLabel extends JLabel{
 		infoLabel.setBounds((panelHeight-200)/5, (panelHeight-200-3)/5-45, 30, 15);
 		infoLabel.addMouseListener((new MouseAdapter(){
 			public void mouseClicked(MouseEvent arg0) {
-				
+				DataBLService dbl = new DataBL();
+				TeamVO team = dbl.getSingleTeamInfo(teamNameLabel.getText(), "14_15");
+				new TeamInfoFrame(team);
 			}
 			public void mouseEntered(MouseEvent arg0){
 				infoLabel.setText("<html><u>信息</u></html>");

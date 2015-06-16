@@ -90,7 +90,11 @@ public class MatchListPanel extends JPanel implements ActionListener {
 		
 		String[] columnNames = new String[]{"比赛日期","对阵队伍","比分","第一节比分","第二节比分","第三节比分","第四节比分"};
 		ArrayList<MatchVO> matches = abl.getTodayMatch();
-		String[][]data=new String[matches.size()][7];
+		String[][] data;
+		if(matches.isEmpty())
+			data = new String[][]{{"","","","","","",""}};
+		else{
+		data=new String[matches.size()][7];
 		for(int i=0;i<matches.size();i++){
 			data[i][0] = matches.get(i).getMatchTime();
 			data[i][1] = matches.get(i).getTeams();
@@ -99,7 +103,7 @@ public class MatchListPanel extends JPanel implements ActionListener {
 			data[i][4] = matches.get(i).getScore2();
 			data[i][5] = matches.get(i).getScore3();
 			data[i][6] = matches.get(i).getScore4();
-		}
+		}}
 		DefaultTableModel model = new DefaultTableModel(data,columnNames);
 		final InfoListTable table=new InfoListTable(model){
             public boolean isCellEditable(int row, int column)
@@ -146,28 +150,28 @@ public class MatchListPanel extends JPanel implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource()==searchBtn){
 			if(matchDateChooser.getDate().getMonth()<7)
-				season = Integer.toString(matchDateChooser.getDate().getYear()-2001)+"_"+Integer.toString(matchDateChooser.getDate().getYear()-2000);
+				season = Integer.toString(matchDateChooser.getDate().getYear()-101)+"_"+Integer.toString(matchDateChooser.getDate().getYear()-100);
 			else
-				season = Integer.toString(matchDateChooser.getDate().getYear()-2000)+"_"+Integer.toString(matchDateChooser.getDate().getYear()-1999);
+				season = Integer.toString(matchDateChooser.getDate().getYear()-100)+"_"+Integer.toString(matchDateChooser.getDate().getYear()-99);
 			
 			if((matchDateChooser.getDate().getMonth()<7&&matchDateChooser.getDate().getMonth()>4)||(matchDateChooser.getDate().getMonth()==4&&matchDateChooser.getDate().getDay()>20));
 				season = season+"_after";
 			String date = sdf.format(matchDateChooser.getDate());
 			
-			System.out.println(season);
+			//System.out.println(date);
 			ArrayList<MatchVO> matches = dbl.findMatchByDate(date,season);
 			if(matches.isEmpty())
 				new ActionDialog("该日无比赛");
 			else{
 				//thread.stop();
-				//refresh(matches);
+				refresh(matches,season);
 				title.setText(date+" 比赛");
 			}
 			
 		}
 		
 	}
-	/**public void refresh(ArrayList<MatchVO> matches){
+	public void refresh(ArrayList<MatchVO> matches,final String season){
 		this.remove(scrollPane);
 		String[] columnNames = new String[]{"比赛日期","对阵队伍","比分","第一节比分","第二节比分","第三节比分","第四节比分"};
 		String[][]data=new String[matches.size()][7];
@@ -192,7 +196,7 @@ public class MatchListPanel extends JPanel implements ActionListener {
                              	 if (e.getClickCount() == 2) {
                              		 	String matchDate = (String) table.getValueAt(table.getSelectedRow(), 0);
                               		    String team = ((String) table.getValueAt(table.getSelectedRow(), 1)).split("-")[0];
-                              			MatchVO match = dbl.getSingleMatchInfo(matchDate, team);
+                              			MatchVO match = dbl.getSingleMatchInfo(matchDate, team, season);
                               		    new MatchInfoFrame(match);
                               	 }	    	 
                            }}});
@@ -203,5 +207,5 @@ public class MatchListPanel extends JPanel implements ActionListener {
 		scrollPane.setBorder(null);
 		this.add(scrollPane);
 		this.repaint();
-	}*/
+	}
 }

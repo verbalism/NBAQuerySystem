@@ -57,9 +57,9 @@ public class TeamAnlPanel extends JPanel implements ActionListener{
 	JButton offensiveBtn,defensiveBtn;
 	JComboBox seasonBox;JLabel chooseSeason;JCheckBox s14,s13,s12,s11,s10,s09,s08,s07,s06,s05;JPanel seasonChoosePanel;
 	JButton playerNameLabel1,playerNameLabel2;JLabel seasonLabel,teamTypeLabel;JLabel playerImgLabel1,playerImgLabel2;ImageIcon img1,img2;JLabel playerScoreLabel1, playerScoreLabel2;
-	TeamVO team; String season = "14_15"; ArrayList<String> selectSeason;
+	TeamVO team; String season = "14_15"; ArrayList<String> selectSeason = new ArrayList<String>();
 	JPanel anlPanel;
-	SeriesChart seriesChart;SpiderWebChart spiderChart;PieChart pieChart;DefaultCategoryDataset spiderDataset;
+	SeriesChart seriesChart;SpiderWebChart spiderChart;PieChart pieChart;
 	DecimalFormat df=new DecimalFormat("#########.##");
 	public TeamAnlPanel(String teamName){
 		team = dbl.getSingleTeamInfo(teamName,"14_15");
@@ -170,7 +170,6 @@ public class TeamAnlPanel extends JPanel implements ActionListener{
 		seasonBox = new JComboBox(seasons);
 		seasonBox.setBounds(530, 10, 150, 30);
 		seasonBox.setFont(new Font("微软雅黑",0,14));
-		//seasonBox.setBorder(new LineBorder(new Color(69,69,69),1,false));
 		seasonBox.setForeground(new Color(69,69,69));
 		seasonBox.setBackground(Color.WHITE);
 		seasonBox.setSelectedIndex(0);
@@ -182,7 +181,7 @@ public class TeamAnlPanel extends JPanel implements ActionListener{
 		s14 = new JCheckBox("14-15");
 		s14.setBounds(0, 10, 150, 30);
 		s14.setFont(new Font("微软雅黑",0,14));
-		s14.setForeground(new Color(69,69,69));
+		s14.setForeground(new Color(69,69,69));s14.setBackground(null);
 		s14.setSelected(true);
 		selectSeason.add("14_15");
 		s14.addItemListener(new ItemListener(){
@@ -194,7 +193,7 @@ public class TeamAnlPanel extends JPanel implements ActionListener{
                     selectSeason.remove("14_15");
                 }
                 anlPanel.remove(spiderChart);
-                spiderChart = new SpiderWebChart(spiderDataset);
+                spiderChart = new SpiderWebChart(createSpiderDataset());
         		spiderChart.setBounds(-7, 60, 700, 300);
         		anlPanel.add(spiderChart);
         		anlPanel.repaint();
@@ -203,7 +202,7 @@ public class TeamAnlPanel extends JPanel implements ActionListener{
 		s13 = new JCheckBox("13-14");
 		s13.setBounds(0, 40, 150, 30);
 		s13.setFont(new Font("微软雅黑",0,14));
-		s13.setForeground(new Color(69,69,69));
+		s13.setForeground(new Color(69,69,69));s13.setBackground(null);
 		s13.addItemListener(new ItemListener(){
 			public void itemStateChanged(ItemEvent e) {
                 if (s13.isSelected()) {
@@ -213,7 +212,7 @@ public class TeamAnlPanel extends JPanel implements ActionListener{
                     selectSeason.remove("13_14");
                 }
                 anlPanel.remove(spiderChart);
-                spiderChart = new SpiderWebChart(spiderDataset);
+                spiderChart = new SpiderWebChart(createSpiderDataset());
         		spiderChart.setBounds(-7, 60, 700, 300);
         		anlPanel.add(spiderChart);
         		anlPanel.repaint();
@@ -222,7 +221,7 @@ public class TeamAnlPanel extends JPanel implements ActionListener{
 		s12 = new JCheckBox("12-13");
 		s12.setBounds(0, 70, 150, 30);
 		s12.setFont(new Font("微软雅黑",0,14));
-		s12.setForeground(new Color(69,69,69));
+		s12.setForeground(new Color(69,69,69));s12.setBackground(null);
 		s12.addItemListener(new ItemListener(){
 			public void itemStateChanged(ItemEvent e) {
                 if (s12.isSelected()) {
@@ -232,7 +231,7 @@ public class TeamAnlPanel extends JPanel implements ActionListener{
                     selectSeason.remove("12_13");
                 }
                 anlPanel.remove(spiderChart);
-                spiderChart = new SpiderWebChart(spiderDataset);
+                spiderChart = new SpiderWebChart(createSpiderDataset());
         		spiderChart.setBounds(-7, 60, 700, 300);
         		anlPanel.add(spiderChart);
         		anlPanel.repaint();
@@ -241,7 +240,7 @@ public class TeamAnlPanel extends JPanel implements ActionListener{
 		s11 = new JCheckBox("11-12");
 		s11.setBounds(0, 100, 150, 30);
 		s11.setFont(new Font("微软雅黑",0,14));
-		s11.setForeground(new Color(69,69,69));
+		s11.setForeground(new Color(69,69,69));s11.setBackground(null);
 		s11.addItemListener(new ItemListener(){
 			public void itemStateChanged(ItemEvent e) {
                 if (s11.isSelected()) {
@@ -251,7 +250,7 @@ public class TeamAnlPanel extends JPanel implements ActionListener{
                     selectSeason.remove("11_12");
                 }
                 anlPanel.remove(spiderChart);
-                spiderChart = new SpiderWebChart(spiderDataset);
+                spiderChart = new SpiderWebChart(createSpiderDataset());
         		spiderChart.setBounds(-7, 60, 700, 300);
         		anlPanel.add(spiderChart);
         		anlPanel.repaint();
@@ -260,7 +259,7 @@ public class TeamAnlPanel extends JPanel implements ActionListener{
 		s10 = new JCheckBox("10-11");
 		s10.setBounds(0, 130, 150, 30);
 		s10.setFont(new Font("微软雅黑",0,14));
-		s10.setForeground(new Color(69,69,69));
+		s10.setForeground(new Color(69,69,69));s10.setBackground(null);
 		s10.addItemListener(new ItemListener(){
 			public void itemStateChanged(ItemEvent e) {
                 if (s10.isSelected()) {
@@ -270,7 +269,7 @@ public class TeamAnlPanel extends JPanel implements ActionListener{
                     selectSeason.remove("10_11");
                 }
                 anlPanel.remove(spiderChart);
-                spiderChart = new SpiderWebChart(spiderDataset);
+                spiderChart = new SpiderWebChart(createSpiderDataset());
         		spiderChart.setBounds(-7, 60, 700, 300);
         		anlPanel.add(spiderChart);
         		anlPanel.repaint();
@@ -279,7 +278,7 @@ public class TeamAnlPanel extends JPanel implements ActionListener{
 		s09 = new JCheckBox("09-10");
 		s09.setBounds(0, 160, 150, 30);
 		s09.setFont(new Font("微软雅黑",0,14));
-		s09.setForeground(new Color(69,69,69));
+		s09.setForeground(new Color(69,69,69));s09.setBackground(null);
 		s09.addItemListener(new ItemListener(){
 			public void itemStateChanged(ItemEvent e) {
                 if (s09.isSelected()) {
@@ -289,7 +288,7 @@ public class TeamAnlPanel extends JPanel implements ActionListener{
                     selectSeason.remove("09_10");
                 }
                 anlPanel.remove(spiderChart);
-                spiderChart = new SpiderWebChart(spiderDataset);
+                spiderChart = new SpiderWebChart(createSpiderDataset());
         		spiderChart.setBounds(-7, 60, 700, 300);
         		anlPanel.add(spiderChart);
         		anlPanel.repaint();
@@ -298,7 +297,7 @@ public class TeamAnlPanel extends JPanel implements ActionListener{
 		s08 = new JCheckBox("08-09");
 		s08.setBounds(0, 190, 150, 30);
 		s08.setFont(new Font("微软雅黑",0,14));
-		s08.setForeground(new Color(69,69,69));
+		s08.setForeground(new Color(69,69,69));s08.setBackground(null);
 		s08.addItemListener(new ItemListener(){
 			public void itemStateChanged(ItemEvent e) {
                 if (s08.isSelected()) {
@@ -308,7 +307,7 @@ public class TeamAnlPanel extends JPanel implements ActionListener{
                     selectSeason.remove("08_09");
                 }
                 anlPanel.remove(spiderChart);
-                spiderChart = new SpiderWebChart(spiderDataset);
+                spiderChart = new SpiderWebChart(createSpiderDataset());
         		spiderChart.setBounds(-7, 60, 700, 300);
         		anlPanel.add(spiderChart);
         		anlPanel.repaint();
@@ -317,7 +316,7 @@ public class TeamAnlPanel extends JPanel implements ActionListener{
 		s07 = new JCheckBox("07-08");
 		s07.setBounds(0, 220, 150, 30);
 		s07.setFont(new Font("微软雅黑",0,14));
-		s07.setForeground(new Color(69,69,69));
+		s07.setForeground(new Color(69,69,69));s07.setBackground(null);
 		s07.addItemListener(new ItemListener(){
 			public void itemStateChanged(ItemEvent e) {
                 if (s07.isSelected()) {
@@ -327,7 +326,7 @@ public class TeamAnlPanel extends JPanel implements ActionListener{
                     selectSeason.remove("07_08");
                 }
                 anlPanel.remove(spiderChart);
-                spiderChart = new SpiderWebChart(spiderDataset);
+                spiderChart = new SpiderWebChart(createSpiderDataset());
         		spiderChart.setBounds(-7, 60, 700, 300);
         		anlPanel.add(spiderChart);
         		anlPanel.repaint();
@@ -336,7 +335,7 @@ public class TeamAnlPanel extends JPanel implements ActionListener{
 		s06 = new JCheckBox("06-07");
 		s06.setBounds(0, 250, 150, 30);
 		s06.setFont(new Font("微软雅黑",0,14));
-		s06.setForeground(new Color(69,69,69));
+		s06.setForeground(new Color(69,69,69));s06.setBackground(null);
 		s06.addItemListener(new ItemListener(){
 			public void itemStateChanged(ItemEvent e) {
                 if (s06.isSelected()) {
@@ -346,7 +345,7 @@ public class TeamAnlPanel extends JPanel implements ActionListener{
                     selectSeason.remove("06_07");
                 }
                 anlPanel.remove(spiderChart);
-                spiderChart = new SpiderWebChart(spiderDataset);
+                spiderChart = new SpiderWebChart(createSpiderDataset());
         		spiderChart.setBounds(-7, 60, 700, 300);
         		anlPanel.add(spiderChart);
         		anlPanel.repaint();
@@ -355,7 +354,7 @@ public class TeamAnlPanel extends JPanel implements ActionListener{
 		s05 = new JCheckBox("05-06");
 		s05.setBounds(0, 280, 150, 30);
 		s05.setFont(new Font("微软雅黑",0,14));
-		s05.setForeground(new Color(69,69,69));
+		s05.setForeground(new Color(69,69,69));s05.setBackground(null);
 		s05.addItemListener(new ItemListener(){
 			public void itemStateChanged(ItemEvent e) {
                 if (s05.isSelected()) {
@@ -365,7 +364,7 @@ public class TeamAnlPanel extends JPanel implements ActionListener{
                     selectSeason.remove("05_06");
                 }
                 anlPanel.remove(spiderChart);
-                spiderChart = new SpiderWebChart(spiderDataset);
+                spiderChart = new SpiderWebChart(createSpiderDataset());
         		spiderChart.setBounds(-7, 60, 700, 300);
         		anlPanel.add(spiderChart);
         		anlPanel.repaint();
@@ -378,7 +377,7 @@ public class TeamAnlPanel extends JPanel implements ActionListener{
 		seriesChart = new SeriesChart(createSeriesDataset());
 		seriesChart.setBounds(0, 60, 700, 300);
 		
-		spiderChart = new SpiderWebChart(spiderDataset);
+		spiderChart = new SpiderWebChart(createSpiderDataset());
 		spiderChart.setBounds(-7, 60, 700, 300);
 		
 		pieChart = new PieChart(createPieDataset());
@@ -446,6 +445,7 @@ public class TeamAnlPanel extends JPanel implements ActionListener{
 		offensiveBtn.setFont(new Font("黑体",0,14));
 		offensiveBtn.setForeground(Color.WHITE);
 		offensiveBtn.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		offensiveBtn.addActionListener(this);
 		offensiveBtn.addMouseListener(new MouseAdapter(){
 			public void mouseClicked(MouseEvent arg0) {
 				offensiveBtn.setBackground(new Color(69,69,69));
@@ -460,6 +460,7 @@ public class TeamAnlPanel extends JPanel implements ActionListener{
 		defensiveBtn.setFont(new Font("黑体",0,14));
 		defensiveBtn.setForeground(Color.WHITE);
 		defensiveBtn.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		defensiveBtn.addActionListener(this);
 		defensiveBtn.addMouseListener(new MouseAdapter(){
 			public void mouseClicked(MouseEvent arg0) {
 				defensiveBtn.setBackground(new Color(69,69,69));
@@ -489,7 +490,7 @@ public class TeamAnlPanel extends JPanel implements ActionListener{
 		seasonPanel.add(teamTypeLabel);
 		seasonPanel.add(seasonLabel);
 		
-		JLabel bestPlayerLabel = new JLabel("最佳球员");
+		JLabel bestPlayerLabel = new JLabel("主力球员");
 		bestPlayerLabel.setBounds(0, 0, 100, 20);
 		bestPlayerLabel.setFont(new Font("黑体",0,14));
 		bestPlayerLabel.setForeground(new Color(126,126,126));
@@ -612,8 +613,8 @@ public class TeamAnlPanel extends JPanel implements ActionListener{
 		 for (int i = 0; i < 10; i++) {
 			 TeamVO t1 = dbl.getSingleTeamInfo(team.getTeamName(), timeValue[i].replace('-', '_'));
 			 Double d1 = Double.valueOf(df.format(t1.getPoints()/t1.getGamesPlayed()));
-			 Double d2 = Double.valueOf(df.format(t1.getOffensiveRebounds()/t1.getGamesPlayed()));
-			 Double d3 = Double.valueOf(df.format(t1.getOffensiveRebounds()/t1.getGamesPlayed()));
+			 Double d2 = Double.valueOf(df.format(t1.getOffensiveRating()));
+			 Double d3 = Double.valueOf(df.format(t1.getDefensiveRating()));
 			 linedataset.addValue(d1 ,  //值
 					 series1,  //哪条数据线
 					 time[i]); // 对应的横轴
@@ -658,6 +659,7 @@ public class TeamAnlPanel extends JPanel implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource()==historyBtn){
 			state = "history";
+			title.setText("  球 队 历 程");
 			anlPanel.removeAll();
 			anlPanel.add(historyBtn);
 			anlPanel.add(scoreBtn);
@@ -667,6 +669,7 @@ public class TeamAnlPanel extends JPanel implements ActionListener{
 		}
 		if(e.getSource()==scoreBtn){
 			state = "score";
+			title.setText("  得 分 分 布 ");
 			anlPanel.removeAll();
 			anlPanel.add(historyBtn);
 			anlPanel.add(scoreBtn);
@@ -678,6 +681,7 @@ public class TeamAnlPanel extends JPanel implements ActionListener{
 		}
 		if(e.getSource()==shotBtn){
 			state = "shot";
+			title.setText("  命 中 率 分 布");
 			anlPanel.removeAll();
 			anlPanel.add(historyBtn);
 			anlPanel.add(scoreBtn);
@@ -696,15 +700,16 @@ public class TeamAnlPanel extends JPanel implements ActionListener{
 			playerImgLabel1.setIcon(img1);
 			playerNameLabel1.setText(name1);
 			playerScoreLabel1.setText(df.format(dbl.getSinglePlayerInfo(name1, season).getDefensiveRebounds()/dbl.getSinglePlayerInfo(name1, season).getGamesPlayed()));
+		
 			
 			String name2 = abl.getTheMostPotentialDefensivePlayer(team.getTeamName(), season);
 			img2 = new ImageIcon("Img//players//portrait//"+name2+".png");
 			if(!new File("Img//players//portrait//"+name2+".png").exists())
 				img2 = new ImageIcon("Img//portrait.png");
 			img2.setImage(img2.getImage().getScaledInstance(75,60,Image.SCALE_DEFAULT));
-			playerImgLabel1.setIcon(img2);
-			playerNameLabel1.setText(name2);
-			playerScoreLabel1.setText(df.format(dbl.getSinglePlayerInfo(name2, season).getDefensiveRebounds()/dbl.getSinglePlayerInfo(name2, season).getGamesPlayed()));
+			playerImgLabel2.setIcon(img2);
+			playerNameLabel2.setText(name2);
+			playerScoreLabel2.setText(df.format(dbl.getSinglePlayerInfo(name2, season).getDefensiveRebounds()/dbl.getSinglePlayerInfo(name2, season).getGamesPlayed()));
 			
 		}
 		if(e.getSource()==offensiveBtn){
@@ -715,21 +720,23 @@ public class TeamAnlPanel extends JPanel implements ActionListener{
 			img1.setImage(img1.getImage().getScaledInstance(75,60,Image.SCALE_DEFAULT));
 			playerImgLabel1.setIcon(img1);
 			playerNameLabel1.setText(name1);
-			playerScoreLabel1.setText(df.format(dbl.getSinglePlayerInfo(name1, season).getDefensiveRebounds()/dbl.getSinglePlayerInfo(name1, season).getGamesPlayed()));
+			playerScoreLabel1.setText(df.format(dbl.getSinglePlayerInfo(name1, season).getOffensiveRebounds()/dbl.getSinglePlayerInfo(name1, season).getGamesPlayed()));
+			
 			
 			String name2 = abl.getTheMostPotentialOffensivePlayer(team.getTeamName(), season);
 			img2 = new ImageIcon("Img//players//portrait//"+name2+".png");
 			if(!new File("Img//players//portrait//"+name2+".png").exists())
 				img2 = new ImageIcon("Img//portrait.png");
 			img2.setImage(img2.getImage().getScaledInstance(75,60,Image.SCALE_DEFAULT));
-			playerImgLabel1.setIcon(img2);
-			playerNameLabel1.setText(name2);
-			playerScoreLabel1.setText(df.format(dbl.getSinglePlayerInfo(name2, season).getDefensiveRebounds()/dbl.getSinglePlayerInfo(name2, season).getGamesPlayed()));
+			playerImgLabel2.setIcon(img2);
+			playerNameLabel2.setText(name2);
+			playerScoreLabel2.setText(df.format(dbl.getSinglePlayerInfo(name2, season).getOffensiveRebounds()/dbl.getSinglePlayerInfo(name2, season).getGamesPlayed()));
 			
 		}
 		if(e.getSource()==seasonBox){
 			anlPanel.remove(pieChart);
 			season = seasonBox.getSelectedItem().toString().replace('-', '_');
+			team = dbl.getSingleTeamInfo(team.getTeamName(), season);
 			TeamType type = abl.getTeamType(team.getTeamName(), season);
 			if(type==TeamType.Defensive)
 				teamTypeLabel.setText("进攻主导型球队");
@@ -738,7 +745,7 @@ public class TeamAnlPanel extends JPanel implements ActionListener{
 			if(type==TeamType.Balanced)
 				teamTypeLabel.setText("攻防兼顾型球队");
 			seasonLabel.setText(seasonBox.getSelectedItem().toString()+"赛季");
-			defensiveBtn.doClick();
+			offensiveBtn.doClick();
 			
 			
 			pieChart = new PieChart(createPieDataset());

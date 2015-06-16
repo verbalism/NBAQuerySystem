@@ -327,21 +327,20 @@ public class TeamDataPanel extends JPanel implements ActionListener{
 		this.remove(scrollPane);
 		//ArrayList<TeamVO> teams = dbl.getAllTeamInfo("14_15");
 		String[] columnNames = new String[]{"","球队名称","投篮命中率","三分命中率","罚球命中率","进攻篮板效率","防守篮板效率","助攻效率","抢断效率","胜率","进攻效率","防守效率"};
-		Object[][]data=new Object[teams.size()][13];
+		Object[][]data=new Object[teams.size()][12];
 		for(int i=0;i<teams.size();i++){
 			data[i][0] = (i+1);
 			data[i][1] = teams.get(i).getFullName();
 			data[i][2] = nf.format(teams.get(i).getFieldGoalPercentage());
 			data[i][3] = nf.format(teams.get(i).getThreePointFieldGoalPercentage());
-			data[i][4] = nf.format(teams.get(i).getFieldGoalPercentage());
+			data[i][4] = nf.format(teams.get(i).getFreeThrowPercentage());
 			data[i][5] = nf.format(teams.get(i).getOffensiveReboundPercentage());
 			data[i][6] = nf.format(teams.get(i).getDefensiveReboundPercentage());
 			data[i][7] = Double.valueOf(df.format(teams.get(i).getAssistPercentage()));
 			data[i][8] = Double.valueOf(df.format(teams.get(i).getStealPercentage()));
 			data[i][9] = nf.format(teams.get(i).getWinPercentage());
-			data[i][10] = Double.valueOf(df.format(teams.get(i).getPossessions()));
-			data[i][11] = Double.valueOf(df.format(teams.get(i).getOffensiveRating()));
-			data[i][12] = Double.valueOf(df.format(teams.get(i).getDefensiveRating()));
+			data[i][10] = Double.valueOf(df.format(teams.get(i).getOffensiveRating()));
+			data[i][11] = Double.valueOf(df.format(teams.get(i).getDefensiveRating()));
 		}
 		
 		DefaultTableModel model = new DefaultTableModel(data,columnNames){
