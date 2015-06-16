@@ -59,7 +59,7 @@ public class RightHorizontalBarChart extends ChartPanel{
 		  //默认的数字显示在柱子中，通过如下两句可调整数字的显示
 		  //注意：此句很关键，若无此句，那数字的显示会被覆盖，给人数字没有显示出来的问题
 		  renderer.setBasePositiveItemLabelPosition(new ItemLabelPosition(ItemLabelAnchor.OUTSIDE4, TextAnchor.BASELINE_RIGHT));
-		  renderer.setItemLabelAnchorOffset(50D);
+		  renderer.setItemLabelAnchorOffset(60D);
 		  renderer.setBaseItemLabelFont(new Font("Arial Narrow",Font.BOLD,24));
 		  
 		  //renderer.setMaximumBarWidth(0.5);

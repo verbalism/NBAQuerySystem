@@ -48,6 +48,7 @@ public class TeamCmpPanel extends JPanel implements ActionListener{
 	TeamVO team1,team2;ButtonGroup bg;JRadioButton jrbScore;
 	DecimalFormat df=new DecimalFormat("#########.##");
 	DataBLService dbl = new DataBL();
+	String[] team1Color = new String[8]; String[] team2Color = new String[8];
 	public TeamCmpPanel(String team){
 		team1 = dbl.getSingleTeamInfo(team, "14_15");
 		team2 = dbl.getSingleTeamInfo("NBA", "14_15");
@@ -271,12 +272,11 @@ public class TeamCmpPanel extends JPanel implements ActionListener{
 		cmpPanel.setBackground(null);
 		
 		
-		team2Chart = new RightHorizontalBarChart(createTeam2BarDataset(),new String[]{ "#9E9E9E","#9E9E9E","#9E9E9E","#9E9E9E","#9E9E9E","#9E9E9E","#9E9E9E","#9E9E9E"} );
+		setColor();
+		team2Chart = new RightHorizontalBarChart(createTeam2BarDataset(),team2Color );
 		team2Chart.setBounds(panelWidth/2+57, 0, panelWidth/2-65, 310);
 		team2Chart.setBackground(null);
-		
-	
-		team1Chart = new LeftHorizontalBarChart(createTeam1BarDataset(),new String[]{ "#9E9E9E","#9E9E9E","#9E9E9E","#9E9E9E","#9E9E9E","#9E9E9E","#9E9E9E","#9E9E9E"} );
+		team1Chart = new LeftHorizontalBarChart(createTeam1BarDataset(),team1Color );
 		team1Chart.setBounds(8, 0, panelWidth/2-65, 310);
 		team1Chart.setBackground(null);
 		
@@ -473,6 +473,51 @@ public class TeamCmpPanel extends JPanel implements ActionListener{
 		this.add(cmpPanel);
 		
 	}
+	public void setColor(){
+		Boolean[] temp = new Boolean[8];
+		if(team1.getPoints()>team2.getPoints())
+			temp[0] = true;
+		else
+			temp[0] = false;
+		if(team1.getAssists()>team2.getAssists())
+			temp[1] = true;
+		else
+			temp[1] = false;
+		if(team1.getRebounds()>team2.getRebounds())
+			temp[2] = true;
+		else
+			temp[2] = false;
+		if(team1.getSteals()>team2.getSteals())
+			temp[3] = true;
+		else
+			temp[3] = false;
+		if(team1.getBlocks()>team2.getBlocks())
+			temp[4] = true;
+		else
+			temp[4] = false;
+		if(team1.getThreePointFieldGoalPercentage()>team2.getThreePointFieldGoalPercentage())
+			temp[5] = true;
+		else
+			temp[5] = false;
+		if(team1.getFreeThrowPercentage()>team2.getFreeThrowPercentage())
+			temp[6] = true;
+		else
+			temp[6] = false;
+		if(team1.getFieldGoalPercentage()>team2.getFieldGoalPercentage())
+			temp[7] = true;
+		else
+			temp[7] = false;
+		for(int i=0;i<8;i++){
+			if(temp[i]){
+				team1Color[i] = "#0067AF";
+				team2Color[i] = "#9E9E9E";
+			}
+			else{
+				team2Color[i] = "#0067AF";
+				team1Color[i] = "#9E9E9E";
+			}
+		}
+	}
 	
 	public DefaultCategoryDataset createTeam1BarDataset() {
 		DefaultCategoryDataset dataset = new DefaultCategoryDataset();   
@@ -516,7 +561,7 @@ public class TeamCmpPanel extends JPanel implements ActionListener{
 		 for (int i = 0; i < 10; i++) {
 			 time[i] = timeValue[i];
 		 }
-		 //随机添加数据值
+		 //添加数据值
 		 for (int i = 0; i < 10; i++) {
 			 Double d1=0.0,d2=0.0;
 			 TeamVO t1 = dbl.getSingleTeamInfo(team1.getTeamName(), timeValue[i].replace('-', '_'));
@@ -598,9 +643,13 @@ public class TeamCmpPanel extends JPanel implements ActionListener{
 		    else{
 		    	cmpPanel.removeAll();
 		    	team1 = team;
-		    	team1Chart = new LeftHorizontalBarChart(createTeam1BarDataset(),new String[]{ "#9E9E9E","#9E9E9E","#9E9E9E","#9E9E9E","#9E9E9E","#9E9E9E","#9E9E9E","#9E9E9E"} );
+		    	setColor();
+		    	team1Chart = new LeftHorizontalBarChart(createTeam1BarDataset(),team1Color );
 				team1Chart.setBounds(8, 0, panelWidth/2-65, 310);
 				team1Chart.setBackground(null);
+				team2Chart = new RightHorizontalBarChart(createTeam2BarDataset(),team2Color );
+				team2Chart.setBounds(panelWidth/2+57, 0, panelWidth/2-65, 310);
+				team2Chart.setBackground(null);
 				img1 = new ImageIcon("Img//teams//"+team1.getTeamName()+".png");
 				img1.setImage(img1.getImage().getScaledInstance(90,90,Image.SCALE_DEFAULT));
 				teamImgLabel1.setIcon(img1);
@@ -627,14 +676,18 @@ public class TeamCmpPanel extends JPanel implements ActionListener{
 		    else{
 		    	cmpPanel.removeAll();
 		    	team2 = team;
-		    	team2Chart = new RightHorizontalBarChart(createTeam2BarDataset(),new String[]{ "#9E9E9E","#9E9E9E","#9E9E9E","#9E9E9E","#9E9E9E","#9E9E9E","#9E9E9E","#9E9E9E"} );
+		    	setColor();
+		    	team1Chart = new LeftHorizontalBarChart(createTeam1BarDataset(),team1Color );
+				team1Chart.setBounds(8, 0, panelWidth/2-65, 310);
+				team1Chart.setBackground(null);
+		    	team2Chart = new RightHorizontalBarChart(createTeam2BarDataset(),team2Color );
 				team2Chart.setBounds(panelWidth/2+57, 0, panelWidth/2-65, 310);
 				team2Chart.setBackground(null);
 				img2 = new ImageIcon("Img//teams//"+team2.getTeamName()+".png");
 				img2.setImage(img2.getImage().getScaledInstance(90,90,Image.SCALE_DEFAULT));
 				teamImgLabel2.setIcon(img2);
 				teamImgLabel2.repaint();
-				teamNameLabel2.setText(team2.getTeamName()+"  ");
+				teamNameLabel2.setText("  "+team2.getTeamName());
 				searchField2.setText("  查找球队");
 				seriesChart = new SeriesChart(createSeriesDataset("score"));
 				seriesChart.setBounds(0, 20, 700, 300);

@@ -134,7 +134,7 @@ public class TeamDataPanel extends JPanel implements ActionListener{
 		matchType.setBackground(new Color(69,69,69));
 		
 	
-		seasonBtn = new JButton("Find Top50");
+		seasonBtn = new JButton("查    找");
 		seasonBtn.setBounds(460, 50, 200, 25);
 		seasonBtn.setFont(new Font("微软雅黑",0,14));
 		seasonBtn.setBorder(new LineBorder(new Color(69,69,69),2,false));

@@ -56,7 +56,7 @@ public class LeftHorizontalBarChart extends ChartPanel{
 		  //默认的数字显示在柱子中，通过如下两句可调整数字的显示
 		  //注意：此句很关键，若无此句，那数字的显示会被覆盖，给人数字没有显示出来的问题
 		  renderer.setBaseNegativeItemLabelPosition(new ItemLabelPosition(ItemLabelAnchor.OUTSIDE8, TextAnchor.BASELINE_LEFT));
-		  renderer.setItemLabelAnchorOffset(50D);
+		  renderer.setItemLabelAnchorOffset(60D);
 		  renderer.setBaseItemLabelFont(new Font("Arial Narrow",Font.BOLD,24));
 		  
 		  
