@@ -150,8 +150,8 @@ public class TeamInfoFrame extends JFrame implements ActionListener{
                          	 if (e.getClickCount() == 2) {
                          		 	String matchDate = (String) table.getValueAt(table.getSelectedRow(), 0);
                           		    String team = ((String) table.getValueAt(table.getSelectedRow(), 1)).split("-")[0];
-                          			//MatchVO match = dbl.getSingleMatchInfo(matchDate, team);
-                          		    //new MatchInfoFrame(match);
+                          			MatchVO match = dbl.getSingleMatchInfo(matchDate, team, "14_15_after");
+                          		    new MatchInfoFrame(match);
                           	 }	    	 
                        }}});
 		JScrollPane matchscrollPane = new JScrollPane(table);

@@ -5,6 +5,8 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
@@ -23,12 +25,13 @@ import businesslogicService.DataBLService;
 import ui.InfoListTable;
 import vo.MatchPlayer;
 import vo.MatchVO;
+import vo.PlayerVO;
 
 public class MatchInfoFrame extends JFrame{
 	/**public static void main(String args[]){
 		MatchInfoFrame mf = new MatchInfoFrame();
 	}*/
-	
+	DataBLService dbl  = new DataBL();
 	public MatchInfoFrame(MatchVO match){
 		Toolkit kit = Toolkit.getDefaultToolkit();
 		Dimension screenSize = kit.getScreenSize();
@@ -139,11 +142,21 @@ public class MatchInfoFrame extends JFrame{
 			matchData[i][13] = players1.get(i).getScore();
 		}
 		DefaultTableModel matchModel = new DefaultTableModel(matchData,columnNames);
-		InfoListTable table1=new InfoListTable(matchModel){
+		final InfoListTable table1=new InfoListTable(matchModel){
             public boolean isCellEditable(int row, int column)
                  {
                      return false;}
-                 }; 
+		};
+		table1.addMouseListener(new MouseAdapter() {     	
+			public void mouseClicked(MouseEvent e) {
+				if (e.getButton() == MouseEvent.BUTTON1) {// 单击鼠标左键
+					if (e.getClickCount() == 2) {
+						String name = (String) table1.getValueAt(table1.getSelectedRow(), 0);
+						PlayerVO player = dbl.getSinglePlayerInfo(name,"14_15");
+						new PlayerInfoFrame(player);
+						}	    	 
+                   	}
+				}}); 
         table1.setRowHeight(20);
         table1.setFont(new Font("微软雅黑",0,13));
         //table1.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
@@ -202,6 +215,16 @@ public class MatchInfoFrame extends JFrame{
                  {
                      return false;}
                  }; 
+        table2.addMouseListener(new MouseAdapter() {     	
+         	public void mouseClicked(MouseEvent e) {
+         		if (e.getButton() == MouseEvent.BUTTON1) {// 单击鼠标左键
+         			if (e.getClickCount() == 2) {
+         				String name = (String) table1.getValueAt(table1.getSelectedRow(), 0);
+         				PlayerVO player = dbl.getSinglePlayerInfo(name,"14_15");
+         				new PlayerInfoFrame(player);
+         			}	    	 
+         		}
+         	}}); 
         table2.setRowHeight(20);
         table2.setFont(new Font("微软雅黑",0,13));
         //table2.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);

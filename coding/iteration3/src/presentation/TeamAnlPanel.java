@@ -386,7 +386,7 @@ public class TeamAnlPanel extends JPanel implements ActionListener{
 		scoreBtn = new JButton("得分");
 		shotBtn = new JButton("投篮");
 		historyBtn = new JButton("历程");
-		scoreBtn.setBounds(57, 10, 60, 30);
+		scoreBtn.setBounds(114, 10, 60, 30);
 		scoreBtn.setBackground(new Color(89,89,89));
 		scoreBtn.setBorder(new LineBorder(new Color(69,69,69),3,false));
 		scoreBtn.setFont(new Font("微软雅黑",0,14));
@@ -400,7 +400,7 @@ public class TeamAnlPanel extends JPanel implements ActionListener{
 			}
 		});
 		scoreBtn.addActionListener(this);
-		shotBtn.setBounds(114, 10, 60, 30);
+		shotBtn.setBounds(57, 10, 60, 30);
 		shotBtn.setBackground(new Color(89,89,89));
 		shotBtn.setBorder(new LineBorder(new Color(69,69,69),3,false));
 		shotBtn.setFont(new Font("微软雅黑",0,14));
@@ -503,7 +503,7 @@ public class TeamAnlPanel extends JPanel implements ActionListener{
 		img1.setImage(img1.getImage().getScaledInstance(75,60,Image.SCALE_DEFAULT));
 		playerImgLabel1.setIcon(img1);
 		playerNameLabel1 = new JButton(name1);
-		playerNameLabel1.setBounds(100, 40, 200, 30);
+		playerNameLabel1.setBounds(100, 40, 250, 30);
 		playerNameLabel1.setFont(new Font("Arial Black",0,20));
 		playerNameLabel1.setForeground(new Color(0,103,175));
 		playerNameLabel1.setBorder(null);
@@ -513,8 +513,8 @@ public class TeamAnlPanel extends JPanel implements ActionListener{
 		playerNameLabel1.addMouseListener(new MouseAdapter(){
 			public void mouseClicked(MouseEvent arg0) {
 				playerNameLabel1.setBackground(null);
-				//PlayerVO findPlayer = ps.get(1);
-				//new PlayerInfoFrame(findPlayer);
+				PlayerVO findPlayer = dbl.getSinglePlayerInfo(playerNameLabel1.getText(), "14_15");
+				new PlayerInfoFrame(findPlayer);
 			}
 			
 		});
@@ -544,7 +544,7 @@ public class TeamAnlPanel extends JPanel implements ActionListener{
 		img2.setImage(img2.getImage().getScaledInstance(75,60,Image.SCALE_DEFAULT));
 		playerImgLabel2.setIcon(img2);
 		playerNameLabel2 = new JButton(name2);//).get(1).getPlayerName()");
-		playerNameLabel2.setBounds(100, 40, 200, 30);
+		playerNameLabel2.setBounds(100, 40, 250, 30);
 		playerNameLabel2.setFont(new Font("Arial Black",0,20));
 		playerNameLabel2.setForeground(new Color(0,103,175));
 		playerNameLabel2.setBorder(null);
@@ -554,8 +554,8 @@ public class TeamAnlPanel extends JPanel implements ActionListener{
 		playerNameLabel2.addMouseListener(new MouseAdapter(){
 			public void mouseClicked(MouseEvent arg0) {
 				playerNameLabel2.setBackground(null);
-				//PlayerVO findPlayer = ps.get(1);
-				//new PlayerInfoFrame(findPlayer);
+				PlayerVO findPlayer = dbl.getSinglePlayerInfo(playerNameLabel2.getText(), "14_15");
+				new PlayerInfoFrame(findPlayer);
 			}
 			
 		});

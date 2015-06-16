@@ -73,8 +73,8 @@ public class PlayerInfoFrame extends JFrame{
 		playerTeamLabel.setBounds(120, 75, 150, 50);
 		playerTeamLabel.setHorizontalAlignment(JButton.LEFT);
 		playerTeamLabel.setForeground(new Color(122,122,122));
-		//playerTeamLabel.setBorder(null);
-		//playerTeamLabel.setBackground(null);
+		playerTeamLabel.setBorder(null);
+		playerTeamLabel.setBackground(null);
 		playerTeamLabel.setOpaque(false);
 		playerTeamLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		playerTeamLabel.addMouseListener(new MouseAdapter(){

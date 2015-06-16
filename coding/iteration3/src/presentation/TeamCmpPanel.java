@@ -671,7 +671,8 @@ public class TeamCmpPanel extends JPanel implements ActionListener{
 		if(e.getSource()==searchBtn2){
 			String name = searchField2.getText();
 		    TeamVO team = dbl.getSingleTeamInfo(name, "14_15");
-		    if(team.getTeamName().equals(""))
+		    
+		    if(team.getCity().equals(""))
 		    	new ActionDialog("不存在该球队");
 		    else{
 		    	cmpPanel.removeAll();

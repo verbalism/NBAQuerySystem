@@ -49,7 +49,7 @@ public class PlayerDataPanel extends JPanel implements ActionListener{
 	DataBLService dbl = new DataBL();
 	AnalysisBLService abl = new AnalysisBL();
 	JScrollPane scrollPane = new JScrollPane();
-	Thread thread;
+	//Thread thread;
 	public PlayerDataPanel(){
 		Toolkit kit = Toolkit.getDefaultToolkit();
 		Dimension screenSize = kit.getScreenSize();
@@ -216,7 +216,7 @@ public class PlayerDataPanel extends JPanel implements ActionListener{
 		this.add(searchPanel);
 		this.add(scrollPane);
 		
-		thread = new Thread(new Runnable(){
+		/*thread = new Thread(new Runnable(){
             @Override
             public void run() {
             	 while(true){
@@ -241,7 +241,7 @@ public class PlayerDataPanel extends JPanel implements ActionListener{
             	 }
             }
         });
-		thread.start();
+		thread.start();*/
 	}
 	
 	public void actionPerformed(ActionEvent e) {

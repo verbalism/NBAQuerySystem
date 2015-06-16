@@ -38,8 +38,8 @@ public class TeamListPanel extends JPanel implements ActionListener{
 	int panelWidth,panelHeight;
 	JTextField searchField;
 	JButton searchBtn;
-	//DataBLService dbl = new DataBL();
-	ArrayList<TeamVO> teams;
+	DataBLService dbl = new DataBL();
+	ArrayList<TeamVO> teams = dbl.getAllTeamInfo("14_15");
 	public TeamListPanel(JPanel fpanel){
 		Toolkit kit = Toolkit.getDefaultToolkit();
 		Dimension screenSize = kit.getScreenSize();
