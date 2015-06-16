@@ -2,7 +2,6 @@ package businesslogic;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -1617,7 +1616,7 @@ public class AnalysisBL implements AnalysisBLService {
 						+getBestDefensivePlayer(t.get(j).getTeamName(),season[i])+";"+getTheMostPotentialDefensivePlayer(t.get(j).getTeamName(),season[i])+";\n";
 				
 				record+=str;
-				System.out.println(str);
+				System.out.print(str);
 			}
 		}
 		FileWriter fw=new FileWriter("abc.txt");
