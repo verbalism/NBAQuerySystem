@@ -1,5 +1,11 @@
 package businesslogic;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -1221,7 +1227,19 @@ public class AnalysisBL implements AnalysisBLService {
 	}
 	@Override
 	public String getBestOffensivePlayer(String teamName, String season) {
-		// TODO Auto-generated method stub
+		try {
+			BufferedReader br=new BufferedReader(new FileReader("abc.txt")); 
+			String result=null;   
+			while((result = br.readLine()) != null){
+				String[] s=result.split(";");
+				if(s[1].equals(teamName)&&s[0].equals(season)){     			
+					return s[2];       		
+				}      		
+			}
+			br.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		DataBLService d=new DataBL();
 		MatchDataService md=new MatchData();
 		ArrayList<MatchPO> m=md.getMatchOfTeam(teamName, season);
@@ -1241,16 +1259,44 @@ public class AnalysisBL implements AnalysisBLService {
 			
 			for(int a=0;a<m.size();a++){
 				ArrayList<MatchPlayer> mm = new ArrayList<MatchPlayer>();
+				ArrayList<MatchPlayer> mm2 = new ArrayList<MatchPlayer>();
 				if(m.get(a).getTeam1().getTeamName().equals(teamName)){
-					mm=m.get(a).getTeam1().getPlayers();	   
+					mm=m.get(a).getTeam1().getPlayers();
+				    mm2=m.get(a).getTeam2().getPlayers();
 				}else if(m.get(a).getTeam2().getTeamName().equals(teamName)){
 					mm=m.get(a).getTeam2().getPlayers();
+					mm2=m.get(a).getTeam1().getPlayers();
 				}else
 					continue;
-				double temp=0;			
+				double temp=0;
+				double temp2=0;
+				double temp3=0;
 				for(int k=0;k<mm.size();k++){
-					if(mm.get(k).getPlayerName().equals(p2.get(j).getPlayerName())){					
-						xList.add(String.valueOf(mm.get(k).getOffensiveRebound()));	
+					temp+=mm.get(k).getOffensiveRebound();
+					String[] str=mm.get(k).getMatchTime().split(":");
+					//System.out.println(m.get(a).getMatchTime());
+					//System.out.println(mm.get(k).getPlayerName());
+					double minutes=0;
+					if(!(Double.parseDouble(str[1])<0)){		
+						minutes=Double.parseDouble(str[0])+Double.parseDouble("0."+str[1])*5/3;
+					}
+					temp3+=minutes;
+				}  
+				for(int k=0;k<mm2.size();k++){
+					temp2+=mm2.get(k).getOffensiveRebound();
+				}  		
+				for(int k=0;k<mm.size();k++){
+					
+					if(mm.get(k).getPlayerName().equals(p2.get(j).getPlayerName())){		
+						String[] str=mm.get(k).getMatchTime().split(":");
+						double minutes=0;
+						if(!(Double.parseDouble(str[1])<0)){		
+							minutes=Double.parseDouble(str[0])+Double.parseDouble("0."+str[1])*5/3;
+						}
+						if(minutes==0)
+							xList.add("0.0");
+						else
+							xList.add(String.valueOf(mm.get(k).getOffensiveRebound()*temp3/5/minutes/(temp+temp2)));
 					}		
 					temp+=mm.get(k).getOffensiveRebound();
 				}  
@@ -1261,10 +1307,12 @@ public class AnalysisBL implements AnalysisBLService {
 			DenominatorCalculate dc = new DenominatorCalculate();  
 			double denominator = dc.calculateDenominator(xList, yList);  
 			CORR = numerator/denominator;  
-			if(denominator==0){
-				CORR=0;}
+			
+			if(Double.isNaN(CORR)){
+				CORR=0;
+			}
 			n[j]=CORR;
-			//System.out.println(p2.get(j).getPlayerName()+"\t\t\t"+n[j]+"\t\t\t"+numerator+"\t\t"+denominator);
+			//System.out.println(p2.get(j).getPlayerName()+"\t\t\t"+n[j]);
 		}
 		
 		for(int i=0;i<n.length;i++){
@@ -1281,7 +1329,20 @@ public class AnalysisBL implements AnalysisBLService {
 	}
 
 	@Override
-	public String getTheMostPotentialOffensivePlayer(String teamName,String season) {
+	public String getTheMostPotentialOffensivePlayer(String teamName,String season) {		
+		try {
+			BufferedReader br=new BufferedReader(new FileReader("abc.txt")); 
+			String result=null;   
+			while((result = br.readLine()) != null){
+				String[] s=result.split(";");
+				if(s[1].equals(teamName)&&s[0].equals(season)){     			
+					return s[3];       		
+				}      		
+			}
+			br.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		DataBLService d=new DataBL();
 		MatchDataService md=new MatchData();
 		ArrayList<MatchPO> m=md.getMatchOfTeam(teamName, season);
@@ -1315,7 +1376,10 @@ public class AnalysisBL implements AnalysisBLService {
 				for(int k=0;k<mm.size();k++){
 					temp+=mm.get(k).getOffensiveRebound();
 					String[] str=mm.get(k).getMatchTime().split(":");
-					double minutes=Double.parseDouble(str[0])+Double.parseDouble("0."+str[1])*5/3;
+					double minutes=0;
+					if(!(Double.parseDouble(str[1])<0)){		
+						minutes=Double.parseDouble(str[0])+Double.parseDouble("0."+str[1])*5/3;
+					}
 					temp3+=minutes;
 				}  
 				for(int k=0;k<mm2.size();k++){
@@ -1324,12 +1388,15 @@ public class AnalysisBL implements AnalysisBLService {
 				for(int k=0;k<mm.size();k++){
 					if(mm.get(k).getPlayerName().equals(p2.get(j).getPlayerName())){
 						String[] str=mm.get(k).getMatchTime().split(":");
-						double minutes=Double.parseDouble(str[0])+Double.parseDouble("0."+str[1])*5/3;
+						double minutes=0;
+						if(!(Double.parseDouble(str[1])<0)){		
+							minutes=Double.parseDouble(str[0])+Double.parseDouble("0."+str[1])*5/3;
+						}
 						if(minutes==0)
-							xList.add(0.0);
+							yList.add(0.0);
 						else
-							xList.add(mm.get(k).getOffensiveRebound()*temp3/5/minutes/(temp+temp2));
-						yList.add((double) l);
+							yList.add(mm.get(k).getOffensiveRebound()*temp3/5/minutes/(temp+temp2));
+						xList.add((double) l);
 						l++;
 					}					
 				}  				
@@ -1337,7 +1404,7 @@ public class AnalysisBL implements AnalysisBLService {
 					 
 			LinearRegression h=new LinearRegression(xList,yList);
 			n[j]=h.getB();	
-			//System.out.println(p2.get(j).getPlayerName()+"\t\t"+n[j]+"\t\t"+"\t\t"+l);
+			//System.out.println(p2.get(j).getPlayerName()+"\t\t"+n[j]);
 			
 		}		
 		for(int i=0;i<n.length;i++){
@@ -1355,6 +1422,19 @@ public class AnalysisBL implements AnalysisBLService {
 
 	@Override
 	public String getBestDefensivePlayer(String teamName, String season) {
+		try {
+			BufferedReader br=new BufferedReader(new FileReader("abc.txt")); 
+			String result=null;   
+			while((result = br.readLine()) != null){
+				String[] s=result.split(";");
+				if(s[1].equals(teamName)&&s[0].equals(season)){     			
+					return s[4];       		
+				}      		
+			}
+			br.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		DataBLService d=new DataBL();
 		MatchDataService md=new MatchData();
 		ArrayList<MatchPO> m=md.getMatchOfTeam(teamName, season);
@@ -1374,17 +1454,43 @@ public class AnalysisBL implements AnalysisBLService {
 			
 			for(int a=0;a<m.size();a++){
 				ArrayList<MatchPlayer> mm = new ArrayList<MatchPlayer>();
-				if(m.get(a).getTeam1().getTeamName().equals(teamName))
+				ArrayList<MatchPlayer> mm2 = new ArrayList<MatchPlayer>();
+				if(m.get(a).getTeam1().getTeamName().equals(teamName)){
 					mm=m.get(a).getTeam1().getPlayers();
-				else if(m.get(a).getTeam2().getTeamName().equals(teamName))
+				    mm2=m.get(a).getTeam2().getPlayers();
+				}else if(m.get(a).getTeam2().getTeamName().equals(teamName)){
 					mm=m.get(a).getTeam2().getPlayers();
-				else
+					mm2=m.get(a).getTeam1().getPlayers();
+				}else
 					continue;
 				double temp=0;
+				double temp2=0;
+				double temp3=0;
 				for(int k=0;k<mm.size();k++){
-					if(mm.get(k).getPlayerName().equals(p2.get(j).getPlayerName())){
-						xList.add(String.valueOf(mm.get(k).getDefensiveRebound()));	
+					temp+=mm.get(k).getDefensiveRebound();
+					String[] str=mm.get(k).getMatchTime().split(":");
+					double minutes=0;
+					if(!(Double.parseDouble(str[1])<0)){		
+						minutes=Double.parseDouble(str[0])+Double.parseDouble("0."+str[1])*5/3;
 					}
+					temp3+=minutes;
+				}  
+				for(int k=0;k<mm2.size();k++){
+					temp2+=mm2.get(k).getDefensiveRebound();
+				}  		
+				for(int k=0;k<mm.size();k++){
+					
+					if(mm.get(k).getPlayerName().equals(p2.get(j).getPlayerName())){		
+						String[] str=mm.get(k).getMatchTime().split(":");
+						double minutes=0;
+						if(!(Double.parseDouble(str[1])<0)){		
+							minutes=Double.parseDouble(str[0])+Double.parseDouble("0."+str[1])*5/3;
+						}
+						if(minutes==0)
+							xList.add("0.0");
+						else
+							xList.add(String.valueOf(mm.get(k).getDefensiveRebound()*temp3/5/minutes/(temp+temp2)));
+					}		
 					temp+=mm.get(k).getDefensiveRebound();
 				}  
 				yList.add(String.valueOf(temp));					
@@ -1395,8 +1501,9 @@ public class AnalysisBL implements AnalysisBLService {
 			double denominator = dc.calculateDenominator(xList, yList);  
 			
 			CORR = numerator/denominator; 
-			if(denominator==0)
+			if(Double.isNaN(CORR)){
 				CORR=0;
+			}
 			n[j]=CORR;
 		}
 		
@@ -1415,6 +1522,19 @@ public class AnalysisBL implements AnalysisBLService {
 
 	@Override
 	public String getTheMostPotentialDefensivePlayer(String teamName,String season) {
+		try {
+			BufferedReader br=new BufferedReader(new FileReader("abc.txt")); 
+			String result=null;   
+			while((result = br.readLine()) != null){
+				String[] s=result.split(";");
+				if(s[1].equals(teamName)&&s[0].equals(season)){     			
+					return s[5];       		
+				}      		
+			}
+			br.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		};
 		DataBLService d=new DataBL();
 		MatchDataService md=new MatchData();
 		ArrayList<MatchPO> m=md.getMatchOfTeam(teamName, season);
@@ -1447,7 +1567,10 @@ public class AnalysisBL implements AnalysisBLService {
 				for(int k=0;k<mm.size();k++){
 					temp+=mm.get(k).getDefensiveRebound();
 					String[] str=mm.get(k).getMatchTime().split(":");
-					double minutes=Double.parseDouble(str[0])+Double.parseDouble("0."+str[1])*5/3;
+					double minutes=0;
+					if(!(Double.parseDouble(str[1])<0)){		
+						minutes=Double.parseDouble(str[0])+Double.parseDouble("0."+str[1])*5/3;
+					}
 					temp3+=minutes;
 				}  
 				for(int k=0;k<mm2.size();k++){
@@ -1456,12 +1579,15 @@ public class AnalysisBL implements AnalysisBLService {
 				for(int k=0;k<mm.size();k++){
 					if(mm.get(k).getPlayerName().equals(p2.get(j).getPlayerName())){
 						String[] str=mm.get(k).getMatchTime().split(":");
-						double minutes=Double.parseDouble(str[0])+Double.parseDouble("0."+str[1])*5/3;
+						double minutes=0;
+						if(!(Double.parseDouble(str[1])<0)){		
+							minutes=Double.parseDouble(str[0])+Double.parseDouble("0."+str[1])*5/3;
+						}
 						if(minutes==0)
-							xList.add(0.0);
+							yList.add(0.0);
 						else
-							xList.add(mm.get(k).getDefensiveRebound()*temp3/5/minutes/(temp+temp2));
-						yList.add((double) l);
+							yList.add(mm.get(k).getDefensiveRebound()*temp3/5/minutes/(temp+temp2));
+						xList.add((double) l);
 						l++;
 					}					
 				}  					
@@ -1482,5 +1608,29 @@ public class AnalysisBL implements AnalysisBLService {
 		return null;
 	}
 	
-
+	public void calculate() throws IOException{
+		File filename = new File("abc.txt");
+		if (!filename.exists()) {
+			filename.createNewFile();
+		}
+		DataBLService d=new DataBL();
+		String record=new String();
+		String season[]={"14_15_after","14_15","13_14_after","13_14","12_13_after","12_13","11_12_after","11_12","10_11_after","10_11","09_10_after","09_10","08_09_after","08_09","07_08_after","07_08","06_07_after","06_07","05_06_after","05_06",};
+		for(int i=0;i<season.length;i++){
+			
+			ArrayList<TeamVO> t=d.getAllTeamInfo(season[i]);
+		
+			for(int j=0;j<t.size();j++){
+				record+=season[i]+";"+t.get(j).getTeamName()+";"+getBestOffensivePlayer(t.get(j).getTeamName(),season[i])+";"+getTheMostPotentialOffensivePlayer(t.get(j).getTeamName(),season[i])+";"
+						+getBestDefensivePlayer(t.get(j).getTeamName(),season[i])+";"+getTheMostPotentialDefensivePlayer(t.get(j).getTeamName(),season[i])+";\n";
+				System.out.println(season[i]+";"+t.get(j).getTeamName()+";"+getBestOffensivePlayer(t.get(j).getTeamName(),season[i])+";"+getTheMostPotentialOffensivePlayer(t.get(j).getTeamName(),season[i])+";"
+						+getBestDefensivePlayer(t.get(j).getTeamName(),season[i])+";"+getTheMostPotentialDefensivePlayer(t.get(j).getTeamName(),season[i]));
+			}
+		}
+		FileWriter fw=new FileWriter("abc.txt");
+		fw.write(record);
+		fw.close();
+	}
+	
+    
 }
