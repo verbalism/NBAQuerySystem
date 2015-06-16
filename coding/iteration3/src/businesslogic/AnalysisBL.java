@@ -1269,7 +1269,6 @@ public class AnalysisBL implements AnalysisBLService {
 				}else
 					continue;
 				double temp=0;
-				double temp2=0;
 				double temp3=0;
 				for(int k=0;k<mm.size();k++){
 					temp+=mm.get(k).getOffensiveRebound();
@@ -1282,9 +1281,7 @@ public class AnalysisBL implements AnalysisBLService {
 					}
 					temp3+=minutes;
 				}  
-				for(int k=0;k<mm2.size();k++){
-					temp2+=mm2.get(k).getOffensiveRebound();
-				}  		
+					
 				for(int k=0;k<mm.size();k++){
 					
 					if(mm.get(k).getPlayerName().equals(p2.get(j).getPlayerName())){		
@@ -1296,7 +1293,7 @@ public class AnalysisBL implements AnalysisBLService {
 						if(minutes==0)
 							xList.add("0.0");
 						else
-							xList.add(String.valueOf(mm.get(k).getOffensiveRebound()*temp3/5/minutes/(temp+temp2)));
+							xList.add(String.valueOf(mm.get(k).getOffensiveRebound()*temp3/5/minutes));
 					}		
 					temp+=mm.get(k).getOffensiveRebound();
 				}  
@@ -1464,7 +1461,6 @@ public class AnalysisBL implements AnalysisBLService {
 				}else
 					continue;
 				double temp=0;
-				double temp2=0;
 				double temp3=0;
 				for(int k=0;k<mm.size();k++){
 					temp+=mm.get(k).getDefensiveRebound();
@@ -1474,12 +1470,8 @@ public class AnalysisBL implements AnalysisBLService {
 						minutes=Double.parseDouble(str[0])+Double.parseDouble("0."+str[1])*5/3;
 					}
 					temp3+=minutes;
-				}  
-				for(int k=0;k<mm2.size();k++){
-					temp2+=mm2.get(k).getDefensiveRebound();
-				}  		
-				for(int k=0;k<mm.size();k++){
-					
+				}  	
+				for(int k=0;k<mm.size();k++){					
 					if(mm.get(k).getPlayerName().equals(p2.get(j).getPlayerName())){		
 						String[] str=mm.get(k).getMatchTime().split(":");
 						double minutes=0;
@@ -1489,7 +1481,7 @@ public class AnalysisBL implements AnalysisBLService {
 						if(minutes==0)
 							xList.add("0.0");
 						else
-							xList.add(String.valueOf(mm.get(k).getDefensiveRebound()*temp3/5/minutes/(temp+temp2)));
+							xList.add(String.valueOf(mm.get(k).getDefensiveRebound()*temp3/5/minutes));
 					}		
 					temp+=mm.get(k).getDefensiveRebound();
 				}  
@@ -1621,10 +1613,11 @@ public class AnalysisBL implements AnalysisBLService {
 			ArrayList<TeamVO> t=d.getAllTeamInfo(season[i]);
 		
 			for(int j=0;j<t.size();j++){
-				record+=season[i]+";"+t.get(j).getTeamName()+";"+getBestOffensivePlayer(t.get(j).getTeamName(),season[i])+";"+getTheMostPotentialOffensivePlayer(t.get(j).getTeamName(),season[i])+";"
+				String str=season[i]+";"+t.get(j).getTeamName()+";"+getBestOffensivePlayer(t.get(j).getTeamName(),season[i])+";"+getTheMostPotentialOffensivePlayer(t.get(j).getTeamName(),season[i])+";"
 						+getBestDefensivePlayer(t.get(j).getTeamName(),season[i])+";"+getTheMostPotentialDefensivePlayer(t.get(j).getTeamName(),season[i])+";\n";
-				System.out.println(season[i]+";"+t.get(j).getTeamName()+";"+getBestOffensivePlayer(t.get(j).getTeamName(),season[i])+";"+getTheMostPotentialOffensivePlayer(t.get(j).getTeamName(),season[i])+";"
-						+getBestDefensivePlayer(t.get(j).getTeamName(),season[i])+";"+getTheMostPotentialDefensivePlayer(t.get(j).getTeamName(),season[i]));
+				
+				record+=str;
+				System.out.println(str);
 			}
 		}
 		FileWriter fw=new FileWriter("abc.txt");
